@@ -23,10 +23,9 @@ import { Category } from "@prisma/client";
 
 interface MainNavProps {
   data: Category[];
-  isSession?: boolean;
 }
 
-const MainNav: React.FC<MainNavProps> = ({ data, isSession }) => {
+const MainNav: React.FC<MainNavProps> = ({ data }) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -120,16 +119,6 @@ const MainNav: React.FC<MainNavProps> = ({ data, isSession }) => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          {isSession && (
-            <NavigationMenuItem className="border-2 rounded-lg border-border">
-              <Link href="/dashboard-user" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <User2 className="hidden w-4 h-4 mr-2 xl:flex" />
-                  Profil
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          )}
         </NavigationMenuList>
       </NavigationMenu>
       {/* <SearchNav /> */}

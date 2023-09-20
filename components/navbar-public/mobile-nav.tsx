@@ -5,7 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { usePathname, useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Check,
@@ -19,9 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
   CommandSeparator,
@@ -41,14 +39,9 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 
 interface MobileNavProps extends PopoverTriggerProps {
   data: Category[];
-  isSession: boolean;
 }
 
-export default function MobileNav({
-  className,
-  data,
-  isSession,
-}: MobileNavProps) {
+export default function MobileNav({ className, data }: MobileNavProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -220,27 +213,6 @@ export default function MobileNav({
                   )}
                 />
               </CommandItem>
-              {isSession && (
-                <CommandItem
-                  onSelect={() => {
-                    router.push("/dashboard-user");
-                    setOpen(false);
-                    setOpenProduct(false);
-                  }}
-                  className="cursor-pointer test-sm"
-                >
-                  <User2 className="w-4 h-4 mr-2" />
-                  {"Profil"}
-                  <Check
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      pathname === "/dashboard-user"
-                        ? "opacity-100"
-                        : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              )}
             </CommandGroup>
           </CommandList>
           <CommandSeparator />

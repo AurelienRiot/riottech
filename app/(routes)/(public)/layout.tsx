@@ -14,10 +14,16 @@ export default async function PublicLayout({
   const session = await getServerSession(authOptions);
   const categories = await GetCategories();
 
+  const isPro = session?.user?.isPro ?? false;
+
   return (
     <>
       <ModalProvider />
-      <NavBar session={session} categories={categories} />
+      <NavBar
+        isPro={isPro}
+        role={session?.user?.role}
+        categories={categories}
+      />
       <div className="pt-16 ">{children}</div>
       <Footer />
     </>

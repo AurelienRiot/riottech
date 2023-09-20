@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "../theme.toggle";
 import { LoginButton, LogoutButton } from "../auth/auth-button";
@@ -20,8 +20,8 @@ import CartItem from "@/components/cart-item";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-const NavbarAction: React.FC<{ isSession: boolean; isPro: boolean }> = ({
-  isSession,
+const NavbarAction: React.FC<{ isPro: boolean; role: string | undefined }> = ({
+  role,
   isPro,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -43,8 +43,16 @@ const NavbarAction: React.FC<{ isSession: boolean; isPro: boolean }> = ({
 
   return (
     <div className="flex items-center ml-4 gap-x-2 sm:gap-x-4 ">
-      {!isSession && <LoginButton />}
-      {isSession && <LogoutButton />}
+      {role && (
+        <Link
+          href={role === "admin" ? "/admin" : "/dashboard-user"}
+          className="group flex items-center justify-center rounded-full border bg-primary p-2 text-primary-foreground shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+        >
+          <User2 className="h-4 w-4 duration-300 ease-linear group-hover:scale-150 " />
+        </Link>
+      )}
+
+      {!role && <LoginButton />}
       <ThemeToggle />
 
       <Sheet onOpenChange={setIsOpen} open={isOpen}>

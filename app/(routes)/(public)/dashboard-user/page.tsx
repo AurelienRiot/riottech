@@ -8,6 +8,7 @@ import { OrderTable } from "./components/order-table";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import Link from "next/link";
 import { BsGear } from "react-icons/bs";
+import { LogoutButton } from "@/components/auth/auth-button";
 
 type FullAdress = {
   label: string;
@@ -96,6 +97,7 @@ const DashboardUser = async () => {
             )}
           </div>
         </div>
+        <LogoutButton />
         <div className="p-4">
           <OrderTable data={formattedOrders} />
           {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}

@@ -10,13 +10,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Category } from "@prisma/client";
 
 type NavBarProps = {
-  session: Session | null;
+  role: string | undefined;
+  isPro: boolean;
   categories: Category[];
 };
 
-const NavBar: React.FC<NavBarProps> = ({ session, categories }) => {
-  const isSession = session ? true : false;
-  const isPro = session?.user?.isPro ? true : false;
+const NavBar: React.FC<NavBarProps> = ({ role, categories, isPro }) => {
   const [isNavbar, setIsNavbar] = useState(true);
 
   useEffect(() => {
@@ -62,16 +61,12 @@ const NavBar: React.FC<NavBarProps> = ({ session, categories }) => {
                     </p>
                   </Link>
                   <div className="hidden lg:flex lg:items-center">
-                    <MainNav data={categories} isSession={isSession} />
+                    <MainNav data={categories} />
                   </div>
-                  <MobileNav
-                    data={categories}
-                    isSession={isSession}
-                    className="ml-2 lg:hidden"
-                  />
+                  <MobileNav data={categories} className="ml-2 lg:hidden" />
                 </div>
 
-                <NavbarAction isSession={isSession} isPro={isPro} />
+                <NavbarAction role={role} isPro={isPro} />
               </div>
             </Container>
           </motion.div>
