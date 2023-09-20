@@ -6,7 +6,7 @@ import Loading from "@/components/loading";
 
 const VideoAccueil = ({ name }: { name: string | undefined | null }) => {
   let { scrollYProgress } = useScroll();
-  let y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const y = useTransform(scrollYProgress, (value) => `-${value}px`);
 
   // const Video = () => {
   //   return (

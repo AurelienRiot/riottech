@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
 import { ShoppingBag, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "../theme.toggle";
-import { LoginButton, LogoutButton } from "../auth/auth-button";
+import { ThemeToggle } from "../navbar-admin/theme.toggle";
+import { LoginButton } from "../auth/auth-button";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
