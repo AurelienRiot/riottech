@@ -18,7 +18,7 @@ export interface BillingProps {
   email: string;
 }
 
-const baseUrl = "https://riot-tech-admin.vercel.app";
+const baseUrl = "https://riottech.vercel.app";
 
 export const Billing = ({ date, price, email }: BillingProps) => (
   <Html>
@@ -26,7 +26,7 @@ export const Billing = ({ date, price, email }: BillingProps) => (
     <Preview>Bienvenue sur RIOT TECH</Preview>
     <Body style={main}>
       <Container style={container}>
-        <a href="https://riot-tech-store.vercel.app" target="_blank">
+        <a href={baseUrl} target="_blank">
           <Img
             src={`${baseUrl}/icon-riot-tech.png`}
             width="50"
@@ -41,10 +41,7 @@ export const Billing = ({ date, price, email }: BillingProps) => (
 
         <Text style={paragraph}>
           {`Vous pouvez consulter et gérer vos factures dans la rubrique « Factures » de votre `}{" "}
-          <a
-            href="https://riot-tech-store.vercel.app/dashboard-user"
-            target="_blank"
-          >
+          <a href={`${baseUrl}/dashboard-user`} target="_blank">
             espace client
           </a>
           {". "}

@@ -17,8 +17,7 @@ export interface WelcomeEmailProps {
   resetToken: string;
 }
 
-const baseUrlAdmin = "https://riot-tech-admin.vercel.app";
-const baseUrlStore = "https://riot-tech-store.vercel.app";
+const baseUrl = "https://riottech.vercel.app";
 
 export const ResetPasswordEmail = ({
   fullName,
@@ -29,9 +28,9 @@ export const ResetPasswordEmail = ({
     <Preview>Réinitialiser le mot de passe</Preview>
     <Body style={main}>
       <Container style={container}>
-        <a href={baseUrlStore} target="_blank">
+        <a href={baseUrl} target="_blank">
           <Img
-            src={`${baseUrlAdmin}/icon-riot-tech.png`}
+            src={`${baseUrl}/icon-riot-tech.png`}
             width="50"
             height="50"
             alt="Riot Tech Logo"
@@ -49,7 +48,7 @@ export const ResetPasswordEmail = ({
             pX={12}
             pY={12}
             style={button}
-            href={`${baseUrlStore}/reset-password/${resetToken}`}
+            href={`${baseUrl}/reset-password/${resetToken}`}
             target="_blank"
           >
             Réinitialiser le mot de passe

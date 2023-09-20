@@ -16,7 +16,7 @@ export interface WelcomeEmailProps {
   fullName: string;
 }
 
-const baseUrl = "https://riot-tech-admin.vercel.app";
+const baseUrl = "https://riottech.vercel.app";
 
 export const WelcomeEmail = ({ fullName }: WelcomeEmailProps) => (
   <Html>
@@ -24,7 +24,7 @@ export const WelcomeEmail = ({ fullName }: WelcomeEmailProps) => (
     <Preview>Bienvenue sur Riot Tech</Preview>
     <Body style={main}>
       <Container style={container}>
-        <a href="https://riot-tech-store.vercel.app" target="_blank">
+        <a href={baseUrl} target="_blank">
           <Img
             src={`${baseUrl}/icon-riot-tech.png`}
             width="50"
@@ -40,7 +40,7 @@ export const WelcomeEmail = ({ fullName }: WelcomeEmailProps) => (
             pX={12}
             pY={12}
             style={button}
-            href="https://riot-tech-store.vercel.app/login"
+            href={`${baseUrl}/login`}
             target="_blank"
           >
             Connectez-vous ici
