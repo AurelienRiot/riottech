@@ -1,8 +1,13 @@
 "use client";
-import { Billboard } from "@/types";
+import { Billboard } from "@prisma/client";
 import BoutonRedirection from "./bouton-redirection";
+import NotFound from "@/app/not-found";
 
-const Client = ({ billboard }: { billboard: Billboard }) => {
+const Client = ({ billboard }: { billboard: Billboard | null }) => {
+  if (!billboard) {
+    return <NotFound />;
+  }
+
   return (
     <>
       <div
