@@ -112,8 +112,8 @@ export async function POST(req: NextRequest) {
     const subscriptionOrder = await prismadb.subscriptionOrder.create({
       data: {
         isPaid: false,
-        totalPrice: totalPrice,
-        subscriptionPrice: subscriptionPrice,
+        totalPrice: Number(totalPrice),
+        subscriptionPrice: Number(subscriptionPrice),
         sim: sim,
         isActive: false,
         subscriptionItem: {

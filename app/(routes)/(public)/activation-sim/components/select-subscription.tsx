@@ -49,17 +49,30 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       return;
     }
     try {
-      const response = await axios.post(`/api/checkout-subscription`, {
-        subscriptionId: subscription.id,
+      console.log(
+        "subscriptionId: ",
+        subscription.id,
+        "sim: ",
         sim,
-        totalPrice: totalPrice.toFixed(2),
-        stripeCustomerId,
+        "totalPrice:",
+        totalPrice.toFixed(2),
+        "recurrence: ",
         recurrence,
-        fraisActivation: fraisActivation.toFixed(2),
-
-        subscriptionPrice: subscriptionPrice.toFixed(2),
-      });
-      window.location = response.data.url;
+        "fraisActivation: ",
+        fraisActivation.toFixed(2),
+        "subscriptionPrice:",
+        subscriptionPrice.toFixed(2)
+      );
+      // const response = await axios.post(`/api/checkout-subscription`, {
+      //   subscriptionId: subscription.id,
+      //   sim,
+      //   totalPrice: totalPrice.toFixed(2),
+      //   stripeCustomerId,
+      //   recurrence,
+      //   fraisActivation: fraisActivation.toFixed(2),
+      //   subscriptionPrice: subscriptionPrice.toFixed(2),
+      // });
+      // window.location = response.data.url;
     } catch (error) {
       toast.error("Erreur.");
     } finally {
