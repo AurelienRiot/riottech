@@ -1,0 +1,204 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+
+
+model Billboard {
+  id          String @id @default(uuid())
+  label       String
+  imageUrl    String
+  categories  Category[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+}
+
+model Category {
+  id          String @id @default(uuid())
+  billboardId String
+  billboard   Billboard @relation(fields: [billboardId], references: [id])
+  products    Product[] @relation("CategoryToProduct")
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAd   DateTime @updatedAt
+
+  @@index([billboardId])
+}
+
+
+model Product {
+  id           String @id @default(uuid())
+  categoryId   String
+  category     Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
+  name         String
+  description  String @db.VarChar(1000)
+  productSpecs String @db.VarChar(1000)
+  priceHT       Float    //
+  priceTTC      Float     //
+  isFeatured   Boolean @default(false)
+  isArchived   Boolean @default(false)
+  images       Image[]
+  orderItems   OrderItem[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model Subscription {
+  id           String @id @default(uuid())
+  name         String
+  description  String @db.VarChar(1000)
+  productSpecs String @db.VarChar(1000)
+  priceHT       Float    
+  priceTTC      Float    
+  fraisActivation Float    
+  recurrence       String 
+  isFeatured   Boolean @default(false)
+  isArchived   Boolean @default(false)
+  subscriptionItem   SubscriptionItem[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+}
+
+model Image {
+  id        String @id @default(uuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([productId])
+}
+
+model Order {
+  id         String @id @default(uuid())
+  orderItems OrderItem[]
+  isPaid     Boolean @default(true)
+  totalPrice Float @default(1)
+  name       String @default("")
+  phone      String @default("")
+  address    String @default("")
+  pdfUrl String @default("")
+  mailSend Boolean @default(false)
+  userId      String  //
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+
+}
+
+model SubscriptionOrder {
+  id         String @id @default(uuid())
+  subscriptionItem SubscriptionItem[]
+  isPaid     Boolean @default(true)
+  totalPrice Float @default(1)
+  subscriptionPrice Float @default(1)
+  countPayment Int @default(0)
+  subscriptionHistory SubscriptionHistory[]
+  name       String @default("")
+  phone      String @default("")
+  address    String @default("")
+  pdfUrl     String @default("") 
+  isActive   Boolean @default(true) 
+  userId      String  
+  stripeSubscriptionId String? @unique @map(name: "stripe_subscription_id")
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sim String
+  createdAt  DateTime @default(now()) 
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+
+}
+
+model SubscriptionHistory {
+  id        String @id @default(uuid())
+  subscriptionOrderId  String
+  subscriptionOrder    SubscriptionOrder @relation(fields: [subscriptionOrderId], references: [id], onDelete: Cascade)
+  idStripe String
+  price Float 
+  status String
+  pdfUrl String @default("")
+  mailSend Boolean @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([subscriptionOrderId])
+
+}
+
+
+model SubscriptionItem {
+  id        String @id @default(uuid())
+  subscriptionId   String
+  subscription     Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionOrderId String
+  subscriptionOrder   SubscriptionOrder @relation(fields: [subscriptionOrderId], references: [id], onDelete: Cascade)
+ 
+
+  @@index([subscriptionId])
+  @@index([subscriptionOrderId])
+}
+
+
+
+model OrderItem {
+  id        String @id @default(uuid())
+  quantity  Int @default(1)
+  orderId   String
+  order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+ 
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Contact {
+  id       String      @id @default(uuid())
+  name     String
+  mail     String
+  phone    String? 
+  subject  String
+  message  String  @db.VarChar(1000) 
+  createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt 
+
+}
+
+model User{
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  role    String @default("user")
+  resetPasswordToken String?
+  name String @default("")
+  surname String @default("")
+  phone String @default("")
+  adresse String @default("") @db.VarChar(1000) 
+  isPro Boolean @default(false)
+  tva String @default("")
+  raisonSocial String @default("")
+  stripeCustomerId String? @unique @map(name: "stripe_customer_id")
+  orders Order[]
+  subscriptionOrder SubscriptionOrder[]
+  createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt 
+}
+
