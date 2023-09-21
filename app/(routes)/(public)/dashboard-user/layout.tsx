@@ -3,6 +3,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import React from "react";
 
+export const metadata = {
+  title: "Riot Tech - Profil utilisateur",
+  description: "Profil utilisateur RIOT TECH",
+};
+
 export default async function Layout({
   children,
 }: {

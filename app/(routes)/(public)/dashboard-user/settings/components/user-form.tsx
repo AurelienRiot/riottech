@@ -164,7 +164,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     const value = e.target.value;
     setQuery(value);
 
-    if (value.length > 3) {
+    if (filter) {
       const temp = await AddressAutocomplete(value);
       setSuggestions(temp);
     } else {
@@ -406,10 +406,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                               setPostalCode(temp[0].postal_code);
                               setLine1(temp[0].line1);
 
-                              const nameArray = valideVat.name.split(" ");
-                              console.log(nameArray);
-                              form.setValue("name", nameArray[1]);
-                              form.setValue("surname", nameArray[2]);
+                              form.setValue("raisonSocial", valideVat.name);
                               toast.success("TVA valide");
                             } else {
                               toast.error("TVA non valide");
