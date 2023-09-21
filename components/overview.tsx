@@ -3,10 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
-const DynamicReactApexChart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
+import ReactApexChart from "react-apexcharts";
 
 interface GraphDataProps {
   month: string;
@@ -20,6 +17,7 @@ interface OverviewProps {
 
 export const Overview: React.FC<OverviewProps> = ({ data }) => {
   const { theme, systemTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(640);
   const [fontSize, setFontSize] = useState("12px");
   const [reverse, setReverse] = useState(false);
@@ -58,6 +56,14 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
       setReverse(false);
     }
   }, [windowWidth]);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   const options: ApexOptions = {
     chart: {
@@ -169,7 +175,7 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
   return (
     <div>
       {" "}
-      <DynamicReactApexChart
+      <ReactApexChart
         options={options}
         series={series}
         type="bar"

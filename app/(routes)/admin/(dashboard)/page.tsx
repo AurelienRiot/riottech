@@ -1,8 +1,8 @@
-import { getGraphRevenue } from "@/server-actions/get-graph-revenue";
-import { getSalesCount } from "@/server-actions/get-sales-count";
-import { getStockOrderCount } from "@/server-actions/get-stock-order-count";
-import { getStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
-import { getTotalRevenue } from "@/server-actions/get-total-revenue";
+import { GetGraphRevenue } from "@/server-actions/get-graph-revenue";
+import { GetSalesCount } from "@/server-actions/get-sales-count";
+import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
+import { GetStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
+import { GetTotalRevenue } from "@/server-actions/get-total-revenue";
 import { Overview } from "@/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
@@ -16,12 +16,19 @@ import {
 } from "lucide-react";
 
 const DashboardPage: React.FC = async () => {
-  const totalRevenue = await getTotalRevenue();
-  const SalesCount = await getSalesCount();
-  const stockOrderCount = await getStockOrderCount();
-  const stockSubscriptionCount = await getStockSubscriptionCount();
-  const graphRevenue = await getGraphRevenue();
-
+  const [
+    totalRevenue,
+    SalesCount,
+    stockOrderCount,
+    stockSubscriptionCount,
+    graphRevenue,
+  ] = await Promise.all([
+    GetTotalRevenue(),
+    GetSalesCount(),
+    GetStockOrderCount(),
+    GetStockSubscriptionCount(),
+    GetGraphRevenue(),
+  ]);
   return (
     <div className="flex-col">
       <div className="flex-1 p-8 pt-6 space-y-4">
