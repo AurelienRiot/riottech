@@ -15,3 +15,11 @@ export const formatter = new Intl.NumberFormat("fr-FR", {
 export const dateFormatter = (date: Date) => {
   return format(date, "d MMMM yyyy", { locale: fr });
 };
+
+export function isWindowSmallerThan(windowSize: number) {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.innerWidth < windowSize;
+}

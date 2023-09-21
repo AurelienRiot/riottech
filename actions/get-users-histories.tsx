@@ -7,6 +7,10 @@ import {
   SubscriptionOrder,
   User,
 } from "@prisma/client";
+import axios from "axios";
+import { addDays } from "date-fns";
+import qs from "query-string";
+import { DateRange } from "react-day-picker";
 
 export type SubscriptionOrderClient = {
   subscriptionHistory: SubscriptionHistory[];
@@ -51,4 +55,29 @@ export function GetUsersHistories(usersHistories: UsersHistories[]) {
     .flat();
 
   return histories;
+}
+
+export async function FetchUsersHistories(
+  dateRange: DateRange | undefined
+): Promise<UsersHistories[] | null> {
+  if (!dateRange || !dateRange.from || !dateRange.to) {
+    return null;
+  }
+
+  try {
+    const url = qs.stringifyUrl({
+      url: "/api/users/histories",
+      query: {
+        gte: dateRange.from.toDateString(),
+        lte: addDays(dateRange.to, 1).toDateString(),
+      },
+    });
+    const res = await axios.get(url);
+    if (res.data) {
+      return res.data;
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
 }

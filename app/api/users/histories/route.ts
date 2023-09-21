@@ -8,8 +8,8 @@ export async function GET(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
     const { searchParams } = new URL(req.url);
-    const gte = searchParams.get("gte") || undefined;
-    const lte = searchParams.get("lte") || undefined;
+    const gte = searchParams.get("gte");
+    const lte = searchParams.get("lte");
 
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });

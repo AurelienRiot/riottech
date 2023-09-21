@@ -13,7 +13,11 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Loading from "../../loading";
 import { addDays } from "date-fns";
-import { GetUsersHistories, UsersHistories } from "@/actions/get";
+import {
+  FetchUsersHistories,
+  GetUsersHistories,
+  UsersHistories,
+} from "@/actions/get-users-histories";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -32,22 +36,13 @@ export const HistoryTable = ({
   );
 
   const handleChangeDate = async () => {
-    if (dateRange && dateRange.from && dateRange.to) {
-      const url = qs.stringifyUrl({
-        url: "/api/users/histories",
-        query: {
-          gte: dateRange.from.toDateString(),
-          lte: addDays(dateRange.to, 1).toDateString(),
-        },
-      });
-      const res = await axios.get(url);
-      const users: UsersHistories[] = res.data;
-
-      const histories = GetUsersHistories(users);
-      setData(histories);
-    } else {
+    const users = await FetchUsersHistories(dateRange);
+    if (!users) {
       toast.error("Veuillez choisir une date");
+      return;
     }
+    const histories = GetUsersHistories(users);
+    setData(histories);
   };
 
   return (

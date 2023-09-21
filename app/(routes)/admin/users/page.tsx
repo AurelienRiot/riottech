@@ -1,7 +1,10 @@
 import prismadb from "@/lib/prismadb";
 import { HistoryTable } from "./components/histories-table";
 import { DateRange } from "react-day-picker";
-import { GetUsersHistories, UsersHistories } from "@/actions/get";
+import {
+  GetUsersHistories,
+  UsersHistories,
+} from "@/actions/get-users-histories";
 import UserClient from "./components/client";
 
 const UserPage = async () => {

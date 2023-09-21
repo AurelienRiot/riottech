@@ -3,7 +3,6 @@ import { GetSalesCount } from "@/server-actions/get-sales-count";
 import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
 import { GetStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
 import { GetTotalRevenue } from "@/server-actions/get-total-revenue";
-// import Overview from "@/components/overview";
 const DynamicOverview = dynamic(() => import("@/components/overview"), {
   ssr: false,
 });
