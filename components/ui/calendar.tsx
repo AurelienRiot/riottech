@@ -74,7 +74,7 @@ function Calendar({
           };
           return (
             <Select
-              value={value?.toString()}
+              value={value ? String(value) : ""}
               onValueChange={(value) => {
                 handleChange(value);
               }}
@@ -87,7 +87,9 @@ function Calendar({
                   {options.map((option, id: number) => (
                     <SelectItem
                       key={`${option.props.value}-${id}`}
-                      value={option.props.value?.toString() ?? ""}
+                      value={
+                        option.props.value ? String(option.props.value) : ""
+                      }
                     >
                       {option.props.children}
                     </SelectItem>

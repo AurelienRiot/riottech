@@ -80,8 +80,7 @@ export const HistoryTable = () => {
           .flat()
           .sort(
             (a: any, b: any) =>
-              Date.parse(b.createdAt.toString()) -
-              Date.parse(a.createdAt.toString())
+              Date.parse(String(b.createdAt)) - Date.parse(String(a.createdAt))
           )
           .flat();
         setData(histories);
