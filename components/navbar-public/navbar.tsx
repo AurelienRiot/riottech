@@ -11,11 +11,10 @@ import { Category } from "@prisma/client";
 
 type NavBarProps = {
   role: string | undefined;
-  isPro: boolean;
   categories: Category[];
 };
 
-const NavBar: React.FC<NavBarProps> = ({ role, categories, isPro }) => {
+const NavBar: React.FC<NavBarProps> = ({ role, categories }) => {
   const [isNavbar, setIsNavbar] = useState(true);
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const NavBar: React.FC<NavBarProps> = ({ role, categories, isPro }) => {
                   <MobileNav data={categories} className="ml-2 lg:hidden" />
                 </div>
 
-                <NavbarAction role={role} isPro={isPro} />
+                <NavbarAction role={role} />
               </div>
             </Container>
           </motion.div>

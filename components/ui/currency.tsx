@@ -1,20 +1,28 @@
 "use client";
 
+import { useIsProContext } from "@/hooks/use-pro";
 import { cn, formatter } from "@/lib/utils";
+import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CurrencyProps {
-  value?: string | number;
+  value: number;
   taxtext?: string;
   className?: string;
+  classNameLogo?: string;
+  displayText?: boolean;
+  displayLogo?: boolean;
 }
 
 const Currency: React.FC<CurrencyProps> = ({
   value,
-  taxtext = "",
+  displayText = true,
+  displayLogo = true,
   className,
+  classNameLogo,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const { isPro, setIsPro } = useIsProContext();
 
   useEffect(() => {
     setIsMounted(true);
@@ -24,16 +32,21 @@ const Currency: React.FC<CurrencyProps> = ({
     return null;
   }
 
-  let text;
-  if (taxtext) {
-    text = "(HT)";
-  } else {
-    text = taxtext;
-  }
+  const taxe = isPro ? 1 : 1.2;
+  const price = value * taxe;
+  const taxeText = isPro ? "(HT)" : "(TTC)";
 
   return (
-    <span className={cn(`font-semibold text-primary`, className)}>
-      {`${formatter.format(Number(value))} ${text}`}
+    <span
+      onClick={() => setIsPro(!isPro)}
+      className={cn(`font-semibold text-primary cursor-pointer`, className)}
+    >
+      {`${formatter.format(price)} `} {displayText ? taxeText : ""}
+      {displayLogo ? (
+        <ArrowUpDown className={cn("inline w-4 h-4", classNameLogo)} />
+      ) : (
+        ""
+      )}
     </span>
   );
 };

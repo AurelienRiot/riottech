@@ -11,15 +11,12 @@ import { toast } from "react-hot-toast";
 
 interface CartItemProps {
   data: ProductWithCategoryAndImages;
-  isPro: boolean;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ data, isPro }) => {
+const CartItem: React.FC<CartItemProps> = ({ data }) => {
   const cart = useCart();
 
-  const taxRate = isPro ? 1 : 1.2;
-  const value = Number(data.priceHT) * taxRate;
-  const taxText = isPro ? "(HT)" : "(TTC)";
+  const value = Number(data.priceHT);
   const quantity = cart.quantities[data.id];
 
   const onRemove = () => {
@@ -61,7 +58,7 @@ const CartItem: React.FC<CartItemProps> = ({ data, isPro }) => {
               {data.name}
             </Link>
           </div>
-          <Currency value={value} taxtext={taxText} /> <br />
+          <Currency value={value} /> <br />
           <div className="flex gap-2 sm:flex-col items-left ">
             Quantité :
             <div className="flex items-center gap-2">

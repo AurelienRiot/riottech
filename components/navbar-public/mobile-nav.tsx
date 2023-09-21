@@ -7,15 +7,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Check,
-  ChevronDown,
-  ChevronsUpDown,
-  LucidePhoneCall,
-  Menu,
-  StoreIcon,
-  User2,
-} from "lucide-react";
+import { Check, ChevronDown, LucidePhoneCall, StoreIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Command,

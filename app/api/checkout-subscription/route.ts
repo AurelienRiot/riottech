@@ -8,14 +8,7 @@ import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function POST(req: NextRequest) {
   try {
-    const {
-      subscriptionId,
-      sim,
-      totalPrice,
-      subscriptionPrice,
-      fraisActivation,
-      recurrence,
-    } = await req.json();
+    const { subscriptionId, sim } = await req.json();
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.id) {
@@ -24,41 +17,30 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    if (!subscriptionId || subscriptionId.length === 0) {
+    if (!subscriptionId) {
       return new NextResponse("L'id de l'abonnement est nécessaire", {
         status: 400,
       });
     }
 
-    if (!sim || subscriptionId.length === 0) {
+    if (!sim) {
       return new NextResponse("Le numéros de sim est nécessaire", {
         status: 400,
       });
     }
 
-    if (!totalPrice || totalPrice.length === 0) {
-      return new NextResponse("Le prix total est nécessaire", {
-        status: 400,
-      });
-    }
+    const user = await prismadb.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
 
-    if (!recurrence || recurrence.length === 0) {
-      return new NextResponse("La récurrence de l'abonnement est nécessaire", {
-        status: 400,
+    if (!user) {
+      return new NextResponse("Erreur essayer de vous reconnecter", {
+        status: 401,
       });
     }
-
-    if (!fraisActivation || fraisActivation.length === 0) {
-      return new NextResponse("La récurrence de l'abonnement est nécessaire", {
-        status: 400,
-      });
-    }
-
-    if (!subscriptionPrice || subscriptionPrice.length === 0) {
-      return new NextResponse("La récurrence de l'abonnement est nécessaire", {
-        status: 400,
-      });
-    }
+    const taxe = user.isPro ? 1 : 1.2;
 
     const subscription = await prismadb.subscription.findUnique({
       where: {
@@ -83,7 +65,9 @@ export async function POST(req: NextRequest) {
               sim: sim,
             },
           },
-          unit_amount: Math.floor(Number(subscriptionPrice) * 100),
+          unit_amount: Math.floor(
+            Number((subscription.priceHT * taxe).toFixed(2)) * 100
+          ),
           recurring: {
             interval: "day",
           },
@@ -100,7 +84,9 @@ export async function POST(req: NextRequest) {
 
             name: "Frais d'activation",
           },
-          unit_amount: Math.floor(Number(fraisActivation) * 100),
+          unit_amount: Math.floor(
+            Number((subscription.fraisActivation * taxe).toFixed(2)) * 100
+          ),
         },
       });
     } else {
@@ -112,8 +98,13 @@ export async function POST(req: NextRequest) {
     const subscriptionOrder = await prismadb.subscriptionOrder.create({
       data: {
         isPaid: false,
-        totalPrice: Number(totalPrice),
-        subscriptionPrice: Number(subscriptionPrice),
+        totalPrice: Number(
+          (
+            (subscription.priceHT + subscription.fraisActivation) *
+            taxe
+          ).toFixed(2)
+        ),
+        subscriptionPrice: Number((subscription.priceHT * taxe).toFixed(2)),
         sim: sim,
         isActive: false,
         subscriptionItem: {
@@ -125,7 +116,7 @@ export async function POST(req: NextRequest) {
             },
           },
         },
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 

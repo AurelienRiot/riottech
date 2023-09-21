@@ -5,6 +5,7 @@ import NavBar from "@/components/navbar-public/navbar";
 import ModalProvider from "@/providers/modal-provider";
 import { getServerSession } from "next-auth";
 import React from "react";
+import { IsProProvider } from "@/hooks/use-pro";
 
 export default async function PublicLayout({
   children,
@@ -14,18 +15,14 @@ export default async function PublicLayout({
   const session = await getServerSession(authOptions);
   const categories = await GetCategories();
 
-  const isPro = session?.user?.isPro ?? false;
-
   return (
     <>
-      <ModalProvider />
-      <NavBar
-        isPro={isPro}
-        role={session?.user?.role}
-        categories={categories}
-      />
-      <div className="pt-16 ">{children}</div>
-      <Footer />
+      <IsProProvider>
+        <ModalProvider />
+        <NavBar role={session?.user?.role} categories={categories} />
+        <div className="pt-16 ">{children}</div>
+        <Footer />
+      </IsProProvider>
     </>
   );
 }

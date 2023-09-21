@@ -14,17 +14,14 @@ import { ProductWithCategoryAndImages } from "@/types";
 
 interface ProductCartProps {
   data: ProductWithCategoryAndImages;
-  isPro: boolean;
 }
 
-const ProductCart: React.FC<ProductCartProps> = ({ data, isPro }) => {
+const ProductCart: React.FC<ProductCartProps> = ({ data }) => {
   const router = useRouter();
   const cart = useCart();
   const previewModal = usePreviewModal();
 
-  const taxRate = isPro ? 1 : 1.2;
-  const value = Number(data.priceHT) * taxRate;
-  const taxText = isPro ? "(HT)" : "(TTC)";
+  const value = Number(data.priceHT);
 
   const handleClick = () => {
     router.push(`/product/${data?.id}`);
@@ -45,10 +42,12 @@ const ProductCart: React.FC<ProductCartProps> = ({ data, isPro }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      onClick={handleClick}
       className="p-3 m-2 space-y-4 border cursor-pointer group rounded-xl bg-secondary "
     >
-      <VisibleElement className="relative bg-white aspect-square rounded-xl before:rounded-xl before:inset-0 before:absolute before:z-10 before:bg-black/20 before:opacity-0 before:animate-in before:duration-300 before:ease-linear group-hover:before:opacity-100 ">
+      <VisibleElement
+        onClick={handleClick}
+        className="relative bg-white aspect-square rounded-xl before:rounded-xl before:inset-0 before:absolute before:z-10 before:bg-black/20 before:opacity-0 before:animate-in before:duration-300 before:ease-linear group-hover:before:opacity-100 "
+      >
         <Image
           src={data?.images?.[0].url}
           fill
@@ -73,14 +72,14 @@ const ProductCart: React.FC<ProductCartProps> = ({ data, isPro }) => {
           </div>
         </div>
       </VisibleElement>
-      <div>
+      <div onClick={handleClick}>
         <p className="text-lg font-semibold text-primary">{data.name}</p>
         <p className="text-sm text-secondary-foreground">
           {data.category?.name}
         </p>
       </div>
       <div className="flex items-center justify-between text-primary">
-        <Currency value={value} taxtext={taxText} />
+        <Currency value={value} />
       </div>
     </motion.div>
   );

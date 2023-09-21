@@ -17,7 +17,19 @@ export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.id) {
-      return new NextResponse("Erreur essayer de vous reconnecter", {
+      return new NextResponse("Erreur, essayer de vous reconnecter", {
+        status: 401,
+      });
+    }
+
+    const user = await prismadb.user.findUnique({
+      where: {
+        id: session.user.id,
+      },
+    });
+
+    if (!user) {
+      return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
       });
     }
@@ -72,7 +84,7 @@ export async function POST(req: NextRequest) {
     const order = await prismadb.order.create({
       data: {
         isPaid: false,
-        totalPrice: Number(totalPrice),
+        totalPrice: user.isPro ? Number(totalPrice) : Number(totalPrice) * 1.2,
         orderItems: {
           create: itemsWithQuantities.map((item) => ({
             product: {
@@ -83,7 +95,7 @@ export async function POST(req: NextRequest) {
             quantity: item.quantity,
           })),
         },
-        userId: session.user.id,
+        userId: user.id,
       },
     });
 

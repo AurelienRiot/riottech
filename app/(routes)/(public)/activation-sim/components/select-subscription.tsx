@@ -3,21 +3,21 @@
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/fr";
-import { Session } from "next-auth";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 import { Button } from "@/components/ui/button";
 import { Subscription } from "@prisma/client";
+import Currency from "@/components/ui/currency";
 
 interface SelectSubscriptionProps {
   subscription: Subscription | null;
-  session: Session | null;
+  isSession: boolean;
   sim: string;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   subscription,
-  session,
+  isSession,
   sim,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -26,20 +26,16 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     return <div>Subscription not found.</div>;
   }
 
-  const stripeCustomerId = session?.user?.stripeCustomerId ?? "";
-  const isPro = session?.user?.isPro ?? false;
-  const taxRate = isPro ? 1 : 1.2;
-
-  const subscriptionPrice = Number(subscription.priceHT) * taxRate;
-  const fraisActivation = Number(subscription.fraisActivation) * taxRate;
+  const subscriptionPrice = Number(subscription.priceHT);
+  const fraisActivation = Number(subscription.fraisActivation);
   const totalPrice = subscriptionPrice + fraisActivation;
   const recurrence = subscription.recurrence;
+  const taxText = "HT";
 
   const nextRecurrence =
     subscription.recurrence === "mois"
       ? moment().add(1, "month").locale("fr").format("D MMMM YYYY")
       : moment().add(1, "year").locale("fr").format("D MMMM YYYY");
-  const taxText = isPro ? "(HT)" : "(TTC)";
 
   const onClick = async () => {
     setLoading(true);
@@ -52,11 +48,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       const response = await axios.post(`/api/checkout-subscription`, {
         subscriptionId: subscription.id,
         sim,
-        totalPrice: totalPrice.toFixed(2),
-        stripeCustomerId,
-        recurrence,
-        fraisActivation: fraisActivation.toFixed(2),
-        subscriptionPrice: subscriptionPrice.toFixed(2),
       });
       window.location = response.data.url;
     } catch (error) {
@@ -90,23 +81,39 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 {" "}
                 Carte SIM RIOT TECH {subscription.name} × 1
               </td>
-              <td className="py-2 ml-4">{`${subscriptionPrice.toFixed(
-                2
-              )} € et un coût d'achat de l'équipement de ${fraisActivation.toFixed(
-                2
-              )} € ${taxText}`}</td>
+              <td className="py-2 ml-4">
+                {" "}
+                <Currency
+                  value={subscription.priceHT}
+                  displayLogo={false}
+                  displayText={false}
+                />
+                {" et un coût d'achat de l'équipement de "}{" "}
+                <Currency
+                  value={subscription.fraisActivation}
+                  displayLogo={false}
+                />{" "}
+              </td>
             </tr>
             <tr className="border-b-2 odd:bg-secondary even:bg-primary/50">
               <td className="py-2 mr-10">Total:</td>
-              <td className="py-2 ml-4">{`${totalPrice.toFixed(
-                2
-              )} € ${taxText} `}</td>
+              <td className="py-2 ml-4">
+                <Currency
+                  value={subscription.priceHT + subscription.fraisActivation}
+                />
+              </td>
             </tr>
             <tr className="odd:bg-secondary even:bg-primary/50">
               <td className="py-2 mr-10">Total récurrent:</td>
-              <td className="py-2 ml-4">{`${subscriptionPrice.toFixed(
-                2
-              )} € / ${recurrence} ${taxText}`}</td>
+              <td className="py-2 ml-4">
+                {" "}
+                <Currency
+                  value={subscription.priceHT}
+                  displayLogo={false}
+                  displayText={false}
+                />{" "}
+                {` /  ${recurrence}`}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -116,7 +123,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
         Premier renouvellement : {nextRecurrence}
       </p>
       <div className="mt-8 mb-6 -center ">
-        {!session && (
+        {!isSession && (
           <div className="flex justify-center ">
             <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl">
               <h1 className="text-2xl font-semibold">
@@ -130,7 +137,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
         )}
         <div className="flex justify-center">
           <Button
-            disabled={loading || !session}
+            disabled={loading || !isSession}
             onClick={onClick}
             className="mt-4"
           >

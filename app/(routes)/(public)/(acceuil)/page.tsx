@@ -14,7 +14,6 @@ const HomePage = async () => {
   const products = await GetProducts({ isFeatured: true });
 
   const session = await getServerSession(authOptions);
-  const isPro = session?.user?.isPro ?? false;
 
   return (
     <>
@@ -23,11 +22,7 @@ const HomePage = async () => {
         <div className="relative pt-6 pb-10 space-y-10 bg-primary-foreground bg-clip-padding ">
           <Suspense fallback={<Loading />}>
             <div className="flex flex-col px-4 mb-16 gap-y-8 sm:px-6 lg:px-8">
-              <ProductList
-                title="Produits mise en avant"
-                items={products}
-                isPro={isPro}
-              />
+              <ProductList title="Produits mise en avant" items={products} />
             </div>
           </Suspense>
 

@@ -19,10 +19,7 @@ import CartItem from "@/components/cart-item";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-const NavbarAction: React.FC<{ isPro: boolean; role: string | undefined }> = ({
-  role,
-  isPro,
-}) => {
+const NavbarAction: React.FC<{ role: string | undefined }> = ({ role }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -95,7 +92,7 @@ const NavbarAction: React.FC<{ isPro: boolean; role: string | undefined }> = ({
                     }}
                     className="flex p-1 mb-4 border rounded-lg sm:border-2 sm:p-2 bg-card border-border"
                   >
-                    <CartItem data={item} isPro={isPro} />
+                    <CartItem data={item} />
                   </motion.li>
                 ))}
               </AnimatePresence>

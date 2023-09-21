@@ -1,5 +1,4 @@
 import GetUser from "@/server-actions/get-user";
-import HandleUserInfo from "./components/handle-user-info";
 import { redirect } from "next/navigation";
 import { formatter } from "@/lib/utils";
 import { OrderColumn } from "./components/order-column";

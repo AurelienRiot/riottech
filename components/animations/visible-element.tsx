@@ -56,7 +56,7 @@ export const motionVariant = {
 
 type VisibleElementProps = Pick<
   React.HTMLAttributes<HTMLElement>,
-  "onMouseEnter" | "onMouseLeave"
+  "onMouseEnter" | "onMouseLeave" | "onClick"
 > & {
   children: React.ReactNode;
   className?: string;

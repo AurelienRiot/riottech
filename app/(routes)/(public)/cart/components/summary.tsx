@@ -10,23 +10,13 @@ import { toast } from "react-hot-toast";
 
 interface SummaryProps {
   userId: string | undefined;
-  isPro: boolean;
-  stripeCustomerId: string;
 }
 
-const Summary: React.FC<SummaryProps> = ({
-  userId,
-  isPro,
-  stripeCustomerId,
-}) => {
+const Summary: React.FC<SummaryProps> = ({ userId }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const items = useCart((state) => state.items);
-  const quantities = useCart((state) => state.quantities);
-  const removeAll = useCart((state) => state.removeAll);
-  const taxRate = isPro ? 1 : 1.2;
-  const taxText = isPro ? "(HT)" : "(TTC)";
+  const cart = useCart();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -35,7 +25,7 @@ const Summary: React.FC<SummaryProps> = ({
       toast.error("Erreur de paiement.");
       router.replace("/cart");
     }
-  }, [removeAll, searchParams, router]);
+  }, [searchParams, router]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -45,8 +35,8 @@ const Summary: React.FC<SummaryProps> = ({
     return null;
   }
 
-  const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.priceHT) * Number(quantities[item.id]) * taxRate;
+  const totalPrice = cart.items.reduce((total, item) => {
+    return total + Number(item.priceHT) * Number(cart.quantities[item.id]);
   }, 0);
 
   const onCheckout = async () => {
@@ -58,17 +48,16 @@ const Summary: React.FC<SummaryProps> = ({
       );
       return;
     }
-    const itemsWithQuantities = items.map((item) => {
+    const itemsWithQuantities = cart.items.map((item) => {
       return {
         id: item.id,
-        quantity: quantities[item.id],
+        quantity: cart.quantities[item.id],
       };
     });
     try {
       const response = await axios.post(`/api/checkout`, {
         itemsWithQuantities,
         totalPrice: totalPrice.toFixed(2),
-        stripeCustomerId,
       });
       window.location = response.data.url;
     } catch (error) {
@@ -83,14 +72,18 @@ const Summary: React.FC<SummaryProps> = ({
     <div className="px-4 py-6 mt-16 bg-gray-100 border-2 rounded-lg dark:bg-black sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-xl font-medium text-gray-500">Votre Commmande</h2>
       <ul className="pt-4">
-        {items.map((item) => (
+        {cart.items.map((item) => (
           <li key={item.id} className="flex justify-between">
             <div>
-              {quantities[item.id] > 1 && <span> {quantities[item.id]}x </span>}
+              {cart.quantities[item.id] > 1 && (
+                <span> {cart.quantities[item.id]}x </span>
+              )}
               <strong>{item.name} </strong>{" "}
             </div>
             <Currency
-              value={Number(item.priceHT) * quantities[item.id]}
+              value={Number(item.priceHT) * cart.quantities[item.id]}
+              displayText={false}
+              displayLogo={false}
               className="justify-self-end"
             />
           </li>
@@ -99,11 +92,11 @@ const Summary: React.FC<SummaryProps> = ({
       <div className="mt-6 space-y-4">
         <div className="flex items-center justify-between pt-4 border-t border-gray-200">
           <div className="text-base font-medium text-gray-500">Total</div>
-          <Currency value={totalPrice} taxtext={taxText} />
+          <Currency value={totalPrice} displayLogo={false} />
         </div>
       </div>
       <Button
-        disabled={items.length === 0 || loading}
+        disabled={cart.items.length === 0 || loading}
         onClick={onCheckout}
         variant="rounded"
         className="w-full mt-6"

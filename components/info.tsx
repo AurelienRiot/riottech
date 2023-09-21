@@ -17,9 +17,7 @@ interface InfoProps {
 const Info: React.FC<InfoProps> = ({ data, isPro }) => {
   const cart = useCart();
 
-  const taxRate = isPro ? 1 : 1.2;
-  const value = Number(data.priceHT) * taxRate;
-  const taxText = isPro ? "(HT)" : "(TTC)";
+  const value = Number(data.priceHT);
 
   const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
@@ -36,7 +34,7 @@ const Info: React.FC<InfoProps> = ({ data, isPro }) => {
       </Link>
       <div className="items-end justify-between mt-3">
         <p className="text-2xl text-gray-900 dark:text-white">
-          <Currency value={value} taxtext={taxText} />
+          <Currency value={value} />
         </p>
       </div>
       <hr className="my-4" />

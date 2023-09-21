@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { SelectSubscription } from "./select-subscription";
-import { Session } from "next-auth";
 import { Subscription } from "@prisma/client";
 
 const simSchema = z.object({
@@ -30,12 +29,12 @@ type SimSchema = z.infer<typeof simSchema>;
 
 type ActivationSimFormProps = {
   subscriptions: Subscription[];
-  session: Session | null;
+  isSession: boolean;
 };
 
 export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   subscriptions,
-  session,
+  isSession,
 }) => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -121,7 +120,7 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
         {sim && (
           <SelectSubscription
             subscription={selectedSubscription}
-            session={session}
+            isSession={isSession}
             sim={sim}
           />
         )}
