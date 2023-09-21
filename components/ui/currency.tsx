@@ -39,11 +39,14 @@ const Currency: React.FC<CurrencyProps> = ({
   return (
     <span
       onClick={() => setIsPro(!isPro)}
-      className={cn(`font-semibold text-primary cursor-pointer`, className)}
+      className={cn(
+        `font-semibold text-primary cursor-pointer flex items-center`,
+        className
+      )}
     >
       {`${formatter.format(price)} `} {displayText ? taxeText : ""}
       {displayLogo ? (
-        <ArrowUpDown className={cn("inline w-4 h-4", classNameLogo)} />
+        <ArrowUpDown className={cn("inline w-4 h-4 ml-1", classNameLogo)} />
       ) : (
         ""
       )}

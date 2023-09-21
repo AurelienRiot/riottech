@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
+import Container from "@/components/ui/container";
 
 export const metadata = {
   title: "Riot Tech - Activation SIM",
@@ -16,7 +17,7 @@ const ActivationSimPage = async () => {
   const subscriptions = await GetSubscription();
 
   return (
-    <div className="pt-10 bg-background">
+    <Container className="pt-10 bg-background">
       <div className="flex flex-col items-center justify-center p-2 sm:p-10 text-primary">
         <h1 className="mb-4 text-3xl font-bold text-center">
           Abonnement Carte SIM RIOT TECH
@@ -40,7 +41,7 @@ const ActivationSimPage = async () => {
           />
         </Suspense>
       </div>
-    </div>
+    </Container>
   );
 };
 

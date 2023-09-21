@@ -116,7 +116,7 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
           </Button>
         </form>
       </Form>
-      <div id="commande">
+      <div id="commande" className="w-full">
         {sim && (
           <SelectSubscription
             subscription={selectedSubscription}

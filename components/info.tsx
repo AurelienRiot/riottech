@@ -33,7 +33,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       </Link>
       <div className="items-end justify-between mt-3">
         <p className="text-2xl text-gray-900 dark:text-white">
-          <Currency value={value} />
+          <Currency value={value} classNameLogo="w-6 h-6" />
         </p>
       </div>
       <hr className="my-4" />

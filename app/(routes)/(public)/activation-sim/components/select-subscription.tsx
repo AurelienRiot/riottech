@@ -64,7 +64,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       </h1>
       <p className="text-center">Sim: {sim}</p>
       <div className="flex items-center justify-center text-left">
-        <table className="w-full text-center border-2 sm:w-auto">
+        <table className="w-full text-center border-2 sm:w-full">
           <thead className="text-white border-b-2 bg-primary ">
             <tr>
               <th className="pr-5 mr-10 text-primary-foreground">
@@ -81,7 +81,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 {" "}
                 Carte SIM RIOT TECH {subscription.name} × 1
               </td>
-              <td className="py-2 ml-4">
+              <td className="py-2 ml-4 flex gap-1">
                 {" "}
                 <Currency
                   value={subscription.priceHT}
@@ -97,7 +97,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
             </tr>
             <tr className="border-b-2 odd:bg-secondary even:bg-primary/50">
               <td className="py-2 mr-10">Total:</td>
-              <td className="py-2 ml-4">
+              <td className="py-2 ml-4 flex">
                 <Currency
                   value={subscription.priceHT + subscription.fraisActivation}
                 />
@@ -105,14 +105,15 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
             </tr>
             <tr className="odd:bg-secondary even:bg-primary/50">
               <td className="py-2 mr-10">Total récurrent:</td>
-              <td className="py-2 ml-4">
+              <td className="py-2 ml-4 flex">
                 {" "}
                 <Currency
                   value={subscription.priceHT}
                   displayLogo={false}
                   displayText={false}
-                />{" "}
-                {` /  ${recurrence}`}
+                  className="mr-1"
+                />
+                {`  /  ${recurrence}`}
               </td>
             </tr>
           </tbody>
