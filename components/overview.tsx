@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
 import ReactApexChart from "react-apexcharts";
+// import dynamic from "next/dynamic";
+// const DynamicReactApexChart = dynamic(() => import("react-apexcharts"), {
+//   ssr: false,
+// });
 
 interface GraphDataProps {
   month: string;
@@ -15,9 +19,8 @@ interface OverviewProps {
   data: GraphDataProps[];
 }
 
-export const Overview: React.FC<OverviewProps> = ({ data }) => {
+const Overview: React.FC<OverviewProps> = ({ data }) => {
   const { theme, systemTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(640);
   const [fontSize, setFontSize] = useState("12px");
   const [reverse, setReverse] = useState(false);
@@ -57,13 +60,13 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
     }
   }, [windowWidth]);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsMounted(true);
+  // }, []);
 
-  if (!isMounted) {
-    return null;
-  }
+  // if (!isMounted) {
+  //   return null;
+  // }
 
   const options: ApexOptions = {
     chart: {
@@ -174,14 +177,16 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
 
   return (
     <div>
-      {" "}
+      <span className="sr-only w-0">Graphique</span>
       <ReactApexChart
         options={options}
         series={series}
         type="bar"
         height={350}
         padding={{ bottom: 40 }}
-      />{" "}
+      />
     </div>
   );
 };
+
+export default Overview;

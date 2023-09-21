@@ -3,7 +3,10 @@ import { GetSalesCount } from "@/server-actions/get-sales-count";
 import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
 import { GetStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
 import { GetTotalRevenue } from "@/server-actions/get-total-revenue";
-import { Overview } from "@/components/overview";
+// import Overview from "@/components/overview";
+const DynamicOverview = dynamic(() => import("@/components/overview"), {
+  ssr: false,
+});
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -14,6 +17,7 @@ import {
   EuroIcon,
   Package,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 
 const DashboardPage: React.FC = async () => {
   const [
@@ -86,7 +90,7 @@ const DashboardPage: React.FC = async () => {
         <Card className="col-span-4 p-4">
           <CardTitle>{"Vue d'ensemble"}</CardTitle>
           <CardContent className="p-0 sm:pl-2">
-            <Overview data={graphRevenue} />
+            <DynamicOverview data={graphRevenue} />
           </CardContent>
         </Card>
       </div>
