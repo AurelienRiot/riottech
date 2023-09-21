@@ -65,14 +65,10 @@ export async function FetchUsersHistories(
   }
 
   try {
-    const url = qs.stringifyUrl({
-      url: "/api/users/histories",
-      query: {
-        gte: dateRange.from.toDateString(),
-        lte: addDays(dateRange.to, 1).toDateString(),
-      },
-    });
-    const res = await axios.get(url);
+    const url = "/api/users/histories";
+    const gte = dateRange.from.toDateString();
+    const lte = addDays(dateRange.to, 1).toDateString();
+    const res = await axios.post(url, { gte, lte });
     if (res.data) {
       return res.data;
     }

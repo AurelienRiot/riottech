@@ -23,3 +23,10 @@ export function isWindowSmallerThan(windowSize: number) {
 
   return window.innerWidth < windowSize;
 }
+
+export function isMobile() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  return navigator.userAgent.indexOf("Mobile") !== -1;
+}

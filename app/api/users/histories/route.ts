@@ -3,14 +3,16 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    const { searchParams } = new URL(req.url);
-    const gte = searchParams.get("gte");
-    const lte = searchParams.get("lte");
+    // const { searchParams } = new URL(req.url);
+    // const gte = searchParams.get("gte");
+    // const lte = searchParams.get("lte");
 
+    const body = await req.json();
+    const { gte, lte } = body;
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });
     }
