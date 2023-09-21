@@ -1,25 +1,44 @@
+import NavBar from "@/components/navbar-public/navbar";
 import ButtonBackward from "@/components/ui/button-backward";
+import GetCategories from "@/server-actions/get-categories";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import { Fira_Mono } from "next/font/google";
 
-const NotFound = () => {
-  return ( 
-    <div className="grid h-screen px-4 bg-primary-foreground place-content-center">
-  <div className="text-center">
-    <h1 className="font-black text-gray-200 text-9xl dark:text-gray-700">404</h1>
+const FiraMono = Fira_Mono({ weight: "400", subsets: ["latin"] });
 
-    <p
-      className="text-2xl font-bold tracking-tight text-primary"
-    >
-      Erreur
-    </p>
+const NotFound = async () => {
+  const session = await getServerSession(authOptions);
+  const categories = await GetCategories();
+  return (
+    <div>
+      <NavBar role={session?.user?.role} categories={categories} />
+      <div className="grid h-screen px-4 bg-primary-foreground place-content-center">
+        <div className="text-center">
+          <p className="text-2xl font-bold tracking-tight text-primary">
+            Erreur
+          </p>
 
-    <p className="mt-4 mb-4 text-gray-500 dark:text-gray-400">
-      Page introuvable.
-    </p>
+          <h1
+            className={`font-black text-primary tracking-[-15px] text-9xl ${FiraMono.className} animate-[glitch_1s_linear_infinite] 
+          before:clip-path-polygon-[0_0,_100%_0,_100%_33%,_0_33%]
+          before:animate-[glitch-top_1s_linear_.5s_infinite] before:content-['404'] before:absolute before:left-0
+          after:animate-[glitch-bottom_1s_linear_infinite] after:content-['404'] after:absolute after:left-0
+          after:clip-path-polygon-[0_67%,_100%_67%,_100%_100%,_0_100%]
+          `}
+          >
+            404
+          </h1>
 
-    <ButtonBackward />
-  </div>
-</div>
-   );
-}
- 
+          <p className="mt-4 mb-4 text-gray-500 dark:text-gray-400">
+            Page introuvable.
+          </p>
+
+          <ButtonBackward />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default NotFound;

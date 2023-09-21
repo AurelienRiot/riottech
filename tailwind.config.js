@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      transitionDuration: {
+        2000: "2000ms",
+        5000: "5000ms",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(var(--tw-gradient-stops))",
@@ -97,6 +101,10 @@ module.exports = {
             transform: "translate(-22px, 5px) skew(21deg)",
           },
         },
+        "load-bar": {
+          "0%": { width: "25%", left: "-25%" },
+          "100%": { width: "25%", left: "100%" },
+        },
         "accordion-down": {
           from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -137,12 +145,16 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
+
         "checkbox-in": "reveal-in .2s ease-out .2s forwards",
         "checkbox-out": "reveal-out .2s ease-out forwards",
         "checkbox-bg-in": "bg-to-primary .2s ease-out forwards",
         "checkbox-bg-out": "bg-to-transparent .2s ease-out .2s forwards",
+
+        "load-bar": "load-bar 1s linear infinite",
       },
     },
   },
