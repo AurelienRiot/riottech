@@ -1,14 +1,11 @@
 import GetProduct from "@/server-actions/get-product";
 import GetProducts from "@/server-actions/get-products";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { metadata } from "@/app/layout";
 import NotFound from "@/app/not-found";
 import Gallery from "@/components/gallery";
 import Info from "@/components/info";
 import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
 import { Metadata } from "next";
-import { getServerSession } from "next-auth";
 
 interface ProductPageProps {
   params: {
@@ -37,9 +34,6 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
     categoryId: product?.category?.id,
   });
 
-  const session = await getServerSession(authOptions);
-  const isPro = session?.user?.isPro ?? false;
-
   return (
     <div className="gb-white">
       <Container>
@@ -47,15 +41,11 @@ const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
           <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
             <Gallery images={product.images} />
             <div className="px-4 mt-10 sm:mt-16 sm:px-0 lg:mt-0">
-              <Info data={product} isPro={isPro} />
+              <Info data={product} />
             </div>
           </div>
           <hr className="my-10" />
-          <ProductList
-            title="Produits Similaires"
-            items={suggestedProducts}
-            isPro={isPro}
-          />
+          <ProductList title="Produits Similaires" items={suggestedProducts} />
         </div>
       </Container>
     </div>

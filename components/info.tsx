@@ -11,10 +11,9 @@ import { ProductWithCategoryAndImages } from "@/types";
 
 interface InfoProps {
   data: ProductWithCategoryAndImages;
-  isPro: boolean;
 }
 
-const Info: React.FC<InfoProps> = ({ data, isPro }) => {
+const Info: React.FC<InfoProps> = ({ data }) => {
   const cart = useCart();
 
   const value = Number(data.priceHT);

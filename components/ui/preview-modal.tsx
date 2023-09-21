@@ -4,15 +4,12 @@ import usePreviewModal from "@/hooks/use-preview-modal";
 import Modal from "@/components/ui/modal";
 import Gallery from "@/components/gallery";
 import Info from "@/components/info";
-import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 const PreviewModal = () => {
   const previewModal = usePreviewModal();
   const product = usePreviewModal((state) => state.data);
-  const { data: session } = useSession();
-  const isPro = session?.user?.isPro ?? false;
   const pathname = usePathname();
   const { onClose } = previewModal;
 
@@ -31,7 +28,7 @@ const PreviewModal = () => {
           <Gallery images={product.images} />
         </div>
         <div className="sm:col-span-8 lg:col-span-7">
-          <Info data={product} isPro={isPro} />
+          <Info data={product} />
         </div>
       </div>
     </Modal>

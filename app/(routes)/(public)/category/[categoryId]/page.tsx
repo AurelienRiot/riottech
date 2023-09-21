@@ -1,11 +1,9 @@
 import GetCategory from "@/server-actions/get-category";
 import GetProducts from "@/server-actions/get-products";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Billboard from "@/components/billboard";
 import Container from "@/components/ui/container";
 import NoResults from "@/components/ui/no-results";
 import ProductCart from "@/components/ui/product-cart";
-import { getServerSession } from "next-auth";
 import NotFound from "@/app/not-found";
 import { Metadata } from "next";
 
@@ -36,9 +34,6 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
     categoryId: params.categoryId,
   });
 
-  const session = await getServerSession(authOptions);
-  const isPro = session?.user?.isPro ?? false;
-
   return (
     <div>
       <Container>
@@ -49,7 +44,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
               {products.length === 0 && <NoResults />}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-clos-4 lg:grid-cols-5">
                 {products.map((item) => (
-                  <ProductCart key={item.id} data={item} isPro={isPro} />
+                  <ProductCart key={item.id} data={item} />
                 ))}
               </div>
             </div>
