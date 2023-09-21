@@ -12,8 +12,8 @@ import qs from "query-string";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import Loading from "../../loading";
-import { GetUsersHistories, UserClient } from "../page";
 import { addDays } from "date-fns";
+import { GetUsersHistories, UsersHistories } from "@/actions/get";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -41,7 +41,7 @@ export const HistoryTable = ({
         },
       });
       const res = await axios.get(url);
-      const users: UserClient[] = res.data;
+      const users: UsersHistories[] = res.data;
 
       const histories = GetUsersHistories(users);
       setData(histories);
