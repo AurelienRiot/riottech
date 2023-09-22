@@ -21,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <AuthProviders>
-        <body className={`${inter.className} debug-screens `}>
+        <body
+          className={`${inter.className} debug-screens selection:bg-green-300 dark:selection:bg-green-700`}
+        >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {" "}
             <ToasterProvider />
