@@ -17,6 +17,10 @@ module.exports = {
       },
     },
     extend: {
+      boxShadow: {
+        "2xl":
+          "0 25px 50px -12px rgb(0 0 0 / 0.25), 0 20px 25px -10px rgb(0 0 0 / 0.25)",
+      },
       transitionDuration: {
         2000: "2000ms",
         5000: "5000ms",

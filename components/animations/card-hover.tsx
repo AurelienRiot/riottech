@@ -11,7 +11,7 @@ type CardHoverProps = {
 const CardHover = ({ image, text, title, link }: CardHoverProps) => {
   return (
     <>
-      <div className="m-0 flex items-center justify-center p-0">
+      <div className="m-0 flex items-center justify-center p-0 -mb-40">
         <div className=" relative flex justify-between">
           <div className="group relative cursor-pointer">
             <div
@@ -27,7 +27,7 @@ const CardHover = ({ image, text, title, link }: CardHoverProps) => {
                   className="max-w-[100px] self-center"
                 />
                 <h3
-                  className="mx-0 mb-0 mt-2.5 p-0 text-center text-[1.5em] text-white self-center
+                  className="mx-0 mb-0 mt-2.5 p-0 text-center text-[1.5em] text-green-600 group-hover:text-white transition-colors duration-500 self-center
 "
                 >
                   {title}
