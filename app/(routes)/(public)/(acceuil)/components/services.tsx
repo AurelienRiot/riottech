@@ -136,7 +136,7 @@ const ServicePage = () => {
           vidéo et de connectivité en milieu rurale et agricole
         </VisibleElement>
 
-        <div className="flex flex-wrap justify-evenly w-full sm:gap-4  gap-0  px-6 py-10">
+        <div className="flex flex-wrap justify-evenly w-full sm:gap-0  gap-20  px-6 py-10">
           <CardHover
             link="/solution-internet"
             image="/levels-of-connection.png"
