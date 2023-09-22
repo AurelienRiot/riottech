@@ -51,11 +51,11 @@ const DemoCamPage = () => {
               Voici un exemple de caméra RIOT TECH installée dans un élevage :
             </p>
           </div>
-          <div className="relative flex overflow-hidden">
+          <div className="relative flex overflow-hidden rounded-lg shadow-lg">
             <Image
               src="/camera_batiment.jpeg"
               alt="Exemple de caméra RIOT TECH installée dans un élevage"
-              className="transition-all rounded-lg shadow-lg hover:scale-105"
+              className="transition-all rounded-lg shadow-lg hover:scale-110 duration-500"
               width={512}
               height={384}
             />
