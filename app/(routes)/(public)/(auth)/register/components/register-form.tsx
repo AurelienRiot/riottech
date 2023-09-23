@@ -130,20 +130,23 @@ export const RegisterForm = () => {
   const onSubmit = async (data: RegisterFormValues) => {
     setLoading(true);
     try {
-      const valideVat = await GetValideVat(data.tva);
-      if (!valideVat && data.tva) {
-        toast.error(
-          "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
-        );
-        return;
-      }
-      data.isPro = Boolean(valideVat);
-
-      if (isPro && !data.raisonSocial) {
-        toast.error(
-          "Veuillez renseigner la raison sociale ou passer en particulier."
-        );
-        return;
+      if (isPro) {
+        if (!data.raisonSocial) {
+          toast.error(
+            "Veuillez renseigner la raison sociale ou passer en particulier."
+          );
+          return;
+        }
+        const valideVat = await GetValideVat(data.tva);
+        if (!valideVat) {
+          toast.error(
+            "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
+          );
+          return;
+        }
+        data.isPro = Boolean(valideVat);
+      } else {
+        data.isPro = false;
       }
 
       data.adresse = JSON.stringify({
@@ -217,6 +220,7 @@ export const RegisterForm = () => {
               onClick={(e) => {
                 e.preventDefault();
                 setIsPro(false);
+                form.setValue("tva", "");
               }}
               className={
                 !isPro
