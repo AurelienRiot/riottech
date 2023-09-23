@@ -99,6 +99,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const isAdresse = Boolean(JSON.parse(user.adresse).label);
+
     const sessionStripe = await stripe.checkout.sessions.create({
       line_items,
       mode: "payment",
@@ -106,8 +108,8 @@ export async function POST(req: NextRequest) {
         enabled: true,
       },
       customer: session.user.stripeCustomerId,
-      customer_update: { name: "never", address: "never" },
-      billing_address_collection: "auto",
+      customer_update: { name: "never", address: isAdresse ? "never" : "auto" },
+      billing_address_collection: isAdresse ? "auto" : "required",
       payment_method_types: ["card"],
       phone_number_collection: {
         enabled: false,

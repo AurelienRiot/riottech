@@ -5,8 +5,10 @@ import { Suspense } from "react";
 import Loading from "@/components/loading";
 
 const VideoAccueil = ({ name }: { name: string | undefined | null }) => {
-  let { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, (value) => `-${value}px`);
+  const { scrollYProgress, scrollY } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // const y = useTransform(scrollY, [0, 1], [0, 1], { clamp: false });
 
   // const Video = () => {
   //   return (

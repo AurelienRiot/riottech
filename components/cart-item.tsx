@@ -60,7 +60,7 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
           </div>
           <Currency value={value} /> <br />
           <div className="flex gap-2 sm:flex-col items-left ">
-            Quantité :
+            Quantité:
             <div className="flex items-center gap-2">
               <IconButton
                 className="w-5 h-5 p-0.5 bg-primary-foreground  "

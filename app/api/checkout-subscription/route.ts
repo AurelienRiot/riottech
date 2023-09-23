@@ -65,9 +65,7 @@ export async function POST(req: NextRequest) {
               sim: sim,
             },
           },
-          unit_amount: Math.floor(
-            Number((subscription.priceHT * taxe).toFixed(2)) * 100
-          ),
+          unit_amount: Number(subscription.priceHT.toFixed(2)) * 100,
           recurring: {
             interval: "day",
           },
@@ -84,9 +82,7 @@ export async function POST(req: NextRequest) {
 
             name: "Frais d'activation",
           },
-          unit_amount: Math.floor(
-            Number((subscription.fraisActivation * taxe).toFixed(2)) * 100
-          ),
+          unit_amount: Number(subscription.fraisActivation.toFixed(2)) * 100,
         },
       });
     } else {
@@ -120,6 +116,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const isAdresse = Boolean(JSON.parse(user.adresse).label);
+
     const sessionStripe = await stripe.checkout.sessions.create({
       line_items,
       mode: "subscription",
@@ -127,8 +125,11 @@ export async function POST(req: NextRequest) {
         enabled: true,
       },
       customer: session.user.stripeCustomerId,
-      customer_update: { name: "never", address: "never" },
-      billing_address_collection: "auto",
+      customer_update: {
+        name: "never",
+        address: isAdresse ? "never" : "auto",
+      },
+      billing_address_collection: isAdresse ? "auto" : "required",
       payment_method_types: ["sepa_debit", "card"],
       phone_number_collection: {
         enabled: false,

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import useCart from "@/hooks/use-cart";
 import { ShoppingBag, User2 } from "lucide-react";
 import { useEffect, useState } from "react";

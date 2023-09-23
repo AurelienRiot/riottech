@@ -53,7 +53,6 @@ export async function POST(req: Request) {
         chargeId = paymentIntent.latest_charge;
       }
 
-      console.log("chargeId :", chargeId);
       const order = await prismadb.order.findUnique({
         where: {
           id: orderId,
