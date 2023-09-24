@@ -27,7 +27,7 @@ const CardHover = ({ image, text, title, link }: CardHoverProps) => {
                   className="max-w-[100px] self-center"
                 />
                 <h3
-                  className="mx-0 mb-0 mt-2.5 p-0 text-center text-[1.5em] text-green-600 group-hover:text-white transition-all duration-500 self-center
+                  className="mx-0 font-FiraMono mb-0 mt-2.5 p-0 text-center text-[1.5em] text-green-600 group-hover:text-white transition-all duration-500 self-center
 "
                 >
                   {title}

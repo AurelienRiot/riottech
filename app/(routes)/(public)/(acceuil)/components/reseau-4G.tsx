@@ -153,16 +153,13 @@ const Reseau4GPage = () => {
             className="flex flex-col flex-auto p-4 group w-80 "
             id={String(feature.title)}
           >
-            <VisibleElement>
-              {" "}
-              <Image
-                width={100}
-                height={100}
-                src={feature.image}
-                alt={feature.altImage}
-                className="w-1/4 mx-auto mb-2"
-              />
-            </VisibleElement>
+            <Image
+              width={100}
+              height={100}
+              src={feature.image}
+              alt={feature.altImage}
+              className="w-1/4 mx-auto mb-2"
+            />
             <VisibleElement
               as="h2"
               className="relative justify-center mb-4 text-xl text-center text-primary"

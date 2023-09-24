@@ -4,7 +4,6 @@ import Link from "next/link";
 import MainNav from "@/components/navbar-public/main-nav";
 import NavbarAction from "@/components/navbar-public/navbar-actions";
 import MobileNav from "./mobile-nav";
-import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Category } from "@prisma/client";
@@ -22,7 +21,7 @@ const NavBar: React.FC<NavBarProps> = ({ role, categories }) => {
     const updateScrollDirection = () => {
       const scrollY = window.scrollY;
       const direction = scrollY > lastScrollY ? "down" : "up";
-      if (direction === "down" && scrollY > 85) {
+      if (direction === "down" && scrollY > 0) {
         setIsNavbar(false);
       } else {
         setIsNavbar(true);

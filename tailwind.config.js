@@ -17,6 +17,11 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        Inter: ["var(--font-inter)"],
+        FiraMono: ["var(--font-fira-mono)"],
+        Pacifico: ["var(--font-pacifico)"],
+      },
       boxShadow: {
         "2xl":
           "0 25px 50px -12px rgb(0 0 0 / 0.25), 0 20px 25px -10px rgb(0 0 0 / 0.25)",
