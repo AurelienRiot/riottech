@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
         const date = dateFormatter(new Date());
 
         await transporter.sendMail({
-          from: "contact@riottech.fr",
+          from: "facturation@riottech.fr",
           to: email,
           subject: "Votre facture RIOT TECH",
           html: render(
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
         const date = dateFormatter(new Date());
 
         await transporter.sendMail({
-          from: "contact@riottech.fr",
+          from: "facturation@riottech.fr",
           to: user?.email,
           subject: "Votre facture RIOT TECH",
           html: render(
