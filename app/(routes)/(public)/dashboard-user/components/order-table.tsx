@@ -24,6 +24,11 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
       router.replace("/dashboard-user");
       removeAll();
     }
+    if (searchParams.get("success-subscription")) {
+      toast.success("Paiement réussi.");
+      router.replace("/dashboard-user");
+      sessionStorage.setItem("activatedSim", "");
+    }
   }, [removeAll, searchParams, router]);
 
   return (
