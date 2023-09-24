@@ -5,7 +5,7 @@ import NavBar from "@/components/navbar-public/navbar";
 import ModalProvider from "@/providers/modal-provider";
 import { getServerSession } from "next-auth";
 import React from "react";
-import { IsProProvider } from "@/hooks/use-pro";
+import { IsProProvider } from "@/hooks/use-is-pro";
 
 export default async function PublicLayout({
   children,

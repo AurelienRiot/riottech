@@ -169,7 +169,6 @@ module.exports = {
   },
   plugins: [
     require("tailwindcss-animate"),
-    require("tailwindcss-debug-screens"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
     require("tailwind-clip-path"),

@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="fr">
       <AuthProviders>
         <body
-          className={`${inter.variable} ${firaMono.variable} ${pacifico.variable} font-Inter debug-screens selection:bg-green-300 dark:selection:bg-green-700`}
+          className={`${inter.variable} ${firaMono.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 `}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             {" "}

@@ -3,9 +3,6 @@ import ButtonBackward from "@/components/ui/button-backward";
 import GetCategories from "@/server-actions/get-categories";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
-import { Fira_Mono } from "next/font/google";
-
-const FiraMono = Fira_Mono({ weight: "400", subsets: ["latin"] });
 
 const NotFound = async () => {
   const session = await getServerSession(authOptions);
@@ -20,7 +17,7 @@ const NotFound = async () => {
           </p>
 
           <h1
-            className={`font-black text-primary tracking-[-15px] text-9xl ${FiraMono.className} animate-[glitch_1s_linear_infinite] 
+            className={`font-black text-primary tracking-[-15px] text-9xl font-FiraMono animate-[glitch_1s_linear_infinite] 
           before:clip-path-polygon-[0_0,_100%_0,_100%_33%,_0_33%]
           before:animate-[glitch-top_1s_linear_.5s_infinite] before:content-['404'] before:absolute before:left-0
           after:animate-[glitch-bottom_1s_linear_infinite] after:content-['404'] after:absolute after:left-0

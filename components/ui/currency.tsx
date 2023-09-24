@@ -1,13 +1,12 @@
 "use client";
 
-import { useIsProContext } from "@/hooks/use-pro";
+import { useIsProContext } from "@/hooks/use-is-pro";
 import { cn, formatter } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CurrencyProps {
   value: number;
-  taxtext?: string;
   className?: string;
   classNameLogo?: string;
   displayText?: boolean;
