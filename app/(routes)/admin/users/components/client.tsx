@@ -84,18 +84,15 @@ const UserClient: React.FC<UserClientProps> = ({
           </Select>
         </div>
         <div className="grid grid-cols-1 p-6 space-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-          {filteredUsers.map(
-            (user, index) =>
-              user.name !== "admin" && (
-                <div key={user.id} className="m-4">
-                  <CardUser
-                    user={user}
-                    subscriptionOrderLength={subscriptionOrderLengths[index]}
-                    orderLength={orderLengths[index]}
-                  />
-                </div>
-              )
-          )}
+          {filteredUsers.map((user, index) => (
+            <div key={user.id} className="m-4">
+              <CardUser
+                user={user}
+                subscriptionOrderLength={subscriptionOrderLengths[index]}
+                orderLength={orderLengths[index]}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </>

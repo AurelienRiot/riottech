@@ -16,6 +16,9 @@ const UserPage = async () => {
     to: to,
   };
   const allUsers = await prismadb.user.findMany({
+    where: {
+      role: "user",
+    },
     orderBy: {
       createdAt: "desc",
     },
