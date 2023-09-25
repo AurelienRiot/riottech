@@ -1,49 +1,44 @@
 "use client";
 
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import IconButton from "./icon-button";
-import { X } from "lucide-react";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface ModalProps {
-  open: boolean
-  onClose: () => void
-  children: React.ReactNode
+  title: string;
+  description: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children?: React.ReactNode;
+  className?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  open,
+export const Modal: React.FC<ModalProps> = ({
+  title,
+  description,
+  isOpen,
   onClose,
-  children
+  children,
+  className,
 }) => {
-
-
+  const onChange = (open: boolean) => {
+    if (!open) {
+      onClose();
+    }
+  };
   return (
-    <Transition show={open} appear as={Fragment}>
-      <Dialog as="div" className="relative z-30 mt-24" onClose={onClose}>
-        <div className="fixed inset-0 bg-black bg-opacity-60" />
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-full p-4 text-center">
-            <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-              <Dialog.Panel className="w-full max-w-3xl overflow-hidden text-left align-middle rounded-lg" >
-                <div className="relative flex items-center w-full px-4 pb-8 overflow-hidden shadow-2xl bg-background pt-14 sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                  <div className="absolute right-4 top-4 ">
-                    <IconButton className="bg-primary" onClick={onClose} icon={<X size={15} className="text-primary-foreground" />} />
-                  </div>
-                  {children}
-                </div>
-
-              </Dialog.Panel>
-
-            </Transition.Child>
-            
-          </div>
-        </div>
-      </Dialog>
-    </Transition>
+    <Dialog open={isOpen} onOpenChange={onChange}>
+      <DialogContent className={className}>
+        <DialogHeader>
+          <DialogTitle> {title} </DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <div>{children}</div>
+      </DialogContent>
+    </Dialog>
   );
 };
-
-export default Modal;

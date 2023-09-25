@@ -22,7 +22,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { Eye, EyeOff } from "lucide-react";
 import * as z from "zod";
 
 interface Suggestion {
@@ -523,7 +523,7 @@ export const RegisterForm = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         tabIndex={-1}
                       >
-                        {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                        {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>
@@ -555,7 +555,7 @@ export const RegisterForm = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         tabIndex={-1}
                       >
-                        {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                        {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>

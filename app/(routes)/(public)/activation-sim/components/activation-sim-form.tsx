@@ -40,25 +40,22 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const callbackUrl = `/activation-sim`;
-  const [sim, setSim] = useState("");
+  const [sim, setSim] = useState(
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("activatedSim") || ""
+      : ""
+  );
   const [selectedSubscription, setSelectedSubscription] =
     useState<Subscription | null>(null);
 
-  useEffect(() => {
+  if (typeof window !== "undefined") {
     if (searchParams.get("canceled")) {
       toast.error("Erreur de paiement.");
       router.replace(
         `/activation-sim?callbackUrl=${encodeURIComponent(callbackUrl)}`
       );
     }
-  }, [searchParams, router, callbackUrl]);
-
-  useEffect(() => {
-    setSim(sessionStorage.getItem("activatedSim") || "");
-    router.replace(
-      `/activation-sim?callbackUrl=${encodeURIComponent(callbackUrl)}`
-    );
-  }, [callbackUrl, router]);
+  }
 
   const form = useForm<SimSchema>({
     resolver: zodResolver(simSchema),
@@ -71,21 +68,20 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
     setLoading(true);
     sessionStorage.setItem("activatedSim", data.sim);
     setSim(data.sim);
-    await new Promise((r) => setTimeout(r, 100));
-    document.getElementById("commande")?.scrollIntoView({
-      behavior: "smooth",
-    });
-    setLoading(false);
-  };
 
-  useEffect(() => {
     const index = parseInt(sim[0]);
     if (index >= 0 && index < subscriptions.length) {
       setSelectedSubscription(subscriptions[index]);
     } else {
       setSelectedSubscription(subscriptions[0]);
     }
-  }, [subscriptions, sim]);
+
+    await new Promise((r) => setTimeout(r, 100));
+    document.getElementById("commande")?.scrollIntoView({
+      behavior: "smooth",
+    });
+    setLoading(false);
+  };
 
   return (
     <>

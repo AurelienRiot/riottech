@@ -56,7 +56,7 @@ export const SubscriptionOrderCellAction: React.FC<
         isActive: data.isActive === "oui" ? false : true,
       });
       router.refresh();
-      toast.success("Order updated.");
+      toast.success("Abonnement mis à jour.");
     } catch (error) {
       toast.error("Something Went wrong");
     } finally {

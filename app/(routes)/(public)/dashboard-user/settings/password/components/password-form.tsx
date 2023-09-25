@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { Eye, EyeOff } from "lucide-react";
 import ButtonBackward from "@/components/ui/button-backward";
 
 const formSchema = z
@@ -120,7 +120,7 @@ export const PasswordForm = () => {
                         onClick={() => setShowPassword(!showPassword)}
                         tabIndex={-1}
                       >
-                        {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                        {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>
@@ -147,11 +147,7 @@ export const PasswordForm = () => {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         tabIndex={-1}
                       >
-                        {showNewPassword ? (
-                          <AiFillEyeInvisible />
-                        ) : (
-                          <AiFillEye />
-                        )}
+                        {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>
@@ -178,11 +174,7 @@ export const PasswordForm = () => {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         tabIndex={-1}
                       >
-                        {showNewPassword ? (
-                          <AiFillEyeInvisible />
-                        ) : (
-                          <AiFillEye />
-                        )}
+                        {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>

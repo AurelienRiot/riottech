@@ -12,11 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import * as z from "zod";
 
 interface ResetPasswordProps {
@@ -109,11 +109,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           onClick={() => setShowPassword(!showPassword)}
                           tabIndex={-1}
                         >
-                          {showPassword ? (
-                            <AiFillEyeInvisible />
-                          ) : (
-                            <AiFillEye />
-                          )}
+                          {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
                     </FormControl>
@@ -142,11 +138,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           onClick={() => setShowPassword(!showPassword)}
                           tabIndex={-1}
                         >
-                          {showPassword ? (
-                            <AiFillEyeInvisible />
-                          ) : (
-                            <AiFillEye />
-                          )}
+                          {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
                     </FormControl>
