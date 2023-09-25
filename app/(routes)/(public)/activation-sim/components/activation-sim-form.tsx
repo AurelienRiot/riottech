@@ -64,17 +64,19 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
     },
   });
 
-  const onSubmit = async (data: SimSchema) => {
-    setLoading(true);
-    sessionStorage.setItem("activatedSim", data.sim);
-    setSim(data.sim);
-
+  useEffect(() => {
     const index = parseInt(sim[0]);
     if (index >= 0 && index < subscriptions.length) {
       setSelectedSubscription(subscriptions[index]);
     } else {
       setSelectedSubscription(subscriptions[0]);
     }
+  }, [subscriptions, sim]);
+
+  const onSubmit = async (data: SimSchema) => {
+    setLoading(true);
+    sessionStorage.setItem("activatedSim", data.sim);
+    setSim(data.sim);
 
     await new Promise((r) => setTimeout(r, 100));
     document.getElementById("commande")?.scrollIntoView({

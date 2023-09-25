@@ -18,7 +18,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
   const router = useRouter();
   const removeAll = useCart((state) => state.removeAll);
 
-  useEffect(() => {
+  if (typeof window !== "undefined") {
     if (searchParams.get("success-order")) {
       toast.success("Paiement réussi.");
       router.replace("/dashboard-user");
@@ -29,7 +29,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
       router.replace("/dashboard-user");
       sessionStorage.setItem("activatedSim", "");
     }
-  }, [removeAll, searchParams, router]);
+  }
 
   return (
     <>

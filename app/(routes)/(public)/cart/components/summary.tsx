@@ -20,12 +20,12 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
 
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
+  if (typeof window !== "undefined") {
     if (searchParams.get("canceled")) {
       toast.error("Erreur de paiement.");
       router.replace("/cart");
     }
-  }, [searchParams, router]);
+  }
 
   useEffect(() => {
     setIsMounted(true);
