@@ -45,6 +45,7 @@ const useCart = create(
         quantities[id]--;
         if (quantities[id] === 0) {
           set({ items: [...get().items.filter((item) => item.id !== id)] });
+          toast.success("Produit retiré du panier");
         } else {
           set({ quantities });
         }
@@ -57,6 +58,7 @@ const useCart = create(
           items: [...get().items.filter((item) => item.id !== id)],
           quantities,
         });
+        toast.success("Produit retiré du panier");
       },
 
       removeAll: () => {

@@ -338,7 +338,12 @@ export const RegisterForm = () => {
                   </FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input disabled={loading} placeholder="Nom" {...field} />
+                      <Input
+                        disabled={loading}
+                        placeholder="Nom"
+                        {...field}
+                        autoComplete="family-name"
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -361,6 +366,7 @@ export const RegisterForm = () => {
                         disabled={loading}
                         placeholder="prénom"
                         {...field}
+                        autoComplete="given-name"
                       />
                     </div>
                   </FormControl>
@@ -386,6 +392,7 @@ export const RegisterForm = () => {
                         disabled={loading}
                         placeholder="exemple@email.com"
                         {...field}
+                        autoComplete="email"
                       />
                     </div>
                   </FormControl>
@@ -407,6 +414,7 @@ export const RegisterForm = () => {
                         disabled={loading}
                         placeholder="06 23 39 94 39"
                         {...field}
+                        autoComplete="tel"
                       />
                     </div>
                   </FormControl>
@@ -441,6 +449,7 @@ export const RegisterForm = () => {
                         {...field}
                         value={query}
                         onChange={handleChange}
+                        autoComplete="address-line1"
                       />
                       {line1 && (
                         <div className="flex flex-col gap-1 mt-2">
@@ -517,6 +526,7 @@ export const RegisterForm = () => {
                         placeholder="*********"
                         {...field}
                         type={showPassword ? "text" : "password"}
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"
@@ -549,6 +559,7 @@ export const RegisterForm = () => {
                         placeholder="*********"
                         {...field}
                         type={showPassword ? "text" : "password"}
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"

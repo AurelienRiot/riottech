@@ -114,6 +114,7 @@ export const PasswordForm = () => {
                         placeholder="**********"
                         {...field}
                         type={showPassword ? "text" : "password"}
+                        autoComplete="current-password"
                       />
                       <button
                         type="button"
@@ -141,6 +142,7 @@ export const PasswordForm = () => {
                         placeholder="**********"
                         {...field}
                         type={showNewPassword ? "text" : "password"}
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"
@@ -168,6 +170,7 @@ export const PasswordForm = () => {
                         placeholder="**********"
                         {...field}
                         type={showNewPassword ? "text" : "password"}
+                        autoComplete="new-password"
                       />
                       <button
                         type="button"

@@ -80,6 +80,7 @@ const ResetPasswordForm = () => {
                           autoCapitalize="off"
                           disabled={loading}
                           placeholder="exemple@email.com"
+                          autoComplete="email"
                           {...field}
                         />
                       </div>

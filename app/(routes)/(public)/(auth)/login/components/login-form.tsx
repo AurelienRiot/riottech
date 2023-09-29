@@ -89,6 +89,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                         disabled={loading}
                         placeholder="exemple@email.com"
                         {...field}
+                        autoComplete="email"
                       />
                     </div>
                   </FormControl>
@@ -112,6 +113,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                           placeholder="*********"
                           {...field}
                           type={showPassword ? "text" : "password"}
+                          autoComplete="current-password"
                         />
                         <button
                           type="button"

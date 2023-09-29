@@ -21,7 +21,6 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
 
   const onRemove = () => {
     cart.removeItem(data.id);
-    toast.success("Produit retiré du panier");
   };
 
   const handleIncrement = () => {

@@ -2,14 +2,14 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="border-t bg-background">
+    <footer className="border-t bg-background/90">
       <div className="pt-10 pb-2 mx-auto">
         <p className="text-xs text-center text-primary">
           &copy; 2023 Riot Tech, Inc All right reserved.
         </p>
       </div>
       <nav>
-        <ul className="flex flex-col justify-center gap-6 pt-2 mb-6 text-center sm:flex-row text-muted-foreground ">
+        <ul className="flex flex-col justify-center gap-6 pt-2 pb-6 text-center sm:flex-row text-muted-foreground ">
           <li>
             <Link
               href="/mention-legal"

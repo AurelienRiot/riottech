@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { SearchNav } from "./search-nav";
 import { BsSim } from "react-icons/bs";
-import { LucidePhoneCall, StoreIcon, User2 } from "lucide-react";
+import { LucidePhoneCall, StoreIcon } from "lucide-react";
 import { BiCctv } from "react-icons/bi";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import { Suspense, useEffect, useState } from "react";

@@ -103,6 +103,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           placeholder="*********"
                           {...field}
                           type={showPassword ? "text" : "password"}
+                          autoComplete="new-password"
                         />
                         <button
                           type="button"
@@ -132,6 +133,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           placeholder="*********"
                           {...field}
                           type={showPassword ? "text" : "password"}
+                          autoComplete="new-password"
                         />
                         <button
                           type="button"

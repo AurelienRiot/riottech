@@ -123,15 +123,18 @@ module.exports = {
           to: { height: 0 },
         },
         "collapsible-down": {
-          from: { height: 0, opacity: 0 },
-          to: { height: "var(--radix-collapsible-content-height)", opacity: 1 },
+          from: { maxHeight: 0, opacity: 0 },
+          to: {
+            maxHeight: "var(--radix-collapsible-content-height)",
+            opacity: 1,
+          },
         },
         "collapsible-up": {
           from: {
-            height: "var(--radix-collapsible-content-height)",
+            maxHeight: "var(--radix-collapsible-content-height)",
             opacity: 1,
           },
-          to: { height: 0, opacity: 0 },
+          to: { maxHeight: 0, opacity: 0 },
         },
         "reveal-in": {
           "0%": { width: "0%", color: "hsl(var(--primary-foreground))" },
@@ -155,8 +158,8 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
 
-        "collapsible-down": "collapsible-down 0.2s ease-out",
-        "collapsible-up": "collapsible-up 0.2s ease-out",
+        "collapsible-down": "collapsible-down 0.2s ease-out ",
+        "collapsible-up": "collapsible-up 0.2s ease-out ",
 
         "checkbox-in": "reveal-in .2s ease-out .2s forwards",
         "checkbox-out": "reveal-out .2s ease-out forwards",

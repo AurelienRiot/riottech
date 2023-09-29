@@ -1,15 +1,13 @@
 import NavBar from "@/components/navbar-public/navbar";
 import ButtonBackward from "@/components/ui/button-backward";
-import GetCategories from "@/server-actions/get-categories";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
 const NotFound = async () => {
   const session = await getServerSession(authOptions);
-  const categories = await GetCategories();
   return (
     <div>
-      <NavBar role={session?.user?.role} categories={categories} />
+      <NavBar role={session?.user?.role} />
       <div className="grid h-screen px-4 bg-primary-foreground place-content-center">
         <div className="text-center">
           <p className="text-2xl font-bold tracking-tight text-primary">

@@ -18,7 +18,6 @@ const GridCells = ({
       )
     );
     setGrid(newGrid);
-    console.log(`Clicked on cell ${rowIndex + 1}, ${colIndex + 1}`);
   };
 
   return (

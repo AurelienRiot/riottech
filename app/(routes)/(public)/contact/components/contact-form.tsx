@@ -116,7 +116,12 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                 <FormItem>
                   <FormLabel>{"Nom/Prénom ou nom d'entreprise :"}</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Nom" {...field} />
+                    <Input
+                      disabled={loading}
+                      placeholder="Nom"
+                      {...field}
+                      autoComplete="name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,6 +139,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                         disabled={loading}
                         placeholder="exemple@mail.com"
                         {...field}
+                        autoComplete="email"
                       />
                     </div>
                   </FormControl>
@@ -153,6 +159,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                         disabled={loading}
                         placeholder="06 29 19 29 10"
                         {...field}
+                        autoComplete="tel"
                       />
                     </div>
                   </FormControl>

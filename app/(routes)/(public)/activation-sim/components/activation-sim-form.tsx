@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { SelectSubscription } from "./select-subscription";
 import { Subscription } from "@prisma/client";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 const simSchema = z.object({
   sim: z.string().refine((value) => /^\d{19}$/.test(value), {
@@ -40,11 +41,8 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const callbackUrl = `/activation-sim`;
-  const [sim, setSim] = useState(
-    typeof window !== "undefined"
-      ? sessionStorage.getItem("activatedSim") || ""
-      : ""
-  );
+  const { getValue, setValue } = useLocalStorage("activatedSim");
+  const [sim, setSim] = useState(getValue() ?? "");
   const [selectedSubscription, setSelectedSubscription] =
     useState<Subscription | null>(null);
 
@@ -75,7 +73,7 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
 
   const onSubmit = async (data: SimSchema) => {
     setLoading(true);
-    sessionStorage.setItem("activatedSim", data.sim);
+    setValue(data.sim);
     setSim(data.sim);
 
     await new Promise((r) => setTimeout(r, 100));

@@ -18,7 +18,7 @@ export function ThemeToggle() {
           size="icon"
           title="light theme"
         >
-          <SunIcon className=" absolute h-[1.2rem] w-[1.2rem] " />
+          <SunIcon className=" absolute h-6 w-6  " />
         </Button>
       ) : (
         <Button
@@ -27,7 +27,7 @@ export function ThemeToggle() {
           size="icon"
           title="dark theme"
         >
-          <MoonIcon className="absolute h-[1.2rem] w-[1.2rem]  " />
+          <MoonIcon className="absolute  h-6 w-6   " />
         </Button>
       )}
       <span className="sr-only w-0">Toggle theme</span>
