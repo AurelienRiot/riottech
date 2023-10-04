@@ -32,6 +32,7 @@ import {
   StoreIcon,
   User2,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -40,18 +41,15 @@ import { BiCctv } from "react-icons/bi";
 import { BsSim } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { RiAlarmWarningLine } from "react-icons/ri";
+import Magnetic from "./magnetic";
 
-type NavigationsProps = {
-  role: string | undefined;
-};
-
-const Navigations = ({ role }: NavigationsProps) => {
-  const { categories } = useCategories();
+const Navigations = () => {
+  const { data: session } = useSession();
   return (
     <>
       <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-50  items-center">
         <div className="flex h-auto gap-2 p-2 bg-primary-foreground w-[180px] rounded-lg justify-center items-center">
-          <Nav categories={categories} />
+          <Nav />
           <Link href={"/"} className="flex justify-center items-center gap-2">
             <div className="h-8 w-8 relative">
               <Image
@@ -68,16 +66,20 @@ const Navigations = ({ role }: NavigationsProps) => {
         </div>
 
         <div className="flex gap-2 ">
-          {role ? (
-            <Link
-              href={role === "admin" ? "/admin" : "/dashboard-user"}
-              className="group flex items-center justify-center rounded-full border bg-primary-foreground p-2 text-primary shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
-            >
-              <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " />
-            </Link>
-          ) : (
-            <LoginButton className="bg-primary-foreground hover:bg-accent hover:text-accent-foreground text-primary" />
-          )}
+          <Magnetic>
+            {session?.user ? (
+              <Link
+                href={
+                  session.user.role === "admin" ? "/admin" : "/dashboard-user"
+                }
+                className="group flex items-center justify-center rounded-full border bg-primary-foreground p-2 text-primary shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+              >
+                <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " />
+              </Link>
+            ) : (
+              <LoginButton className="bg-primary-foreground hover:bg-accent hover:text-accent-foreground text-primary" />
+            )}
+          </Magnetic>
 
           {/* <ThemeToggle /> */}
           <Cart />
@@ -89,8 +91,9 @@ const Navigations = ({ role }: NavigationsProps) => {
 
 export default Navigations;
 
-const Nav = ({ categories }: { categories: Category[] }) => {
+const Nav = () => {
   const pathname = usePathname();
+  const { categories } = useCategories();
 
   const categoriesRoutes = categories.map((route) => ({
     href: `/category/${route.id}`,

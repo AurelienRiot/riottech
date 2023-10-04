@@ -1,7 +1,5 @@
 import NoResults from "./ui/no-results";
 import ProductCart from "./ui/product-cart";
-import { Suspense } from "react";
-import Loading from "@/components/loading";
 import { VisibleElement } from "./animations/visible-element";
 import { ProductWithCategoryAndImages } from "@/types";
 
@@ -20,9 +18,7 @@ const ProductList: React.FC<ProductListProps> = ({ title, items }) => {
       {items.length === 0 && <NoResults />}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {items.map((item) => (
-          <Suspense fallback={<Loading />} key={item.id}>
-            <ProductCart data={item} />
-          </Suspense>
+          <ProductCart data={item} key={item.id} />
         ))}
       </div>
     </div>

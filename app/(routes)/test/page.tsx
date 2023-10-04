@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Navigations from "./components/navigations";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import GetCategories from "@/server-actions/get-categories";
 import { IsProProvider } from "@/hooks/use-is-pro";
 import { CategoriesProvider } from "@/providers/categories-provider";
+import MouseHover from "./components/mouse-hover";
+import MouseSticky from "./components/mouse-sticky";
+import MouseSticky2 from "./components/mouse-sticky2";
 
 const HomePage = async () => {
-  const session = await getServerSession(authOptions);
   const categories = await GetCategories();
 
   return (
@@ -20,10 +20,10 @@ const HomePage = async () => {
           alt="image background"
           width={1920}
           height={1080}
-          className="fixed top-0 -z-10 left-0 object-cover object-center h-screen"
+          className="fixed top-0 -z-10 left-0 object-cover object-center h-screen w-screen"
         />
 
-        <Navigations role={session?.user?.role} />
+        <Navigations />
         <div className=" relative h-screen bg-red-500/50 w-full ">
           <div className="absolute  flex flex-col w-11/12 sm:w-4/5 lg:w-2/3 xl:w-1/2 gap-2 top-1/4 left-1/2 -translate-x-1/2  bg-primary-foreground/80 sm:p-4 p-2 rounded-lg ">
             <h1 className="text-center text-5xl ">
@@ -36,7 +36,15 @@ const HomePage = async () => {
             </p>
           </div>
         </div>
-        <div className="h-screen bg-green-500/50 w-full"></div>
+        <div className="h-screen bg-green-600/90 w-full">
+          <MouseHover />
+        </div>
+        <div className="h-screen bg-white/90 w-full  ">
+          <MouseSticky />
+        </div>
+        <div className="h-screen bg-blue-600/90 w-full  cursor-none  ">
+          <MouseSticky2 />
+        </div>
       </div>
     </IsProProvider>
   );

@@ -1,13 +1,13 @@
-import { Category } from "@prisma/client";
+import { CategoryWithBillboard } from "@/types";
 import { create } from "zustand";
 
 type CategoriesStore = {
-  categories: Category[];
-  addCategories: (categories: Category[]) => void;
+  categories: CategoryWithBillboard[];
+  addCategories: (categories: CategoryWithBillboard[]) => void;
 };
 
 export const useCategories = create<CategoriesStore>((set) => ({
   categories: [],
-  addCategories: (categories: Category[]) =>
+  addCategories: (categories: CategoryWithBillboard[]) =>
     set((state) => ({ categories: categories })),
 }));

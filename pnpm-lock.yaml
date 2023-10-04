@@ -105,8 +105,8 @@ dependencies:
     specifier: ^10.16.4
     version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
   lucide-react:
-    specifier: ^0.279.0
-    version: 0.279.0(react@18.2.0)
+    specifier: ^0.282.0
+    version: 0.282.0(react@18.2.0)
   moment:
     specifier: ^2.29.4
     version: 2.29.4
@@ -136,7 +136,7 @@ dependencies:
     version: 18.2.0
   react-apexcharts:
     specifier: ^1.4.1
-    version: 1.4.1(apexcharts@3.42.0)(react@18.2.0)
+    version: 1.4.1(apexcharts@3.43.0)(react@18.2.0)
   react-day-picker:
     specifier: ^8.8.2
     version: 8.8.2(date-fns@2.30.0)(react@18.2.0)
@@ -180,8 +180,8 @@ dependencies:
     specifier: ^0.6.2
     version: 0.6.2
   zod:
-    specifier: 3.22.2
-    version: 3.22.2
+    specifier: 3.21.4
+    version: 3.21.4
   zustand:
     specifier: ^4.4.1
     version: 4.4.1(@types/react@18.2.23)(react@18.2.0)
@@ -191,8 +191,8 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0
   '@types/node':
-    specifier: ^20.7.2
-    version: 20.7.2
+    specifier: ^20.8.0
+    version: 20.8.0
   '@types/nodemailer':
     specifier: ^6.4.11
     version: 6.4.11
@@ -2243,7 +2243,7 @@ packages:
   /@types/bcrypt@5.0.0:
     resolution: {integrity: sha512-agtcFKaruL8TmcvqbndlqHPSJgsolhf/qPWchFlgnW1gECTN/nKbFcoFnvKAQRFfKbh+BO6A3SWdJu9t+xF3Lw==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
     dev: true
 
   /@types/debug@4.1.8:
@@ -2272,13 +2272,13 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: false
 
-  /@types/node@20.7.2:
-    resolution: {integrity: sha512-RcdC3hOBOauLP+r/kRt27NrByYtDjsXyAuSbR87O6xpsvi763WI+5fbSIvYJrXnt9w4RuxhV6eAXfIs7aaf/FQ==}
+  /@types/node@20.8.0:
+    resolution: {integrity: sha512-LzcWltT83s1bthcvjBmiBvGJiiUe84NWRHkw+ZV6Fr41z2FbIzvc815dk2nQ3RAKMuN2fkenM/z3Xv2QzEpYxQ==}
 
   /@types/nodemailer@6.4.11:
     resolution: {integrity: sha512-Ld2c0frwpGT4VseuoeboCXQ7UJIkK3X7Lx/4YsZEiUHtHsthWAOCYtf6PAiLhMtfwV0cWJRabLBS3+LD8x6Nrw==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -2291,10 +2291,17 @@ packages:
   /@types/react-dom@18.2.8:
     resolution: {integrity: sha512-bAIvO5lN/U8sPGvs1Xm61rlRHHaq5rp5N3kp9C+NJ/Q41P8iqjkXSu0+/qu8POsjH9pNWb0OYabFez7taP7omw==}
     dependencies:
-      '@types/react': 18.2.23
+      '@types/react': 18.2.24
 
   /@types/react@18.2.23:
     resolution: {integrity: sha512-qHLW6n1q2+7KyBEYnrZpcsAmU/iiCh9WGCKgXvMxx89+TYdJWRjZohVIo9XTcoLhfX3+/hP0Pbulu3bCZQ9PSA==}
+    dependencies:
+      '@types/prop-types': 15.7.6
+      '@types/scheduler': 0.16.3
+      csstype: 3.1.2
+
+  /@types/react@18.2.24:
+    resolution: {integrity: sha512-Ee0Jt4sbJxMu1iDcetZEIKQr99J1Zfb6D4F3qfUWoR1JpInkY1Wdg4WwCyBjL257D0+jGqSl1twBjV8iCaC0Aw==}
     dependencies:
       '@types/prop-types': 15.7.6
       '@types/scheduler': 0.16.3
@@ -2314,7 +2321,7 @@ packages:
   /@types/xml2js@0.4.12:
     resolution: {integrity: sha512-CZPpQKBZ8db66EP5hCjwvYrLThgZvnyZrPXK2W+UI1oOaWezGt34iOaUCX4Jah2X8+rQqjvl9VKEIT8TR1I0rA==}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
     dev: true
 
   /@typescript-eslint/parser@6.7.2(eslint@8.50.0)(typescript@5.2.2):
@@ -2477,8 +2484,8 @@ packages:
       picomatch: 2.3.1
     dev: false
 
-  /apexcharts@3.42.0:
-    resolution: {integrity: sha512-hYhzZqh2Efny9uiutkGU2M/EarJ4Nn8s6dxZ0C7E7N+SV4d1xjTioXi2NLn4UKVJabZkb3HnpXDoumXgtAymwg==}
+  /apexcharts@3.43.0:
+    resolution: {integrity: sha512-YPw1aLatPQMUqVLMp5d+LDaXFi4QrRQND72/XO7/2NJdg+R5MjE9sifJ0GzOfgoZM7ltBUTjwfSxIvwR/9V8yw==}
     dependencies:
       '@yr/monotone-cubic-spline': 1.0.3
       svg.draggable.js: 2.2.2
@@ -4676,8 +4683,8 @@ packages:
     dependencies:
       yallist: 4.0.0
 
-  /lucide-react@0.279.0(react@18.2.0):
-    resolution: {integrity: sha512-LJ8g66+Bxc3t3x9vKTeK3wn3xucrOQGfJ9ou9GsBwCt2offsrT2BB90XrTrIzE1noYYDe2O8jZaRHi6sAHXNxw==}
+  /lucide-react@0.282.0(react@18.2.0):
+    resolution: {integrity: sha512-rN5U7DnX73M8LLZ/n37ZWcwow4vGJ94KKlJrdjzXjkiSRVymzCDaJJJh+38KqRiiRHopJ9+l4rRgd1p3OK+hig==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -5857,13 +5864,13 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /react-apexcharts@1.4.1(apexcharts@3.42.0)(react@18.2.0):
+  /react-apexcharts@1.4.1(apexcharts@3.43.0)(react@18.2.0):
     resolution: {integrity: sha512-G14nVaD64Bnbgy8tYxkjuXEUp/7h30Q0U33xc3AwtGFijJB9nHqOt1a6eG0WBn055RgRg+NwqbKGtqPxy15d0Q==}
     peerDependencies:
       apexcharts: ^3.41.0
       react: '>=0.13'
     dependencies:
-      apexcharts: 3.42.0
+      apexcharts: 3.43.0
       prop-types: 15.8.1
       react: 18.2.0
     dev: false
@@ -6480,7 +6487,7 @@ packages:
     resolution: {integrity: sha512-QFOOeaEwNOAj4k/T9OtSb9sKx9oLVI5y9HrJJn3XN9RJYKGAuE+fMD+rHA5u9ILmf3FDx99jaEvVvykftJtBGA==}
     engines: {node: '>=12.*'}
     dependencies:
-      '@types/node': 20.7.2
+      '@types/node': 20.8.0
       qs: 6.11.2
     dev: false
 
@@ -7139,10 +7146,6 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: false
-
-  /zod@3.22.2:
-    resolution: {integrity: sha512-wvWkphh5WQsJbVk1tbx1l1Ly4yg+XecD+Mq280uBGt9wa5BKSWf4Mhp6GmrkPixhMxmabYY7RbzlwVP32pbGCg==}
     dev: false
 
   /zustand@4.4.1(@types/react@18.2.23)(react@18.2.0):

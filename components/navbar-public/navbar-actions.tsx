@@ -17,10 +17,12 @@ import Link from "next/link";
 import CartItem from "@/components/cart-item";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import { useSession } from "next-auth/react";
 
-const NavbarAction: React.FC<{ role: string | undefined }> = ({ role }) => {
+const NavbarAction = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,16 +40,17 @@ const NavbarAction: React.FC<{ role: string | undefined }> = ({ role }) => {
 
   return (
     <div className="flex items-center ml-4 gap-x-2 sm:gap-x-4 ">
-      {role && (
+      {session?.user ? (
         <Link
-          href={role === "admin" ? "/admin" : "/dashboard-user"}
+          href={session.user.role === "admin" ? "/admin" : "/dashboard-user"}
           className="group flex items-center justify-center rounded-full border bg-primary p-2 text-primary-foreground shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
         >
           <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " />
         </Link>
+      ) : (
+        <LoginButton />
       )}
 
-      {!role && <LoginButton />}
       <ThemeToggle />
 
       <Sheet onOpenChange={setIsOpen} open={isOpen}>

@@ -6,16 +6,10 @@ import NavbarAction from "@/components/navbar-public/navbar-actions";
 import MobileNav from "./mobile-nav";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Category } from "@prisma/client";
 import { useCategories } from "@/hooks/use-categories";
 
-type NavBarProps = {
-  role: string | undefined;
-};
-
-const NavBar: React.FC<NavBarProps> = ({ role }) => {
+const NavBar = () => {
   const [isNavbar, setIsNavbar] = useState(true);
-  const categories = useCategories((s) => s.categories);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -60,12 +54,12 @@ const NavBar: React.FC<NavBarProps> = ({ role }) => {
                     </p>
                   </Link>
                   <div className="hidden lg:flex lg:items-center">
-                    <MainNav data={categories} />
+                    <MainNav />
                   </div>
-                  <MobileNav data={categories} className="ml-2 lg:hidden" />
+                  <MobileNav className="ml-2 lg:hidden" />
                 </div>
 
-                <NavbarAction role={role} />
+                <NavbarAction />
               </div>
             </Container>
           </motion.div>

@@ -1,7 +1,5 @@
 import GetSubscription from "@/server-actions/get-subscriptions";
 import { ActivationSimForm } from "./components/activation-sim-form";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
 import Container from "@/components/ui/container";
@@ -12,8 +10,6 @@ export const metadata = {
 };
 
 const ActivationSimPage = async () => {
-  const session = await getServerSession(authOptions);
-
   const subscriptions = await GetSubscription();
 
   return (
@@ -35,10 +31,7 @@ const ActivationSimPage = async () => {
         </div>
         <Suspense fallback={<Loading />}>
           {" "}
-          <ActivationSimForm
-            subscriptions={subscriptions}
-            isSession={Boolean(session)}
-          />
+          <ActivationSimForm subscriptions={subscriptions} />
         </Suspense>
       </div>
     </Container>

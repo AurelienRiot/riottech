@@ -9,7 +9,6 @@ import {
 } from "@prisma/client";
 import axios from "axios";
 import { addDays } from "date-fns";
-import qs from "query-string";
 import { DateRange } from "react-day-picker";
 
 export type SubscriptionOrderClient = {

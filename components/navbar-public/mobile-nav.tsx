@@ -16,31 +16,25 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { SearchNavMobile } from "./search-nav-mobile";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import { BsSim } from "react-icons/bs";
 import { BiCctv } from "react-icons/bi";
 import Link from "next/link";
 import { VisibleElement } from "../animations/visible-element";
 import { AnimatePresence } from "framer-motion";
-import { Category } from "@prisma/client";
+import { useCategories } from "@/hooks/use-categories";
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<
-  typeof PopoverTrigger
->;
+type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
-interface MobileNavProps extends PopoverTriggerProps {
-  data: Category[];
-}
-
-export default function MobileNav({ className, data }: MobileNavProps) {
+export default function MobileNav({ className }: MobileNavProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const categories = useCategories((s) => s.categories);
 
   const [open, setOpen] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
 
-  const routes = data.map((route) => ({
+  const routes = categories.map((route) => ({
     href: `/category/${route.id}`,
     label: route.name,
     active: pathname === `/category/${route.id}`,

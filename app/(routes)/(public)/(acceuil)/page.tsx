@@ -11,19 +11,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Reseau4GPage from "./components/reseau-4G";
 
 const HomePage = async () => {
-  const products = await GetProducts({ isFeatured: true });
-
   const session = await getServerSession(authOptions);
 
   return (
     <>
-      <VideoAccueil name={session?.user?.name} />
+      <VideoAccueil />
       <Container>
         <div className="relative pt-6 pb-10 space-y-10 bg-primary-foreground bg-clip-padding ">
           <Suspense fallback={<Loading />}>
-            <div className="flex flex-col px-4 mb-16 gap-y-8 sm:px-6 lg:px-8">
-              <ProductList title="Produits mise en avant" items={products} />
-            </div>
+            <FeaturedProducts />
           </Suspense>
 
           <VisibleElement
@@ -40,3 +36,13 @@ const HomePage = async () => {
 };
 
 export default HomePage;
+
+async function FeaturedProducts() {
+  const products = await GetProducts({ isFeatured: true });
+
+  return (
+    <div className="flex flex-col px-4 mb-16 gap-y-8 sm:px-6 lg:px-8">
+      <ProductList title="Produits mise en avant" items={products} />
+    </div>
+  );
+}

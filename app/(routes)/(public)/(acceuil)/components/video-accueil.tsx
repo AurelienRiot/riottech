@@ -3,10 +3,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
+import { useSession } from "next-auth/react";
 
-const VideoAccueil = ({ name }: { name: string | undefined | null }) => {
+const VideoAccueil = () => {
   const { scrollYProgress, scrollY } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const { data: session } = useSession();
 
   // const y = useTransform(scrollY, [0, 1], [0, 1], { clamp: false });
 
@@ -64,7 +66,7 @@ const VideoAccueil = ({ name }: { name: string | undefined | null }) => {
       >
         <h1 className="text-5xl sm:text-7xl">Bienvenue </h1>
         <p className="text-3xl sm:text-5xl">sur Riot Tech</p>
-        <p className="text-3xl sm:text-5xl">{name}</p>
+        <p className="text-3xl sm:text-5xl">{session?.user?.name}</p>
       </motion.div>
     </div>
   );

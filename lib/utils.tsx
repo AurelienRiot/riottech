@@ -30,3 +30,7 @@ export function isMobile() {
   }
   return navigator.userAgent.indexOf("Mobile") !== -1;
 }
+
+export function addDelay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

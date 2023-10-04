@@ -20,20 +20,18 @@ import { VisibleElement } from "../animations/visible-element";
 import { ChevronDown } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { Category } from "@prisma/client";
+import { useCategories } from "@/hooks/use-categories";
 
-interface MainNavProps {
-  data: Category[];
-}
-
-const MainNav: React.FC<MainNavProps> = ({ data }) => {
+const MainNav = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const categories = useCategories((s) => s.categories);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  const routes = data.map((route) => ({
+  const routes = categories.map((route) => ({
     href: `/category/${route.id}`,
     label: route.name,
     active: pathname === `/category/${route.id}`,

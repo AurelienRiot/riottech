@@ -11,7 +11,6 @@ const GetValideVat = async (
         countryCode: countryCode,
         vatNumber: vatNumber,
       });
-      console.log(vatValidationResult.data);
       if (vatValidationResult.data.isValid === "true") {
         return {
           name: vatValidationResult.data.name,

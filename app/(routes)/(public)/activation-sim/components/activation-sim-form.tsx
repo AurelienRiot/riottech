@@ -19,6 +19,7 @@ import { z } from "zod";
 import { SelectSubscription } from "./select-subscription";
 import { Subscription } from "@prisma/client";
 import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useSession } from "next-auth/react";
 
 const simSchema = z.object({
   sim: z.string().refine((value) => /^\d{19}$/.test(value), {
@@ -30,12 +31,10 @@ type SimSchema = z.infer<typeof simSchema>;
 
 type ActivationSimFormProps = {
   subscriptions: Subscription[];
-  isSession: boolean;
 };
 
 export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   subscriptions,
-  isSession,
 }) => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -114,11 +113,7 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
       </Form>
       <div id="commande" className="w-full">
         {sim && (
-          <SelectSubscription
-            subscription={selectedSubscription}
-            isSession={isSession}
-            sim={sim}
-          />
+          <SelectSubscription subscription={selectedSubscription} sim={sim} />
         )}
       </div>
     </>

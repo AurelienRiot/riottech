@@ -6,10 +6,6 @@ import { Separator } from "@/components/ui/separator";
 import { useCategories } from "@/hooks/use-categories";
 
 const ServicePage = () => {
-  const { categories } = useCategories();
-
-  console.log(categories);
-
   return (
     <>
       <div className="z-10 flex flex-col items-center text-cente">

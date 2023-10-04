@@ -9,28 +9,22 @@ import { RegisterForm } from "../../(auth)/register/components/register-form";
 import { Button } from "@/components/ui/button";
 import { Subscription } from "@prisma/client";
 import Currency from "@/components/ui/currency";
+import { useSession } from "next-auth/react";
 
 interface SelectSubscriptionProps {
   subscription: Subscription | null;
-  isSession: boolean;
   sim: string;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   subscription,
-  isSession,
   sim,
 }) => {
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   if (!subscription) {
     return <div>Subscription not found.</div>;
   }
-
-  const subscriptionPrice = Number(subscription.priceHT);
-  const fraisActivation = Number(subscription.fraisActivation);
-  const totalPrice = subscriptionPrice + fraisActivation;
-  const recurrence = subscription.recurrence;
-  const taxText = "HT";
 
   const nextRecurrence =
     subscription.recurrence === "mois"
@@ -113,7 +107,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   displayText={false}
                   className="mr-1"
                 />
-                {`  /  ${recurrence}`}
+                {`  /  ${subscription.recurrence}`}
               </td>
             </tr>
           </tbody>
@@ -124,7 +118,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
         Premier renouvellement : {nextRecurrence}
       </p>
       <div className="mt-8 mb-6 -center ">
-        {!isSession && (
+        {!session && (
           <div className="flex justify-center ">
             <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl">
               <h1 className="text-2xl font-semibold">
@@ -138,7 +132,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
         )}
         <div className="flex justify-center">
           <Button
-            disabled={loading || !isSession}
+            disabled={loading || !session}
             onClick={onClick}
             className="mt-4"
           >
