@@ -103,7 +103,7 @@ export function StickyCursor({
         initialCursorConfig.angle
     );
 
-    e.currentTarget.style.zIndex = "50";
+    e.currentTarget.style.zIndex = "51";
 
     isHover.set(true);
   };
