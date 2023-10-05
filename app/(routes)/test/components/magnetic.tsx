@@ -1,9 +1,19 @@
+import { HTMLElements } from "@/components/animations/visible-element";
 import { cn } from "@/lib/utils";
 import { motion, useMotionTemplate, useSpring } from "framer-motion";
 
-const Magnetic: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  className,
+export type MagneticProps = Pick<
+  React.HTMLAttributes<HTMLElement>,
+  "onMouseEnter" | "onClick" | "children" | "className"
+> & {
+  as?: HTMLElements;
+};
+
+const Magnetic: React.FC<MagneticProps> = ({
   children,
+  className,
+  as = "div",
+  ...props
 }) => {
   const springConfig = { damping: 5, stiffness: 350, mass: 0.5 };
 
@@ -12,7 +22,7 @@ const Magnetic: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     y: useSpring(0, springConfig),
   };
 
-  const handleMouse = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouse = (event: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = event;
 
     const { left, top, width, height } =
@@ -27,8 +37,10 @@ const Magnetic: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
     position.y.set(0);
   };
 
+  const MotionComponent = motion[as];
+
   return (
-    <motion.div
+    <MotionComponent
       className={cn("relative w-fit h-fit", className)}
       onMouseMove={handleMouse}
       onMouseLeave={reset}
@@ -36,9 +48,10 @@ const Magnetic: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         x: useMotionTemplate`${position.x}px`,
         y: useMotionTemplate`${position.y}px`,
       }}
+      {...props}
     >
       {children}
-    </motion.div>
+    </MotionComponent>
   );
 };
 

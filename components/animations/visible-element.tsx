@@ -2,6 +2,29 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+export type HTMLElements =
+  | "div"
+  | "section"
+  | "article"
+  | "span"
+  | "header"
+  | "footer"
+  | "aside"
+  | "nav"
+  | "ul"
+  | "li"
+  | "ol"
+  | "div"
+  | "p"
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "a"
+  | "button";
+
 export const motionVariant = {
   fade: {
     variations: {
@@ -62,28 +85,7 @@ type VisibleElementProps = Pick<
   className?: string;
   id?: string;
   variant?: keyof typeof motionVariant;
-  as?:
-    | "div"
-    | "section"
-    | "article"
-    | "span"
-    | "header"
-    | "footer"
-    | "aside"
-    | "nav"
-    | "ul"
-    | "li"
-    | "ol"
-    | "div"
-    | "p"
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6"
-    | "a"
-    | "button";
+  as?: HTMLElements;
 
   amount?: number;
   duration?: number;

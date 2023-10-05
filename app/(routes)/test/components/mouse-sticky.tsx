@@ -115,7 +115,7 @@ const MouseSticky = () => {
           }}
           ref={menueRef}
         >
-          <div className=" w-full h-full absolute top-0 left-0  hover:scale-[3]  " />
+          <div className=" w-full h-full absolute top-0 left-0  hover:scale-[3]   " />
           {/* <MenuIcon size={30} className="hover:bg-white" /> */}
         </div>
       </Magnetic>
