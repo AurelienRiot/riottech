@@ -1,13 +1,19 @@
 import { HTMLElements } from "@/components/animations/visible-element";
 import { cn } from "@/lib/utils";
-import { motion, useMotionTemplate, useSpring } from "framer-motion";
+import {
+  MotionProps,
+  motion,
+  useMotionTemplate,
+  useSpring,
+} from "framer-motion";
 
 export type MagneticProps = Pick<
   React.HTMLAttributes<HTMLElement>,
   "onMouseEnter" | "onClick" | "children" | "className"
-> & {
-  as?: HTMLElements;
-};
+> &
+  Pick<MotionProps, "whileHover"> & {
+    as?: HTMLElements;
+  };
 
 const Magnetic: React.FC<MagneticProps> = ({
   children,

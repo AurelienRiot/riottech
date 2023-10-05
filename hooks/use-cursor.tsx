@@ -131,10 +131,11 @@ export function StickyCursor({
     >
       <Magnetic
         as={as}
-        className={cn(
-          "items-center group justify-center flex  hover:text-white hover:bg-transparent ",
-          className
-        )}
+        className={cn("items-center group justify-center flex   ", className)}
+        whileHover={{
+          backgroundColor: "rgba(0, 0, 0, 0)",
+          color: "rgb(255, 255, 255)",
+        }}
         {...props}
       >
         <motion.div
