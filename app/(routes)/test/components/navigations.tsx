@@ -12,7 +12,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/components/sticky-ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -20,7 +20,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/sticky-ui/sheet";
 import useCart from "@/hooks/use-cart";
 import { useCategories } from "@/hooks/use-categories";
 import { AnimatePresence, motion } from "framer-motion";
