@@ -13,11 +13,15 @@ export type MagneticProps = Pick<
 > &
   Pick<MotionProps, "whileHover"> & {
     as?: HTMLElements;
+    onMouseMove?: (event: React.MouseEvent<HTMLElement>) => void;
+    onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
   };
 
 const Magnetic: React.FC<MagneticProps> = ({
   children,
   className,
+  onMouseMove = () => {},
+  onMouseLeave = () => {},
   as = "div",
   ...props
 }) => {
@@ -28,7 +32,7 @@ const Magnetic: React.FC<MagneticProps> = ({
     y: useSpring(0, springConfig),
   };
 
-  const handleMouse = (event: React.MouseEvent<HTMLElement>) => {
+  const MouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = event;
 
     const { left, top, width, height } =
@@ -36,11 +40,15 @@ const Magnetic: React.FC<MagneticProps> = ({
 
     position.x.set((clientX - (left + width / 2)) * 0.1);
     position.y.set((clientY - (top + height / 2)) * 0.1);
+
+    onMouseMove(event);
   };
 
-  const reset = () => {
+  const MouseLeave = (event: React.MouseEvent<HTMLElement>) => {
     position.x.set(0);
     position.y.set(0);
+
+    onMouseLeave(event);
   };
 
   const MotionComponent = motion[as];
@@ -48,8 +56,8 @@ const Magnetic: React.FC<MagneticProps> = ({
   return (
     <MotionComponent
       className={cn("relative w-fit h-fit", className)}
-      onMouseMove={handleMouse}
-      onMouseLeave={reset}
+      onMouseMove={MouseMove}
+      onMouseLeave={MouseLeave}
       style={{
         x: useMotionTemplate`${position.x}px`,
         y: useMotionTemplate`${position.y}px`,

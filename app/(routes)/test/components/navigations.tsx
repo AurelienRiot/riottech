@@ -12,7 +12,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/sticky-ui/popover";
+} from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -20,7 +20,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/sticky-ui/sheet";
+} from "@/components/ui/sheet";
 import useCart from "@/hooks/use-cart";
 import { useCategories } from "@/hooks/use-categories";
 import { AnimatePresence, motion } from "framer-motion";
@@ -46,7 +46,7 @@ const Navigations = () => {
   const { data: session } = useSession();
   return (
     <>
-      <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-40  items-center">
+      <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-50  items-center">
         <div className="flex h-auto gap-2 p-2 bg-primary-foreground w-[180px] rounded-lg justify-center items-center">
           <Nav />
           <Link href={"/"} className="flex justify-center items-center gap-2">
