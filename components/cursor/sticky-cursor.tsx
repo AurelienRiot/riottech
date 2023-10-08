@@ -20,7 +20,8 @@ export function StickyCursor({
   onMouseLeave = () => {},
   ...props
 }: StickyCursorProps) {
-  const { isHover, cursorConfig, initialCursorConfig } = useIsHoverContext();
+  const { isHover, cursorConfig, initialCursorConfig, setIsHover } =
+    useIsHoverContext();
 
   const color = "black";
 
@@ -75,15 +76,18 @@ export function StickyCursor({
         initialCursorConfig.angle
     );
 
-    isHover.set(true);
+    // isHover.set(true);
+    setIsHover(true);
     onMouseEnter(e);
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLElement>) => {
-    resetCursor({ initialCursorConfig, cursorConfig, isHover });
+    resetCursor({ initialCursorConfig, cursorConfig, setIsHover });
 
     onMouseLeave(e);
   };
+
+  console.log("render sticky cursor:", as);
   return (
     <Magnetic
       onMouseMove={handleMouseMove}
@@ -106,7 +110,7 @@ export function StickyCursor({
             cursorConfig.angle,
             (a) => (a + offsetAngle.get()) % 180
           ),
-          scale: useTransform(isHover, (value) => (value ? scaleOffset : 1)),
+          scale: isHover ? scaleOffset : 1,
         }}
         className=" w-full h-full absolute top-0 left-0 group-hover:scale-[3]"
       />

@@ -49,19 +49,21 @@ const Navigations = () => {
       <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-50  items-center">
         <div className="flex h-auto gap-2 p-2 bg-primary-foreground w-[180px] rounded-lg justify-center items-center">
           <Nav />
-          <Link href={"/"} className="flex justify-center items-center gap-2">
-            <div className="h-8 w-8 relative">
-              <Image
-                priority
-                src="/icon-riot-tech.png"
-                alt="logo Riot Tech"
-                fill
-                sizes="32px"
-                className="object-contain"
-              />
-            </div>
-            <span className="font-bold"> Riot Tech</span>
-          </Link>
+          <Magnetic>
+            <Link href={"/"} className="flex justify-center items-center gap-2">
+              <div className="h-8 w-8 relative">
+                <Image
+                  priority
+                  src="/icon-riot-tech.png"
+                  alt="logo Riot Tech"
+                  fill
+                  sizes="32px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="font-bold"> Riot Tech</span>
+            </Link>
+          </Magnetic>
         </div>
 
         <div className="flex gap-2 ">

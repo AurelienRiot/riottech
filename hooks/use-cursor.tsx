@@ -40,7 +40,9 @@ export type IsHoverContextType = {
     };
     circleConfig: { r: number };
   };
-  isHover: MotionValue<boolean>;
+  // isHover: MotionValue<boolean>;
+  isHover: boolean;
+  setIsHover: (value: boolean) => void;
 };
 
 export const isHoverContext = createContext<IsHoverContextType | undefined>(

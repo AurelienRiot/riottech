@@ -8,7 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   const springConfig: SpringOptions = {
@@ -69,7 +69,8 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
 
   const angleCursor = useSpring(initialCursorConfig.angle, springConfigRotate);
 
-  const isHover = useMotionValue(false);
+  // const isHover = useMotionValue(false);
+  const [isHover, setIsHover] = useState(false);
 
   const cursorPositionX = useTransform(
     mousePositionX,
@@ -88,39 +89,41 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
     const { clientX, clientY } = event;
     const { left, top } = event.currentTarget.getBoundingClientRect();
 
-    if (!isHover.get()) {
-      // mousePositionX.set(clientX - left);
-      // mousePositionY.set(clientY - top);
-      // positionOffset.x.set(left);
-      // positionOffset.y.set(top);
-      mousePositionX.set(clientX);
-      mousePositionY.set(clientY);
+    if (!isHover) {
+      mousePositionX.set(clientX - left);
+      mousePositionY.set(clientY - top);
+      positionOffset.x.set(left);
+      positionOffset.y.set(top);
+      // mousePositionX.set(clientX);
+      // mousePositionY.set(clientY);
     }
-    // console.log(mousePositionX.get(), mousePositionY.get());
+    // console.log(isHover.get(), mousePositionX.get(), mousePositionY.get());
   }
 
   function template({ x, y, rotate, scaleX, scaleY }: any) {
     return `translateX(${x}) translateY(${y}) rotate(${rotate}) scaleX(${scaleX}) scaleY(${scaleY}) translateZ(0) `;
   }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isHover.get()) {
-        const currentScrollY = window.scrollY;
-        const previousScrollY = scrollPosY.get();
-        cursorPositionY.set(
-          cursorPositionY.get() + (previousScrollY - currentScrollY)
-        );
-        scrollPosY.set(currentScrollY);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (isHover.get()) {
+  //       const currentScrollY = window.scrollY;
+  //       const previousScrollY = scrollPosY.get();
+  //       cursorPositionY.set(
+  //         cursorPositionY.get() + (previousScrollY - currentScrollY)
+  //       );
+  //       scrollPosY.set(currentScrollY);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrollPosY, isHover, cursorPositionY]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [scrollPosY, isHover, cursorPositionY]);
+
+  console.log("render cursor provider");
 
   return (
     <isHoverContext.Provider
@@ -141,17 +144,18 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
           circleConfig,
         },
         isHover,
+        setIsHover,
       }}
     >
       <div
-        className="relative h-full w-full cursor-none"
+        className="relative h-full w-full "
         onMouseMove={handleMouseMove}
         onMouseEnter={() => cursorOpacity.set(initialCursorConfig.opacity)}
         onMouseLeave={() => cursorOpacity.set(0)}
       >
         <motion.svg
           className={
-            "fixed inset-0 bg-transparent z-[51] pointer-events-none overflow-visible bg-gradient-radial "
+            "absolute inset-0 bg-transparent z-[51] pointer-events-none overflow-visible bg-gradient-radial "
           }
           transformTemplate={template}
           style={{
@@ -227,11 +231,13 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
 export function resetCursor({
   cursorConfig,
   initialCursorConfig,
-  isHover,
+  // isHover,
+  setIsHover,
 }: {
   cursorConfig: IsHoverContextType["cursorConfig"];
   initialCursorConfig: IsHoverContextType["initialCursorConfig"];
-  isHover: MotionValue<boolean>;
+  // isHover: MotionValue<boolean>;
+  setIsHover: IsHoverContextType["setIsHover"];
 }) {
   cursorConfig.opacity.set(initialCursorConfig.opacity);
   cursorConfig.size.height.set(initialCursorConfig.size.height);
@@ -252,5 +258,6 @@ export function resetCursor({
 
   cursorConfig.circleConfig.r.set(initialCursorConfig.circleConfig.r);
 
-  isHover.set(false);
+  // isHover.set(false);
+  setIsHover(false);
 }

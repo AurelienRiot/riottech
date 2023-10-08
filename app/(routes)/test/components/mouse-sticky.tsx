@@ -77,6 +77,7 @@ const MouseSticky = () => {
       }
     }
   }
+  console.log("render mouse");
   function template({ x, y, rotate, scaleX, scaleY }: any) {
     return `translateX(${x}) translateY(${y}) rotate(${rotate}) scaleX(${scaleX}) scaleY(${scaleY}) translateZ(0)`;
   }
