@@ -20,17 +20,23 @@ export function RippleCursor({
   onMouseLeave = () => {},
   ...props
 }: RippleCursorProps) {
-  const { isHover, cursorConfig, initialCursorConfig, setIsHover } =
+  const { isHover, cursorConfig, initialCursorConfig, elementDimension } =
     useIsHoverContext();
 
   const color = "black";
 
   const offsetAngle = useMotionValue(0);
+  const rotate = useMotionValue(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = e;
     const { left, top, width, height } =
       e.currentTarget.getBoundingClientRect();
+
+    elementDimension.width.set(width);
+    elementDimension.height.set(height);
+    elementDimension.left.set(left);
+    elementDimension.top.set(top);
 
     const center = { x: left + width / 2, y: top + height / 2 };
     const distance = { x: clientX - center.x, y: clientY - center.y };
@@ -43,13 +49,12 @@ export function RippleCursor({
     );
     cursorConfig.turbConfig.baseFrequency.set(baseFrequency);
 
-    const posX =
-      center.x - cursorConfig.positionOffset.x.get() + distance.x * 0.1;
-    const posY =
-      center.y - cursorConfig.positionOffset.y.get() + distance.y * 0.1;
-
-    cursorConfig.position.x.set(posX);
-    cursorConfig.position.y.set(posY);
+    const newAngle =
+      (Math.atan2(distance.y, distance.x) * (180 / Math.PI) +
+        180 +
+        initialCursorConfig.angle) %
+      360;
+    rotate.set(newAngle);
 
     cursorConfig.circleConfig.cx.set(
       0.9 * distance.x + cursorConfig.size.width.get() / 2
@@ -73,15 +78,14 @@ export function RippleCursor({
     );
     cursorConfig.angle.set(initialCursorConfig.angle);
 
-    cursorConfig.circleConfig.r.set(10);
+    cursorConfig.circleConfig.r.set(20);
 
-    // isHover.set(true);
-    setIsHover(true);
+    isHover.set(true);
     onMouseEnter(e);
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLElement>) => {
-    resetCursor({ initialCursorConfig, cursorConfig, setIsHover });
+    resetCursor({ initialCursorConfig, cursorConfig, isHover });
 
     onMouseLeave(e);
   };
@@ -106,14 +110,10 @@ export function RippleCursor({
     >
       <motion.div
         style={{
-          // rotate: useTransform(
-          //   cursorConfig.angle,
-          //   (a) => (a + offsetAngle.get()) % 180
-          // ),
-          // scale: useTransform(isHover, (value) => (value ? scaleOffset : 1)),
-          scale: isHover ? scaleOffset : 1,
+          // rotate: useTransform(rotate, (a) => (a + offsetAngle.get()) % 180),
+          scale: useTransform(isHover, (value) => (value ? scaleOffset : 1)),
         }}
-        className=" w-full h-full absolute top-0 left-0 "
+        className=" w-full h-full absolute top-0 left-0"
       />
 
       {children}

@@ -15,7 +15,6 @@ export type IsHoverContextType = {
     scale: { x: MotionValue<number>; y: MotionValue<number> };
     position: { x: MotionValue<number>; y: MotionValue<number> };
     color: MotionValue<string>;
-    positionOffset: { x: MotionValue<number>; y: MotionValue<number> };
     turbConfig: {
       baseFrequency: MotionValue<number>;
       seed: MotionValue<string>;
@@ -40,9 +39,13 @@ export type IsHoverContextType = {
     };
     circleConfig: { r: number };
   };
-  // isHover: MotionValue<boolean>;
-  isHover: boolean;
-  setIsHover: (value: boolean) => void;
+  elementDimension: {
+    width: MotionValue<number>;
+    height: MotionValue<number>;
+    top: MotionValue<number>;
+    left: MotionValue<number>;
+  };
+  isHover: MotionValue<boolean>;
 };
 
 export const isHoverContext = createContext<IsHoverContextType | undefined>(

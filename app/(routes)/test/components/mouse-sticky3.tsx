@@ -1,17 +1,9 @@
 "use client";
-import { Menu, MenuSquare } from "lucide-react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useState } from "react";
-import { StickyCursor } from "@/components/cursor/sticky-cursor";
 import { RippleCursor } from "@/components/cursor/ripple-cursor";
+import { StickyCursor } from "@/components/cursor/sticky-cursor";
+import { Menu, MenuSquare } from "lucide-react";
 
 const MouseSticky3 = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   console.log("render mouse sticky3");
 
   return (
