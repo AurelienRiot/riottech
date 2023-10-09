@@ -1,20 +1,21 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import {
-  motion,
-  useSpring,
-  useTransform,
-  SpringOptions,
-  useMotionValue,
-  transform,
-} from "framer-motion";
+import { useCursor } from "@/hooks/use-cursor";
+import { motion, transform, useMotionValue, useSpring } from "framer-motion";
 import { Menu } from "lucide-react";
-import { createContext, useContext, useState } from "react";
 import Magnetic from "./magnetic";
 
 const MouseSticky2 = () => {
+  const { cursorConfig, initialCursorConfig } = useCursor();
   return (
-    <div className="relative h-full w-full flex flex-wrap gap-4 items-center justify-center">
+    <div
+      className="relative h-full w-full flex flex-wrap gap-4 items-center justify-center cursor-default"
+      onMouseEnter={() => {
+        cursorConfig.opacity.set(0);
+      }}
+      onMouseLeave={() => {
+        cursorConfig.opacity.set(initialCursorConfig.opacity);
+      }}
+    >
       <Menu1 />
       <Menu2 />
     </div>
@@ -217,6 +218,7 @@ function Menu2() {
             }}
           />
         </motion.svg>
+        <div className=" w-full h-full absolute top-0 left-0  group-hover:scale-[3] " />
         <Magnetic className="w-full h-full items-center  justify-center flex ">
           <Menu className=" text-white " />
         </Magnetic>

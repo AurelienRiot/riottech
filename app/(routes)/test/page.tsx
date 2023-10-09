@@ -6,14 +6,16 @@ import MouseSticky from "./components/mouse-sticky";
 import MouseSticky2 from "./components/mouse-sticky2";
 import MouseSticky3 from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
+import GetCategories from "@/server-actions/get-categories";
+import { CategoriesProvider } from "@/providers/categories-provider";
 
 const HomePage = async () => {
-  // const categories = await GetCategories();
+  const categories = await GetCategories();
 
   return (
     <IsProProvider>
       <CursorProvider>
-        {/* <CategoriesProvider categories={categories} /> */}
+        <CategoriesProvider categories={categories} />
         <Image
           priority
           src="/videos/film_guimbert.jpg"
@@ -41,10 +43,10 @@ const HomePage = async () => {
         </div>
         {/* <div className="h-screen bg-white/90 w-full  ">
           <MouseSticky />
-        </div>
+        </div> */}
         <div className="h-screen bg-blue-600/90 w-full    ">
           <MouseSticky2 />
-        </div> */}
+        </div>
         <div className="h-screen bg-teal-600/90 w-full  ">
           <MouseSticky3 />
         </div>
