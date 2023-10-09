@@ -11,7 +11,7 @@ export type MagneticProps = Pick<
   React.HTMLAttributes<HTMLElement>,
   "onMouseEnter" | "onClick" | "children" | "className"
 > &
-  Pick<MotionProps, "whileHover"> & {
+  Pick<MotionProps, "whileHover" | "style"> & {
     as?: HTMLElements;
     onMouseMove?: (event: React.MouseEvent<HTMLElement>) => void;
     onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -20,6 +20,7 @@ export type MagneticProps = Pick<
 const Magnetic: React.FC<MagneticProps> = ({
   children,
   className,
+  style = {},
   onMouseMove = () => {},
   onMouseLeave = () => {},
   as = "div",
@@ -59,8 +60,11 @@ const Magnetic: React.FC<MagneticProps> = ({
       onMouseMove={MouseMove}
       onMouseLeave={MouseLeave}
       style={{
-        x: useMotionTemplate`${position.x}px`,
-        y: useMotionTemplate`${position.y}px`,
+        ...{
+          x: useMotionTemplate`${position.x}px`,
+          y: useMotionTemplate`${position.y}px`,
+        },
+        ...style,
       }}
       {...props}
     >

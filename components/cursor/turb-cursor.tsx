@@ -1,16 +1,24 @@
 import Magnetic, {
   MagneticProps,
 } from "@/app/(routes)/test/components/magnetic";
-import { useIsHoverContext } from "@/hooks/use-cursor";
+import { useCursor } from "@/hooks/use-cursor";
 import { cn } from "@/lib/utils";
 import { resetCursor } from "@/providers/cursor-provider";
-import { motion, transform, useMotionValue, useTransform } from "framer-motion";
+import {
+  MotionProps,
+  TargetAndTransition,
+  VariantLabels,
+  motion,
+  transform,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 
-type RippleCursorProps = MagneticProps & {
+type TurbCursorProps = MagneticProps & {
   scaleOffset?: number;
 };
 
-export function RippleCursor({
+export function TurbCursor({
   children,
   className,
   as,
@@ -19,11 +27,9 @@ export function RippleCursor({
   onMouseEnter = () => {},
   onMouseLeave = () => {},
   ...props
-}: RippleCursorProps) {
+}: TurbCursorProps) {
   const { isHover, cursorConfig, initialCursorConfig, elementDimension } =
-    useIsHoverContext();
-
-  const color = "black";
+    useCursor();
 
   const offsetAngle = useMotionValue(0);
   const rotate = useMotionValue(0);
@@ -50,11 +56,11 @@ export function RippleCursor({
     cursorConfig.turbConfig.baseFrequency.set(baseFrequency);
 
     const newAngle =
-      (Math.atan2(distance.y, distance.x) * (180 / Math.PI) +
-        180 +
-        initialCursorConfig.angle) %
-      360;
-    rotate.set(newAngle);
+      Math.atan2(distance.y, distance.x) * (180 / Math.PI) +
+      180 +
+      initialCursorConfig.angle;
+
+    rotate.set((newAngle + offsetAngle.get()) % 180);
 
     cursorConfig.circleConfig.cx.set(
       0.9 * distance.x + cursorConfig.size.width.get() / 2
@@ -70,7 +76,6 @@ export function RippleCursor({
     const { width, height } = e.currentTarget.getBoundingClientRect();
     cursorConfig.size.height.set(height * 1.3);
     cursorConfig.size.width.set(width * 1.3);
-    cursorConfig.color.set(color);
 
     offsetAngle.set(
       (Math.acos(width / Math.sqrt(width ** 2 + height ** 2)) * 180) / Math.PI +
@@ -86,11 +91,11 @@ export function RippleCursor({
 
   const handleOnLeave = (e: React.MouseEvent<HTMLElement>) => {
     resetCursor({ initialCursorConfig, cursorConfig, isHover });
+    rotate.set(0);
+    offsetAngle.set(0);
 
     onMouseLeave(e);
   };
-
-  console.log("render ripple cursor");
 
   return (
     <Magnetic
@@ -99,21 +104,19 @@ export function RippleCursor({
       onMouseLeave={handleOnLeave}
       as={as}
       className={cn(
-        "items-center group justify-center flex hover:z-[51]   ",
+        "items-center group justify-center flex hover:z-[51] hover:bg-transparent   ",
         className
       )}
-      whileHover={{
-        backgroundColor: "rgba(0, 0, 0, 0)",
-        color: "rgb(255, 255, 255)",
-      }}
       {...props}
     >
       <motion.div
         style={{
-          // rotate: useTransform(rotate, (a) => (a + offsetAngle.get()) % 180),
-          scale: useTransform(isHover, (value) => (value ? scaleOffset : 1)),
+          rotate: rotate,
         }}
-        className=" w-full h-full absolute top-0 left-0"
+        whileHover={{
+          scale: scaleOffset,
+        }}
+        className=" w-full h-full absolute top-0 left-0 border-2  "
       />
 
       {children}

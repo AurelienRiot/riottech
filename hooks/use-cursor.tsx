@@ -2,7 +2,7 @@
 import { MotionValue } from "framer-motion";
 import { createContext, useContext } from "react";
 
-export type IsHoverContextType = {
+export type CursorContextType = {
   cursorConfig: {
     opacity: MotionValue<number>;
     size: {
@@ -48,16 +48,16 @@ export type IsHoverContextType = {
   isHover: MotionValue<boolean>;
 };
 
-export const isHoverContext = createContext<IsHoverContextType | undefined>(
+export const CursorContext = createContext<CursorContextType | undefined>(
   undefined
 );
 
-export function useIsHoverContext() {
-  const context = useContext(isHoverContext);
+export function useCursor() {
+  const context = useContext(CursorContext);
 
   if (context === undefined) {
     throw new Error(
-      "useOpacityContext must be used within a useIsHoverContext.Provider"
+      "useOpacityContext must be used within a useCursor.Provider"
     );
   }
 

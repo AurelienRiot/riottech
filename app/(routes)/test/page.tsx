@@ -39,12 +39,12 @@ const HomePage = async () => {
         <div className="h-screen bg-green-600/90 w-full">
           <MouseHover />
         </div>
-        <div className="h-screen bg-white/90 w-full  ">
+        {/* <div className="h-screen bg-white/90 w-full  ">
           <MouseSticky />
         </div>
         <div className="h-screen bg-blue-600/90 w-full    ">
           <MouseSticky2 />
-        </div>
+        </div> */}
         <div className="h-screen bg-teal-600/90 w-full  ">
           <MouseSticky3 />
         </div>

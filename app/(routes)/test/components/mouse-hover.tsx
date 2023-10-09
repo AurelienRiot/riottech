@@ -1,4 +1,5 @@
 "use client";
+import { useCursor } from "@/hooks/use-cursor";
 import {
   motion,
   useMotionTemplate,
@@ -11,6 +12,8 @@ const base64Svg = btoa(
 );
 
 const MouseHover = () => {
+  const { cursorConfig, initialCursorConfig } = useCursor();
+
   const springConfig = { damping: 20, stiffness: 300 };
 
   const size = useSpring(40, springConfig);
@@ -29,7 +32,16 @@ const MouseHover = () => {
   }
 
   return (
-    <main className="h-screen relative group" onMouseMove={handleMouseMove}>
+    <main
+      className="h-screen relative group"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => {
+        cursorConfig.opacity.set(0);
+      }}
+      onMouseLeave={() => {
+        cursorConfig.opacity.set(initialCursorConfig.opacity);
+      }}
+    >
       <motion.div
         className="text-black absolute bg-red-600 w-full h-full flex justify-center items-center text-[64px] leading-[66px] cursor-default opacity-0 group-hover:opacity-100"
         style={{

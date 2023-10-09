@@ -1,10 +1,10 @@
 import Magnetic, {
   MagneticProps,
 } from "@/app/(routes)/test/components/magnetic";
-import { useIsHoverContext } from "@/hooks/use-cursor";
+import { useCursor } from "@/hooks/use-cursor";
 import { cn } from "@/lib/utils";
 import { resetCursor } from "@/providers/cursor-provider";
-import { motion, transform, useMotionValue, useTransform } from "framer-motion";
+import { motion, transform, useMotionValue } from "framer-motion";
 
 type StickyCursorProps = MagneticProps & {
   scaleOffset?: number;
@@ -21,9 +21,7 @@ export function StickyCursor({
   ...props
 }: StickyCursorProps) {
   const { isHover, cursorConfig, initialCursorConfig, elementDimension } =
-    useIsHoverContext();
-
-  const color = "black";
+    useCursor();
 
   const offsetAngle = useMotionValue(0);
 
@@ -63,10 +61,9 @@ export function StickyCursor({
   const handleOnEnter = (e: React.MouseEvent<HTMLElement>) => {
     const { width, height } = e.currentTarget.getBoundingClientRect();
     cursorConfig.size.height.set(height * 1.3);
-    cursorConfig.size.rx.set(Math.min(height, width));
+    cursorConfig.size.rx.set(Math.min(height, width) / 4);
     cursorConfig.size.width.set(width * 1.3);
-    cursorConfig.size.ry.set(Math.min(height, width));
-    cursorConfig.color.set(color);
+    cursorConfig.size.ry.set(Math.min(height, width) / 4);
     cursorConfig.angle.set(initialCursorConfig.angle);
 
     offsetAngle.set(
@@ -75,17 +72,16 @@ export function StickyCursor({
     );
 
     isHover.set(true);
-    // setIsHover(true);
     onMouseEnter(e);
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLElement>) => {
     resetCursor({ initialCursorConfig, cursorConfig, isHover });
+    cursorConfig.angle.set(initialCursorConfig.angle);
 
     onMouseLeave(e);
   };
 
-  console.log("render sticky cursor:", as);
   return (
     <Magnetic
       onMouseMove={handleMouseMove}
@@ -93,25 +89,12 @@ export function StickyCursor({
       onMouseLeave={handleOnLeave}
       as={as}
       className={cn(
-        "items-center group justify-center flex hover:z-[51] ",
+        "items-center group justify-center flex hover:z-[51] hover:bg-transparent   ",
         className
       )}
-      whileHover={{
-        backgroundColor: "rgba(0, 0, 0, 0)",
-        color: "rgb(255, 255, 255)",
-      }}
       {...props}
     >
-      <motion.div
-        style={{
-          rotate: useTransform(
-            cursorConfig.angle,
-            (a) => (a + offsetAngle.get()) % 180
-          ),
-          scale: useTransform(isHover, (value) => (value ? scaleOffset : 1)),
-        }}
-        className=" w-full h-full absolute top-0 left-0 group-hover:scale-[3]"
-      />
+      <motion.div className=" w-full h-full absolute top-0 left-0 group-hover:scale-[3]" />
 
       {children}
     </Magnetic>

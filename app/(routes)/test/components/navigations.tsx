@@ -1,8 +1,7 @@
 "use client";
 import { LoginButton } from "@/components/auth/auth-button";
 import CartItem from "@/components/cart-item";
-import { ThemeToggle } from "@/components/navbar-admin/theme.toggle";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,8 +26,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronDown,
   LucidePhoneCall,
+  MoonIcon,
   ShoppingBag,
   StoreIcon,
+  SunIcon,
   User2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -41,6 +42,10 @@ import { BsSim } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import Magnetic from "./magnetic";
+import { useTheme } from "next-themes";
+import { useCursor } from "@/hooks/use-cursor";
+import { Color } from "@/lib/color";
+import { cn } from "@/lib/utils";
 
 const Navigations = () => {
   const { data: session } = useSession();
@@ -95,6 +100,7 @@ export default Navigations;
 const Nav = () => {
   const pathname = usePathname();
   const { categories } = useCategories();
+  const { cursorConfig, initialCursorConfig } = useCursor();
 
   const categoriesRoutes = categories.map((route) => ({
     href: `/category/${route.id}`,
@@ -133,6 +139,12 @@ const Nav = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
+          onMouseEnter={() => {
+            cursorConfig.opacity.set(0);
+          }}
+          onMouseLeave={() => {
+            cursorConfig.opacity.set(initialCursorConfig.opacity);
+          }}
           variant="outline"
           size="sm"
           role="combobox"
@@ -179,6 +191,12 @@ const Nav = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
+        onMouseEnter={() => {
+          cursorConfig.opacity.set(0);
+        }}
+        onMouseLeave={() => {
+          cursorConfig.opacity.set(initialCursorConfig.opacity);
+        }}
         sideOffset={15}
         align="start"
         alignOffset={-10}
@@ -226,13 +244,22 @@ const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
   const cart = useCart();
   const [isMounted, setIsMounted] = useState(false);
+  const { cursorConfig, initialCursorConfig } = useCursor();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   if (!isMounted) {
-    return null;
+    return (
+      <Button
+        variant={"rounded"}
+        className="bg-primary-foreground text-primary"
+      >
+        <ShoppingBag size={20} />
+        <span className="w-3 ml-1 text-sm font-medium ">0</span>
+      </Button>
+    );
   }
 
   const totalQuantity = Object.values(cart.quantities).reduce((total, qte) => {
@@ -241,7 +268,18 @@ const Cart = () => {
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
-      <SheetTrigger className="inline-flex items-center justify-center w-auto h-10 px-5 py-3 text-sm font-semibold transition rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary-foreground text-primary disabled:cursor-not-allowed disabled:opacity-50 hover:opacity-75 ">
+      <SheetTrigger
+        className={cn(
+          buttonVariants({ variant: "rounded", size: "default" }),
+          "bg-primary-foreground text-primary"
+        )}
+        onMouseEnter={() => {
+          cursorConfig.opacity.set(0);
+        }}
+        onMouseLeave={() => {
+          cursorConfig.opacity.set(initialCursorConfig.opacity);
+        }}
+      >
         <ShoppingBag size={20} />
         <span className="w-3 ml-1 text-sm font-medium ">{totalQuantity}</span>
       </SheetTrigger>
@@ -291,3 +329,30 @@ const Cart = () => {
     </Sheet>
   );
 };
+
+function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+  const { cursorConfig, initialCursorConfig } = useCursor();
+
+  return (
+    <Button
+      onMouseEnter={() => {
+        cursorConfig.opacity.set(0);
+      }}
+      onMouseLeave={() => {
+        cursorConfig.opacity.set(initialCursorConfig.opacity);
+        cursorConfig.color.set(Color(initialCursorConfig.color));
+      }}
+      variant={"rounded"}
+      onClick={() => {
+        setTheme(theme === "light" ? "dark" : "light");
+      }}
+      size="icon"
+      className="bg-primary-foreground text-primary  "
+    >
+      <SunIcon className="absolute rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100 h-6 w-6  " />
+      <MoonIcon className="absolute  h-6 w-6   rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0  " />
+      <span className="sr-only w-0">Toggle theme</span>
+    </Button>
+  );
+}
