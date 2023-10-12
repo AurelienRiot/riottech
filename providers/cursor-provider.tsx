@@ -38,6 +38,14 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
         seed: "1",
         scale: "100",
       },
+      gradientConfig: {
+        stopColor1: "white",
+        stopColor2: "white",
+        stopOpacity1: 1,
+        stopOpacity2: 0,
+        offset1: "0%",
+        offset2: "100%",
+      },
     }),
     []
   );
@@ -47,6 +55,20 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
     seed: useMotionValue(initialCursorConfig.turbConfig.seed),
     scale: useMotionValue(initialCursorConfig.turbConfig.scale),
   };
+
+  const gradientConfig = {
+    stopColor1: useMotionValue(initialCursorConfig.gradientConfig.stopColor1),
+    stopColor2: useMotionValue(initialCursorConfig.gradientConfig.stopColor2),
+    stopOpacity1: useMotionValue(
+      initialCursorConfig.gradientConfig.stopOpacity1
+    ),
+    stopOpacity2: useMotionValue(
+      initialCursorConfig.gradientConfig.stopOpacity2
+    ),
+    offset1: useMotionValue(initialCursorConfig.gradientConfig.offset1),
+    offset2: useMotionValue(initialCursorConfig.gradientConfig.offset2),
+  };
+
   const cursorSize = {
     height: useMotionValue(initialCursorConfig.size.height),
     width: useMotionValue(initialCursorConfig.size.width),
@@ -116,29 +138,10 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
     return `translateX(${x}) translateY(${y}) rotate(${rotate}) scaleX(${scaleX}) scaleY(${scaleY}) translateZ(0) `;
   }
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (isHover.get()) {
-  //       const currentScrollY = window.scrollY;
-  //       const previousScrollY = scrollPosY.get();
-  //       cursorPositionY.set(
-  //         cursorPositionY.get() + (previousScrollY - currentScrollY)
-  //       );
-  //       scrollPosY.set(currentScrollY);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [scrollPosY, isHover, cursorPositionY]);
-
   useEffect(() => {
     color.set(Color(initialCursorConfig.color));
-    console.log("set color:", Color(initialCursorConfig.color));
   }, [color, initialCursorConfig]);
+
   return (
     <CursorContext.Provider
       value={{
@@ -150,6 +153,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
             y: mousePositionY,
           },
           turbConfig,
+          gradientConfig,
           opacity: cursorOpacity,
           size: cursorSize,
           angle: angleCursor,
@@ -168,7 +172,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       >
         <motion.svg
           className={
-            "absolute inset-0 bg-transparent z-[51] pointer-events-none overflow-visible bg-gradient-radial "
+            "absolute inset-0 bg-transparent z-[51] pointer-events-none overflow-visible  "
           }
           transformTemplate={template}
           style={{
@@ -192,12 +196,18 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
               fy="50%"
             >
               <motion.stop
-                offset="0%"
-                style={{ stopColor: "white", stopOpacity: 1 }}
+                offset={gradientConfig.offset1}
+                style={{
+                  stopColor: gradientConfig.stopColor1,
+                  stopOpacity: gradientConfig.stopOpacity1,
+                }}
               />
               <motion.stop
-                offset="100%"
-                style={{ stopColor: "transparent", stopOpacity: 1 }}
+                offset={gradientConfig.offset2}
+                style={{
+                  stopColor: gradientConfig.stopColor2,
+                  stopOpacity: gradientConfig.stopOpacity2,
+                }}
               />
             </motion.radialGradient>
             <filter id="ripple">
@@ -218,10 +228,8 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
             </filter>
           </defs>
           <motion.rect
-            style={{
-              width: cursorSize.width,
-              height: cursorSize.height,
-            }}
+            width={cursorSize.width}
+            height={cursorSize.height}
             rx={cursorSize.rx}
             ry={cursorSize.ry}
             fill={color}

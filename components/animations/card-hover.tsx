@@ -1,19 +1,30 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-type CardHoverProps = {
+type CardHoverProps = React.HTMLAttributes<HTMLDivElement> & {
   image: string;
   text: string;
   title: string;
   link: string;
 };
 
-const CardHover = ({ image, text, title, link }: CardHoverProps) => {
+const CardHover = ({
+  image,
+  text,
+  title,
+  link,
+  className,
+  ...props
+}: CardHoverProps) => {
   return (
     <>
-      <div className="m-0 flex items-center justify-center p-0 ">
+      <div
+        className={cn("m-0 flex items-center justify-center p-0 ", className)}
+        {...props}
+      >
         <div className=" relative flex justify-between">
-          <div className="group relative   transition-all hover:mb-[300px] duration-500 ease-in-out">
+          <div className="group relative   transition-all hover:mb-[300px] lg:hover:mb-0 duration-500 ease-in-out">
             <div
               className="absolute  inset-0 z-10 flex flex-col min-h-[300px] max-w-[400px] items-center justify-center bg-gray-600 transition-all duration-500  group-hover:bg-green-600  shadow-[0_20px_50px_rgba(0,0,0,0.8)] group-hover:shadow-none
   "
@@ -34,7 +45,7 @@ const CardHover = ({ image, text, title, link }: CardHoverProps) => {
                 </h3>
               </div>
             </div>
-            <div className="relative box-border min-h-[300px] max-w-[400px]   bg-primary-foreground p-5  shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:translate-y-[300px]   opacity-0  group-hover:opacity-100  flex flex-col  justify-between">
+            <div className="relative box-border min-h-[300px] max-w-[400px]   bg-primary-foreground p-5  shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:translate-y-[300px]   opacity-50  group-hover:opacity-100  flex flex-col  justify-between ">
               <p className="relative m-0 p-0 text-center px-2 text-primary-foreground  group-hover:text-primary transition-all duration-500">
                 {text}
               </p>

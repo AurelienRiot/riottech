@@ -45,8 +45,13 @@ export function StickyCursor({
       360;
 
     const currentAngle = cursorConfig.angle.get();
-    const angleDifference = shortestAngleDifference(currentAngle, newAngle);
-    const finalAngle = (currentAngle + angleDifference) % 360;
+    const diffAngle = newAngle - currentAngle;
+    const finalAngle =
+      diffAngle > 180
+        ? newAngle - 360
+        : diffAngle < -180
+        ? newAngle + 360
+        : newAngle;
     cursorConfig.angle.set(finalAngle);
 
     const absDistance = Math.max(Math.abs(distance.x), Math.abs(distance.y));

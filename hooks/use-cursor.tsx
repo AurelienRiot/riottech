@@ -25,6 +25,14 @@ export type CursorContextType = {
       cy: MotionValue<number>;
       r: MotionValue<number>;
     };
+    gradientConfig: {
+      stopColor1: MotionValue<string>;
+      stopColor2: MotionValue<string>;
+      stopOpacity1: MotionValue<number>;
+      stopOpacity2: MotionValue<number>;
+      offset1: MotionValue<string>;
+      offset2: MotionValue<string>;
+    };
   };
   initialCursorConfig: {
     opacity: number;
@@ -38,6 +46,14 @@ export type CursorContextType = {
       scale: string;
     };
     circleConfig: { r: number };
+    gradientConfig: {
+      stopColor1: string;
+      stopColor2: string;
+      stopOpacity1: number;
+      stopOpacity2: number;
+      offset1: string;
+      offset2: string;
+    };
   };
   elementDimension: {
     width: MotionValue<number>;

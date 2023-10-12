@@ -13,12 +13,12 @@ const MouseSticky3 = () => {
         <Menu className="h-10 w-10 " />
       </StickyCursor>
       <ExtraDiv />
-      <StickyCursor
+      <TurbCursor
         as="div"
         className=" bg-red-600 rounded-md text-primary hover:text-primary-foreground "
       >
         <MenuSquare className="h-10 w-20  " />
-      </StickyCursor>
+      </TurbCursor>
     </div>
   );
 };

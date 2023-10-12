@@ -3,7 +3,7 @@ import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
 import { getServerSession } from "next-auth";
 import ServicePage from "./components/services";
-import VideoAccueil from "./components/video-accueil";
+import ImageAccueil from "./components/image-accueil";
 import { VisibleElement } from "@/components/animations/visible-element";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
@@ -15,21 +15,34 @@ const HomePage = async () => {
 
   return (
     <>
-      <VideoAccueil />
+      <ImageAccueil />
       <Container>
-        <div className="relative pt-6 pb-10 space-y-10 bg-primary-foreground bg-clip-padding ">
-          <Suspense fallback={<Loading />}>
-            <FeaturedProducts />
-          </Suspense>
+        <>
+          <div className=" flex flex-col items-center mt-12 pt-6 w-full h-full font-bold text-white bg-gradient-to-b from-white/20 to-primary-foreground/95 from-70% to-100% rounded-t-xl">
+            <h1 className="text-5xl md:text-7xl -rotate-12 text-green-700 ">
+              Bienvenue{" "}
+            </h1>
+            <p className="text-2xl sm:text-3xl md:text-5xl -rotate-12 text-green-700 ">
+              sur Riot Tech
+            </p>
+            <p className="text-2xl sm:text-3xl md:text-5xl -rotate-12 text-green-700 ">
+              {session?.user?.name}
+            </p>
+            <ServicePage />
+          </div>
+          <div className="relative pt-6 pb-10 space-y-10 bg-primary-foreground/95  ">
+            <Suspense fallback={<Loading />}>
+              <FeaturedProducts />
+            </Suspense>
 
-          <VisibleElement
-            variant="fade"
-            className="w-auto overflow-auto break-after-column"
-          >{`L'utilisateur est ${JSON.stringify(session)}`}</VisibleElement>
+            <VisibleElement
+              variant="fade"
+              className="w-auto overflow-auto break-after-column"
+            >{`L'utilisateur est ${JSON.stringify(session)}`}</VisibleElement>
 
-          <ServicePage />
-          <Reseau4GPage />
-        </div>
+            <Reseau4GPage />
+          </div>
+        </>
       </Container>
     </>
   );

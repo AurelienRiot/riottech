@@ -3,7 +3,7 @@
 import useCart from "@/hooks/use-cart";
 import { ShoppingBag, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "../navbar-admin/theme.toggle";
+import { ThemeToggle } from "../navbar-admin/theme-toggle";
 import { LoginButton } from "../auth/auth-button";
 import {
   Sheet,
@@ -18,6 +18,7 @@ import CartItem from "@/components/cart-item";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { useSession } from "next-auth/react";
+import { Button } from "../ui/button";
 
 const NavbarAction = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -35,7 +36,15 @@ const NavbarAction = () => {
   }, 0);
 
   if (!isMounted) {
-    return null;
+    return (
+      <Button
+        variant={"rounded"}
+        className="bg-primary-foreground text-primary"
+      >
+        <ShoppingBag size={20} />
+        <span className="w-3 ml-1 text-sm font-medium ">0</span>
+      </Button>
+    );
   }
 
   return (
@@ -54,9 +63,16 @@ const NavbarAction = () => {
       <ThemeToggle />
 
       <Sheet onOpenChange={setIsOpen} open={isOpen}>
-        <SheetTrigger className="inline-flex items-center justify-center w-auto h-10 px-5 py-3 text-sm font-semibold transition rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50 hover:opacity-75 ">
-          <ShoppingBag size={20} />
-          <span className="w-3 ml-1 text-sm font-medium ">{totalQuantity}</span>
+        <SheetTrigger asChild>
+          <Button
+            variant={"rounded"}
+            className="bg-primary-foreground text-primary"
+          >
+            <ShoppingBag size={20} />
+            <span className="w-3 ml-1 text-sm font-medium ">
+              {totalQuantity}
+            </span>
+          </Button>
         </SheetTrigger>
         <SheetContent className="overflow-y-auto">
           <SheetHeader>

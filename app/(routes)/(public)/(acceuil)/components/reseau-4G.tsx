@@ -13,28 +13,6 @@ type Feature = {
 };
 
 const Reseau4GPage = () => {
-  function scrollToTarget(id: string) {
-    const target = document.getElementById(id);
-    const navbarHeight = 74;
-
-    if (target) {
-      const offset = target.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: offset - navbarHeight, behavior: "smooth" });
-
-      setTimeout(() => {
-        target.classList.add("ring-2");
-        target.classList.add("dark:bg-slate-900");
-        target.classList.add("bg-slate-200");
-
-        setTimeout(() => {
-          target.classList.remove("ring-2");
-          target.classList.remove("dark:bg-slate-900");
-          target.classList.remove("bg-slate-200");
-        }, 500);
-      }, 1000);
-    }
-  }
-
   const features: Feature[] = [
     {
       image: "signal.svg",
@@ -170,31 +148,30 @@ const Reseau4GPage = () => {
           </div>
         ))}
       </section>
-
-      <VisibleElement className="text-center ">
-        <h2 id="cout 2" className="mb-4 text-2xl text-primary">
-          Combien ça coûte
-        </h2>
-        <p className="mb-4">
-          Prix de la Box 4G : à partir de 195€ HTC -
-          <a
-            className="text-blue-500 cursor-pointer"
-            onClick={() =>
-              scrollToTarget("La garantie à vie, ça signifie quoi ?")
-            }
-          >
-            Garantie à vie
-          </a>
-          <br />
-          {
-            "Prix de l'abonnement 4G : à partir de 24,99€HT/mois en usage spécifique et 39,99€HT en usage générale"
-          }
-          <br />
-          Service réservé aux professionnels
-        </p>
-      </VisibleElement>
     </>
   );
 };
 
 export default Reseau4GPage;
+
+export function scrollToTarget(id: string) {
+  const target = document.getElementById(id);
+  const navbarHeight = 74;
+
+  if (target) {
+    const offset = target.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: offset - navbarHeight, behavior: "smooth" });
+
+    setTimeout(() => {
+      target.classList.add("ring-2");
+      target.classList.add("dark:bg-slate-900");
+      target.classList.add("bg-slate-200");
+
+      setTimeout(() => {
+        target.classList.remove("ring-2");
+        target.classList.remove("dark:bg-slate-900");
+        target.classList.remove("bg-slate-200");
+      }, 500);
+    }, 1000);
+  }
+}

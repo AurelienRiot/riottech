@@ -3,28 +3,20 @@
 import CardHover from "@/components/animations/card-hover";
 import { VisibleElement } from "@/components/animations/visible-element";
 import { Separator } from "@/components/ui/separator";
-import { useCategories } from "@/hooks/use-categories";
+import { scrollToTarget } from "./reseau-4G";
 
 const ServicePage = () => {
   return (
     <>
-      <div className="z-10 flex flex-col items-center text-cente">
-        <VisibleElement
-          variant="bottom"
-          as="h1"
-          className="text-3xl font-bold text-primary"
-        >
-          Nos Services
-        </VisibleElement>
-        <VisibleElement variant="bottom">
-          <Separator className="w-24 mt-2" />
-        </VisibleElement>
-        <VisibleElement as="p" variant="bottom" className="m-4 text-center ">
+      <div className="z-10 flex flex-col items-center text-center pt-10">
+        <h1 className="text-3xl font-bold ">Nos Services</h1>
+        <Separator className="w-24 mt-2" />
+        <p className="m-4 text-center ">
           RIOT TECH commercialise et installe des solutions de surveillance
           vidéo et de connectivité en milieu rurale et agricole
-        </VisibleElement>
+        </p>
 
-        <div className="flex flex-wrap justify-evenly w-full sm:gap-0  gap-20  px-6 py-10">
+        <div className="flex flex-wrap justify-evenly w-full lg:gap-0  gap-20  mx-6 my-10">
           <CardHover
             link="/solution-internet"
             image="/levels-of-connection.png"
@@ -45,6 +37,28 @@ const ServicePage = () => {
           />
         </div>
       </div>
+      <VisibleElement className="text-center text-primary ">
+        <h2 id="cout 2" className="mb-4 text-2xl text-primary">
+          Combien ça coûte
+        </h2>
+        <p className="mb-4">
+          Prix de la Box 4G : à partir de 195€ HTC -
+          <a
+            className="text-blue-500 cursor-pointer"
+            onClick={() =>
+              scrollToTarget("La garantie à vie, ça signifie quoi ?")
+            }
+          >
+            Garantie à vie
+          </a>
+          <br />
+          {
+            "Prix de l'abonnement 4G : à partir de 24,99€HT/mois en usage spécifique et 39,99€HT en usage générale"
+          }
+          <br />
+          Service réservé aux professionnels
+        </p>
+      </VisibleElement>
     </>
   );
 };

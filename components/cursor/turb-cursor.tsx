@@ -4,15 +4,7 @@ import Magnetic, {
 import { useCursor } from "@/hooks/use-cursor";
 import { cn } from "@/lib/utils";
 import { resetCursor } from "@/providers/cursor-provider";
-import {
-  MotionProps,
-  TargetAndTransition,
-  VariantLabels,
-  motion,
-  transform,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
+import { motion, transform, useMotionValue } from "framer-motion";
 
 type TurbCursorProps = MagneticProps & {
   scaleOffset?: number;
@@ -51,9 +43,15 @@ export function TurbCursor({
     const baseFrequency = transform(
       absDistance,
       [0, (maxDist * 3) / 4, maxDist],
-      [0, 0.01, 0.1]
+      [0.01, 0.05, 0.1]
     );
     cursorConfig.turbConfig.baseFrequency.set(baseFrequency);
+
+    if (absDistance < 10) {
+      cursorConfig.turbConfig.seed.set(
+        String(Math.floor(Math.random() * 1000) + 1)
+      );
+    }
 
     const newAngle =
       Math.atan2(distance.y, distance.x) * (180 / Math.PI) +
@@ -77,6 +75,10 @@ export function TurbCursor({
     cursorConfig.size.height.set(height * 1.3);
     cursorConfig.size.width.set(width * 1.3);
 
+    cursorConfig.turbConfig.scale.set(
+      String(Math.max(width, height) * 1.3 * 0.15)
+    );
+
     offsetAngle.set(
       (Math.acos(width / Math.sqrt(width ** 2 + height ** 2)) * 180) / Math.PI +
         initialCursorConfig.angle
@@ -84,6 +86,9 @@ export function TurbCursor({
     cursorConfig.angle.set(initialCursorConfig.angle);
 
     cursorConfig.circleConfig.r.set(20);
+    cursorConfig.turbConfig.seed.set(
+      String(Math.floor(Math.random() * 1000) + 1)
+    );
 
     isHover.set(true);
     onMouseEnter(e);
@@ -110,13 +115,13 @@ export function TurbCursor({
       {...props}
     >
       <motion.div
-        style={{
-          rotate: rotate,
-        }}
+        // style={{
+        //   rotate: rotate,
+        // }}
         whileHover={{
           scale: scaleOffset,
         }}
-        className=" w-full h-full absolute top-0 left-0 border-2  "
+        className=" w-full h-full absolute top-0 left-0  "
       />
 
       {children}

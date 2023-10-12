@@ -22,6 +22,9 @@ import {
 } from "@/components/ui/sheet";
 import useCart from "@/hooks/use-cart";
 import { useCategories } from "@/hooks/use-categories";
+import { useCursor } from "@/hooks/use-cursor";
+import { Color } from "@/lib/color";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ChevronDown,
@@ -33,6 +36,7 @@ import {
   User2,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -42,10 +46,6 @@ import { BsSim } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import Magnetic from "./magnetic";
-import { useTheme } from "next-themes";
-import { useCursor } from "@/hooks/use-cursor";
-import { Color } from "@/lib/color";
-import { cn } from "@/lib/utils";
 
 const Navigations = () => {
   const { data: session } = useSession();
@@ -100,6 +100,7 @@ export default Navigations;
 const Nav = () => {
   const pathname = usePathname();
   const { categories } = useCategories();
+
   const { cursorConfig, initialCursorConfig } = useCursor();
 
   const categoriesRoutes = categories.map((route) => ({
@@ -351,7 +352,7 @@ function ThemeToggle() {
       className="bg-primary-foreground text-primary  "
     >
       <SunIcon className="absolute rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100 h-6 w-6  " />
-      <MoonIcon className="absolute  h-6 w-6   rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0  " />
+      <MoonIcon className="absolute  h-6 w-6   rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0   " />
       <span className="sr-only w-0">Toggle theme</span>
     </Button>
   );

@@ -69,12 +69,10 @@ function Menu1() {
   const handleOnEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     backgroundColor.set("red");
     e.stopPropagation();
-    console.log("enter Button");
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    console.log("leave Button");
     backgroundColor.set("white");
     position.x.set(0);
     position.y.set(0);
@@ -156,12 +154,10 @@ function Menu2() {
   const handleOnEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     backgroundColor.set("black");
     e.stopPropagation();
-    console.log("enter Button");
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
-    console.log("leave Button");
     backgroundColor.set("black");
     position.x.set(0);
     position.y.set(0);

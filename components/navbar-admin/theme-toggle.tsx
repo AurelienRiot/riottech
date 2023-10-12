@@ -13,7 +13,7 @@ export function ThemeToggle() {
       variant={"rounded"}
       onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       size="icon"
-      className="bg-primary-foreground text-primary dark:bg-primary dark:text-primary-foreground"
+      className="bg-primary-foreground text-primary dark:border-2 "
     >
       <SunIcon className="absolute rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100 h-6 w-6  " />
       <MoonIcon className="absolute  h-6 w-6   rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0  " />
