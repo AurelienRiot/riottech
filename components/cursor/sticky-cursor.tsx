@@ -66,9 +66,9 @@ export function StickyCursor({
   const handleOnEnter = (e: React.MouseEvent<HTMLElement>) => {
     const { width, height } = e.currentTarget.getBoundingClientRect();
     cursorConfig.size.height.set(height * 1.3);
-    cursorConfig.size.rx.set(Math.min(height, width) / 4);
+    cursorConfig.size.rx.set(Math.min(height, width));
     cursorConfig.size.width.set(width * 1.3);
-    cursorConfig.size.ry.set(Math.min(height, width) / 4);
+    cursorConfig.size.ry.set(Math.min(height, width));
     cursorConfig.angle.set(initialCursorConfig.angle);
 
     offsetAngle.set(
@@ -76,7 +76,7 @@ export function StickyCursor({
         initialCursorConfig.angle
     );
 
-    isHover.set(true);
+    isHover.set("sticky");
     onMouseEnter(e);
   };
 
@@ -104,13 +104,4 @@ export function StickyCursor({
       {children}
     </Magnetic>
   );
-}
-
-function shortestAngleDifference(a: number, b: number) {
-  const diff = ((b - a + 180) % 360) - 180;
-  return diff < -180 ? diff + 360 : diff;
-}
-
-function lerp(start: number, end: number, t: number) {
-  return start * (1 - t) + end * t;
 }

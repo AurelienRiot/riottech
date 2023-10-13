@@ -18,7 +18,7 @@ const HomePage = async () => {
       <ImageAccueil />
       <Container>
         <>
-          <div className=" flex flex-col items-center mt-12 pt-6 w-full h-full font-bold text-white bg-gradient-to-b from-white/20 to-primary-foreground/95 from-70% to-100% rounded-t-xl">
+          <div className=" flex flex-col items-center mt-12 pt-6 w-full h-full font-bold text-white bg-gradient-to-b from-transparent to-primary-foreground/95 from-70% to-100% rounded-t-xl">
             <h1 className="text-5xl md:text-7xl -rotate-12 text-green-700 ">
               Bienvenue{" "}
             </h1>

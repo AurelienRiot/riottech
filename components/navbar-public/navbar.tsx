@@ -1,12 +1,11 @@
 "use client";
-import Container from "@/components/ui/container";
-import Link from "next/link";
 import MainNav from "@/components/navbar-public/main-nav";
 import NavbarAction from "@/components/navbar-public/navbar-actions";
-import MobileNav from "./mobile-nav";
-import { useEffect, useState } from "react";
+import Container from "@/components/ui/container";
 import { AnimatePresence, motion } from "framer-motion";
-import { useCategories } from "@/hooks/use-categories";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import MobileNav from "./mobile-nav";
 
 const NavBar = () => {
   const [isNavbar, setIsNavbar] = useState(true);

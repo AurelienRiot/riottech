@@ -1,5 +1,5 @@
 "use client";
-import ImageFerme from "@/public/videos/film_guimbert.jpg";
+import ImageFerme from "@/public/film_guimbert.jpg";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 

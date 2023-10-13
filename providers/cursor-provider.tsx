@@ -12,22 +12,21 @@ import {
 import { useEffect, useMemo, useState } from "react";
 
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const springConfig: SpringOptions = {
     damping: 20,
     stiffness: 300,
     mass: 0.5,
   };
-  const springConfigRotate = { damping: 20, stiffness: 350, mass: 0.5 };
+  const springConfigRotate: SpringOptions = {
+    damping: 20,
+    stiffness: 350,
+    mass: 0.5,
+  };
 
-  const initialCursorConfig = useMemo(
+  const initialCursorConfig: CursorContextType["initialCursorConfig"] = useMemo(
     () => ({
       opacity: 1,
+      cursorMixBlendMode: "normal",
       size: { height: 20, width: 20, rx: 10, ry: 10 },
       angle: 0,
       scale: { x: 1, y: 1 },
@@ -46,6 +45,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
         offset1: "0%",
         offset2: "100%",
       },
+      isHover: "default",
     }),
     []
   );
@@ -70,10 +70,10 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const cursorSize = {
-    height: useMotionValue(initialCursorConfig.size.height),
-    width: useMotionValue(initialCursorConfig.size.width),
-    rx: useMotionValue(initialCursorConfig.size.rx),
-    ry: useMotionValue(initialCursorConfig.size.ry),
+    height: useSpring(initialCursorConfig.size.height, springConfig),
+    width: useSpring(initialCursorConfig.size.width, springConfig),
+    rx: useSpring(initialCursorConfig.size.rx, springConfig),
+    ry: useSpring(initialCursorConfig.size.ry, springConfig),
   };
 
   const circleConfig = {
@@ -81,6 +81,10 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
     cy: useMotionValue(initialCursorConfig.circleConfig.cy),
     r: useMotionValue(initialCursorConfig.circleConfig.r),
   };
+
+  const cursorMixBlendMode = useMotionValue(
+    initialCursorConfig.cursorMixBlendMode
+  );
 
   const cursorOpacity = useSpring(initialCursorConfig.opacity, springConfig);
   const mousePositionX = useSpring(0, springConfig);
@@ -94,7 +98,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
 
   const angleCursor = useSpring(initialCursorConfig.angle, springConfigRotate);
 
-  const isHover = useMotionValue(false);
+  const isHover = useMotionValue(initialCursorConfig.isHover);
 
   const cursorPositionX = useTransform(
     mousePositionX,
@@ -116,21 +120,27 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
     const { clientX, clientY } = event;
     const { left, top } = event.currentTarget.getBoundingClientRect();
 
-    if (isHover.get()) {
-      const center = {
-        x: elementDimension.left.get() + elementDimension.width.get() / 2,
-        y: elementDimension.top.get() + elementDimension.height.get() / 2,
-      };
-      const distance = { x: clientX - center.x, y: clientY - center.y };
+    const center = {
+      x: elementDimension.left.get() + elementDimension.width.get() / 2,
+      y: elementDimension.top.get() + elementDimension.height.get() / 2,
+    };
+    const distance = { x: clientX - center.x, y: clientY - center.y };
 
-      const posX = center.x - left + distance.x * 0.1;
-      const posY = center.y - top + distance.y * 0.1;
-
-      mousePositionX.set(posX);
-      mousePositionY.set(posY);
-    } else {
-      mousePositionX.set(clientX - left);
-      mousePositionY.set(clientY - top);
+    switch (isHover.get()) {
+      case "turb":
+        mousePositionX.set(center.x - left + distance.x * 0.1);
+        mousePositionY.set(center.y - top + distance.y * 0.1);
+        break;
+      case "sticky":
+        mousePositionX.set(center.x - left + distance.x * 0.2);
+        mousePositionY.set(center.y - top + distance.y * 0.2);
+        break;
+      case "default":
+        mousePositionX.set(clientX - left);
+        mousePositionY.set(clientY - top);
+        break;
+      default:
+        throw new Error(`Unhandled value: ${isHover.get()}`);
     }
   }
 
@@ -148,6 +158,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
         elementDimension,
         initialCursorConfig,
         cursorConfig: {
+          cursorMixBlendMode,
           position: {
             x: mousePositionX,
             y: mousePositionY,
@@ -165,7 +176,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div
-        className="relative h-full w-full cursor-none"
+        className="relative h-full w-full"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => cursorOpacity.set(initialCursorConfig.opacity)}
         onMouseLeave={() => cursorOpacity.set(0)}
@@ -184,6 +195,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
             scaleX: scale.x,
             scaleY: scale.y,
             opacity: cursorOpacity,
+            mixBlendMode: cursorMixBlendMode,
           }}
         >
           <defs>
@@ -256,7 +268,7 @@ export function resetCursor({
 }: {
   cursorConfig: CursorContextType["cursorConfig"];
   initialCursorConfig: CursorContextType["initialCursorConfig"];
-  isHover: MotionValue<boolean>;
+  isHover: CursorContextType["isHover"];
 }) {
   cursorConfig.opacity.set(initialCursorConfig.opacity);
   cursorConfig.size.height.set(initialCursorConfig.size.height);
@@ -277,5 +289,5 @@ export function resetCursor({
 
   cursorConfig.circleConfig.r.set(initialCursorConfig.circleConfig.r);
 
-  isHover.set(false);
+  isHover.set("default");
 }

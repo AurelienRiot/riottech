@@ -90,7 +90,7 @@ export function TurbCursor({
       String(Math.floor(Math.random() * 1000) + 1)
     );
 
-    isHover.set(true);
+    isHover.set("turb");
     onMouseEnter(e);
   };
 

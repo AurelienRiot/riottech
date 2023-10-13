@@ -1,13 +1,12 @@
 import { IsProProvider } from "@/hooks/use-is-pro";
+import { CategoriesProvider } from "@/providers/categories-provider";
 import { CursorProvider } from "@/providers/cursor-provider";
 import Image from "next/image";
+import CursorDifference from "./components/cursor-difference";
 import MouseHover from "./components/mouse-hover";
-import MouseSticky from "./components/mouse-sticky";
 import MouseSticky2 from "./components/mouse-sticky2";
 import MouseSticky3 from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
-import GetCategories from "@/server-actions/get-categories";
-import { CategoriesProvider } from "@/providers/categories-provider";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
@@ -50,8 +49,7 @@ const HomePage = async () => {
       <CursorProvider>
         <CategoriesProvider categories={categories} />
         <Image
-          priority
-          src="/videos/film_guimbert.jpg"
+          src="/film_guimbert.jpg"
           alt="image background"
           width={1920}
           height={1080}
@@ -69,11 +67,14 @@ const HomePage = async () => {
                 "Profitez d'une expertise reconnue pour relever les défis technologiques d'aujourd'hui et de demain."
               }
             </p>
-            <SVG />
+            {/* <SVG /> */}
           </div>
         </div>
         <div className="h-screen bg-green-600/90 w-full">
           <MouseHover />
+        </div>
+        <div className="h-screen bg-white/90 w-full">
+          <CursorDifference />
         </div>
         {/* <div className="h-screen bg-white/90 w-full  ">
           <MouseSticky />
