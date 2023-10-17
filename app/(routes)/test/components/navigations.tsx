@@ -24,7 +24,7 @@ import useCart from "@/hooks/use-cart";
 import { useCategories } from "@/hooks/use-categories";
 import { useCursor } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
-import { cn } from "@/lib/utils";
+import { cn, isWindowSmallerThan } from "@/lib/utils";
 import { interpolate } from "flubber";
 import {
   AnimatePresence,
@@ -51,15 +51,15 @@ import { BsSim } from "react-icons/bs";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import Magnetic from "./magnetic";
-import IconButton from "@/components/ui/icon-button";
 
 const Navigations = () => {
   const { data: session } = useSession();
+
   return (
     <>
-      <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-50  items-center">
-        <div className="flex h-auto gap-2 p-2 bg-primary-foreground w-[180px] rounded-lg justify-center items-center">
-          <Nav />
+      <div className="p-4 flex justify-between fixed top-0 right-0 left-0 z-50  items-center bg-gradient-to-b from-primary-foreground to-transparent from-75%">
+        <div className="flex h-auto gap-2 p-2 bg-primary-foreground rounded-lg justify-center items-center">
+          <NavMobile />
           <Magnetic>
             <Link href="/" className="flex justify-center items-center gap-2">
               <Image
@@ -99,11 +99,23 @@ const Navigations = () => {
 
 export default Navigations;
 
-const Nav = () => {
+const NavMobile = () => {
   const pathname = usePathname();
   const { categories } = useCategories();
-
   const { cursorConfig, initialCursorConfig } = useCursor();
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(isWindowSmallerThan(1024));
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  if (!isMobile) {
+    return null;
+  }
 
   const categoriesRoutes = categories.map((route) => ({
     href: `/category/${route.id}`,

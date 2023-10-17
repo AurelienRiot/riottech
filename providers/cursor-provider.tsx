@@ -176,7 +176,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div
-        className="relative h-full w-full"
+        className="relative h-full w-full "
         onMouseMove={handleMouseMove}
         onMouseEnter={() => cursorOpacity.set(initialCursorConfig.opacity)}
         onMouseLeave={() => cursorOpacity.set(0)}

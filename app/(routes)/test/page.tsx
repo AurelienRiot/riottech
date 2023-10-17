@@ -56,8 +56,8 @@ const HomePage = async () => {
           className="fixed top-0 -z-10 left-0 object-cover object-center h-screen w-screen"
         />
 
-        <Navigations />
         <div className=" relative h-screen bg-primary-foreground/90 w-full ">
+          <Navigations />
           <div className="absolute  flex flex-col w-11/12 sm:w-4/5 lg:w-2/3 xl:w-1/2 gap-2 top-1/4 left-1/2 -translate-x-1/2  bg-primary-foreground/80 sm:p-4 p-2 rounded-lg ">
             <h1 className="text-center text-5xl ">
               Spécialisé en réseaux isolés et systèmes de surveillance
@@ -67,7 +67,6 @@ const HomePage = async () => {
                 "Profitez d'une expertise reconnue pour relever les défis technologiques d'aujourd'hui et de demain."
               }
             </p>
-            {/* <SVG /> */}
           </div>
         </div>
         <div className="h-screen bg-green-600/90 w-full">
@@ -91,54 +90,3 @@ const HomePage = async () => {
 };
 
 export default HomePage;
-
-function SVG() {
-  return (
-    <>
-      <svg className={" bg-transparent overflow-visible  "}>
-        <defs>
-          <filter id="ripple">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.05 "
-              numOctaves="4"
-              result="TURB"
-              seed="1"
-            />
-            <feDisplacementMap
-              xChannelSelector="R"
-              yChannelSelector="G"
-              in="SourceGraphic"
-              in2="TURB"
-              scale="20"
-            />
-          </filter>
-          <filter id="erode">
-            <feMorphology operator="erode" radius="1" />
-          </filter>
-          <filter id="dilate">
-            <feMorphology operator="dilate" radius="2" />
-          </filter>
-          <filter id="shadow">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
-            <feOffset dx="20" dy="20" result="offsetblur" />
-            <feFlood floodColor="pink" />
-            <feComposite in2="offsetblur" operator="in" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <rect
-          width={100}
-          height={100}
-          rx={10}
-          ry={10}
-          fill="red"
-          filter="url(#ripple)"
-        />
-      </svg>
-    </>
-  );
-}
