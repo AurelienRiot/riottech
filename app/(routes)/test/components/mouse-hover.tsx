@@ -10,7 +10,6 @@ import {
   ForwardRefComponent,
   HTMLMotionProps,
   transform,
-  useAnimation,
 } from "framer-motion";
 import Image from "next/image";
 import { interpolate } from "flubber";
@@ -142,55 +141,53 @@ export default MouseHover;
 function Curve({ state }: { state: boolean }) {
   const windowWidth = useMotionValue(1000);
 
-  const initialPath = `M0 0 L${1000} 0 Q${1000 / 2} 500 0 0`;
-  const targetPath = `M0 0 L${1000} 0 Q${1000 / 2} 0 0 0`;
+  const initialPath = `M0 0 L${GetWindowWidth()} 0 Q${
+    GetWindowWidth() / 2
+  } 300 0 0`;
+  const targetPath = `M0 0 L${GetWindowWidth()} 0 Q${
+    GetWindowWidth() / 2
+  } 0 0 0`;
+  // const initialPath = useTransform(
+  //   windowWidth,
+  //   (w) => `M0 0 L${w} 0 Q${w / 2} 500 0 0`
+  // );
+  // const targetPath = useTransform(
+  //   windowWidth,
+  //   (w) => `M0 0 L${w} 0 Q${w / 2} 0 0 0`
+  // );
 
-  // const progress = useMotionValue(state ? 1 : 0);
-  // const indexOfPath = useMotionValue(state ? 0 : 1);
-  // const [scope, animate] = useAnimate();
+  const progress = useMotionValue(state ? 1 : 0);
+  const indexOfPath = useMotionValue(state ? 0 : 1);
+  const [scope, animate] = useAnimate();
 
-  // const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
-  //   mixer: (a, b) => interpolate(a, b, { maxSegmentLength: 1 }),
-  // });
-
-  const curve = {
-    initial: {
-      d: targetPath,
-    },
-    enter: {
-      d: initialPath,
-      transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
-    },
-    exit: {
-      d: targetPath,
-      transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] },
-    },
-  };
-
-  const controls = useAnimation();
+  const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
+    mixer: (a, b) => interpolate(a, b, { maxSegmentLength: 20 }),
+  });
 
   useEffect(() => {
-    if (state) {
-      controls.start("enter");
-    } else {
-      controls.start("exit");
-    }
-  }, [state, controls]);
+    animate(progress, indexOfPath.get(), {
+      duration: 0.5,
+      ease: "easeInOut",
+      onComplete: () => {
+        if (indexOfPath.get() === 0) {
+          indexOfPath.set(1);
+        } else {
+          indexOfPath.set(0);
+        }
+      },
+    });
+    console.log(indexOfPath.get(), progress.get());
+  }, [animate, progress, indexOfPath, state, windowWidth]);
+
   return (
     <motion.svg
-      // ref={scope}
-
+      ref={scope}
       className={"absolute top-full left-0 w-full h-px overflow-visible "}
       stroke="none"
       // fill="hsl(210 40% 98%)"
       fill={"red"}
     >
-      {/* <motion.path d={path}></motion.path> */}
-      <motion.path
-        animate={controls}
-        variants={curve}
-        initial="initial"
-      ></motion.path>
+      <motion.path d={path}></motion.path>
     </motion.svg>
   );
 }
