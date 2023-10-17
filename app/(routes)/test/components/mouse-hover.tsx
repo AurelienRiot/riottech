@@ -139,14 +139,11 @@ const MouseHover = () => {
 export default MouseHover;
 
 function Curve({ state }: { state: boolean }) {
-  const windowWidth = useMotionValue(1000);
+  const windowWidth = GetWindowWidth() === 0 ? 1000 : GetWindowWidth();
+  console.log(windowWidth);
 
-  const initialPath = `M0 0 L${GetWindowWidth()} 0 Q${
-    GetWindowWidth() / 2
-  } 300 0 0`;
-  const targetPath = `M0 0 L${GetWindowWidth()} 0 Q${
-    GetWindowWidth() / 2
-  } 0 0 0`;
+  const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 300 0 0`;
+  const targetPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 0 0 0`;
   // const initialPath = useTransform(
   //   windowWidth,
   //   (w) => `M0 0 L${w} 0 Q${w / 2} 500 0 0`
