@@ -1,21 +1,19 @@
 "use client";
 import { useCursor } from "@/hooks/use-cursor";
+import { GetWindowWidth } from "@/lib/utils";
+import { interpolate } from "flubber";
 import {
+  HTMLMotionProps,
   motion,
+  useAnimate,
   useMotionTemplate,
+  useMotionValue,
   useSpring,
   useTransform,
-  useMotionValue,
-  useAnimate,
-  ForwardRefComponent,
-  HTMLMotionProps,
-  transform,
 } from "framer-motion";
 import Image from "next/image";
-import { interpolate } from "flubber";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { GetWindowWidth } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
 const base64Svg = btoa(
   '<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50" fill="black" /></svg>'
@@ -46,6 +44,31 @@ const MouseHover = () => {
   }
 
   const [state, setState] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let scrollThreshold = 30;
+    let navbarHeight = 64;
+    const updateScrollDirection = () => {
+      const scrollY = window.scrollY;
+      const direction = scrollY > lastScrollY ? "down" : "up";
+      if (
+        direction === "down" &&
+        scrollY > navbarHeight &&
+        scrollY - lastScrollY > scrollThreshold
+      ) {
+        setState(false);
+      } else if (direction === "up" || scrollY <= navbarHeight) {
+        setState(true);
+      }
+      lastScrollY = scrollY > 0 ? scrollY : 0;
+    };
+
+    window.addEventListener("scroll", updateScrollDirection);
+    return () => {
+      window.removeEventListener("scroll", updateScrollDirection);
+    };
+  }, []);
   console.log(state);
 
   return (
@@ -118,19 +141,17 @@ const MouseHover = () => {
       </motion.div>
 
       <div
-        onClick={() => setState(!state)}
         data-state={state ? "open" : "closed"}
-        className="w-full h-[50px] data-[state=closed]:h-[25px]  duration-500 transition-all bg-primary-foreground mt-20  text-primary flex items-center justify-center relative cursor-pointer "
+        className="w-full h-[50px] data-[state=closed]:h-[25px]  duration-300 transition-all bg-primary-foreground mt-20  text-primary flex items-center justify-center fixed top-1/2 left-0 cursor-pointer z-50"
       >
-        {" "}
+        <Curve state={state} />
         <span
           data-state={state ? "open" : "closed"}
-          className={`transition-all data-[state=open]:translate-y-2 duration-500 data-[state=closed]:text-xs text-2xl  `}
+          className={`transition-all data-[state=open]:translate-y-6 duration-300 data-[state=open]:scale-[3] `}
         >
           {" "}
           test
         </span>
-        <Curve state={state} />
       </div>
     </main>
   );
@@ -140,9 +161,8 @@ export default MouseHover;
 
 function Curve({ state }: { state: boolean }) {
   const windowWidth = GetWindowWidth() === 0 ? 1000 : GetWindowWidth();
-  console.log(windowWidth);
 
-  const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 300 0 0`;
+  const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 200 0 0`;
   const targetPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 0 0 0`;
   // const initialPath = useTransform(
   //   windowWidth,
@@ -163,7 +183,7 @@ function Curve({ state }: { state: boolean }) {
 
   useEffect(() => {
     animate(progress, indexOfPath.get(), {
-      duration: 0.5,
+      duration: 0.01,
       ease: "easeInOut",
       onComplete: () => {
         if (indexOfPath.get() === 0) {
@@ -173,13 +193,13 @@ function Curve({ state }: { state: boolean }) {
         }
       },
     });
-    console.log(indexOfPath.get(), progress.get());
   }, [animate, progress, indexOfPath, state, windowWidth]);
+  console.log(state);
 
   return (
     <motion.svg
       ref={scope}
-      className={"absolute top-full left-0 w-full h-px overflow-visible "}
+      className={"absolute bottom-0 left-0 w-full h-px overflow-visible "}
       stroke="none"
       // fill="hsl(210 40% 98%)"
       fill={"red"}
