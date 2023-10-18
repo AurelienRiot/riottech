@@ -1,6 +1,7 @@
 "use client";
 import { LoginButton } from "@/components/auth/auth-button";
 import CartItem from "@/components/cart-item";
+import { Icons } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Collapsible,
@@ -37,6 +38,7 @@ import {
   ChevronDown,
   LucidePhoneCall,
   ShoppingBag,
+  Siren,
   StoreIcon,
   User2,
 } from "lucide-react";
@@ -45,11 +47,8 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, createContext, useContext } from "react";
-import { BiCctv } from "react-icons/bi";
-import { BsSim } from "react-icons/bs";
+import { createContext, useContext, useEffect, useState } from "react";
 import { HiOutlineExternalLink } from "react-icons/hi";
-import { RiAlarmWarningLine } from "react-icons/ri";
 import Magnetic from "./magnetic";
 
 type NavigationStateContextType = {
@@ -145,17 +144,17 @@ const Navigations = () => {
         <MainNav />
 
         <div className="flex gap-2 ">
-          <Magnetic>
+          <Magnetic className="flex items-center justify-center w-auto h-auto">
             {session?.user ? (
               <Link
                 href={
                   session.user.role === "admin" ? "/admin" : "/dashboard-user"
                 }
-                className="group flex items-center justify-center rounded-full border bg-primary-foreground p-2 text-primary shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+                className="group flex items-center justify-center  text-primary  transition-all  hover:bg-accent hover:text-accent-foreground"
               >
                 <User2
                   data-nav={navState ? "open" : "closed"}
-                  className="h-12 w-12  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all group-hover:scale-150 "
+                  className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all group-hover:scale-150 "
                 />
               </Link>
             ) : (
@@ -234,11 +233,15 @@ const MainNav = () => {
             key={index}
             data-nav={navState ? "open" : "closed"}
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
-            className={`text-primary text-xl font-semibold  transition-all duration-300
+            className={`text-primary text-xl flex gap-1 items-end font-semibold  transition-all duration-300
             data-[nav=closed]:font-light data-[nav=closed]:text-sm translate-y-4 data-[nav=closed]:translate-y-0
             `}
             href={data.href}
           >
+            <data.icon
+              data-nav={navState ? "open" : "closed"}
+              className="w-8 h-8 data-[nav=closed]:w-4 data-[nav=closed]:h-4 inline transition-all duration-300"
+            />{" "}
             {data.label}
           </Link>
         );
@@ -250,18 +253,18 @@ const MainNav = () => {
 const mainRoutes = [
   {
     href: "/activation-sim",
-    icon: BsSim,
+    icon: Icons.Sim,
     label: "Activation Sim",
   },
   {
     href: "/anomaly-detect",
     label: "Anomaly detect",
-    icon: RiAlarmWarningLine,
+    icon: Siren,
   },
   {
     href: "/surveillance-elevage",
     label: "Surveillance élevage",
-    icon: BiCctv,
+    icon: Icons.CCTV,
   },
   {
     href: "/contact",
