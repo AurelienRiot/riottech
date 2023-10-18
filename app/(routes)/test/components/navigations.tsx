@@ -158,7 +158,7 @@ const Navigations = () => {
               >
                 <User2
                   data-nav={navState ? "open" : "closed"}
-                  className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all group-hover:scale-150 "
+                  className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all group-hover:scale-150 data-[nav=open]:translate-y-4"
                 />
               </Link>
             ) : (
@@ -192,19 +192,23 @@ const MainNav = () => {
 
   return (
     <nav
-      className="lg:flex items-center justify-center gap-4 hidden "
+      className={`lg:flex items-center justify-center gap-4 hidden 
+      [&[data-nav=open]>*:nth-child(1)]:translate-y-8 [&[data-nav=open]>*:nth-child(2)]:translate-y-12
+      [&[data-nav=open]>*:nth-child(3)]:translate-y-16 [&[data-nav=open]>*:nth-child(4)]:translate-y-12
+      [&[data-nav=open]>*:nth-child(5)]:translate-y-8`}
       onMouseEnter={() => {
         cursorConfig.opacity.set(0.5);
       }}
       onMouseLeave={() => {
         cursorConfig.opacity.set(initialCursorConfig.opacity);
       }}
+      data-nav={navState ? "open" : "closed"}
     >
       <Popover>
         <PopoverTrigger
           data-nav={navState ? "open" : "closed"}
           className={`text-primary text-xl font-semibold  transition-all duration-300 flex justify-center  items-end 
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm data-[nav=open]:translate-y-6  [&[data-state=open]>svg.chevron]:rotate-0
+            data-[nav=closed]:font-light data-[nav=closed]:text-sm   [&[data-state=open]>svg.chevron]:rotate-0
             before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
             `}
         >
@@ -241,7 +245,7 @@ const MainNav = () => {
             className={`text-primary text-xl flex gap-1 items-end font-semibold  transition-all duration-300
             data-[nav=closed]:font-light data-[nav=closed]:text-sm  
             before:h-1 data-[nav=closed]:before:h-px before:w-0 hover:before:w-full before:bg-primary before:absolute before:left-0 before:-bottom-2 before:rounded-md before:transition-all before:duration-300
-            data-[nav=open]:odd:translate-y-6 data-[nav=open]:even:-translate-y-2
+            
             `}
             href={data.href}
           >
@@ -317,7 +321,7 @@ const NavMobile = () => {
           size="sm"
           role="combobox"
           aria-label="Select"
-          className="  relative rounded-full w-10 h-10 group data-[state=open]:text-destructive-foreground transition-colors   data-[state=open]:bg-destructive  duration-300 "
+          className="  relative rounded-full w-10 h-10 group data-[state=open]:text-destructive-foreground transition-colors   data-[state=open]:bg-destructive  duration-300 mr-4"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
