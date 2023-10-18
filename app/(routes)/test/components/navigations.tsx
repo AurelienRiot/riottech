@@ -199,14 +199,15 @@ const MainNav = () => {
       <Popover>
         <PopoverTrigger
           data-nav={navState ? "open" : "closed"}
-          className={`text-primary text-xl font-semibold  transition-all duration-300 flex  justify-center items-center translate-y-4 data-[nav=closed]:translate-y-0
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm [&[data-state=open]>svg.chevron]:rotate-0
+          className={`text-primary text-xl font-semibold  transition-all duration-300 flex justify-center  items-end 
+            data-[nav=closed]:font-light data-[nav=closed]:text-sm translate-y-4 data-[nav=closed]:translate-y-0 [&[data-state=open]>svg.chevron]:rotate-0
+            before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
             `}
         >
           Produits
           <ChevronDown
             data-nav={navState ? "open" : "closed"}
-            className="relative  h-8 w-8 data-[nav=closed]:h-4 data-[nav=closed]:w-4 transition-all duration-300 -rotate-90 chevron"
+            className="relative h-8 w-8 data-[nav=closed]:h-4 data-[nav=closed]:w-4 transition-all duration-300 -rotate-90 chevron"
             aria-hidden="true"
           />
         </PopoverTrigger>
@@ -235,6 +236,7 @@ const MainNav = () => {
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
             className={`text-primary text-xl flex gap-1 items-end font-semibold  transition-all duration-300
             data-[nav=closed]:font-light data-[nav=closed]:text-sm translate-y-4 data-[nav=closed]:translate-y-0
+            before:h-1 data-[nav=closed]:before:h-px before:w-0 hover:before:w-full before:bg-primary before:absolute before:left-0 before:-bottom-2 before:rounded-md before:transition-all before:duration-300
             `}
             href={data.href}
           >
