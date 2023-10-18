@@ -132,10 +132,14 @@ const Navigations = () => {
               </div>
               <span
                 data-nav={navState ? "open" : "closed"}
-                className="font-bold transition-all duration-300 data-[nav=closed]:text-base text-2xl"
+                className="relative font-bold data-[nav=closed]:text-base text-2xl [&[data-nav=open]>span.riot]:translate-y-2 [&[data-nav=open]>span.tech]:translate-y-4  "
               >
-                {" "}
-                Riot Tech
+                <span className="riot inline-block transition-all duration-300">
+                  Riot{" "}
+                </span>{" "}
+                <span className="tech inline-block transition-all duration-300">
+                  Tech
+                </span>
               </span>
             </Link>
           </Magnetic>
@@ -160,7 +164,7 @@ const Navigations = () => {
             ) : (
               <LoginButton
                 data-nav={navState ? "open" : "closed"}
-                className="[&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6 bg-primary-foreground hover:bg-accent hover:text-accent-foreground text-primary "
+                className="[&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6 bg-primary-foreground hover:bg-accent hover:text-accent-foreground text-primary  data-[nav=open]:translate-y-4 "
               />
             )}
           </Magnetic>
@@ -200,7 +204,7 @@ const MainNav = () => {
         <PopoverTrigger
           data-nav={navState ? "open" : "closed"}
           className={`text-primary text-xl font-semibold  transition-all duration-300 flex justify-center  items-end 
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm translate-y-4 data-[nav=closed]:translate-y-0 [&[data-state=open]>svg.chevron]:rotate-0
+            data-[nav=closed]:font-light data-[nav=closed]:text-sm data-[nav=open]:translate-y-6  [&[data-state=open]>svg.chevron]:rotate-0
             before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
             `}
         >
@@ -235,14 +239,15 @@ const MainNav = () => {
             data-nav={navState ? "open" : "closed"}
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
             className={`text-primary text-xl flex gap-1 items-end font-semibold  transition-all duration-300
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm translate-y-4 data-[nav=closed]:translate-y-0
+            data-[nav=closed]:font-light data-[nav=closed]:text-sm  
             before:h-1 data-[nav=closed]:before:h-px before:w-0 hover:before:w-full before:bg-primary before:absolute before:left-0 before:-bottom-2 before:rounded-md before:transition-all before:duration-300
+            data-[nav=open]:odd:translate-y-6 data-[nav=open]:even:-translate-y-2
             `}
             href={data.href}
           >
             <data.icon
               data-nav={navState ? "open" : "closed"}
-              className="w-8 h-8 data-[nav=closed]:w-4 data-[nav=closed]:h-4 inline transition-all duration-300"
+              className="w-8 h-8 data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300"
             />{" "}
             {data.label}
           </Link>
@@ -519,7 +524,7 @@ function ThemeToggle() {
         setTheme(theme === "light" ? "dark" : "light");
       }}
       size="icon"
-      className="bg-primary-foreground text-primary rounded-full  px-0 py-0 [&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6"
+      className="bg-primary-foreground text-primary rounded-full  px-0 py-0 [&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6 data-[nav=open]:translate-y-2"
       data-nav={navState ? "open" : "closed"}
     >
       <AnimatedIcon className="duration-300 transition-all " theme={theme} />
