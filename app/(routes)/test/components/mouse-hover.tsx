@@ -1,5 +1,6 @@
 "use client";
 import { useCursor } from "@/hooks/use-cursor";
+import { Color } from "@/lib/color";
 import { GetWindowWidth } from "@/lib/utils";
 import { interpolate } from "flubber";
 import {
@@ -69,7 +70,6 @@ const MouseHover = () => {
       window.removeEventListener("scroll", updateScrollDirection);
     };
   }, []);
-  console.log(state);
 
   return (
     <main
@@ -140,19 +140,19 @@ const MouseHover = () => {
         </Link>
       </motion.div>
 
-      <div
+      {/* <div
         data-state={state ? "open" : "closed"}
-        className="w-full h-[50px] data-[state=closed]:h-[25px]  duration-300 transition-all bg-primary-foreground mt-20  text-primary flex items-center justify-center fixed top-1/2 left-0 cursor-pointer z-50"
+        className="w-full h-[50px] data-[state=closed]:h-[25px]  duration-300 transition-all bg-primary-foreground mt-20  text-primary flex items-center justify-center fixed top-1/2 left-0 z-50 "
       >
         <Curve state={state} />
-        <span
+        <motion.span
           data-state={state ? "open" : "closed"}
           className={`transition-all data-[state=open]:translate-y-6 duration-300 data-[state=open]:scale-[3] `}
         >
           {" "}
           test
-        </span>
-      </div>
+        </motion.span>
+      </div> */}
     </main>
   );
 };
@@ -182,29 +182,20 @@ function Curve({ state }: { state: boolean }) {
   });
 
   useEffect(() => {
-    animate(progress, indexOfPath.get(), {
-      duration: 0.01,
+    animate(progress, progress.get() === 1 ? 0 : 1, {
+      duration: 0.1,
       ease: "easeInOut",
-      onComplete: () => {
-        if (indexOfPath.get() === 0) {
-          indexOfPath.set(1);
-        } else {
-          indexOfPath.set(0);
-        }
-      },
     });
   }, [animate, progress, indexOfPath, state, windowWidth]);
-  console.log(state);
-
   return (
     <motion.svg
       ref={scope}
       className={"absolute bottom-0 left-0 w-full h-px overflow-visible "}
       stroke="none"
-      // fill="hsl(210 40% 98%)"
-      fill={"red"}
+
+      // fill={"red"}
     >
-      <motion.path d={path}></motion.path>
+      <motion.path fill={Color("primary-foreground")} d={path}></motion.path>
     </motion.svg>
   );
 }

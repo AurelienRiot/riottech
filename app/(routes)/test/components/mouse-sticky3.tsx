@@ -8,7 +8,7 @@ const MouseSticky3 = () => {
     <div className="w-full h-full flex flex-wrap gap-40 items-center justify-center ">
       <StickyCursor
         as="button"
-        className=" bg-red-600   rounded-md text-primary hover:text-primary-foreground"
+        className="  rounded-md text-primary hover:text-primary-foreground"
       >
         <Menu className="h-10 w-10 " />
       </StickyCursor>
@@ -41,50 +41,3 @@ function ExtraDiv() {
     </TurbCursor>
   );
 }
-
-const generateSinusoidalPath = (
-  value: number,
-  width: number,
-  height: number,
-  amplitude: number
-) => {
-  const nodes = Math.round(value * 4) + 1;
-  const frequency = nodes;
-  const points = 100;
-
-  let path = "";
-
-  // Top edge
-  for (let i = 0; i <= points; i++) {
-    const x = (i * width) / points;
-    const y =
-      amplitude * Math.sin((2 * Math.PI * frequency * i) / points) + amplitude;
-    path += i === 0 ? `M${x},${y}` : ` L${x},${y}`;
-  }
-
-  // Right edge
-  for (let i = 0; i <= points; i++) {
-    const x =
-      width + amplitude * Math.sin((2 * Math.PI * frequency * i) / points);
-    const y = (i * height) / points;
-    path += ` L${x},${y}`;
-  }
-
-  // Bottom edge
-  for (let i = 0; i <= points; i++) {
-    const x = width - (i * width) / points;
-    const y =
-      height + amplitude * Math.sin((2 * Math.PI * frequency * i) / points);
-    path += ` L${x},${y}`;
-  }
-
-  // Left edge
-  for (let i = 0; i <= points; i++) {
-    const x =
-      amplitude * Math.sin((2 * Math.PI * frequency * i) / points) + amplitude;
-    const y = height - (i * height) / points;
-    path += ` L${x},${y}`;
-  }
-
-  return path + " Z"; // Close the path
-};

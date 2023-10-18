@@ -4,28 +4,33 @@ import { Button } from "@/components/ui/button";
 import { LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const LoginButton = ({ className }: { className?: string }) => {
+export const LoginButton = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) => {
   return (
     <Button
       className={cn(
         "bg-primary-foreground text-primary hover:bg-accent hover:text-accent-foreground",
-        className
+        props.className
       )}
       title="Se connecter"
       onClick={() => signIn()}
+      {...props}
     >
       {" "}
-      <LogIn className="h-6 w-6" />{" "}
+      <LogIn className="h-6 w-6 duration-300 transition-all " />{" "}
     </Button>
   );
 };
 
-export const LogoutButton = ({ className }: { className?: string }) => {
+export const LogoutButton = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) => {
   return (
     <Button
-      className={className}
       title="Se deconnecter"
       onClick={() => signOut({ callbackUrl: "/" })}
+      {...props}
     >
       <LogOut className="h-6 w-6" />
     </Button>

@@ -101,7 +101,7 @@ const MainNav = () => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem className="border-2 rounded-lg border-border">
+          <NavigationMenuItem className="border-2 rounded-lg border-border ">
             <Link href="/surveillance-elevage" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 <BiCctv className="hidden w-4 h-4 mr-2 xl:flex" />

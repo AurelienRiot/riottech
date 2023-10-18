@@ -176,7 +176,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div
-        className="relative h-full w-full "
+        className="relative h-full w-full cursor-none"
         onMouseMove={handleMouseMove}
         onMouseEnter={() => cursorOpacity.set(initialCursorConfig.opacity)}
         onMouseLeave={() => cursorOpacity.set(0)}
@@ -279,7 +279,6 @@ export function resetCursor({
   cursorConfig.scale.x.set(initialCursorConfig.scale.x);
   cursorConfig.scale.y.set(initialCursorConfig.scale.y);
   cursorConfig.color.set(Color(initialCursorConfig.color));
-  console.log("set color:", Color(initialCursorConfig.color));
 
   cursorConfig.turbConfig.scale.set(initialCursorConfig.turbConfig.scale);
   cursorConfig.turbConfig.seed.set(initialCursorConfig.turbConfig.seed);

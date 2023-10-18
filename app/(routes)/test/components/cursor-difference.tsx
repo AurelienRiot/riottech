@@ -1,10 +1,22 @@
 "use client";
 import { useCursor } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
-import { AnimatePresence, motion } from "framer-motion";
+import { GetWindowHeight } from "@/lib/utils";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  motionValue,
+  useAnimate,
+  useAnimation,
+  useMotionValue,
+  usePresence,
+  useTransform,
+} from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { interpolate } from "flubber";
 
 const CursorDifference = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
@@ -16,7 +28,7 @@ const CursorDifference = () => {
     cursorConfig.size.rx.set(300);
     cursorConfig.size.ry.set(300);
     cursorConfig.cursorMixBlendMode.set("difference");
-    cursorConfig.color.set(Color("220, 38, 38", "rgb"));
+    cursorConfig.color.set(Color("white", "standard"));
   }
   function handleMouseLeave() {
     cursorConfig.size.height.set(initialCursorConfig.size.height);
@@ -38,7 +50,7 @@ const CursorDifference = () => {
       }}
     >
       <div
-        className="w-fit h-fit flex justify-center items-center text-[#afa18f] text-[64px] leading-[66px] "
+        className="w-fit h-fit flex justify-center items-center text-blue-600 text-[64px] leading-[66px] "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -61,8 +73,8 @@ const CursorDifference = () => {
         <div
           data-state={isActive ? "open" : "closed"}
           className={`w-full
-      after:h-[1px] after:w-[40%] after:m-auto after:bg-white after:relative after:block after:transform after:duration-300 after:top-[-5px]
-      before:h-[1px] before:w-[40%] before:m-auto before:bg-white before:relative before:block before:transform before:duration-300 before:top-[5px]
+      after:h-[2px] after:w-[40%] after:m-auto after:bg-white after:relative after:block after:transform after:duration-300 after:top-[-5px]
+      before:h-[2px] before:w-[40%] before:m-auto before:bg-white before:relative before:block before:transform before:duration-300 before:top-[5px]
        data-[state=open]:after:top-[-1px] data-[state=open]:before:top-0 data-[state=open]:after:rotate-45 data-[state=open]:before:-rotate-45
       `}
         ></div>
@@ -160,7 +172,7 @@ function Nav() {
       animate="enter"
       exit="exit"
       className={
-        "h-screen bg-slate-800 fixed right-0 top-0 text-white box-border "
+        "h-screen bg-slate-800 fixed right-0 top-0 text-white box-border z-50 "
       }
     >
       <div className={"h-full p-[100px] flex flex-col justify-between "}>
@@ -172,7 +184,7 @@ function Nav() {
         >
           <div
             className={
-              "text-slate-500 border-slate-500 border-b border-solid uppercase text-xs mb-10"
+              "text-slate-500 border-slate-500 border-b border-solid uppercase text-xs mb-10 pb-4"
             }
           >
             <p>Navigation</p>
@@ -210,14 +222,18 @@ const menuSlide = {
 };
 
 const slide = {
-  initial: { x: 80 },
+  initial: { x: 150 },
   enter: (i: number) => ({
     x: 0,
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.1 * i },
+    transition: {
+      duration: 0.8,
+      ease: [0.76, 0, 0.24, 1],
+      delay: 0.1 * i,
+    },
   }),
   exit: (i: number) => ({
-    x: 80,
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: 0.1 * i },
+    x: 250,
+    transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: 0.05 * i },
   }),
 };
 
@@ -265,39 +281,47 @@ function MenueItem({ data, isActive, setSelectedIndicator }: MenueItemProps) {
 }
 
 function Curve() {
-  const targetPath = `M100 0 L100 ${window.innerHeight} Q-100 ${
-    window.innerHeight / 2
+  const windowHeight = GetWindowHeight();
+  const [isPresent, safeToRemove] = usePresence();
+
+  const initialPath = `M100 0 L100 ${windowHeight} Q-100 ${
+    windowHeight / 2
   } 100 0`;
-  const initialPath = `M100 0 L100 ${window.innerHeight} Q100 ${
-    window.innerHeight / 2
+  const targetPath = `M100 0 L100 ${windowHeight} Q100 ${
+    windowHeight / 2
   } 100 0`;
-  const curve = {
-    initial: {
-      d: initialPath,
-    },
-    enter: {
-      d: targetPath,
-      transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
-    },
-    exit: {
-      d: initialPath,
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
-    },
-  };
+
+  const progress = useMotionValue(0);
+  const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
+    mixer: (a, b) => interpolate(a, b, { maxSegmentLength: 20 }),
+  });
+
+  useEffect(() => {
+    animate(progress, 1, {
+      type: "tween",
+      duration: 1,
+      ease: "easeInOut",
+    });
+  }, [progress]);
+
+  useEffect(() => {
+    if (!isPresent && setTimeout(safeToRemove, 1000)) {
+      animate(progress, 0, {
+        type: "tween",
+        duration: 0.5,
+        ease: "easeInOut",
+      });
+    }
+  }, [isPresent, safeToRemove, progress]);
 
   return (
     <motion.svg
       className={"absolute top-0 left-[-99px] w-[100px] h-full "}
       stroke="none"
       fill="rgb(30 41 59)"
+      onClick={() => {}}
     >
-      <motion.path
-        style={{ transform: "translateZ(0)" }}
-        variants={curve}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-      ></motion.path>
+      <motion.path d={path}></motion.path>
     </motion.svg>
   );
 }

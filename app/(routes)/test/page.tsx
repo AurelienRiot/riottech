@@ -72,7 +72,7 @@ const HomePage = async () => {
         <div className="h-screen bg-green-600/90 w-full">
           <MouseHover />
         </div>
-        <div className="h-screen bg-white/90 w-full">
+        <div className="h-screen bg-yellow-400/90 w-full">
           <CursorDifference />
         </div>
         {/* <div className="h-screen bg-white/90 w-full  ">
