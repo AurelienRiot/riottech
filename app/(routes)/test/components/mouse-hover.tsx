@@ -45,14 +45,14 @@ const MouseHover = () => {
   function handleMouseMove(
     event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
   ) {
+    event.preventDefault();
+
     let clientX, clientY;
 
     if ("clientX" in event) {
-      // It's a mouse event
       clientX = event.clientX;
       clientY = event.clientY;
     } else {
-      // It's a touch event
       clientX = event.touches[0].clientX;
       clientY = event.touches[0].clientY;
     }
