@@ -1,12 +1,9 @@
 "use client";
 import { useCursor } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
-import { GetWindowWidth } from "@/lib/utils";
-import { interpolate } from "flubber";
 import {
   HTMLMotionProps,
   motion,
-  useAnimate,
   useMotionTemplate,
   useMotionValue,
   useSpring,
@@ -15,6 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
 const base64Svg = btoa(
   '<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="50" fill="black" /></svg>'
@@ -23,6 +21,16 @@ const base64Svg = btoa(
 const MouseHover = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
   const ref = useRef<HTMLDivElement>(null);
+  const digitsRef = useRef<HTMLUListElement>(null);
+
+  const proximityRadius = 200;
+  const distanceMapper = gsap.utils.mapRange(250, 50, 0, 1);
+  const [digits, setDigits] = useState<Element[]>([]);
+  useEffect(() => {
+    if (digitsRef.current) {
+      setDigits(Array.from(digitsRef.current.children));
+    }
+  }, []);
 
   const springConfig = { damping: 20, stiffness: 300 };
 
@@ -42,45 +50,45 @@ const MouseHover = () => {
       mousePositionX.set(clientX - left);
       mousePositionY.set(clientY - top);
     }
-  }
 
-  const [state, setState] = useState(true);
+    if (digitsRef.current) {
+      const container = digitsRef.current.getBoundingClientRect();
 
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let scrollThreshold = 30;
-    let navbarHeight = 64;
-    const updateScrollDirection = () => {
-      const scrollY = window.scrollY;
-      const direction = scrollY > lastScrollY ? "down" : "up";
+      const distanceToContainer = Math.hypot(
+        clientX - (container.x + container.width * 0.5),
+        clientY - (container.y + container.height * 0.5)
+      );
+
       if (
-        direction === "down" &&
-        scrollY > navbarHeight &&
-        scrollY - lastScrollY > scrollThreshold
+        distanceToContainer >
+        Math.max(container.width, container.height) * 0.5 + proximityRadius
       ) {
-        setState(false);
-      } else if (direction === "up" || scrollY <= navbarHeight) {
-        setState(true);
+        return;
       }
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-    };
 
-    window.addEventListener("scroll", updateScrollDirection);
-    return () => {
-      window.removeEventListener("scroll", updateScrollDirection);
-    };
-  }, []);
+      for (const digit of digits) {
+        const digitBounds = digit.getBoundingClientRect();
+        const distanceToDigit = Math.hypot(
+          clientX - (digitBounds.x + digitBounds.width * 0.5),
+          clientY - (digitBounds.y + digitBounds.height * 0.5)
+        );
+
+        const active = gsap.utils.clamp(0, 1, distanceMapper(distanceToDigit));
+        (digit as HTMLElement).style.setProperty("--active", active.toString());
+      }
+    }
+  }
 
   return (
     <main
-      className="h-screen relative w-full flex justify-center"
+      className="h-screen relative w-full flex justify-center bg-black"
       onMouseMove={handleMouseMove}
-      // onMouseEnter={() => {
-      //   cursorConfig.opacity.set(0);
-      // }}
-      // onMouseLeave={() => {
-      //   cursorConfig.opacity.set(initialCursorConfig.opacity);
-      // }}
+      onMouseEnter={() => {
+        cursorConfig.color.set(Color("primary-foreground"));
+      }}
+      onMouseLeave={() => {
+        cursorConfig.color.set(initialCursorConfig.color);
+      }}
     >
       <motion.div
         className="absolute top-1/2 left-1/4 translate-x-[-50%] translate-y-[-50%]    flex flex-col justify-center items-center   border-2 bg-gray-500 pointer-events-none"
@@ -140,65 +148,69 @@ const MouseHover = () => {
         </Link>
       </motion.div>
 
-      {/* <div
-        data-state={state ? "open" : "closed"}
-        className="w-full h-[50px] data-[state=closed]:h-[25px]  duration-300 transition-all bg-primary-foreground mt-20  text-primary flex items-center justify-center fixed top-1/2 left-0 z-50 "
+      <section
+        className={`grid gap-16 items-center justify-center absolute top-1/4 left-2/4 myDiv `}
       >
-        <Curve state={state} />
-        <motion.span
-          data-state={state ? "open" : "closed"}
-          className={`transition-all data-[state=open]:translate-y-6 duration-300 data-[state=open]:scale-[3] `}
+        <p className="m-0 text-4xl  text-center text-transparent bg-clip-text bg-gradient-to-b from-slate-100 to-slate-500">
+          Glide To Reveal Secret Code
+        </p>
+        <ul
+          ref={digitsRef}
+          className="text-5xl flex flex-nowrap text-white rounded-2xl bg-[hsl(0_0%_6%)] justify-center p-[4.5rem_0] shadow-[0_1px_hsl(0_0%_100%_/_0.25)_inset] z-10 hover:cursor-grab"
         >
-          {" "}
-          test
-        </motion.span>
-      </div> */}
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span style={{}}>0</span>
+          </li>
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span>3</span>
+          </li>
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span>4</span>
+          </li>
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span>8</span>
+          </li>
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span>7</span>
+          </li>
+          <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
+            <span>2</span>
+          </li>
+        </ul>
+      </section>
+      <style jsx>{`
+        .myDiv::before {
+          --line: hsl(0 0% 95% / 0.25);
+          content: "";
+          height: 100vh;
+          width: 50vw;
+          position: absolute;
+          background: linear-gradient(
+                90deg,
+                var(--line) 1px,
+                transparent 1px 5vmin
+              )
+              0 -5vmin / 5vmin 5vmin,
+            linear-gradient(var(--line) 1px, transparent 1px 5vmin) 0 -5vmin / 5vmin
+              5vmin;
+          mask: linear-gradient(-15deg, transparent 30%, white);
+          top: -50%;
+          left: -35%;
+        }
+        .myDiv span {
+          color: transparent;
+          background: linear-gradient(hsl(0 0% 90%), hsl(0 0% 50%));
+          background-clip: text;
+          scale: calc(var(--active, 0) + 0.5);
+          filter: blur(calc((1 - var(--active, 0)) * 1.5rem));
+          border-radius: 50%;
+        }
+      `}</style>
     </main>
   );
 };
 
 export default MouseHover;
-
-function Curve({ state }: { state: boolean }) {
-  const windowWidth = GetWindowWidth() === 0 ? 1000 : GetWindowWidth();
-
-  const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 200 0 0`;
-  const targetPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 0 0 0`;
-  // const initialPath = useTransform(
-  //   windowWidth,
-  //   (w) => `M0 0 L${w} 0 Q${w / 2} 500 0 0`
-  // );
-  // const targetPath = useTransform(
-  //   windowWidth,
-  //   (w) => `M0 0 L${w} 0 Q${w / 2} 0 0 0`
-  // );
-
-  const progress = useMotionValue(state ? 1 : 0);
-  const indexOfPath = useMotionValue(state ? 0 : 1);
-  const [scope, animate] = useAnimate();
-
-  const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
-    mixer: (a, b) => interpolate(a, b, { maxSegmentLength: 20 }),
-  });
-
-  useEffect(() => {
-    animate(progress, progress.get() === 1 ? 0 : 1, {
-      duration: 0.1,
-      ease: "easeInOut",
-    });
-  }, [animate, progress, indexOfPath, state, windowWidth]);
-  return (
-    <motion.svg
-      ref={scope}
-      className={"absolute bottom-0 left-0 w-full h-px overflow-visible "}
-      stroke="none"
-
-      // fill={"red"}
-    >
-      <motion.path fill={Color("primary-foreground")} d={path}></motion.path>
-    </motion.svg>
-  );
-}
 
 type MotionHTMLElements =
   | (HTMLMotionProps<"div"> & {

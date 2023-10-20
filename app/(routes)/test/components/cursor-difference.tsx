@@ -2,13 +2,11 @@
 import { useCursor } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
 import { GetWindowHeight } from "@/lib/utils";
+import { interpolate } from "flubber";
 import {
   AnimatePresence,
   animate,
   motion,
-  motionValue,
-  useAnimate,
-  useAnimation,
   useMotionValue,
   usePresence,
   useTransform,
@@ -16,7 +14,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { interpolate } from "flubber";
 
 const CursorDifference = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();

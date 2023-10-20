@@ -151,14 +151,15 @@ const Navigations = () => {
           <Magnetic className="flex items-center justify-center w-auto h-auto">
             {session?.user ? (
               <Link
+                data-nav={navState ? "open" : "closed"}
                 href={
                   session.user.role === "admin" ? "/admin" : "/dashboard-user"
                 }
-                className="group flex items-center justify-center  text-primary  transition-all  hover:bg-accent hover:text-accent-foreground"
+                className="group flex items-center justify-center  text-primary  transition-all  hover:bg-accent hover:text-accent-foreground data-[nav=open]:translate-y-4 hover:scale-150 rounded-full"
               >
                 <User2
                   data-nav={navState ? "open" : "closed"}
-                  className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all group-hover:scale-150 data-[nav=open]:translate-y-4"
+                  className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all "
                 />
               </Link>
             ) : (
@@ -192,10 +193,11 @@ const MainNav = () => {
 
   return (
     <nav
-      className={`lg:flex items-center justify-center gap-4 hidden 
+      className={`lg:flex items-center justify-center gap-4 hidden [&[data-nav=closed]>*]:translate-y-0
       [&[data-nav=open]>*:nth-child(1)]:translate-y-8 [&[data-nav=open]>*:nth-child(2)]:translate-y-12
       [&[data-nav=open]>*:nth-child(3)]:translate-y-16 [&[data-nav=open]>*:nth-child(4)]:translate-y-12
-      [&[data-nav=open]>*:nth-child(5)]:translate-y-8`}
+      [&[data-nav=open]>*:nth-child(5)]:translate-y-8
+      text-[calc(2vw*0.7)] data-[nav=closed]:text-sm  `}
       onMouseEnter={() => {
         cursorConfig.opacity.set(0.5);
       }}
@@ -207,15 +209,15 @@ const MainNav = () => {
       <Popover>
         <PopoverTrigger
           data-nav={navState ? "open" : "closed"}
-          className={`text-primary text-xl font-semibold  transition-all duration-300 flex justify-center  items-end 
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm   [&[data-state=open]>svg.chevron]:rotate-0
+          className={`text-primary  font-semibold  transition-all duration-300 flex justify-center  items-center 
+            data-[nav=closed]:font-light  [&[data-state=open]>svg.chevron]:rotate-0
             before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
             `}
         >
           Produits
           <ChevronDown
             data-nav={navState ? "open" : "closed"}
-            className="relative h-8 w-8 data-[nav=closed]:h-4 data-[nav=closed]:w-4 transition-all duration-300 -rotate-90 chevron"
+            className="relative h-8 w-8 data-[nav=closed]:h-4 data-[nav=closed]:w-4 transition-all duration-300 -rotate-90 chevron "
             aria-hidden="true"
           />
         </PopoverTrigger>
@@ -242,8 +244,8 @@ const MainNav = () => {
             key={index}
             data-nav={navState ? "open" : "closed"}
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
-            className={`text-primary text-xl flex gap-1 items-end font-semibold  transition-all duration-300
-            data-[nav=closed]:font-light data-[nav=closed]:text-sm  
+            className={`text-primary   flex gap-1 items-end font-semibold  transition-all duration-300
+            data-[nav=closed]:font-light 
             before:h-1 data-[nav=closed]:before:h-px before:w-0 hover:before:w-full before:bg-primary before:absolute before:left-0 before:-bottom-2 before:rounded-md before:transition-all before:duration-300
             
             `}
@@ -251,7 +253,7 @@ const MainNav = () => {
           >
             <data.icon
               data-nav={navState ? "open" : "closed"}
-              className="w-8 h-8 data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300"
+              className="w-8 h-8  data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300"
             />{" "}
             {data.label}
           </Link>
@@ -621,20 +623,12 @@ const ray8 = "m19.07 4.93-1.41 1.41";
 function Curve() {
   const { navState } = useNavigationState();
   const windowWidth = GetWindowWidth() === 0 ? 1000 : GetWindowWidth();
+  const { theme } = useTheme();
 
   const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 100 0 0`;
   const targetPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 0 0 0`;
-  // const initialPath = useTransform(
-  //   windowWidth,
-  //   (w) => `M0 0 L${w} 0 Q${w / 2} 500 0 0`
-  // );
-  // const targetPath = useTransform(
-  //   windowWidth,
-  //   (w) => `M0 0 L${w} 0 Q${w / 2} 0 0 0`
-  // );
 
   const progress = useMotionValue(navState ? 1 : 0);
-  const indexOfPath = useMotionValue(navState ? 0 : 1);
   const [scope, animate] = useAnimate();
 
   const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
@@ -643,10 +637,10 @@ function Curve() {
 
   useEffect(() => {
     animate(progress, progress.get() === 1 ? 0 : 1, {
-      duration: 0.1,
+      duration: 0.01,
       ease: "easeInOut",
     });
-  }, [animate, progress, indexOfPath, navState, windowWidth]);
+  }, [animate, progress, navState, windowWidth]);
   return (
     <motion.svg
       ref={scope}
@@ -655,7 +649,7 @@ function Curve() {
 
       // fill={"red"}
     >
-      <motion.path fill={Color("primary-foreground")} d={path}></motion.path>
+      <motion.path className={"fill-primary-foreground"} d={path}></motion.path>
     </motion.svg>
   );
 }

@@ -5,10 +5,6 @@ import { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
 import ReactApexChart from "react-apexcharts";
 import { isWindowSmallerThan } from "@/lib/utils";
-// import dynamic from "next/dynamic";
-// const DynamicReactApexChart = dynamic(() => import("react-apexcharts"), {
-//   ssr: false,
-// });
 
 interface GraphDataProps {
   month: string;

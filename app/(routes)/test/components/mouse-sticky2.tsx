@@ -57,13 +57,13 @@ function Menu1() {
     rotate(distance);
 
     const absDistance = Math.max(Math.abs(distance.x), Math.abs(distance.y));
-    const newScaleX = transform(absDistance, [0, width / 2], [1, 1.5]);
-    const newScaleY = transform(absDistance, [0, height / 2], [1, 0.5]);
+    const newScaleX = transform(absDistance, [0, (3 * width) / 2], [1, 2]);
+    const newScaleY = transform(absDistance, [0, (3 * height) / 2], [1, 0.5]);
     scale.x.set(newScaleX);
     scale.y.set(newScaleY);
 
-    position.x.set((clientX - (left + width / 2)) * 0.1);
-    position.y.set((clientY - (top + height / 2)) * 0.1);
+    position.x.set((clientX - (left + width / 2)) * 0.2);
+    position.y.set((clientY - (top + height / 2)) * 0.2);
   };
 
   const handleOnEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

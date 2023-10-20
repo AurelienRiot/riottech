@@ -1,15 +1,14 @@
 "use client";
-import { CursorContextType, CursorContext } from "@/hooks/use-cursor";
+import { CursorContext, CursorContextType } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
 import {
-  MotionValue,
   SpringOptions,
   motion,
   useMotionValue,
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
   const springConfig: SpringOptions = {
