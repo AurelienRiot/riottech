@@ -73,7 +73,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
       <h2 className="text-xl font-medium text-gray-500">Votre Commmande</h2>
       <ul className="pt-4">
         {cart.items.map((item) => (
-          <li key={item.id} className="flex justify-between">
+          <li key={item.id} className="flex justify-between tabular-nums	">
             <div>
               {cart.quantities[item.id] > 1 && (
                 <span> {cart.quantities[item.id]}x </span>

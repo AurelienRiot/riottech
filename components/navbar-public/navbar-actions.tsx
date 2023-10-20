@@ -66,7 +66,7 @@ const NavbarAction = () => {
         <SheetTrigger asChild>
           <Button
             variant={"rounded"}
-            className="bg-primary-foreground text-primary"
+            className="bg-primary-foreground text-primary tabular-nums	"
           >
             <ShoppingBag size={20} />
             <span className="w-3 ml-1 text-sm font-medium ">

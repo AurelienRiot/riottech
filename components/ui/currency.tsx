@@ -39,7 +39,7 @@ const Currency: React.FC<CurrencyProps> = ({
     <span
       onClick={() => setIsPro(!isPro)}
       className={cn(
-        `font-semibold text-primary cursor-pointer flex items-center`,
+        `font-semibold text-primary cursor-pointer flex items-center tabular-nums	`,
         className
       )}
     >

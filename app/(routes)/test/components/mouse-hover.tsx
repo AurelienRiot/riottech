@@ -45,9 +45,6 @@ const MouseHover = () => {
   function handleMouseMove(
     event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
   ) {
-    event.preventDefault();
-    event.stopPropagation();
-
     let clientX, clientY;
 
     if ("clientX" in event) {
@@ -94,7 +91,8 @@ const MouseHover = () => {
 
   return (
     <main
-      className="h-screen relative w-full flex justify-center bg-black"
+      className="h-screen relative w-full flex justify-center bg-black bgGrid"
+      onTouchStart={handleMouseMove}
       onMouseMove={handleMouseMove}
       onTouchMove={handleMouseMove}
       onMouseEnter={() => {
@@ -105,7 +103,7 @@ const MouseHover = () => {
       }}
     >
       <motion.div
-        className="absolute top-1/2 left-1/4 translate-x-[-50%] translate-y-[-50%]    flex flex-col justify-center items-center   border-2 bg-gray-500 pointer-events-none"
+        className="absolute top-1/2 left-[70%] translate-x-[-50%] translate-y-[-50%]    flex flex-col justify-center items-center   border-2 bg-gray-500 pointer-events-none"
         style={{
           width: useMotionTemplate`${dimDiv.width}px`,
           height: useMotionTemplate`${dimDiv.height}px`,
@@ -127,7 +125,7 @@ const MouseHover = () => {
       </motion.div>
       <motion.div
         ref={ref}
-        className="text-black absolute  top-1/2 left-1/4 from-30%  from-white to-black bg-gradient-radial  translate-x-[-50%] translate-y-[-50%] flex justify-center   cursor-default border-2 flex-col"
+        className="text-black absolute  top-1/2 left-[70%] from-30%  from-white to-black bg-gradient-radial  translate-x-[-50%] translate-y-[-50%] flex justify-center   cursor-default border-2 flex-col"
         style={{
           WebkitMaskImage: `url('data:image/svg+xml;base64,${base64Svg}')`,
           WebkitMaskRepeat: "no-repeat",
@@ -163,7 +161,7 @@ const MouseHover = () => {
       </motion.div>
 
       <section
-        className={`grid gap-16 items-center justify-center absolute top-1/4 left-2/4 myDiv `}
+        className={`grid gap-16 items-center justify-center absolute top-[20%] left-[10%] `}
       >
         <p className="m-0 text-4xl  text-center text-transparent bg-clip-text bg-gradient-to-b from-slate-100 to-slate-500">
           Glide To Reveal Secret Code
@@ -173,31 +171,31 @@ const MouseHover = () => {
           className="text-5xl flex flex-nowrap text-white rounded-2xl bg-[hsl(0_0%_6%)] justify-center p-[4.5rem_0] shadow-[0_1px_hsl(0_0%_100%_/_0.25)_inset] z-10 hover:cursor-grab"
         >
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span style={{}}>0</span>
+            <span className="digit">0</span>
           </li>
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span>3</span>
+            <span className="digit">3</span>
           </li>
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span>4</span>
+            <span className="digit">4</span>
           </li>
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span>8</span>
+            <span className="digit">8</span>
           </li>
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span>7</span>
+            <span className="digit">7</span>
           </li>
           <li className="flex h-full p-4 focus-visible:outline-[hsl(0_0%_50%_/_0.25)] focus-visible:outline-[1rem]">
-            <span>2</span>
+            <span className="digit"> 2</span>
           </li>
         </ul>
       </section>
       <style jsx>{`
-        .myDiv::before {
+        .bgGrid::before {
           --line: hsl(0 0% 95% / 0.25);
           content: "";
-          height: 100vh;
-          width: 50vw;
+          height: 100%;
+          width: 100%;
           position: absolute;
           background: linear-gradient(
                 90deg,
@@ -208,10 +206,8 @@ const MouseHover = () => {
             linear-gradient(var(--line) 1px, transparent 1px 5vmin) 0 -5vmin / 5vmin
               5vmin;
           mask: linear-gradient(-15deg, transparent 30%, white);
-          top: -50%;
-          left: -35%;
         }
-        .myDiv span {
+        .digit {
           color: transparent;
           background: linear-gradient(hsl(0 0% 90%), hsl(0 0% 50%));
           background-clip: text;
