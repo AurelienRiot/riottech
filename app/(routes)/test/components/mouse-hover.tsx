@@ -46,6 +46,7 @@ const MouseHover = () => {
     event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
   ) {
     event.preventDefault();
+    event.stopPropagation();
 
     let clientX, clientY;
 
