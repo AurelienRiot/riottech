@@ -23,7 +23,7 @@ const MouseHover = () => {
   const ref = useRef<HTMLDivElement>(null);
   const digitsRef = useRef<HTMLUListElement>(null);
 
-  const proximityRadius = 200;
+  const proximityRadius = 100;
   const distanceMapper = gsap.utils.mapRange(250, 50, 0, 1);
   const [digits, setDigits] = useState<Element[]>([]);
   useEffect(() => {
@@ -42,8 +42,20 @@ const MouseHover = () => {
   const maskPositionX = useTransform(mousePositionX, (x) => x - size.get() / 2);
   const maskPositionY = useTransform(mousePositionY, (y) => y - size.get() / 2);
 
-  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-    const { clientX, clientY } = event;
+  function handleMouseMove(
+    event: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>
+  ) {
+    let clientX, clientY;
+
+    if ("clientX" in event) {
+      // It's a mouse event
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else {
+      // It's a touch event
+      clientX = event.touches[0].clientX;
+      clientY = event.touches[0].clientY;
+    }
 
     if (ref.current) {
       const { left, top } = ref.current.getBoundingClientRect();
@@ -83,6 +95,7 @@ const MouseHover = () => {
     <main
       className="h-screen relative w-full flex justify-center bg-black"
       onMouseMove={handleMouseMove}
+      onTouchMove={handleMouseMove}
       onMouseEnter={() => {
         cursorConfig.color.set(Color("primary-foreground"));
       }}
