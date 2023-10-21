@@ -125,7 +125,7 @@ const MouseHover = () => {
       </motion.div>
       <motion.div
         ref={ref}
-        className="text-black absolute  top-1/2 left-[70%] from-30%  from-white to-black bg-gradient-radial  translate-x-[-50%] translate-y-[-50%] flex justify-center   cursor-default border-2 flex-col"
+        className="text-black absolute  top-1/2 left-[70%] from-30%  from-white to-black bg-gradient-radial  translate-x-[-50%] translate-y-[-50%] flex justify-center   cursor-default border-2 flex-col "
         style={{
           WebkitMaskImage: `url('data:image/svg+xml;base64,${base64Svg}')`,
           WebkitMaskRepeat: "no-repeat",

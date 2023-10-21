@@ -109,7 +109,7 @@ export function TurbCursor({
       onMouseLeave={handleOnLeave}
       as={as}
       className={cn(
-        "items-center group justify-center flex hover:z-[51] hover:bg-transparent   ",
+        "items-center group justify-center flex hover:z-[51] hover:bg-transparent cursor-pointer  ",
         className
       )}
       {...props}

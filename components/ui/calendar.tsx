@@ -88,7 +88,9 @@ function Calendar({
                     <SelectItem
                       key={`${option.props.value}-${id}`}
                       value={
-                        option.props.value ? String(option.props.value) : ""
+                        option.props.value
+                          ? String(option.props.value)
+                          : `default-value-${id}`
                       }
                     >
                       {option.props.children}
