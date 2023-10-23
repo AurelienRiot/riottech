@@ -13,7 +13,7 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CursorDifference = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
@@ -47,15 +47,14 @@ const CursorDifference = () => {
       }}
     >
       <div
-        className="w-fit h-fit flex justify-center items-center text-blue-600 text-[64px] leading-[66px] "
+        className=" flex justify-center items-center text-blue-600  text-[clamp(20px,4vw+5px,70px)] leading-[clamp(20px,4vw+7px,70px)] "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <p className="p-10 w-[1000px] ">
-          {"I'm a "}
-          <span className="text-red-600">selectively skilled</span> product
-          designer with strong focus on producing high quality & impactful
-          digital experience.
+        <p className="p-10 w-[80vw] h-[500px] text-center">
+          {
+            "I'm a selectively skilled product designer with strong focus on producing high quality & impactful digital experience."
+          }
         </p>
       </div>
       {/* <SVG /> */}

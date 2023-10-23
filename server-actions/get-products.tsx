@@ -1,5 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { ProductWithCategoryAndImages } from "@/types";
+import { cache } from "react";
 
 interface Query {
   categoryId?: string;

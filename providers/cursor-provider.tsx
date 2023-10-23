@@ -1,6 +1,7 @@
 "use client";
 import { CursorContext, CursorContextType } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
+import { cn } from "@/lib/utils";
 import {
   SpringOptions,
   motion,
@@ -10,7 +11,13 @@ import {
 } from "framer-motion";
 import { useEffect, useMemo } from "react";
 
-export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
+export const CursorProvider = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   const springConfig: SpringOptions = {
     damping: 20,
     stiffness: 300,
@@ -175,7 +182,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div
-        className="relative h-full w-full cursor-none"
+        className={cn("relative h-full w-full ", className)}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => cursorOpacity.set(initialCursorConfig.opacity)}
         onMouseLeave={() => cursorOpacity.set(0)}

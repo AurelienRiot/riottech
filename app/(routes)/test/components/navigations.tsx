@@ -32,6 +32,8 @@ import {
   motion,
   useAnimate,
   useMotionValue,
+  useMotionValueEvent,
+  useScroll,
   useTransform,
 } from "framer-motion";
 import {
@@ -52,8 +54,8 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import Magnetic from "./magnetic";
 
 type NavigationStateContextType = {
-  navState: boolean;
-  setNavState: React.Dispatch<React.SetStateAction<boolean>>;
+  navState: "open" | "closed";
+  setNavState: React.Dispatch<React.SetStateAction<"open" | "closed">>;
 };
 
 const NavigationStateContext = createContext<
@@ -75,32 +77,21 @@ export function useNavigationState() {
 const Navigations = () => {
   const { data: session } = useSession();
 
-  const [navState, setNavState] = useState(true);
+  const [navState, setNavState] = useState<"open" | "closed">("open");
   const [isMounted, setIsMounted] = useState(false);
+  const { scrollY } = useScroll();
 
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let scrollThreshold = 30;
-    const updateScrollDirection = () => {
-      const scrollY = window.scrollY;
-      const direction = scrollY > lastScrollY ? "down" : "up";
-      if (
-        direction === "down" &&
-        scrollY > 0 &&
-        scrollY - lastScrollY > scrollThreshold
-      ) {
-        setNavState(false);
-      } else if (direction === "up") {
-        setNavState(true);
-      }
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-    };
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const scrollThreshold = 30;
+    const previous = scrollY.getPrevious();
+    const direction = latest > previous ? "down" : "up";
 
-    window.addEventListener("scroll", updateScrollDirection);
-    return () => {
-      window.removeEventListener("scroll", updateScrollDirection);
-    };
-  }, []);
+    if (direction === "down" && latest - previous > scrollThreshold) {
+      setNavState("closed");
+    } else if (direction === "up" && previous - latest > scrollThreshold) {
+      setNavState("open");
+    }
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -114,12 +105,12 @@ const Navigations = () => {
           <NavMobile />
           <Magnetic>
             <Link
-              data-nav={navState ? "open" : "closed"}
+              data-nav={navState}
               href="/"
               className="justify-center items-center gap-6 data-[nav=closed]:gap-2 hidden sm:flex transition-all duration-300"
             >
               <div
-                data-nav={navState ? "open" : "closed"}
+                data-nav={navState}
                 className="w-14 h-14 relative transition-all duration-300 data-[nav=closed]:w-8  data-[nav=closed]:h-8"
               >
                 <Image
@@ -131,7 +122,7 @@ const Navigations = () => {
                 />
               </div>
               <span
-                data-nav={navState ? "open" : "closed"}
+                data-nav={navState}
                 className="relative font-bold data-[nav=closed]:text-base text-2xl [&[data-nav=open]>span.riot]:translate-y-2 [&[data-nav=open]>span.tech]:translate-y-4  "
               >
                 <span className="riot inline-block transition-all duration-300">
@@ -151,20 +142,20 @@ const Navigations = () => {
           <Magnetic className="flex items-center justify-center w-auto h-auto">
             {session?.user ? (
               <Link
-                data-nav={navState ? "open" : "closed"}
+                data-nav={navState}
                 href={
                   session.user.role === "admin" ? "/admin" : "/dashboard-user"
                 }
                 className="group flex items-center justify-center  text-primary  transition-all  hover:bg-accent hover:text-accent-foreground data-[nav=open]:translate-y-4 hover:scale-150 rounded-full"
               >
                 <User2
-                  data-nav={navState ? "open" : "closed"}
+                  data-nav={navState}
                   className="h-10 w-10  data-[nav=closed]:h-6 data-[nav=closed]:w-6 duration-300 transition-all "
                 />
               </Link>
             ) : (
               <LoginButton
-                data-nav={navState ? "open" : "closed"}
+                data-nav={navState}
                 className="[&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6 bg-primary-foreground hover:bg-accent hover:text-accent-foreground text-primary  data-[nav=open]:translate-y-4 "
               />
             )}
@@ -204,11 +195,11 @@ const MainNav = () => {
       onMouseLeave={() => {
         cursorConfig.opacity.set(initialCursorConfig.opacity);
       }}
-      data-nav={navState ? "open" : "closed"}
+      data-nav={navState}
     >
       <Popover>
         <PopoverTrigger
-          data-nav={navState ? "open" : "closed"}
+          data-nav={navState}
           className={`text-primary  font-semibold  transition-all duration-300 flex justify-center  items-center 
             data-[nav=closed]:font-light  [&[data-state=open]>svg.chevron]:rotate-0
             before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
@@ -216,7 +207,7 @@ const MainNav = () => {
         >
           Produits
           <ChevronDown
-            data-nav={navState ? "open" : "closed"}
+            data-nav={navState}
             className="relative h-8 w-8 data-[nav=closed]:h-4 data-[nav=closed]:w-4 transition-all duration-300 -rotate-90 chevron "
             aria-hidden="true"
           />
@@ -242,7 +233,7 @@ const MainNav = () => {
         return (
           <Link
             key={index}
-            data-nav={navState ? "open" : "closed"}
+            data-nav={navState}
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
             className={`text-primary   flex gap-1 items-end font-semibold  transition-all duration-300
             data-[nav=closed]:font-light 
@@ -252,7 +243,7 @@ const MainNav = () => {
             href={data.href}
           >
             <data.icon
-              data-nav={navState ? "open" : "closed"}
+              data-nav={navState}
               className="w-8 h-8  data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300"
             />{" "}
             {data.label}
@@ -285,6 +276,7 @@ const mainRoutes = [
     icon: LucidePhoneCall,
   },
 ];
+
 const NavMobile = () => {
   const pathname = usePathname();
   const { categories } = useCategories();
@@ -444,7 +436,7 @@ const Cart = () => {
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger
-        data-nav={navState ? "open" : "closed"}
+        data-nav={navState}
         className={cn(
           buttonVariants({ variant: "rounded", size: "default" }),
           "bg-primary-foreground text-primary  [&[data-nav=open]>svg]:w-10  [&[data-nav=open]>svg]:h-10 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6"
@@ -458,7 +450,7 @@ const Cart = () => {
       >
         <ShoppingBag className="duration-300 transition-all" />
         <span
-          data-nav={navState ? "open" : "closed"}
+          data-nav={navState}
           className="w-3 ml-1  font-medium duration-300 transition-all data-[nav=closed]:text-sm text-2xl"
         >
           {totalQuantity}
@@ -531,7 +523,7 @@ function ThemeToggle() {
       }}
       size="icon"
       className="bg-primary-foreground text-primary rounded-full  px-0 py-0 [&[data-nav=open]>svg]:w-12  [&[data-nav=open]>svg]:h-12 [&[data-nav=closed]>svg]:h-6 [&[data-nav=closed]>svg]:w-6 data-[nav=open]:translate-y-2"
-      data-nav={navState ? "open" : "closed"}
+      data-nav={navState}
     >
       <AnimatedIcon className="duration-300 transition-all " theme={theme} />
 
@@ -623,12 +615,11 @@ const ray8 = "m19.07 4.93-1.41 1.41";
 function Curve() {
   const { navState } = useNavigationState();
   const windowWidth = GetWindowWidth() === 0 ? 1000 : GetWindowWidth();
-  const { theme } = useTheme();
 
   const initialPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 100 0 0`;
   const targetPath = `M0 0 L${windowWidth} 0 Q${windowWidth / 2} 0 0 0`;
 
-  const progress = useMotionValue(navState ? 1 : 0);
+  const progress = useMotionValue(navState === "open" ? 1 : 0);
   const [scope, animate] = useAnimate();
 
   const path = useTransform(progress, [0, 1], [initialPath, targetPath], {
@@ -636,8 +627,9 @@ function Curve() {
   });
 
   useEffect(() => {
-    animate(progress, progress.get() === 1 ? 0 : 1, {
-      duration: 0.01,
+    progress.stop();
+    animate(progress, navState === "open" ? 0 : 1, {
+      duration: 0.2,
       ease: "easeInOut",
     });
   }, [animate, progress, navState, windowWidth]);
@@ -646,8 +638,6 @@ function Curve() {
       ref={scope}
       className={"absolute bottom-0 left-0 w-full h-px overflow-visible "}
       stroke="none"
-
-      // fill={"red"}
     >
       <motion.path className={"fill-primary-foreground"} d={path}></motion.path>
     </motion.svg>

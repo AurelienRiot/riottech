@@ -71,10 +71,14 @@ const CardUser: React.FC<CardUserProps> = ({
           <p className="p-2">{`Nombre d'abonnements : ${subscriptionOrderLength}`}</p>
         </CardContent>
         <CardFooter className="flex flex-col justify-between lg:flex-row gap-y-3 lg:gap-x-2">
-          <Button variant="destructive" onClick={() => setOpen(true)}>
+          <Button
+            variant="destructive"
+            onClick={() => setOpen(true)}
+            className="hover:underline"
+          >
             Supprimer
           </Button>
-          <Button>
+          <Button className="hover:underline">
             <Link href={`/admin/users/${user.id}`}>Modifier</Link>
           </Button>
         </CardFooter>

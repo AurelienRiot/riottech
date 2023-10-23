@@ -46,7 +46,7 @@ const HomePage = async () => {
 
   return (
     <IsProProvider>
-      <CursorProvider>
+      <CursorProvider className="cursor-none ">
         <CategoriesProvider categories={categories} />
         <Image
           src="/film_guimbert.jpg"
@@ -56,21 +56,20 @@ const HomePage = async () => {
           className="fixed top-0 -z-10 left-0 object-cover object-center h-screen w-screen"
         />
 
-        <div className=" relative h-screen bg-primary-foreground/90 w-full ">
-          <Navigations />
-
+        <Navigations />
+        <div className=" relative h-screen bg-primary-foreground/90 w-full  ">
           <div className="absolute top-[40%] left-[33%] w-72 h-72 bg-purple-300 rounded-full  mix-blend-multiply blur-xl opacity-70 animate-blob"></div>
           <div
             className="absolute top-[40%] left-[47%]  w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply blur-xl opacity-70 animate-blob"
-            style={{ animationDelay: "2000ms" }}
+            style={{ animationDelay: "5000ms" }}
           ></div>
           <div
             className="absolute top-[45%] left-[40%] w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply blur-xl opacity-70  animate-blob "
-            style={{ animationDelay: "4000ms" }}
+            style={{ animationDelay: "10000ms" }}
           ></div>
 
           <div className="absolute  flex flex-col w-11/12 sm:w-4/5 lg:w-2/3 xl:w-1/2 gap-2 top-[45%] left-1/2 -translate-x-1/2  bg-primary-foreground/40 sm:p-4 p-2 rounded-lg opacity-100 ">
-            <h1 className="text-center text-5xl ">
+            <h1 className="text-center text-[clamp(20px,4vw+5px,50px)] ">
               Spécialisé en réseaux isolés et systèmes de surveillance
             </h1>
             <p className="text-center text-xl">
@@ -80,10 +79,10 @@ const HomePage = async () => {
             </p>
           </div>
         </div>
-        <div className="h-screen bg-green-600/90 w-full">
+        <div className="h-screen bg-green-600/90 w-full ">
           <MouseHover />
         </div>
-        <div className="h-screen bg-yellow-400/90 w-full">
+        <div className="h-screen bg-yellow-400/90 w-full ">
           <CursorDifference />
         </div>
         {/* <div className="h-screen bg-white/90 w-full  ">

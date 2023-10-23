@@ -1,23 +1,20 @@
 "use client";
 
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { DataTable } from "./data-table";
-import { SubscriptionHistoryColumn, columns } from "./histories-column";
-import { DateRange } from "react-day-picker";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
-import axios from "axios";
-import { useState } from "react";
-import qs from "query-string";
-import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
-import Loading from "../../loading";
-import { addDays } from "date-fns";
 import {
   FetchUsersHistories,
   GetUsersHistories,
-  UsersHistories,
 } from "@/actions/get-users-histories";
+import { Button } from "@/components/ui/button";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import toast from "react-hot-toast";
+import Loading from "../../loading";
+import { DataTable } from "./data-table";
+import { SubscriptionHistoryColumn, columns } from "./histories-column";
+import Spinner from "@/components/animations/spinner";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -34,8 +31,10 @@ export const HistoryTable = ({
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     initialDateRange
   );
+  const [loading, setLoading] = useState(false);
 
   const handleChangeDate = async () => {
+    setLoading(true);
     const users = await FetchUsersHistories(dateRange);
     if (!users) {
       toast.error("Veuillez choisir une date");
@@ -43,6 +42,7 @@ export const HistoryTable = ({
     }
     const histories = GetUsersHistories(users);
     setData(histories);
+    setLoading(false);
   };
 
   return (
@@ -53,10 +53,16 @@ export const HistoryTable = ({
           description="Gérez les historiques"
         />
         <Separator className="mb-4" />
-        <DatePickerWithRange date={dateRange} setDate={setDateRange} />
-        <Button className="mt-4" onClick={() => handleChangeDate()}>
-          Valider
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <DatePickerWithRange date={dateRange} setDate={setDateRange} />
+          <Button
+            className="w-fit"
+            disabled={loading}
+            onClick={() => handleChangeDate()}
+          >
+            {loading ? <Spinner size={20} /> : "Valider"}
+          </Button>
+        </div>
         {data ? (
           <DataTable searchKey="user" columns={columns} initialData={data} />
         ) : (

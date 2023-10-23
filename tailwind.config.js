@@ -158,11 +158,25 @@ module.exports = {
           "0%, 100%": {
             transform: "translate(0px, 0px) scale(1)",
           },
-          "33%": {
+          "25%": {
             transform: "translate(30px, -50px) scale(1.1)",
           },
-          "66%": {
-            transform: "translate(-20px, 20px) scale(0.9)",
+          "50%": {
+            transform: "translate(-60px, 30px) scale(0.9)",
+          },
+          "75%": {
+            transform: "translate(20px, -20px) scale(1.1)",
+          },
+        },
+        "move-up-down": {
+          "0%": {
+            bottom: "-10%",
+          },
+          "35%, 50%": {
+            bottom: "100%",
+          },
+          "85%, 100%": {
+            bottom: "-10%",
           },
         },
       },
@@ -180,7 +194,7 @@ module.exports = {
 
         "load-bar": "load-bar 1s linear infinite",
 
-        blob: "blob 7s ease-out infinite",
+        blob: "blob 15s linear infinite",
       },
     },
   },

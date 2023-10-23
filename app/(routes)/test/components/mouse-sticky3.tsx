@@ -15,7 +15,7 @@ const MouseSticky3 = () => {
       <ExtraDiv />
       <TurbCursor
         as="div"
-        className=" bg-red-600 rounded-md text-primary hover:text-primary-foreground "
+        className=" bg-red-600 rounded-md text-primary hover:text-primary-foreground"
       >
         <MenuSquare className="h-10 w-20  " />
       </TurbCursor>
@@ -28,10 +28,10 @@ export default MouseSticky3;
 function ExtraDiv() {
   return (
     <TurbCursor
-      className="rounded-md hover:text-primary-foreground text-primary bg-gray-400 transition-colors"
+      className="rounded-md hover:text-primary-foreground text-primary bg-gray-400 transition-colors p-2 text-center pt-4"
       scaleOffset={1.5}
     >
-      <div className="w-[250px] h-[200px] overflow-hidden  ">
+      <div className="w-[250px] h-[200px] overflow-hidden flex flex-col gap-4  ">
         <h1 className="text-3xl font-bold">{"Secteur d'intervention"}</h1>
         <p>
           RIOT TECH est basé dans le Morbihan (56) et intervient pour les
