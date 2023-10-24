@@ -16,13 +16,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Color } from "@/lib/color";
 import { useTheme } from "next-themes";
-import { addDays } from "date-fns";
+import { addDays, addMinutes } from "date-fns";
 
 const MouseSticky2 = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
+  console.log("render mouse sticky 2");
   return (
     <div
-      className="relative h-full w-full flex flex-wrap gap-4 items-center justify-center cursor-default"
+      className="relative h-full w-full flex flex-col gap-8 items-center justify-center cursor-default"
       onMouseEnter={() => {
         cursorConfig.opacity.set(0);
       }}
@@ -30,11 +31,17 @@ const MouseSticky2 = () => {
         cursorConfig.opacity.set(initialCursorConfig.opacity);
       }}
     >
-      <Menu1 />
-      <Menu2 />
-      <EncryptButton />
-      <Card title="Account" subtitle="Manage profile" href="#" Icon={User} />
-      <ShiftingCountdown className="absolute top-0 right-1/2 translate-x-[50%] translate-y-[50%] w-3/5" />
+      <div className="flex gap-8">
+        <Menu1 />
+        <Menu2 />
+        <EncryptButton />
+        <Card title="Account" subtitle="Manage profile" href="#" Icon={User} />
+      </div>
+      <ShiftingCountdown className=" w-3/5" />
+      <BubbleText
+        text="Bubbbbbbbble text"
+        className={`p-4  relative before:bg-gradient-to-b before:from-slate-900 before:to-slate-800 before:absolute before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
+      />
     </div>
   );
 };
@@ -373,7 +380,7 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
 
   useEffect(() => {
     // const COUNTDOWN_FROM = "12/31/2023";
-    const COUNTDOWN_FROM = addDays(new Date(), 1);
+    const COUNTDOWN_FROM = addMinutes(new Date(), 10);
 
     const SECOND = 1000;
     const MINUTE = SECOND * 60;
@@ -381,22 +388,30 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
     const DAY = HOUR * 24;
     const handleCountdown = () => {
       const end = new Date(COUNTDOWN_FROM);
-
       const now = new Date();
-
       const distance = +end - +now;
 
-      const days = Math.floor(distance / DAY);
-      const hours = Math.floor((distance % DAY) / HOUR);
-      const minutes = Math.floor((distance % HOUR) / MINUTE);
-      const seconds = Math.floor((distance % MINUTE) / SECOND);
+      if (distance <= 0) {
+        clearInterval(intervalRef.current || undefined);
+        setRemaining({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        });
+      } else {
+        const days = Math.floor(distance / DAY);
+        const hours = Math.floor((distance % DAY) / HOUR);
+        const minutes = Math.floor((distance % HOUR) / MINUTE);
+        const seconds = Math.floor((distance % MINUTE) / SECOND);
 
-      setRemaining({
-        days,
-        hours,
-        minutes,
-        seconds,
-      });
+        setRemaining({
+          days,
+          hours,
+          minutes,
+          seconds,
+        });
+      }
     };
     intervalRef.current = setInterval(handleCountdown, 1000);
 
@@ -417,5 +432,60 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
         <CountdownItem num={remaining.seconds} text="secondes" />
       </div>
     </div>
+  );
+};
+
+const BubbleText = ({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) => {
+  return (
+    <>
+      <h2
+        className={cn(
+          "text-center text-5xl font-thin font-sans text-indigo-300",
+          className
+        )}
+      >
+        {text.split("").map((child, index) => (
+          <span className={"hoverText z-10 relative"} key={index}>
+            {child}
+          </span>
+        ))}
+      </h2>
+      <style jsx>{`
+        .hoverText {
+          transition: 0.35s font-weight, 0.35s color;
+        }
+
+        .hoverText:hover {
+          font-weight: 900;
+          color: rgb(238, 242, 255);
+        }
+
+        /* To the right */
+        .hoverText:hover + .hoverText {
+          font-weight: 500;
+          color: rgb(199, 210, 254);
+        }
+
+        .hoverText:hover + .hoverText + .hoverText {
+          font-weight: 300;
+        }
+
+        /* To the left */
+        .hoverText:has(+ .hoverText:hover) {
+          font-weight: 500;
+          color: rgb(199, 210, 254);
+        }
+
+        .hoverText:has(+ .hoverText + .hoverText:hover) {
+          font-weight: 300;
+        }
+      `}</style>
+    </>
   );
 };

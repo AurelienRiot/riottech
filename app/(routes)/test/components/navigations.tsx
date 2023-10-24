@@ -34,6 +34,7 @@ import {
   useMotionValue,
   useMotionValueEvent,
   useScroll,
+  useTime,
   useTransform,
 } from "framer-motion";
 import {
