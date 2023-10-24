@@ -7,6 +7,7 @@ import MouseHover from "./components/mouse-hover";
 import MouseSticky2 from "./components/mouse-sticky2";
 import MouseSticky3 from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
+import ParticleRing from "./components/particle-ring";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
@@ -46,7 +47,7 @@ const HomePage = async () => {
 
   return (
     <IsProProvider>
-      <CursorProvider className="cursor-none ">
+      <CursorProvider className="cursor-none  ">
         <CategoriesProvider categories={categories} />
         <Image
           src="/film_guimbert.jpg"
@@ -93,6 +94,9 @@ const HomePage = async () => {
         </div>
         <div className="h-screen bg-teal-600/90 w-full  ">
           <MouseSticky3 />
+        </div>
+        <div className="h-screen  w-full  ">
+          <ParticleRing />
         </div>
       </CursorProvider>
     </IsProProvider>

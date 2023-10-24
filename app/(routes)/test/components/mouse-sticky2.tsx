@@ -1,5 +1,7 @@
 "use client";
 import { useCursor } from "@/hooks/use-cursor";
+import { cn } from "@/lib/utils";
+import { addMinutes } from "date-fns";
 import {
   AnimatePresence,
   motion,
@@ -8,19 +10,14 @@ import {
   useSpring,
 } from "framer-motion";
 import { LucideIcon, Menu, User } from "lucide-react";
-import Magnetic from "./magnetic";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FiLock } from "react-icons/fi";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Color } from "@/lib/color";
-import { useTheme } from "next-themes";
-import { addDays, addMinutes } from "date-fns";
+import Magnetic from "./magnetic";
 
 const MouseSticky2 = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
-  console.log("render mouse sticky 2");
+
   return (
     <div
       className="relative h-full w-full flex flex-col gap-8 items-center justify-center cursor-default"
@@ -31,7 +28,7 @@ const MouseSticky2 = () => {
         cursorConfig.opacity.set(initialCursorConfig.opacity);
       }}
     >
-      <div className="flex gap-8">
+      <div className="flex gap-8 ">
         <Menu1 />
         <Menu2 />
         <EncryptButton />
@@ -94,11 +91,9 @@ function Menu1() {
 
   const handleOnEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     backgroundColor.set("red");
-    e.stopPropagation();
   };
 
   const handleOnLeave = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
     backgroundColor.set(defaultColor);
     position.x.set(0);
     position.y.set(0);

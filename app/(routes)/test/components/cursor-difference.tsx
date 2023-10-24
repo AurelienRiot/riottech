@@ -9,6 +9,7 @@ import {
   motion,
   useMotionValue,
   usePresence,
+  useScroll,
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
@@ -46,7 +47,7 @@ const CursorDifference = () => {
         cursorConfig.color.set(Color(initialCursorConfig.color));
       }}
     >
-      <div
+      <motion.div
         className=" flex justify-center items-center text-blue-600  text-[clamp(20px,4vw+5px,70px)] leading-[clamp(20px,4vw+7px,70px)] "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -56,7 +57,7 @@ const CursorDifference = () => {
             "I'm a selectively skilled product designer with strong focus on producing high quality & impactful digital experience."
           }
         </p>
-      </div>
+      </motion.div>
       {/* <SVG /> */}
       <div
         onClick={() => {

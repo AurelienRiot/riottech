@@ -6,6 +6,7 @@ import {
   SpringOptions,
   motion,
   useMotionValue,
+  useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
@@ -18,6 +19,7 @@ export const CursorProvider = ({
   children: React.ReactNode;
   className?: string;
 }) => {
+  const { scrollY } = useScroll();
   const springConfig: SpringOptions = {
     damping: 20,
     stiffness: 300,
@@ -125,6 +127,10 @@ export const CursorProvider = ({
   function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
     const { clientX, clientY } = event;
     const { left, top } = event.currentTarget.getBoundingClientRect();
+
+    if (scrollY.isAnimating()) {
+      console.log("scrolling", scrollY.get(), scrollY.getPrevious());
+    }
 
     const center = {
       x: elementDimension.left.get() + elementDimension.width.get() / 2,
