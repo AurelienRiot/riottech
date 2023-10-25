@@ -46,3 +46,7 @@ export const dateFormatter = (date: Date) => {
 export function addDelay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export const randomFromInterval = (min: number, max: number) => {
+  return Math.random() * (max - min) + min;
+};

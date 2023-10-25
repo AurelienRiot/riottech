@@ -38,16 +38,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <AuthProviders>
-        <body
-          className={`${inter.variable} ${firaMono.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 debug-screens `}
-        >
+      <body
+        className={`${inter.variable} ${firaMono.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 debug-screens `}
+      >
+        <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToasterProvider />
             <TooltipProvider delayDuration={100}>{children}</TooltipProvider>
           </ThemeProvider>
-        </body>
-      </AuthProviders>
+        </AuthProviders>
+      </body>
     </html>
   );
 }
