@@ -1,8 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Fira_Mono } from "next/font/google";
-import { Pacifico } from "next/font/google";
+import { Pacifico, Source_Code_Pro, Inter } from "next/font/google";
 
 import { AuthProviders } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -13,10 +11,9 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
 });
-const firaMono = Fira_Mono({
-  weight: "400",
+const sourceCodePro = Source_Code_Pro({
   subsets: ["latin"],
-  variable: "--font-fira-mono",
+  variable: "--font-source-code-pro",
 });
 
 const pacifico = Pacifico({
@@ -39,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${inter.variable} ${firaMono.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 debug-screens `}
+        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 debug-screens `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

@@ -3,7 +3,7 @@
 import useCart from "@/hooks/use-cart";
 import { ShoppingBag, User2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "../navbar-admin/theme-toggle";
+import { ThemeToggle } from "../theme-toggle";
 import { LoginButton } from "../auth/auth-button";
 import {
   Sheet,

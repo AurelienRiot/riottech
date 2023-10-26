@@ -25,7 +25,7 @@ export default function Error({
           </p>
 
           <h1
-            className={`font-black text-left  text-primary tracking-[-15px] text-9xl font-FiraMono animate-[glitch_1s_linear_infinite] 
+            className={`font-black text-left  text-primary tracking-[-15px] text-9xl font-SourceCodePro animate-[glitch_1s_linear_infinite] 
           before:clip-path-polygon-[0_0,_100%_0,_100%_33%,_0_33%]
           before:animate-[glitch-top_1s_linear_infinite] before:content-['500'] before:absolute before:left-0
           after:animate-[glitch-bottom_1s_linear_infinite] after:content-['500'] after:absolute after:left-0

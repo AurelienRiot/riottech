@@ -11,9 +11,10 @@ import {
 } from "framer-motion";
 import { LucideIcon, Menu, User } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import Magnetic from "./magnetic";
+import toast from "react-hot-toast";
 
 const MouseSticky2 = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
@@ -34,7 +35,8 @@ const MouseSticky2 = () => {
         <EncryptButton />
         <Card title="Account" subtitle="Manage profile" href="#" Icon={User} />
       </div>
-      <ShiftingCountdown className=" w-3/5" />
+      {/* <ShiftingCountdown className=" w-3/5" /> */}
+      <ShiftingCountdown2 />
       <BubbleText
         text="Bubbbbbbbble text"
         className={`p-4  relative before:bg-gradient-to-b before:from-slate-900 before:to-slate-800 before:absolute before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
@@ -110,7 +112,7 @@ function Menu1() {
     <>
       <motion.div
         transformTemplate={template}
-        className="w-20 h-20  items-center rounded-2xl justify-center flex "
+        className="w-20 h-20  items-center rounded-2xl justify-center flex  "
         style={{
           backgroundColor: backgroundColor,
           x: position.x,
@@ -124,7 +126,7 @@ function Menu1() {
         onMouseLeave={handleOnLeave}
       >
         <div className=" w-full h-full absolute top-0 left-0  hover:scale-[3]  " />
-        <Menu />
+        <Menu className=" text-black" />
       </motion.div>
     </>
   );
@@ -339,30 +341,6 @@ const Card = ({ title, subtitle, Icon, href }: CardType) => {
   );
 };
 
-const CountdownItem = ({ num, text }: { num: number; text: string }) => {
-  return (
-    <div className="font-mono w-1/4 h-24 md:h-36 flex flex-col gap-1 md:gap-2 items-center justify-center border-r-[1px] border-slate-200">
-      <div className="w-full text-center relative overflow-hidden">
-        <AnimatePresence mode="popLayout">
-          <motion.span
-            key={num}
-            initial={{ y: "100%" }}
-            animate={{ y: "0%" }}
-            exit={{ y: "-100%" }}
-            transition={{ ease: "backIn", duration: 0.75 }}
-            className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium"
-          >
-            {num}
-          </motion.span>
-        </AnimatePresence>
-      </div>
-      <span className="text-xs md:text-sm lg:text-base font-light text-slate-500">
-        {text}
-      </span>
-    </div>
-  );
-};
-
 const ShiftingCountdown = ({ className }: { className?: string }) => {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -375,7 +353,7 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
 
   useEffect(() => {
     // const COUNTDOWN_FROM = "12/31/2023";
-    const COUNTDOWN_FROM = addMinutes(new Date(), 10);
+    const COUNTDOWN_FROM = addMinutes(new Date(), 100);
 
     const SECOND = 1000;
     const MINUTE = SECOND * 60;
@@ -394,6 +372,7 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
           minutes: 0,
           seconds: 0,
         });
+        toast.error("Le compte à rebours est terminé.");
       } else {
         const days = Math.floor(distance / DAY);
         const hours = Math.floor((distance % DAY) / HOUR);
@@ -430,6 +409,30 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
   );
 };
 
+const CountdownItem = ({ num, text }: { num: number; text: string }) => {
+  return (
+    <div className="font-mono w-1/4 h-24 md:h-36 flex flex-col gap-1 md:gap-2 items-center justify-center border-r-[1px] border-slate-200">
+      <div className="w-full text-center relative overflow-hidden">
+        <AnimatePresence mode="popLayout">
+          <motion.span
+            key={num}
+            initial={{ y: "100%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "-100%" }}
+            transition={{ ease: "backIn", duration: 0.75 }}
+            className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium"
+          >
+            {num}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+      <span className="text-xs md:text-sm lg:text-base font-light text-slate-500">
+        {text}
+      </span>
+    </div>
+  );
+};
+
 const BubbleText = ({
   text,
   className,
@@ -437,50 +440,208 @@ const BubbleText = ({
   text: string;
   className?: string;
 }) => {
+  const ref = useRef<HTMLHeadingElement | null>(null);
+
+  const [chars, setChars] = useState<Element[]>([]);
+  useEffect(() => {
+    if (ref.current) {
+      setChars(Array.from(ref.current.children));
+    }
+  }, []);
+
+  const currentCharclass = ["text-indigo-700", "font-black"];
+  const oneOffCharclass = ["text-indigo-600", "font-medium"];
+  const twoOffCharclass = ["text-indigo-500", "font-normal"];
+
+  const handleMouseEnter = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    index: number
+  ) => {
+    if (!chars.length) return;
+    chars[index].classList.add(...currentCharclass);
+    chars[(index - 1 + chars.length) % chars.length].classList.add(
+      ...oneOffCharclass
+    );
+    chars[(index + 1) % chars.length].classList.add(...oneOffCharclass);
+    chars[(index - 2 + chars.length) % chars.length].classList.add(
+      ...twoOffCharclass
+    );
+    chars[(index + 2) % chars.length].classList.add(...twoOffCharclass);
+  };
+
+  const handleMouseLeave = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    index: number
+  ) => {
+    if (!chars.length) return;
+    chars[index].classList.remove(...currentCharclass);
+    chars[(index - 1 + chars.length) % chars.length].classList.remove(
+      ...oneOffCharclass
+    );
+    chars[(index + 1) % chars.length].classList.remove(...oneOffCharclass);
+    chars[(index - 2 + chars.length) % chars.length].classList.remove(
+      ...twoOffCharclass
+    );
+    chars[(index + 2) % chars.length].classList.remove(...twoOffCharclass);
+  };
+
   return (
     <>
       <h2
+        ref={ref}
         className={cn(
-          "text-center text-5xl font-thin font-sans text-indigo-300",
+          "text-center text-5xl font-thin font-sans text-indigo-300 ",
           className
         )}
       >
         {text.split("").map((child, index) => (
-          <span className={"hoverText z-10 relative"} key={index}>
+          <span
+            className={"z-10 relative transition-all duration-300 "}
+            key={index}
+            onMouseEnter={(e) => handleMouseEnter(e, index)}
+            onMouseLeave={(e) => handleMouseLeave(e, index)}
+          >
             {child}
           </span>
         ))}
       </h2>
+    </>
+  );
+};
+
+const useCountdown = (
+  endDate: string | Date,
+  refs: { [key: string]: React.RefObject<HTMLDivElement> }
+) => {
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const SECOND = 1000;
+    const MINUTE = SECOND * 60;
+    const HOUR = MINUTE * 60;
+    const DAY = HOUR * 24;
+
+    const handleCountdown = () => {
+      const end = new Date(endDate);
+      const now = new Date();
+      const distance = +end - +now;
+
+      if (distance <= 0) {
+        clearInterval(intervalRef.current || undefined);
+        Object.values(refs).forEach((ref) =>
+          ref.current?.style.setProperty("--value", "0")
+        );
+        toast.error("Le compte à rebours est terminé.");
+      } else {
+        const days = Math.floor(distance / DAY);
+        const hours = Math.floor((distance % DAY) / HOUR);
+        const minutes = Math.floor((distance % HOUR) / MINUTE);
+        const seconds = Math.floor((distance % MINUTE) / SECOND);
+
+        refs.days.current?.style.setProperty("--value", days.toString());
+        refs.hours.current?.style.setProperty("--value", hours.toString());
+        refs.minutes.current?.style.setProperty("--value", minutes.toString());
+        refs.seconds.current?.style.setProperty("--value", seconds.toString());
+      }
+    };
+
+    intervalRef.current = setInterval(handleCountdown, 1000);
+
+    return () => clearInterval(intervalRef.current || undefined);
+  }, [endDate, refs]);
+};
+
+const ShiftingCountdown2 = ({ className }: { className?: string }) => {
+  // const COUNTDOWN_FROM = "10/27/2023";
+  const COUNTDOWN_FROM = addMinutes(new Date(), 10);
+  const refs = {
+    days: useRef<HTMLDivElement | null>(null),
+    hours: useRef<HTMLDivElement | null>(null),
+    minutes: useRef<HTMLDivElement | null>(null),
+    seconds: useRef<HTMLDivElement | null>(null),
+  };
+
+  useCountdown(COUNTDOWN_FROM, refs);
+
+  return (
+    <div
+      className={cn(
+        "p-4 bg-gradient-to-br from-violet-600 to-indigo-600",
+        className
+      )}
+    >
+      <div className="grid grid-flow-col  text-center auto-cols-max bg-white">
+        <CountdownItem2 ref={refs.days} defaultValue={0} text="jours" />
+        <CountdownItem2 ref={refs.hours} defaultValue={0} text="heures" />
+        <CountdownItem2 ref={refs.minutes} defaultValue={0} text="minutes" />
+        <CountdownItem2 ref={refs.seconds} defaultValue={0} text="secondes" />
+      </div>
+    </div>
+  );
+};
+
+const CountdownItem2 = forwardRef<
+  HTMLDivElement,
+  { text: string; defaultValue: number }
+>(({ text, defaultValue }, ref) => {
+  return (
+    <>
+      <div
+        ref={ref}
+        style={{ "--value": String(defaultValue) } as React.CSSProperties}
+        className="flex flex-col justify-center items-center border-r-[1px] last:border-r-0 p-10 border-slate-200  "
+      >
+        <span className="countdown font-mono ">
+          <span className="text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-red-600 font-medium before:top-[calc(var(--value)*-1em)]"></span>
+        </span>
+        <span className="text-xs md:text-sm lg:text-base font-light text-slate-500 ">
+          {text}
+        </span>
+      </div>
       <style jsx>{`
-        .hoverText {
-          transition: 0.35s font-weight, 0.35s color;
+        .countdown {
+          display: inline-flex;
+        }
+        .countdown > * {
+          height: 1em;
+          overflow-y: hidden;
+          display: inline-block;
+          line-height: 1em;
         }
 
-        .hoverText:hover {
-          font-weight: 900;
-          color: rgb(238, 242, 255);
-        }
-
-        /* To the right */
-        .hoverText:hover + .hoverText {
-          font-weight: 500;
-          color: rgb(199, 210, 254);
-        }
-
-        .hoverText:hover + .hoverText + .hoverText {
-          font-weight: 300;
-        }
-
-        /* To the left */
-        .hoverText:has(+ .hoverText:hover) {
-          font-weight: 500;
-          color: rgb(199, 210, 254);
-        }
-
-        .hoverText:has(+ .hoverText + .hoverText:hover) {
-          font-weight: 300;
+        .countdown > *::before {
+          position: relative;
+          content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 10\A 11\A 12\A 13\A 14\A 15\A 16\A 17\A 18\A 19\A 20\A 21\A 22\A 23\A 24\A 25\A 26\A 27\A 28\A 29\A 30\A 31\A 32\A 33\A 34\A 35\A 36\A 37\A 38\A 39\A 40\A 41\A 42\A 43\A 44\A 45\A 46\A 47\A 48\A 49\A 50\A 51\A 52\A 53\A 54\A 55\A 56\A 57\A 58\A 59\A 60\A 61\A 62\A 63\A 64\A 65\A 66\A 67\A 68\A 69\A 70\A 71\A 72\A 73\A 74\A 75\A 76\A 77\A 78\A 79\A 80\A 81\A 82\A 83\A 84\A 85\A 86\A 87\A 88\A 89\A 90\A 91\A 92\A 93\A 94\A 95\A 96\A 97\A 98\A 99\A";
+          white-space: pre;
+          display: flex;
+          justify-content: center;
+          text-align: center;
+          transition: all 0.75s cubic-bezier(0.68, -0.5, 0.27, 1);
         }
       `}</style>
     </>
   );
-};
+});
+CountdownItem2.displayName = "CountdownItem2";
+
+{
+  /* <div className="font-mono w-1/4 h-24 md:h-36 flex flex-col gap-1 md:gap-2 items-center justify-center border-r-[1px] border-slate-200">
+<div className="w-full text-center relative overflow-hidden">
+  <AnimatePresence mode="popLayout">
+    <motion.span
+      key={num}
+      initial={{ y: "100%" }}
+      animate={{ y: "0%" }}
+      exit={{ y: "-100%" }}
+      transition={{ ease: "backIn", duration: 0.75 }}
+      className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium"
+    >
+      {num}
+    </motion.span>
+  </AnimatePresence>
+</div>
+<span className="text-xs md:text-sm lg:text-base font-light text-slate-500">
+  {text}
+</span>
+</div> */
+}

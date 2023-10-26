@@ -5,7 +5,7 @@ import Image from "next/image";
 import CursorDifference from "./components/cursor-difference";
 import MouseHover from "./components/mouse-hover";
 import MouseSticky2 from "./components/mouse-sticky2";
-import MouseSticky3 from "./components/mouse-sticky3";
+import MouseSticky3, { Carousel } from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
 import ParticleRing from "./components/particle-ring";
 
@@ -89,12 +89,13 @@ const HomePage = async () => {
         {/* <div className="h-screen bg-white/90 w-full  ">
           <MouseSticky />
         </div> */}
-        <div className="h-screen bg-blue-600/90 w-full    ">
+        <div className="h-[100vh] bg-blue-600/90 w-full    ">
           <MouseSticky2 />
         </div>
         <div className="h-screen bg-teal-600/90 w-full  ">
           <MouseSticky3 />
         </div>
+        <Carousel />
         <div className="h-screen  w-full  ">
           <ParticleRing />
         </div>

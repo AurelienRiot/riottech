@@ -42,6 +42,7 @@ import {
   LucidePhoneCall,
   ShoppingBag,
   Siren,
+  Store,
   StoreIcon,
   User2,
 } from "lucide-react";
@@ -140,7 +141,7 @@ const Navigations = () => {
         <MainNav />
 
         <div className="flex gap-2 ">
-          <Magnetic className="flex items-center justify-center w-auto h-auto">
+          <Magnetic className="flex items-center justify-center w-auto h-auto ">
             {session?.user ? (
               <Link
                 data-nav={navState}
@@ -202,10 +203,14 @@ const MainNav = () => {
         <PopoverTrigger
           data-nav={navState}
           className={`text-primary  font-semibold  transition-all duration-300 flex justify-center  items-center 
-            data-[nav=closed]:font-light  [&[data-state=open]>svg.chevron]:rotate-0
+            data-[nav=closed]:font-light  [&[data-state=open]>svg.chevron]:rotate-0 [&[data-state=open]>svg.store]:scale-110 [&[data-nav=open]>svg.store]:translate-y-[-15%]
             before:h-1 data-[nav=closed]:before:h-px before:w-0 data-[state=open]:before:w-4/5 before:bg-primary before:absolute before:left-0 before:-bottom-1 before:rounded-md before:transition-all before:duration-300
             `}
         >
+          <Store
+            data-nav={navState}
+            className="w-8 h-8 mr-2 data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300 store "
+          />
           Produits
           <ChevronDown
             data-nav={navState}
@@ -236,7 +241,7 @@ const MainNav = () => {
             key={index}
             data-nav={navState}
             data-active={pathname.startsWith(data.href) ? "true" : "false"}
-            className={`text-primary   flex gap-1 items-end font-semibold  transition-all duration-300
+            className={`text-primary group  flex gap-1 items-end font-semibold  transition-all duration-300
             data-[nav=closed]:font-light 
             before:h-1 data-[nav=closed]:before:h-px before:w-0 hover:before:w-full before:bg-primary before:absolute before:left-0 before:-bottom-2 before:rounded-md before:transition-all before:duration-300
             
@@ -245,7 +250,7 @@ const MainNav = () => {
           >
             <data.icon
               data-nav={navState}
-              className="w-8 h-8  data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300"
+              className="w-8 h-8  data-[nav=closed]:w-4 data-[nav=closed]:h-4 xl:inline hidden transition-all duration-300 data-[nav=open]:group-hover:scale-110 "
             />{" "}
             {data.label}
           </Link>

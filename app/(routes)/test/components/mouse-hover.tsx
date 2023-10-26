@@ -117,7 +117,7 @@ const MouseHover = () => {
           className="max-w-[100px] self-center"
         />
         <h3
-          className="mx-0 font-FiraMono mb-0 mt-2.5 p-0 text-center text-2xl
+          className="mx-0 font-SourceCodePro mb-0 mt-2.5 p-0 text-center text-2xl
   "
         >
           Solutions de connexion à internet
@@ -145,7 +145,7 @@ const MouseHover = () => {
           size.set(20);
         }}
       >
-        <p className="relative text-center px-2 text-primary ">
+        <p className="relative text-center px-2 ">
           {`Bénéficiez d'une connexion en toutes circonstances, partout et à moindre coût !
           Grâce aux Box 4G RIOT TECH, vous profitez d'une connexion fiable grâce à l'abonnement multi opérateurs, d'un équipement granit à vie et d'un SAV prioritaire et compétant en cas de problème.
           Visionnage par internet sur smartphone, ordinateur, tablette...

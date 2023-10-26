@@ -20,8 +20,8 @@ module.exports = {
     extend: {
       fontFamily: {
         Inter: ["var(--font-inter)"],
-        FiraMono: ["var(--font-fira-mono)"],
         Pacifico: ["var(--font-pacifico)"],
+        SourceCodePro: ["var(--font-source-code-pro)"],
       },
       boxShadow: {
         "2xl":

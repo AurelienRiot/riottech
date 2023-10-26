@@ -1,5 +1,5 @@
 import { MainNav } from "@/components/navbar-admin/main-nav";
-import { ThemeToggle } from "@/components/navbar-admin/theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import MobileNav from "./mobile-nav";
 import { LogoutButton } from "@/components/auth/auth-button";
 
