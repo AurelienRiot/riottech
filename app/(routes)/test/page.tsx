@@ -8,6 +8,7 @@ import MouseSticky2 from "./components/mouse-sticky2";
 import MouseSticky3, { Carousel } from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
 import ParticleRing from "./components/particle-ring";
+import CSSCarousel from "./components/css-carousel";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
@@ -86,6 +87,7 @@ const HomePage = async () => {
         <div className="h-screen bg-yellow-400/90 w-full ">
           <CursorDifference />
         </div>
+
         {/* <div className="h-screen bg-white/90 w-full  ">
           <MouseSticky />
         </div> */}

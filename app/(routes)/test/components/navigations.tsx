@@ -564,17 +564,16 @@ const AnimatedIcon = ({
   if (!isMounted) return null;
 
   const animatePath = () => {
+    progress.stop();
     animate(progress, indexOfPath.get(), {
       duration: 0.5,
       ease: "easeInOut",
-      onComplete: () => {
-        if (indexOfPath.get() === 0) {
-          indexOfPath.set(1);
-        } else {
-          indexOfPath.set(0);
-        }
-      },
     });
+    if (indexOfPath.get() === 0) {
+      indexOfPath.set(1);
+    } else {
+      indexOfPath.set(0);
+    }
   };
 
   return (

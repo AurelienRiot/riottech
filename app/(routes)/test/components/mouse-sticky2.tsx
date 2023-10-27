@@ -15,6 +15,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { FiLock } from "react-icons/fi";
 import Magnetic from "./magnetic";
 import toast from "react-hot-toast";
+import CSSCarousel from "./css-carousel";
 
 const MouseSticky2 = () => {
   const { cursorConfig, initialCursorConfig } = useCursor();
@@ -37,10 +38,13 @@ const MouseSticky2 = () => {
       </div>
       {/* <ShiftingCountdown className=" w-3/5" /> */}
       <ShiftingCountdown2 />
-      <BubbleText
-        text="Bubbbbbbbble text"
-        className={`p-4  relative before:bg-gradient-to-b before:from-slate-900 before:to-slate-800 before:absolute before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
-      />
+      <div className="flex gap-4">
+        <CSSCarousel />
+        <BubbleText
+          text="Bubbbbbbbble text"
+          className={`p-4  relative before:bg-gradient-to-b before:from-slate-900 before:to-slate-800 before:absolute before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
+        />
+      </div>
     </div>
   );
 };
@@ -553,7 +557,7 @@ const useCountdown = (
 
 const ShiftingCountdown2 = ({ className }: { className?: string }) => {
   // const COUNTDOWN_FROM = "10/27/2023";
-  const COUNTDOWN_FROM = addMinutes(new Date(), 10);
+  const COUNTDOWN_FROM = addMinutes(new Date(), 1000);
   const refs = {
     days: useRef<HTMLDivElement | null>(null),
     hours: useRef<HTMLDivElement | null>(null),
