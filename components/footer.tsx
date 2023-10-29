@@ -13,24 +13,24 @@ const Footer = () => {
           <li>
             <Link
               href="/mention-legal"
-              className="text-sm font-medium hover:text-primary"
+              className="text-sm font-medium hover:text-primary hover:underline"
             >
               Mention légales
             </Link>
           </li>
           <li>
-            <a
+            <Link
               href="/pdf/Politique-de-confidentialite.pdf"
-              className="text-sm font-medium hover:text-primary"
+              className="text-sm font-medium hover:text-primary hover:underline"
               target="_blank"
             >
               Politique de confidentialité
-            </a>
+            </Link>
           </li>
           <li>
             <Link
               href="/conditions-generales-de-vente"
-              className="text-sm font-medium hover:text-primary"
+              className="text-sm font-medium hover:text-primary hover:underline"
             >
               Conditions générales de vente
             </Link>

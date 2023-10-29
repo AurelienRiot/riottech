@@ -60,7 +60,7 @@ const ConditionsVentePage = () => {
         réservée aux acheteurs qui résident en France métropolitaine.
       </p>
       <h2 className="text-2xl text-center">Commandes</h2>
-      <p>
+      <div>
         L&apos;acheteur, qui souhaite acheter un produit ou un service doit
         obligatoirement :
         <ul>
@@ -88,7 +88,7 @@ const ConditionsVentePage = () => {
         <br />
         Le vendeur communiquera par courrier électronique la confirmation de la
         commande enregistrée.
-      </p>
+      </div>
       <h2 className="text-2xl text-center">Rétractation</h2>
       <p>
         Les acheteurs, personnes physiques non professionnelles, bénéficient
