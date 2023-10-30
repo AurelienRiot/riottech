@@ -9,6 +9,7 @@ import MouseSticky3, { Carousel } from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
 import ParticleRing from "./components/particle-ring";
 import CSSCarousel from "./components/css-carousel";
+import BlopSVG from "./components/blop";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
@@ -59,7 +60,7 @@ const HomePage = async () => {
         />
 
         <Navigations />
-        <div className=" relative h-screen bg-primary-foreground/90 w-full  ">
+        <div className=" relative h-screen bg-primary-foreground/90 w-full flex  ">
           <div className="absolute top-[40%] left-[33%] w-72 h-72 bg-purple-300 rounded-full  mix-blend-multiply blur-xl opacity-70 animate-blob"></div>
           <div
             className="absolute top-[40%] left-[47%]  w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply blur-xl opacity-70 animate-blob"
@@ -80,6 +81,7 @@ const HomePage = async () => {
               }
             </p>
           </div>
+          <BlopSVG />
         </div>
         <div className="h-screen bg-green-600/90 w-full ">
           <MouseHover />
