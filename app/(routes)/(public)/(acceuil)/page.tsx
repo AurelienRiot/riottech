@@ -19,13 +19,9 @@ const HomePage = async () => {
       <Container>
         <>
           <div className=" flex flex-col items-center mt-12 pt-6 w-full h-full font-bold text-white bg-gradient-to-b from-transparent to-primary-foreground/95 from-70% to-100% rounded-t-xl">
-            <h1 className="text-5xl md:text-7xl -rotate-12 text-green-700 ">
-              Bienvenue{" "}
-            </h1>
-            <p className="text-2xl sm:text-3xl md:text-5xl -rotate-12 text-green-700 ">
-              sur Riot Tech
-            </p>
-            <p className="text-2xl sm:text-3xl md:text-5xl -rotate-12 text-green-700 ">
+            <h1 className="text-5xl md:text-7xl ">Bienvenue </h1>
+            <p className="text-2xl sm:text-3xl md:text-5xl  ">sur Riot Tech</p>
+            <p className="text-2xl sm:text-3xl md:text-5xl  ">
               {session?.user?.name}
             </p>
             <ServicePage />

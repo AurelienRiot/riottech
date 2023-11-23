@@ -12,16 +12,16 @@ import Currency from "@/components/ui/currency";
 import { useSession } from "next-auth/react";
 
 interface SelectSubscriptionProps {
-  subscription: Subscription | null;
+  subscriptions: Subscription[];
   sim: string;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
-  subscription,
+  subscriptions,
   sim,
 }) => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-
+  const [subscription, setSubscription] = useState(subscriptions[0]);
   if (!subscription) {
     return <div>Subscription not found.</div>;
   }
@@ -53,6 +53,17 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
 
   return (
     <>
+      <div className="justify-center flex mt-4 text-xl">
+        {" "}
+        {subscription.name}
+      </div>
+      <div className="flex gap-2 justify-center mt-4">
+        {subscriptions.map((obj) => (
+          <Button key={obj.id} onClick={() => setSubscription(obj)}>
+            {obj.recurrence}
+          </Button>
+        ))}
+      </div>
       <h1 className="mb-4 text-2xl font-semibold text-center">
         Votre commande
       </h1>

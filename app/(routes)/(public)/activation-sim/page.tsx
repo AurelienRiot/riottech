@@ -3,6 +3,7 @@ import { ActivationSimForm } from "./components/activation-sim-form";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
 import Container from "@/components/ui/container";
+import { Subscription } from "@prisma/client";
 
 export const metadata = {
   title: "Riot Tech - Activation SIM",
@@ -11,6 +12,18 @@ export const metadata = {
 
 const ActivationSimPage = async () => {
   const subscriptions = await GetSubscription();
+
+  const groupedSubscriptionsObj = subscriptions.reduce<
+    Record<string, Subscription[]>
+  >((acc, product) => {
+    if (!acc[product.name]) {
+      acc[product.name] = [];
+    }
+    acc[product.name].push(product);
+    return acc;
+  }, {});
+
+  const groupedSubscriptions = Object.values(groupedSubscriptionsObj);
 
   return (
     <Container className="pt-10 bg-background">
@@ -31,7 +44,10 @@ const ActivationSimPage = async () => {
         </div>
         <Suspense fallback={<Loading />}>
           {" "}
-          <ActivationSimForm subscriptions={subscriptions} />
+          <ActivationSimForm
+            subscriptions={subscriptions}
+            groupedSubscriptions={groupedSubscriptions}
+          />
         </Suspense>
       </div>
     </Container>

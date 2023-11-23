@@ -31,10 +31,12 @@ type SimSchema = z.infer<typeof simSchema>;
 
 type ActivationSimFormProps = {
   subscriptions: Subscription[];
+  groupedSubscriptions: Subscription[][];
 };
 
 export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   subscriptions,
+  groupedSubscriptions,
 }) => {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -44,6 +46,8 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   const [sim, setSim] = useState(getValue() ?? "");
   const [selectedSubscription, setSelectedSubscription] =
     useState<Subscription | null>(null);
+  const [selectedGroupedSubscription, setSelectedGroupedSubscription] =
+    useState<Subscription[] | null>(null);
 
   if (typeof window !== "undefined") {
     if (searchParams.get("canceled")) {
@@ -69,6 +73,16 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
       setSelectedSubscription(subscriptions[0]);
     }
   }, [subscriptions, sim]);
+
+  useEffect(() => {
+    const index = parseInt(sim[0]);
+    if (index >= 0 && index < groupedSubscriptions.length) {
+      setSelectedGroupedSubscription(groupedSubscriptions[index]);
+    } else {
+      setSelectedGroupedSubscription(groupedSubscriptions[0]);
+    }
+  }, [groupedSubscriptions, sim]);
+  console.log(selectedGroupedSubscription);
 
   const onSubmit = async (data: SimSchema) => {
     setLoading(true);
@@ -112,8 +126,11 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
         </form>
       </Form>
       <div id="commande" className="w-full">
-        {sim && (
-          <SelectSubscription subscription={selectedSubscription} sim={sim} />
+        {selectedGroupedSubscription && (
+          <SelectSubscription
+            subscriptions={selectedGroupedSubscription}
+            sim={sim}
+          />
         )}
       </div>
     </>
