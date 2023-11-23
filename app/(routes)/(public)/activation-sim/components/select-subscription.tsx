@@ -55,7 +55,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     <>
       <div className="justify-center flex mt-4 text-xl">
         {" "}
-        {subscription.name}
+        {subscriptions[0].name}
       </div>
       <div className="flex gap-2 justify-center mt-4">
         {subscriptions.map((obj) => (

@@ -44,10 +44,7 @@ const ActivationSimPage = async () => {
         </div>
         <Suspense fallback={<Loading />}>
           {" "}
-          <ActivationSimForm
-            subscriptions={subscriptions}
-            groupedSubscriptions={groupedSubscriptions}
-          />
+          <ActivationSimForm groupedSubscriptions={groupedSubscriptions} />
         </Suspense>
       </div>
     </Container>

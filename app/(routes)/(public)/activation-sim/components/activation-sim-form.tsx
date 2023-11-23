@@ -19,7 +19,6 @@ import { z } from "zod";
 import { SelectSubscription } from "./select-subscription";
 import { Subscription } from "@prisma/client";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { useSession } from "next-auth/react";
 
 const simSchema = z.object({
   sim: z.string().refine((value) => /^\d{19}$/.test(value), {
@@ -30,12 +29,10 @@ const simSchema = z.object({
 type SimSchema = z.infer<typeof simSchema>;
 
 type ActivationSimFormProps = {
-  subscriptions: Subscription[];
   groupedSubscriptions: Subscription[][];
 };
 
 export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
-  subscriptions,
   groupedSubscriptions,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -44,8 +41,6 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   const callbackUrl = `/activation-sim`;
   const { getValue, setValue } = useLocalStorage("activatedSim");
   const [sim, setSim] = useState(getValue() ?? "");
-  const [selectedSubscription, setSelectedSubscription] =
-    useState<Subscription | null>(null);
   const [selectedGroupedSubscription, setSelectedGroupedSubscription] =
     useState<Subscription[] | null>(null);
 
@@ -66,23 +61,13 @@ export const ActivationSimForm: React.FC<ActivationSimFormProps> = ({
   });
 
   useEffect(() => {
-    const index = parseInt(sim[0]);
-    if (index >= 0 && index < subscriptions.length) {
-      setSelectedSubscription(subscriptions[index]);
-    } else {
-      setSelectedSubscription(subscriptions[0]);
-    }
-  }, [subscriptions, sim]);
-
-  useEffect(() => {
-    const index = parseInt(sim[0]);
-    if (index >= 0 && index < groupedSubscriptions.length) {
-      setSelectedGroupedSubscription(groupedSubscriptions[index]);
-    } else {
-      setSelectedGroupedSubscription(groupedSubscriptions[0]);
+    if (sim) {
+      const index = parseInt(sim[0]);
+      setSelectedGroupedSubscription(
+        groupedSubscriptions[index % groupedSubscriptions.length]
+      );
     }
   }, [groupedSubscriptions, sim]);
-  console.log(selectedGroupedSubscription);
 
   const onSubmit = async (data: SimSchema) => {
     setLoading(true);
