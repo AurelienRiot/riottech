@@ -22,6 +22,15 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    if (session.user.role === "admin") {
+      return new NextResponse(
+        "Erreur, un compte admin ne peut passer de commande",
+        {
+          status: 401,
+        }
+      );
+    }
+
     const user = await prismadb.user.findUnique({
       where: {
         id: session.user.id,

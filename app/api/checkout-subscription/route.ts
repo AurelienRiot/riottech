@@ -17,6 +17,15 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    if (session.user.role === "admin") {
+      return new NextResponse(
+        "Erreur, un compte admin ne peut passer de commande",
+        {
+          status: 401,
+        }
+      );
+    }
+
     if (!subscriptionId) {
       return new NextResponse("L'id de l'abonnement est nécessaire", {
         status: 400,
