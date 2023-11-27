@@ -100,9 +100,9 @@ const HomePage = async () => {
           <MouseSticky3 />
         </div>
         <Carousel />
-        <div className="h-screen  w-full  ">
+        {/* <div className="h-screen  w-full  ">
           <ParticleRing />
-        </div>
+        </div> */}
       </CursorProvider>
     </IsProProvider>
   );
