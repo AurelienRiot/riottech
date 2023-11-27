@@ -45,8 +45,6 @@ export const ResetPasswordEmail = ({
         </Text>
         <Section style={btnContainer}>
           <Button
-            pX={12}
-            pY={12}
             style={button}
             href={`${baseUrl}/reset-password/${resetToken}`}
             target="_blank"
@@ -109,6 +107,7 @@ const button = {
   textDecoration: "none",
   textAlign: "center" as const,
   display: "block",
+  padding: "12px",
 };
 
 const hr = {

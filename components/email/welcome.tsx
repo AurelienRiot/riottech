@@ -36,13 +36,7 @@ export const WelcomeEmail = ({ fullName }: WelcomeEmailProps) => (
         <Text style={paragraph}>Bonjour {fullName},</Text>
         <Text style={paragraph}>Bienvenue sur Riot Tech</Text>
         <Section style={btnContainer}>
-          <Button
-            pX={12}
-            pY={12}
-            style={button}
-            href={`${baseUrl}/login`}
-            target="_blank"
-          >
+          <Button style={button} href={`${baseUrl}/login`} target="_blank">
             Connectez-vous ici
           </Button>
         </Section>
@@ -92,6 +86,7 @@ const button = {
   textDecoration: "none",
   textAlign: "center" as const,
   display: "block",
+  padding: "12px",
 };
 
 const hr = {
