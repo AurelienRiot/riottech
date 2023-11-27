@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 

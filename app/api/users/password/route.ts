@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { compare, hash } from "bcrypt";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "@/components/auth/authOptions";
 
 export async function PATCH(req: NextRequest) {
   try {

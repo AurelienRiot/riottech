@@ -7,7 +7,7 @@ import ImageAccueil from "./components/image-accueil";
 import { VisibleElement } from "@/components/animations/visible-element";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/components/auth/authOptions";
 import Reseau4GPage from "./components/reseau-4G";
 
 const HomePage = async () => {

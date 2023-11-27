@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/strip";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "@/components/auth/authOptions";
 
 export async function DELETE(req: NextRequest) {
   try {

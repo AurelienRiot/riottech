@@ -2,7 +2,7 @@ import Container from "@/components/ui/container";
 import Summary from "./components/summary";
 import CartItems from "./components/cart-items";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/components/auth/authOptions";
 
 const CartPage = async () => {
   const session = await getServerSession(authOptions);
