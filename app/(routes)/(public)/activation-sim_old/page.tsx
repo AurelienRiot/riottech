@@ -1,15 +1,17 @@
+import GetSubscription from "@/server-actions/get-subscriptions";
+import { ActivationSimForm } from "./components/activation-sim-form";
+import { Suspense } from "react";
+import Loading from "@/components/loading";
 import Container from "@/components/ui/container";
-import GetSubscriptions from "@/server-actions/get-subscriptions";
 import { Subscription } from "@prisma/client";
-import Client from "./components/client";
 
 export const metadata = {
   title: "Riot Tech - Activation SIM",
   description: "Activation d'une carte SIM RIOT TECH",
 };
 
-const activationSIMPage = async () => {
-  const subscriptions = await GetSubscriptions();
+const ActivationSimPage = async () => {
+  const subscriptions = await GetSubscription();
 
   const groupedSubscriptionsObj = subscriptions.reduce<
     Record<string, Subscription[]>
@@ -39,11 +41,14 @@ const activationSIMPage = async () => {
             Avec l’abonnement RIOT TECH, profitez d’une connexion internet en
             toutes circonstances !
           </p>
-        </div>{" "}
-        <Client groupedSubscriptions={groupedSubscriptions} />
+        </div>
+        <Suspense fallback={<Loading />}>
+          {" "}
+          <ActivationSimForm groupedSubscriptions={groupedSubscriptions} />
+        </Suspense>
       </div>
     </Container>
   );
 };
 
-export default activationSIMPage;
+export default ActivationSimPage;

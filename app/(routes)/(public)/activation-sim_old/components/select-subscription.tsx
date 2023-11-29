@@ -1,13 +1,15 @@
+"use client";
+
+import axios from "axios";
+import moment from "moment";
+import "moment/locale/fr";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { RegisterForm } from "../../(auth)/register/components/register-form";
 import { Button } from "@/components/ui/button";
 import { Subscription } from "@prisma/client";
-import moment from "moment";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { RegisterForm } from "../../(auth)/register/components/register-form";
 import Currency from "@/components/ui/currency";
-import toast from "react-hot-toast";
-import axios from "axios";
-import { useOrigin } from "@/hooks/use-origin";
+import { useSession } from "next-auth/react";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
@@ -20,6 +22,9 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const [subscription, setSubscription] = useState(subscriptions[0]);
+  if (!subscription) {
+    return <div>Subscription not found.</div>;
+  }
 
   const nextRecurrence =
     subscription.recurrence === "mois"
@@ -54,12 +59,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       </div>
       <div className="flex gap-2 justify-center mt-4">
         {subscriptions.map((obj) => (
-          <Button
-            key={obj.id}
-            onClick={() => setSubscription(obj)}
-            data-active={obj.id === subscription.id ? true : false}
-            className="data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border border-2 border-transparent"
-          >
+          <Button key={obj.id} onClick={() => setSubscription(obj)}>
             {obj.recurrence}
           </Button>
         ))}

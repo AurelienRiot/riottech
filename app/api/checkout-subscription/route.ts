@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
         enabled: false,
       },
       success_url: `${process.env.NEXT_PUBLIC_URL}/dashboard-user?success-subscription=1`,
-      cancel_url: `${process.env.NEXT_PUBLIC_URL}/activation-sim?canceled=1`,
+      cancel_url: `${process.env.NEXT_PUBLIC_URL}/activation-sim?canceled=1&sim=${sim}`,
       metadata: {
         orderId: subscriptionOrder.id,
       },
