@@ -7,7 +7,6 @@ import { RegisterForm } from "../../(auth)/register/components/register-form";
 import Currency from "@/components/ui/currency";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useOrigin } from "@/hooks/use-origin";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
@@ -21,8 +20,10 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   const { data: session } = useSession();
   const [subscription, setSubscription] = useState(subscriptions[0]);
 
+  const displayRecurrence =
+    subscription.recurrence == "month" ? "mois" : "année";
   const nextRecurrence =
-    subscription.recurrence === "mois"
+    subscription.recurrence === "month"
       ? moment().add(1, "month").locale("fr").format("D MMMM YYYY")
       : moment().add(1, "year").locale("fr").format("D MMMM YYYY");
 
@@ -50,7 +51,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     <>
       <div className="justify-center flex mt-4 text-xl">
         {" "}
-        {subscriptions[0].name}
+        {subscription.name}
       </div>
       <div className="flex gap-2 justify-center mt-4">
         {subscriptions.map((obj) => (
@@ -60,7 +61,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
             data-active={obj.id === subscription.id ? true : false}
             className="data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border border-2 border-transparent"
           >
-            {obj.recurrence}
+            {obj.recurrence === "month" ? "Mois" : "Année"}
           </Button>
         ))}
       </div>
@@ -118,7 +119,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   displayText={false}
                   className="mr-1"
                 />
-                {`  /  ${subscription.recurrence}`}
+                {`  /  ${displayRecurrence}`}
               </td>
             </tr>
           </tbody>

@@ -247,7 +247,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {["année", "mois"].map((recur) => (
+                      {["year", "month"].map((recur) => (
                         <SelectItem key={recur} value={recur}>
                           {recur}
                         </SelectItem>
