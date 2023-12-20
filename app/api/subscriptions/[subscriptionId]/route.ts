@@ -41,6 +41,7 @@ export async function PATCH(
       productSpecs,
       fraisActivation,
       recurrence,
+      dataCap,
       isFeatured,
       isArchived,
     } = body;
@@ -75,6 +76,12 @@ export async function PATCH(
       return new NextResponse("La description est nécessaire", { status: 400 });
     }
 
+    if (!dataCap) {
+      return new NextResponse("La limite de donnée est nécessaire", {
+        status: 400,
+      });
+    }
+
     if (!productSpecs) {
       return new NextResponse(
         "Les spécifications de l'abonnement sont nécessaire",
@@ -92,6 +99,7 @@ export async function PATCH(
         priceTTC: priceHT * 1.2,
         description,
         productSpecs,
+        dataCap,
         fraisActivation,
         recurrence,
         isFeatured,

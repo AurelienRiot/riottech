@@ -12,6 +12,7 @@ export async function POST(req: Request) {
       priceHT,
       fraisActivation,
       recurrence,
+      dataCap,
       description,
       productSpecs,
       isFeatured,
@@ -55,7 +56,13 @@ export async function POST(req: Request) {
     }
 
     if (!recurrence) {
-      return new NextResponse("La récurrence est nécassaire", { status: 400 });
+      return new NextResponse("La récurrence est nécessaire", { status: 400 });
+    }
+
+    if (!dataCap) {
+      return new NextResponse("La limite de donnée est nécessaire", {
+        status: 400,
+      });
     }
 
     const subscriptions = await prismadb.subscription.create({
@@ -63,6 +70,7 @@ export async function POST(req: Request) {
         name,
         priceHT,
         priceTTC: priceHT * 1.2,
+        dataCap,
         description,
         productSpecs,
         fraisActivation,

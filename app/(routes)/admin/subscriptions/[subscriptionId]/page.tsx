@@ -4,11 +4,12 @@ import { Subscription } from "@prisma/client";
 
 export type FormattedSubscription = Omit<
   Subscription,
-  "priceHT" | "priceTTC" | "fraisActivation"
+  "priceHT" | "priceTTC" | "fraisActivation" | "dataCap"
 > & {
   priceHT: number;
   priceTTC: number;
   fraisActivation: number;
+  dataCap: number;
 };
 
 const SubscriptionPage = async ({
@@ -28,6 +29,7 @@ const SubscriptionPage = async ({
         priceHT: parseFloat(String(subscription.priceHT)),
         priceTTC: parseFloat(String(subscription.priceHT)),
         fraisActivation: parseFloat(String(subscription.fraisActivation)),
+        dataCap: parseFloat(String(subscription.dataCap)),
       }
     : null;
 

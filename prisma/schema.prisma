@@ -64,6 +64,7 @@ model Subscription {
   priceTTC      Float    
   fraisActivation Float    
   recurrence       String 
+  dataCap       Float @default(0)
   isFeatured   Boolean @default(false)
   isArchived   Boolean @default(false)
   subscriptionItem   SubscriptionItem[]

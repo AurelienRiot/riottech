@@ -43,6 +43,7 @@ const formSchema = z.object({
   productSpecs: z.string().min(1),
   description: z.string().min(1),
   fraisActivation: z.coerce.number().min(1),
+  dataCap: z.coerce.number().min(0),
   recurrence: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
@@ -81,6 +82,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
           description: "",
           productSpecs: "",
           fraisActivation: 0,
+          dataCap: 0,
           recurrence: "année",
           isFeatured: false,
           isArchived: false,
@@ -181,6 +183,24 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       type="number"
                       disabled={loading}
                       placeholder="9,99"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="dataCap"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Limite de donnée (GB)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="10"
                       {...field}
                     />
                   </FormControl>
@@ -304,7 +324,6 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                     <FormControl>
                       <Checkbox
                         checked={field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
