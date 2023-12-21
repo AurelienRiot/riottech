@@ -36,7 +36,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const formatter = new Intl.NumberFormat("fr-FR", {
   style: "currency",
-  currency: "EUR",
+  currency: "EURE",
 });
 
 export const dateFormatter = (date: Date) => {
