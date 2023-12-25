@@ -58,11 +58,11 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
     setLoading(true);
     try {
       await ResetPass(data.password, resetToken);
-      router.replace(`/login`);
+      router.replace("/login");
       toast.success("Mot de passe changé, vous pouvez vous connecter");
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Erreur.");

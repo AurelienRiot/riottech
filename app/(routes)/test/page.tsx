@@ -61,7 +61,7 @@ const HomePage = async () => {
 
         <Navigations />
         <div className=" relative h-screen bg-primary-foreground/90 w-full flex  ">
-          <div className="absolute top-[40%] left-[33%] w-72 h-72 bg-purple-300 rounded-full  mix-blend-multiply blur-xl opacity-70 animate-blob"></div>
+          <div className={"absolute top-[40%] left-[33%] w-72 h-72 bg-purple-300 rounded-full  mix-blend-multiply blur-xl opacity-70 animate-blob"}/>
           <div
             className="absolute top-[40%] left-[47%]  w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply blur-xl opacity-70 animate-blob"
             style={{ animationDelay: "5000ms" }}

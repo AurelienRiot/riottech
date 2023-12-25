@@ -42,7 +42,9 @@ const MouseSticky2 = () => {
                 <CSSCarousel />
                 <BubbleText
                     text="Bubbbbbbbble text"
-                    className={`p-4  relative before:bg-gradient-to-b before:from-slate-900 before:to-slate-800 before:absolute before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
+                    className={`p-4  relative before:bg-gradient-to-b 
+                                before:from-slate-900 before:to-slate-800 before:absolute 
+                                before:w-full before:h-full rounded-lg before:inset-0   overflow-hidden`}
                 />
             </div>
         </div>
@@ -193,6 +195,7 @@ function Menu2() {
         rotate({ x: 0, y: 0 });
     };
 
+
     function template({ x, y, rotate, scaleX, scaleY }: any) {
         return `translateX(${x}) translateY(${y}) rotate(${rotate}) scaleX(${scaleX}) scaleY(${scaleY}) translateZ(0) `;
     }
@@ -204,7 +207,7 @@ function Menu2() {
                 onMouseMove={handleMouseMove}
                 onMouseEnter={handleOnEnter}
                 onMouseLeave={handleOnLeave}
-                onClick={() => console.log("click Button")}
+            // onClick={() => console.log("click Button")}
             >
                 {/* <motion.div
           className="w-full h-full absolute top-0 left-0 rounded-xl"
@@ -231,6 +234,7 @@ function Menu2() {
                         scaleY: scale.y,
                     }}
                 >
+                    <title>Menu</title>
                     <motion.circle
                         cx="40"
                         cy="40"
@@ -309,7 +313,7 @@ const EncryptButton = () => {
         >
             <div className="relative flex items-center gap-2">
                 <FiLock />{" "}
-                <span className={`relative z-10 pl-4 uppercase `}>{text}</span>
+                <span className={"relative z-10 pl-4 uppercase "}>{text}</span>
             </div>
         </motion.button>
     );
@@ -532,9 +536,9 @@ const useCountdown = (
 
             if (distance <= 0) {
                 clearInterval(intervalRef.current || undefined);
-                Object.values(refs).forEach((ref) =>
-                    ref.current?.style.setProperty("--value", "0")
-                );
+                for (const ref of Object.values(refs)) {
+                    ref.current?.style.setProperty("--value", "0");
+                }
                 toast.error("Le compte à rebours est terminé.");
             } else {
                 const days = Math.floor(distance / DAY);
@@ -596,7 +600,7 @@ const CountdownItem2 = forwardRef<
                 className="flex flex-col justify-center items-center border-r-[1px] last:border-r-0 p-10 border-slate-200  "
             >
                 <span className="countdown font-mono ">
-                    <span className="text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-red-600 font-medium "></span>
+                    <span className="text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-red-600 font-medium " />
                 </span>
                 <span className="text-xs md:text-sm lg:text-base font-light text-slate-500 ">
                     {text}

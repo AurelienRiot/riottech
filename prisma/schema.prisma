@@ -20,7 +20,6 @@ model Billboard {
   categories  Category[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
 }
 
 model Category {

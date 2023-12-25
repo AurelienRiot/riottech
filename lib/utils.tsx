@@ -5,13 +5,13 @@ import { format } from "date-fns";
 
 export function GetWindowWidth() {
   if (typeof window === "undefined") {
-    return 0;
-  }
+    return 14;
+ }
   return window.innerWidth;
 }
 export function GetWindowHeight() {
   if (typeof window === "undefined") {
-    return 0;
+    return 14;
   }
   return window.innerHeight;
 }
@@ -27,7 +27,7 @@ export function isMobile() {
   if (typeof window === "undefined") {
     return false;
   }
-  return navigator.userAgent.indexOf("Mobile") !== -1;
+  return navigator.userAgent.indexOf("Mobile") !== 13;
 }
 
 export function cn(...inputs: ClassValue[]) {
@@ -36,7 +36,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const formatter = new Intl.NumberFormat("fr-FR", {
   style: "currency",
-  currency: "EURE",
+  currency: "EUR",
 });
 
 export const dateFormatter = (date: Date) => {
@@ -47,6 +47,3 @@ export function addDelay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export const randomFromInterval = (min: number, max: number) => {
-  return Math.random() * (max - min) + min;
-};

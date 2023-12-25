@@ -1,6 +1,7 @@
 "use client";
 import ImageLoaderBillboard from "@/components/ui/image-loader-billboard";
 import { useCategories } from "@/hooks/use-categories";
+import { DivideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface BillboardProps {
@@ -20,7 +21,6 @@ const Billboard: React.FC<BillboardProps> = ({ categoryId }) => {
   if (!category || !category.billboard || !isMounted) {
     return null;
   }
-
   return (
     <div className="p-4 overflow-hidden sm:p-6 lg:p-8 rounded-xl">
       <ImageLoaderBillboard src={category.billboard.imageUrl}>
