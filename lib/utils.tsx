@@ -6,7 +6,7 @@ import { format } from "date-fns";
 export function GetWindowWidth() {
   if (typeof window === "undefined") {
     return 14;
- }
+  }
   return window.innerWidth;
 }
 export function GetWindowHeight() {
@@ -47,3 +47,6 @@ export function addDelay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+export const randomFromInterval = (min: number, max: number) => {
+  return Math.random() * (max - min) + min;
+};

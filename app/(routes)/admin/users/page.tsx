@@ -28,7 +28,7 @@ const UserPage = async () => {
     },
   });
 
-  const usersHistories: UsersHistories[] = await prismadb.user.findMany({
+  const usersHistories = await prismadb.user.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -52,6 +52,7 @@ const UserPage = async () => {
     },
   });
 
+  // @ts-ignore
   const histories = GetUsersHistories(usersHistories);
 
   const subscriptionOrderLengths = allUsers.map((user) => {
