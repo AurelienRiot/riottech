@@ -51,7 +51,6 @@ const UserPage = async () => {
     },
   });
 
-  // @ts-ignore
   const histories = GetUsersHistories(usersHistories);
 
   const subscriptionOrderLengths = allUsers.map((user) => {
