@@ -1,7 +1,6 @@
 "use client";
 import ImageLoaderBillboard from "@/components/ui/image-loader-billboard";
 import { useCategories } from "@/hooks/use-categories";
-import { DivideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface BillboardProps {
