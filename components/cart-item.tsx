@@ -7,7 +7,6 @@ import { ProductWithCategoryAndImages } from "@/types";
 import { X, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 
 interface CartItemProps {
   data: ProductWithCategoryAndImages;

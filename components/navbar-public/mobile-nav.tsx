@@ -145,7 +145,7 @@ export default function MobileNav({ className }: MobileNavProps) {
                 {"  "} <StoreIcon className="w-4 h-4 mr-2 " /> Produits
                 <ChevronDown
                   className={cn(
-                    `relative top-[1px] ml-1 h-3 w-3 transition duration-200`,
+                    "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
                     openProduct ? "" : "-rotate-90"
                   )}
                   aria-hidden="true"

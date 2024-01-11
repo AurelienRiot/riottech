@@ -2,156 +2,187 @@ import { Button } from "@/components/ui/button";
 import { Subscription } from "@prisma/client";
 import moment from "moment";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 import Currency from "@/components/ui/currency";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Image from "next/image";
 
 interface SelectSubscriptionProps {
-  subscriptions: Subscription[];
-  sim: string;
+    subscriptions: Subscription[];
+    sim: string;
+    org: null | { orgImageUrl: string; orgName: string };
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
-  subscriptions,
-  sim,
+    subscriptions,
+    sim,
+    org,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const { data: session } = useSession();
-  const [subscription, setSubscription] = useState(subscriptions[0]);
+    const [loading, setLoading] = useState(false);
+    const { data: session } = useSession();
+    const [subscription, setSubscription] = useState(subscriptions[0]);
 
-  const displayRecurrence =
-    subscription.recurrence == "month" ? "mois" : "année";
-  const nextRecurrence =
-    subscription.recurrence === "month"
-      ? moment().add(1, "month").locale("fr").format("D MMMM YYYY")
-      : moment().add(1, "year").locale("fr").format("D MMMM YYYY");
+    const displayRecurrence =
+        subscription.recurrence == "month" ? "mois" : "année";
+    const nextRecurrence =
+        subscription.recurrence === "month"
+            ? moment().add(1, "month").locale("fr").format("D MMMM YYYY")
+            : moment().add(1, "year").locale("fr").format("D MMMM YYYY");
 
-  const onClick = async () => {
-    setLoading(true);
-    if (sim === "") {
-      toast.error("Veuillez renseigner le numéro de la SIM.");
-      setLoading(false);
-      return;
-    }
-    try {
-      const response = await axios.post(`/api/checkout-subscription`, {
-        subscriptionId: subscription.id,
-        sim,
-      });
-      window.location = response.data.url;
-    } catch (error) {
-      toast.error("Erreur.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const onClick = async () => {
+        setLoading(true);
+        if (sim === "") {
+            toast.error("Veuillez renseigner le numéro de la SIM.");
+            setLoading(false);
+            return;
+        }
+        try {
+            const response = await axios.post(`/api/checkout-subscription`, {
+                subscriptionId: subscription.id,
+                sim,
+            });
+            window.location = response.data.url;
+        } catch (error) {
+            toast.error("Erreur.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        setSubscription(subscriptions[0]);
+    }, [subscriptions]);
+    console.log(org);
 
-  return (
-    <>
-      <div className="justify-center flex mt-4 text-xl">
-        {" "}
-        {subscription.name}
-      </div>
-      <div className="flex gap-2 justify-center mt-4">
-        {subscriptions.map((obj) => (
-          <Button
-            key={obj.id}
-            onClick={() => setSubscription(obj)}
-            data-active={obj.id === subscription.id ? true : false}
-            className="data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border border-2 border-transparent"
-          >
-            {obj.recurrence === "month" ? "Mois" : "Année"}
-          </Button>
-        ))}
-      </div>
-      <h1 className="mb-4 text-2xl font-semibold text-center">
-        Votre commande
-      </h1>
-      <p className="text-center">Sim: {sim}</p>
-      <div className="flex items-center justify-center text-left">
-        <table className="w-full text-center border-2 sm:w-full">
-          <thead className="text-white border-b-2 bg-primary ">
-            <tr>
-              <th className="pr-5 mr-10 text-primary-foreground">
-                <h2 className="mt-4 mb-4 text-2xl font-semibold">Produits</h2>
-              </th>
-              <th className="pl-5 ml-4 text-primary-foreground">
-                <h2 className="mt-4 mb-4 text-2xl font-semibold">Prix</h2>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b-2 odd:bg-secondary even:bg-primary/50 ">
-              <td className="py-2 pr-5 mr-10">
+    return (
+        <>
+            {org ? (
+                <div>
+                    <h1 className="mb-4 text-2xl font-semibold text-center">
+                        Activez votre abonnement multi-opérateurs RIOT TECH en
+                        partenariat avec {org.orgName}
+                    </h1>
+                    {org.orgImageUrl ? (
+                        <img
+                            src={org.orgImageUrl}
+                            alt="Logo"
+                            className="max-w-52 mx-auto mb-4"
+                        />
+                    ) : null}
+                </div>
+            ) : null}
+            <div className="justify-center flex mt-4 text-xl">
                 {" "}
-                Carte SIM RIOT TECH {subscription.name} × 1
-              </td>
-              <td className="py-2 ml-4 flex gap-1">
-                {" "}
-                <Currency
-                  value={subscription.priceHT}
-                  displayLogo={false}
-                  displayText={false}
-                />
-                {" et un coût d'achat de l'équipement de "}{" "}
-                <Currency
-                  value={subscription.fraisActivation}
-                  displayLogo={false}
-                />{" "}
-              </td>
-            </tr>
-            <tr className="border-b-2 odd:bg-secondary even:bg-primary/50">
-              <td className="py-2 mr-10">Total:</td>
-              <td className="py-2 ml-4 flex">
-                <Currency
-                  value={subscription.priceHT + subscription.fraisActivation}
-                />
-              </td>
-            </tr>
-            <tr className="odd:bg-secondary even:bg-primary/50">
-              <td className="py-2 mr-10">Total récurrent:</td>
-              <td className="py-2 ml-4 flex">
-                {" "}
-                <Currency
-                  value={subscription.priceHT}
-                  displayLogo={false}
-                  displayText={false}
-                  className="mr-1"
-                />
-                {`  /  ${displayRecurrence}`}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p className="pt-4 text-center">
-        Premier renouvellement : {nextRecurrence}
-      </p>
-      <div className="mt-8 mb-6 -center ">
-        {!session && (
-          <div className="flex justify-center ">
-            <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl">
-              <h1 className="text-2xl font-semibold">
-                Créer votre compte <br />
-                <span className="text-xs text-red-500">*Obligatoire</span>
-              </h1>
-
-              <RegisterForm />
+                {subscription.name}
             </div>
-          </div>
-        )}
-        <div className="flex justify-center">
-          <Button
-            disabled={loading || !session}
-            onClick={onClick}
-            className="mt-4"
-          >
-            Souscrire
-          </Button>
-        </div>
-      </div>
-    </>
-  );
+            <div className="flex gap-2 justify-center mt-4">
+                {subscriptions.map((obj) => (
+                    <Button
+                        key={obj.id}
+                        onClick={() => setSubscription(obj)}
+                        data-active={obj.id === subscription.id ? true : false}
+                        className="data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border border-2 border-transparent"
+                    >
+                        {obj.recurrence === "month" ? "Mois" : "Année"}
+                    </Button>
+                ))}
+            </div>
+            <h1 className="mb-4 text-2xl font-semibold text-center">
+                Votre commande
+            </h1>
+            <p className="text-center">Sim: {sim}</p>
+            <div className="flex items-center justify-center text-left">
+                <table className="w-full text-center border-2 sm:w-full">
+                    <thead className="text-white border-b-2 bg-primary ">
+                        <tr>
+                            <th className="pr-5 mr-10 text-primary-foreground">
+                                <h2 className="mt-4 mb-4 text-2xl font-semibold">
+                                    Produits
+                                </h2>
+                            </th>
+                            <th className="pl-5 ml-4 text-primary-foreground">
+                                <h2 className="mt-4 mb-4 text-2xl font-semibold">
+                                    Prix
+                                </h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr className="border-b-2 odd:bg-secondary even:bg-primary/50 ">
+                            <td className="py-2 pr-5 mr-10">
+                                {" "}
+                                Carte SIM RIOT TECH {subscription.name} × 1
+                            </td>
+                            <td className="py-2 ml-4 flex gap-1">
+                                {" "}
+                                <Currency
+                                    value={subscription.priceHT}
+                                    displayLogo={false}
+                                    displayText={false}
+                                />
+                                {" et un coût d'achat de l'équipement de "}{" "}
+                                <Currency
+                                    value={subscription.fraisActivation}
+                                    displayLogo={false}
+                                />{" "}
+                            </td>
+                        </tr>
+                        <tr className="border-b-2 odd:bg-secondary even:bg-primary/50">
+                            <td className="py-2 mr-10">Total:</td>
+                            <td className="py-2 ml-4 flex">
+                                <Currency
+                                    value={
+                                        subscription.priceHT +
+                                        subscription.fraisActivation
+                                    }
+                                />
+                            </td>
+                        </tr>
+                        <tr className="odd:bg-secondary even:bg-primary/50">
+                            <td className="py-2 mr-10">Total récurrent:</td>
+                            <td className="py-2 ml-4 flex">
+                                {" "}
+                                <Currency
+                                    value={subscription.priceHT}
+                                    displayLogo={false}
+                                    displayText={false}
+                                    className="mr-1"
+                                />
+                                {`  /  ${displayRecurrence}`}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p className="pt-4 text-center">
+                Premier renouvellement : {nextRecurrence}
+            </p>
+            <div className="mt-8 mb-6 -center ">
+                {!session && (
+                    <div className="flex justify-center ">
+                        <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl">
+                            <h1 className="text-2xl font-semibold">
+                                Créer votre compte <br />
+                                <span className="text-xs text-red-500">
+                                    *Obligatoire
+                                </span>
+                            </h1>
+
+                            <RegisterForm />
+                        </div>
+                    </div>
+                )}
+                <div className="flex justify-center">
+                    <Button
+                        disabled={loading || !session}
+                        onClick={onClick}
+                        className="mt-4"
+                    >
+                        Souscrire
+                    </Button>
+                </div>
+            </div>
+        </>
+    );
 };
