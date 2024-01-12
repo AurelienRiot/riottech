@@ -129,7 +129,6 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
                 <SelectSubscription
                     subscriptions={selectedSubscriptions}
                     sim={sim}
-                    org={org}
                 />
             )}
         </>
