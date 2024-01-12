@@ -77,7 +77,7 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
                                         isSimInvalid ? "text-red-500" : "",
                                     )}
                                 >
-                                    Numéros de SIM
+                                    Numéro de SIM
                                 </FormLabel>
                                 <FormControl>
                                     <Input
