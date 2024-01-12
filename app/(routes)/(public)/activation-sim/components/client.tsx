@@ -74,6 +74,49 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
 
     return (
         <>
+            {org ? (
+                <>
+                    <h1 className="mb-4 text-center text-3xl font-bold">
+                        Abonnement Carte SIM {org.orgName}, Via RIOT TECH
+                    </h1>
+                    <div className="pb-4 pt-4 text-center">
+                        {org.orgImageUrl ? (
+                            //  eslint-disable-next-line @next/next/no-img-element
+                            <img
+                                src={org.orgImageUrl}
+                                alt="Logo"
+                                className="max-w-52 mx-auto mb-4"
+                            />
+                        ) : null}
+                        <p>
+                            Utilisez cette page pour activer votre abonnement
+                            Carte SIM multi-opérateurs {org.orgName}, Via RIOT
+                            TECH. Avec l’abonnement RIOT TECH, profitez d’une
+                            connexion internet en toutes circonstances !
+                        </p>
+                    </div>
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <h1 className="mb-4 text-center text-3xl font-bold">
+                        Abonnement Carte SIM RIOT TECH
+                    </h1>
+                    <div className="pb-4 pt-10 text-center">
+                        <p>
+                            Utilisez cette page pour activer votre abonnement
+                            Carte SIM multi-opérateurs RIOT TECH, saisissez le
+                            code complet de la carte SIM et laissez-vous guider
+                            !
+                        </p>
+                        <p>
+                            Avec l’abonnement RIOT TECH, profitez d’une
+                            connexion internet en toutes circonstances !
+                        </p>
+                    </div>{" "}
+                </>
+            )}
+
             <Separator />
 
             <SimForm

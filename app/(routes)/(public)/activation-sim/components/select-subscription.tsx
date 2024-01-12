@@ -69,26 +69,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
 
     return (
         <>
-            {org ? (
-                <div>
-                    <h1 className="p-4 text-center text-2xl font-semibold">
-                        Abonnement Carte SIM {org.orgName}, Via RIOT TECH
-                    </h1>
-                    <p className="p-2 text-center">
-                        Utilisez cette page pour activer votre abonnement Carte
-                        SIM multi-opérateurs {org.orgName}, Via RIOT TECH. Avec
-                        l’abonnement RIOT TECH, profitez d’une connexion
-                        internet en toutes circonstances !
-                    </p>
-                    {org.orgImageUrl ? (
-                        <img
-                            src={org.orgImageUrl}
-                            alt="Logo"
-                            className="max-w-52 mx-auto mb-4"
-                        />
-                    ) : null}
-                </div>
-            ) : null}
             <div className="mt-4 flex flex-col justify-center gap-2">
                 {groupedSubscriptions.map((obj, index) => (
                     <>
