@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
@@ -26,9 +28,16 @@ type SimSchema = z.infer<typeof simSchema>;
 type ActivationSimFormProps = {
     sim: string;
     loading: boolean;
+    isSimInvalid: boolean;
+    setIsSimInvalid: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const SimForm: React.FC<ActivationSimFormProps> = ({ sim, loading }) => {
+export const SimForm: React.FC<ActivationSimFormProps> = ({
+    sim,
+    loading,
+    isSimInvalid,
+    setIsSimInvalid,
+}) => {
     const router = useRouter();
 
     const form = useForm<SimSchema>({
@@ -43,23 +52,31 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({ sim, loading }) => {
             `/activation-sim?sim=${encodeURIComponent(
                 data.sim,
             )}&callbackUrl=${encodeURIComponent(
-                "/activation-sim?sim=" + data.sim,
+                `/activation-sim?sim=${data.sim}`,
             )}`,
         );
     };
-
+    const simValue = form.watch("sim");
+    useEffect(() => {
+        if (simValue !== sim) {
+            setIsSimInvalid(false);
+        }
+    }, [simValue, sim, setIsSimInvalid]);
     return (
         <>
-            <Separator />
-
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10">
                     <FormField
                         control={form.control}
                         name="sim"
                         render={({ field }) => (
-                            <FormItem className="flex flex-col items-center justify-center">
-                                <FormLabel className="mr-4">
+                            <FormItem className=" flex flex-col items-center justify-center  ">
+                                <FormLabel
+                                    className={cn(
+                                        "mr-4",
+                                        isSimInvalid ? "text-red-500" : "",
+                                    )}
+                                >
                                     Numéros de SIM
                                 </FormLabel>
                                 <FormControl>
@@ -70,13 +87,18 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({ sim, loading }) => {
                                         disabled={loading}
                                     />
                                 </FormControl>
+                                {isSimInvalid && (
+                                    <FormMessage>
+                                        Numéro de SIM Incorrect
+                                    </FormMessage>
+                                )}
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
                     <Button
                         type="submit"
-                        className="w-full mt-4"
+                        className="mt-4 w-full"
                         disabled={loading}
                     >
                         {loading ? (

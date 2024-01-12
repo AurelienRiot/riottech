@@ -12,14 +12,23 @@ export type ValidSim = {
     sim_serial: string;
 };
 
-export type ErrorSim = {};
-
 export const FetchSim = async (sim: string): Promise<ValidSim> => {
     try {
         const response = await axios.get(
             `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`,
         );
-        return response.data as ValidSim;
+        if (response.data.available) {
+            return response.data as ValidSim;
+        }
+        return {
+            RTsubIDs: [],
+            available: false,
+            group: "",
+            is_third: false,
+            org_image_url: "",
+            org_name: "",
+            sim_serial: "",
+        };
     } catch (error) {
         return {
             RTsubIDs: [],
