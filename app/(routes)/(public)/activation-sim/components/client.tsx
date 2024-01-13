@@ -76,10 +76,10 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
         <>
             {org ? (
                 <>
-                    <h1 className="mb-4 text-center text-3xl font-bold">
+                    <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
                         Abonnement Carte SIM {org.orgName}, Via RIOT TECH
                     </h1>
-                    <div className="pb-4 pt-4 text-center">
+                    <div className="mb-6 text-center text-secondary-foreground/80">
                         {org.orgImageUrl ? (
                             //  eslint-disable-next-line @next/next/no-img-element
                             <img
@@ -99,10 +99,10 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
             ) : (
                 <>
                     {" "}
-                    <h1 className="mb-4 text-center text-3xl font-bold">
+                    <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
                         Abonnement Carte SIM RIOT TECH
                     </h1>
-                    <div className="pb-4 pt-10 text-center">
+                    <div className="mb-6 text-center text-secondary-foreground/80">
                         <p>
                             Utilisez cette page pour activer votre abonnement
                             Carte SIM multi-opérateurs RIOT TECH, saisissez le
