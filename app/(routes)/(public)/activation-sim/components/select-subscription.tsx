@@ -2,13 +2,11 @@ import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import { Subscription } from "@prisma/client";
 import axios from "axios";
-import moment from "moment";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
-import { dateFormatter, formatter } from "@/lib/utils";
+import { dateFormatter } from "@/lib/utils";
 import { addMonths, addYears } from "date-fns";
 import {
     Select,
@@ -76,7 +74,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                     Choisissez votre abonnement :{" "}
                 </h2>
                 <Select
-                    // value={subscription?.name}
                     onValueChange={(value) => {
                         setSubscription(
                             subscriptions.find(
@@ -90,15 +87,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                     </SelectTrigger>
                     <SelectContent position="popper">
                         {groupedSubscriptions.map((obj) => (
-                            <SelectItem
-                                key={obj[0].id}
-                                value={obj[0].id}
-                                // onClick={() => setSubscription(obj[0])}
-                                // data-active={obj.some(
-                                //     (sub) => sub.id === subscription?.id,
-                                // )}
-                                // className="border-2 border-transparent data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border"
-                            >
+                            <SelectItem key={obj[0].id} value={obj[0].id}>
                                 {obj[0].name}
                             </SelectItem>
                         ))}
