@@ -41,7 +41,7 @@ WORKDIR /app
 ENV NODE_ENV production
 
 # Set the NEXT_SHARP_PATH environment variable
-ENV NEXT_SHARP_PATH /app/node_modules/sharp
+#ENV NEXT_SHARP_PATH /app/node_modules/sharp
 
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
