@@ -20,7 +20,7 @@ export interface WelcomeEmailProps {
 export const WelcomeEmail = ({ fullName, baseUrl }: WelcomeEmailProps) => (
     <Html>
         <Head />
-        <Preview>Bienvenue sur Riot Tech</Preview>
+        <Preview>Bienvenue sur RIOT TECH</Preview>
         <Body style={main}>
             <Container style={container}>
                 <a href={baseUrl} target="_blank">
@@ -46,7 +46,7 @@ export const WelcomeEmail = ({ fullName, baseUrl }: WelcomeEmailProps) => (
                 <Text style={paragraph}>
                     Cordialement,
                     <br />
-                    Riot Tech
+                    RIOT TECH
                 </Text>
                 <Hr style={hr} />
                 <Text style={footer}>Kervihan 56930 Pluméliau-Bieuzy</Text>

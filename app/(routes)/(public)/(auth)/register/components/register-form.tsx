@@ -40,7 +40,9 @@ const formSchema = z
             .string()
             .email({ message: "L'email doit être un email valide" })
             .min(1, { message: "L'email ne peut pas être vide" })
-            .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
+            .max(100, {
+                message: "L'email ne peut pas dépasser 100 caractères",
+            }),
         password: z
             .string()
             .min(1, { message: "Le mot de passe ne peut pas être vide" })
@@ -56,24 +58,32 @@ const formSchema = z
         name: z
             .string()
             .min(1)
-            .max(100, { message: "Le nom ne peut pas dépasser 100 caractères" }),
+            .max(100, {
+                message: "Le nom ne peut pas dépasser 100 caractères",
+            }),
         surname: z
             .string()
             .min(1)
-            .max(100, { message: "Le prénom ne peut pas dépasser 100 caractères" }),
+            .max(100, {
+                message: "Le prénom ne peut pas dépasser 100 caractères",
+            }),
         phone: z
             .string()
             .refine((value) => value === "" || value.length <= 20, {
-                message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
+                message:
+                    "Le numéro de téléphone ne peut pas dépasser 20 caractères",
             })
             .refine(
-                (value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value),
-                { message: "Le numéro de téléphone n'est pas valide" }
+                (value) =>
+                    value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value),
+                { message: "Le numéro de téléphone n'est pas valide" },
             ),
         adresse: z
             .string()
             .min(0)
-            .max(100, { message: "L'adresse ne peut pas dépasser 100 caractères" }),
+            .max(100, {
+                message: "L'adresse ne peut pas dépasser 100 caractères",
+            }),
         tva: z.string().min(0).max(100, {
             message: "Le numéros de TVA ne peut pas dépasser 100 caractères",
         }),
@@ -133,14 +143,14 @@ export const RegisterForm = () => {
             if (isPro) {
                 if (!data.raisonSocial) {
                     toast.error(
-                        "Veuillez renseigner la raison sociale ou passer en particulier."
+                        "Veuillez renseigner la raison sociale ou passer en particulier.",
                     );
                     return;
                 }
                 const valideVat = await GetValideVat(data.tva);
                 if (!valideVat) {
                     toast.error(
-                        "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
+                        "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
                     );
                     return;
                 }
@@ -171,8 +181,12 @@ export const RegisterForm = () => {
                 axiosError.response?.data &&
                 axiosError.response.status === 400
             ) {
-                toast.error(axiosError.response.data as string, { duration: 8000 });
-                router.replace(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+                toast.error(axiosError.response.data as string, {
+                    duration: 8000,
+                });
+                router.replace(
+                    `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+                );
             } else {
                 toast.error("Erreur.");
             }
@@ -198,19 +212,21 @@ export const RegisterForm = () => {
     });
 
     return (
-        <div onClick={() => setSuggestions([])}
+        <div
+            onClick={() => setSuggestions([])}
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     setSuggestions([]);
                 }
-
             }}
         >
             <p className="text-center">
                 Vous avez un compte ?{" "}
                 <Link
                     className="text-indigo-500 hover:underline"
-                    href={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+                    href={`/login?callbackUrl=${encodeURIComponent(
+                        callbackUrl,
+                    )}`}
                 >
                     {" "}
                     Connectez vous ici{" "}
@@ -218,10 +234,12 @@ export const RegisterForm = () => {
             </p>
             <Form {...form}>
                 <form
-                    onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-                    className="space-y-12 w-full sm:w-[400px]"
+                    onSubmit={form.handleSubmit(() =>
+                        onSubmit(form.getValues()),
+                    )}
+                    className="w-full space-y-12 sm:w-[400px]"
                 >
-                    <div className="flex justify-between mt-6">
+                    <div className="mt-6 flex justify-between">
                         <Button
                             onClick={(e) => {
                                 e.preventDefault();
@@ -230,8 +248,8 @@ export const RegisterForm = () => {
                             }}
                             className={
                                 !isPro
-                                    ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
-                                    : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+                                    ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
+                                    : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
                             }
                         >
                             Particulier
@@ -244,8 +262,8 @@ export const RegisterForm = () => {
                             }}
                             className={
                                 isPro
-                                    ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
-                                    : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+                                    ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
+                                    : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
                             }
                         >
                             Professionnel
@@ -259,7 +277,9 @@ export const RegisterForm = () => {
                                     name="tva"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Numéros de TVA</FormLabel>
+                                            <FormLabel>
+                                                Numéros de TVA
+                                            </FormLabel>
                                             <FormControl>
                                                 <div className="flex items-start gap-x-4">
                                                     <Input
@@ -267,10 +287,15 @@ export const RegisterForm = () => {
                                                         placeholder="FR32948952"
                                                         {...field}
                                                         onKeyDown={(e) => {
-                                                            if (e.key === "Enter") {
+                                                            if (
+                                                                e.key ===
+                                                                "Enter"
+                                                            ) {
                                                                 e.preventDefault();
                                                                 document
-                                                                    .getElementById("verify-button")
+                                                                    .getElementById(
+                                                                        "verify-button",
+                                                                    )
                                                                     ?.click();
                                                             }
                                                         }}
@@ -279,26 +304,43 @@ export const RegisterForm = () => {
                                             </FormControl>
                                             <Button
                                                 id="verify-button"
-                                                disabled={loading || !field.value}
+                                                disabled={
+                                                    loading || !field.value
+                                                }
                                                 onClick={async (e) => {
                                                     e.preventDefault();
                                                     setLoading(true);
-                                                    const valideVat = await GetValideVat(field.value);
-                                                    if (valideVat) {
-                                                        const temp = await AddressAutocomplete(
-                                                            valideVat.address
+                                                    const valideVat =
+                                                        await GetValideVat(
+                                                            field.value,
                                                         );
+                                                    if (valideVat) {
+                                                        const temp =
+                                                            await AddressAutocomplete(
+                                                                valideVat.address,
+                                                            );
                                                         setQuery(temp[0].label);
                                                         setCity(temp[0].city);
-                                                        setCountry(temp[0].country);
+                                                        setCountry(
+                                                            temp[0].country,
+                                                        );
                                                         setState(temp[0].state);
-                                                        setPostalCode(temp[0].postal_code);
+                                                        setPostalCode(
+                                                            temp[0].postal_code,
+                                                        );
                                                         setLine1(temp[0].line1);
 
-                                                        form.setValue("raisonSocial", valideVat.name);
-                                                        toast.success("TVA valide");
+                                                        form.setValue(
+                                                            "raisonSocial",
+                                                            valideVat.name,
+                                                        );
+                                                        toast.success(
+                                                            "TVA valide",
+                                                        );
                                                     } else {
-                                                        toast.error("TVA non valide");
+                                                        toast.error(
+                                                            "TVA non valide",
+                                                        );
                                                     }
                                                     setLoading(false);
                                                 }}
@@ -340,7 +382,8 @@ export const RegisterForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Nom<span className="text-red-500">*</span>
+                                        Nom
+                                        <span className="text-red-500">*</span>
                                     </FormLabel>
                                     <FormControl>
                                         <div className="flex items-start gap-x-4">
@@ -364,7 +407,8 @@ export const RegisterForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Prénom<span className="text-red-500">*</span>
+                                        Prénom
+                                        <span className="text-red-500">*</span>
                                     </FormLabel>
                                     <FormControl>
                                         <div className="flex items-start gap-x-4">
@@ -388,7 +432,8 @@ export const RegisterForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Email<span className="text-red-500">*</span>
+                                        Email
+                                        <span className="text-red-500">*</span>
                                     </FormLabel>
                                     <FormControl>
                                         <div className="flex items-start gap-x-4">
@@ -438,7 +483,7 @@ export const RegisterForm = () => {
                                     <FormLabel>Adresse</FormLabel>
                                     <FormControl>
                                         <div className="relative items-start text-sm">
-                                            <div className="flex items-center pl-2 mb-2 space-x-2">
+                                            <div className="mb-2 flex items-center space-x-2 pl-2">
                                                 <p>Autres</p>
                                                 <Switch
                                                     onCheckedChange={() => {
@@ -455,26 +500,42 @@ export const RegisterForm = () => {
                                                 {...field}
                                                 value={query}
                                                 onChange={handleChange}
-                                                autoComplete="address-line1"
+                                                // autoComplete="address-line1"
                                             />
                                             {line1 && (
-                                                <div className="flex flex-col gap-1 mt-2">
+                                                <div className="mt-2 flex flex-col gap-1">
                                                     <span>
                                                         <b>{"Adresse:"}</b>{" "}
                                                         <input
                                                             className="border-2"
                                                             type="text"
                                                             value={line1}
-                                                            onChange={(e) => setLine1(e.currentTarget.value)}
+                                                            onChange={(e) =>
+                                                                setLine1(
+                                                                    e
+                                                                        .currentTarget
+                                                                        .value,
+                                                                )
+                                                            }
                                                         />{" "}
                                                     </span>
                                                     <span>
-                                                        <b>{"Complément d'adresse:"}</b>{" "}
+                                                        <b>
+                                                            {
+                                                                "Complément d'adresse:"
+                                                            }
+                                                        </b>{" "}
                                                         <input
                                                             className="border-2"
                                                             type="text"
                                                             value={line2}
-                                                            onChange={(e) => setLine2(e.currentTarget.value)}
+                                                            onChange={(e) =>
+                                                                setLine2(
+                                                                    e
+                                                                        .currentTarget
+                                                                        .value,
+                                                                )
+                                                            }
                                                         />{" "}
                                                     </span>
                                                     <span>
@@ -483,7 +544,8 @@ export const RegisterForm = () => {
                                                     </span>
                                                     <span>
                                                         {" "}
-                                                        <b>Code postal:</b> {postalCode}{" "}
+                                                        <b>Code postal:</b>{" "}
+                                                        {postalCode}{" "}
                                                     </span>
                                                     <span>
                                                         {" "}
@@ -493,26 +555,38 @@ export const RegisterForm = () => {
                                                 </div>
                                             )}
                                             {suggestions.length > 0 && (
-                                                <ul className="absolute left-0 z-10 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg top-16 dark:bg-blue-950 ">
+                                                <ul className="absolute left-0 top-16 z-10 mt-2 rounded-lg border border-gray-300 bg-white shadow-lg dark:bg-blue-950 ">
                                                     {suggestions.map(
-                                                        (suggestion: Suggestion, index: number) => (
+                                                        (
+                                                            suggestion: Suggestion,
+                                                            index: number,
+                                                        ) => (
                                                             <li
                                                                 key={index}
-                                                                className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-blue-900"
+                                                                className="cursor-pointer px-4 py-2 hover:bg-gray-100 dark:hover:bg-blue-900"
                                                                 onClick={() => {
-                                                                    handleOnChangeAddress(suggestion);
+                                                                    handleOnChangeAddress(
+                                                                        suggestion,
+                                                                    );
                                                                 }}
-                                                                onKeyDown={(e) => {
-                                                                    if (e.key === "Enter") {
-                                                                    handleOnChangeAddress(suggestion);
+                                                                onKeyDown={(
+                                                                    e,
+                                                                ) => {
+                                                                    if (
+                                                                        e.key ===
+                                                                        "Enter"
+                                                                    ) {
+                                                                        handleOnChangeAddress(
+                                                                            suggestion,
+                                                                        );
                                                                     }
-
                                                                 }}
-
                                                             >
-                                                                {suggestion.label}
+                                                                {
+                                                                    suggestion.label
+                                                                }
                                                             </li>
-                                                        )
+                                                        ),
                                                     )}
                                                 </ul>
                                             )}
@@ -530,7 +604,8 @@ export const RegisterForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
-                                        Mot de passe<span className="text-red-500">*</span>
+                                        Mot de passe
+                                        <span className="text-red-500">*</span>
                                     </FormLabel>
                                     <FormControl>
                                         <div className="flex items-center gap-x-4">
@@ -538,15 +613,27 @@ export const RegisterForm = () => {
                                                 disabled={loading}
                                                 placeholder="*********"
                                                 {...field}
-                                                type={showPassword ? "text" : "password"}
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 autoComplete="new-password"
                                             />
                                             <button
                                                 type="button"
-                                                onClick={() => setShowPassword(!showPassword)}
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword,
+                                                    )
+                                                }
                                                 tabIndex={-1}
                                             >
-                                                {showPassword ? <EyeOff /> : <Eye />}
+                                                {showPassword ? (
+                                                    <EyeOff />
+                                                ) : (
+                                                    <Eye />
+                                                )}
                                             </button>
                                         </div>
                                     </FormControl>
@@ -571,15 +658,27 @@ export const RegisterForm = () => {
                                                 disabled={loading}
                                                 placeholder="*********"
                                                 {...field}
-                                                type={showPassword ? "text" : "password"}
+                                                type={
+                                                    showPassword
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 autoComplete="new-password"
                                             />
                                             <button
                                                 type="button"
-                                                onClick={() => setShowPassword(!showPassword)}
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword,
+                                                    )
+                                                }
                                                 tabIndex={-1}
                                             >
-                                                {showPassword ? <EyeOff /> : <Eye />}
+                                                {showPassword ? (
+                                                    <EyeOff />
+                                                ) : (
+                                                    <Eye />
+                                                )}
                                             </button>
                                         </div>
                                     </FormControl>
@@ -588,7 +687,12 @@ export const RegisterForm = () => {
                             )}
                         />
                     </div>
-                    <Button type="submit" disabled={loading} className="w-full" size="lg">
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full"
+                        size="lg"
+                    >
                         Créer le compte
                     </Button>
                 </form>

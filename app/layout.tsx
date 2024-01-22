@@ -24,8 +24,8 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-    title: "Riot Tech",
-    description: "Riot Tech",
+    title: "RIOT TECH",
+    description: "RIOT TECH",
 };
 
 export default function RootLayout({
