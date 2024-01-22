@@ -142,54 +142,13 @@ export default function MobileNav({ className }: MobileNavProps) {
                                 />
                             </CommandItem>
 
-                            <CommandItem
-                                aria-expanded={openProduct}
-                                onSelect={() => setOpenProduct(!openProduct)}
-                                className="test-sm cursor-pointer"
-                            >
-                                {"  "} <StoreIcon className="mr-2 h-4 w-4 " />{" "}
-                                Produits
-                                <ChevronDown
-                                    className={cn(
-                                        "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
-                                        openProduct ? "" : "-rotate-90",
-                                    )}
-                                    aria-hidden="true"
-                                />
-                                <Suspense fallback={null}>
-                                    <AnimatePresence>
-                                        {openProduct && (
-                                            <VisibleElement
-                                                as="ul"
-                                                variant="bottom"
-                                                className="absolute left-20 top-6 z-40 grid w-auto gap-2 rounded-lg border-2 border-border bg-popover p-4"
-                                            >
-                                                {routes.map((route) => (
-                                                    <li key={route.href}>
-                                                        <Link
-                                                            href={route.href}
-                                                            onClick={() => {
-                                                                setOpenProduct(
-                                                                    false,
-                                                                );
-                                                                setOpen(false);
-                                                            }}
-                                                            className={cn(
-                                                                route.active
-                                                                    ? "text-popover-foreground "
-                                                                    : "text-muted-foreground ",
-                                                                "block w-full rounded-lg text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                                                            )}
-                                                        >
-                                                            {route.label}
-                                                        </Link>
-                                                    </li>
-                                                ))}
-                                            </VisibleElement>
-                                        )}
-                                    </AnimatePresence>
-                                </Suspense>
-                            </CommandItem>
+                            <DisplayRoutes
+                                routes={routes}
+                                setOpen={setOpen}
+                                setOpenProduct={setOpenProduct}
+                                openProduct={openProduct}
+                            />
+
                             {/* <CommandItem
                                 onSelect={() => {
                                     router.push("/anomaly-detect");
@@ -256,3 +215,57 @@ export default function MobileNav({ className }: MobileNavProps) {
         </Popover>
     );
 }
+type DisplayRoutesProps = {
+    routes: { href: string; label: string; active: boolean }[];
+    setOpen: (state: boolean) => void;
+    openProduct: boolean;
+    setOpenProduct: (state: boolean) => void;
+};
+const DisplayRoutes = ({
+    routes,
+    setOpen,
+    openProduct,
+    setOpenProduct,
+}: DisplayRoutesProps) => {
+    return (
+        <CommandItem
+            aria-expanded={openProduct}
+            onSelect={() => setOpenProduct(!openProduct)}
+            className="test-sm relative cursor-pointer"
+        >
+            {"  "} <StoreIcon className="mr-2 h-4 w-4 " /> Produits
+            <ChevronDown
+                className={cn(
+                    "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
+                    openProduct ? "" : "-rotate-90",
+                )}
+                aria-hidden="true"
+            />
+            <ul
+                // className="absolute left-20 top-6 z-40 grid w-auto gap-2 rounded-lg border-2 border-border bg-popover p-4"
+                data-state={openProduct}
+                className="absolute left-20  top-6 z-40 grid w-auto gap-1 rounded-lg border-2 border-border  bg-popover py-4  opacity-100 transition-all duration-300  data-[state=false]:z-0 data-[state=false]:opacity-0 "
+            >
+                {routes.map((route) => (
+                    <li key={route.href}>
+                        <Link
+                            href={route.href}
+                            onClick={() => {
+                                setOpenProduct(false);
+                                setOpen(false);
+                            }}
+                            className={cn(
+                                route.active
+                                    ? "text-popover-foreground "
+                                    : "text-muted-foreground ",
+                                "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                            )}
+                        >
+                            {route.label}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </CommandItem>
+    );
+};
