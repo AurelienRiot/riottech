@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/strip";
 import prismadb from "@/lib/prismadb";
 
+const PDF_URL = process.env.PDF_URL;
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
             address: addressString,
             name: session?.customer_details?.name || "",
             phone: session?.customer_details?.phone || "",
-            pdfUrl: `https://doligateway.riottech.fr/get_pdf?mode=inline&charge_id=${chargeId}`,
+            pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
           },
         });
       } else {
@@ -88,7 +89,7 @@ export async function POST(req: Request) {
             address: addressString,
             name: session?.customer_details?.name || "",
             phone: session?.customer_details?.phone || "",
-            pdfUrl: `https://doligateway.riottech.fr/get_pdf?mode=inline&charge_id=${chargeId}`,
+            pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
           },
         });
 
@@ -98,7 +99,7 @@ export async function POST(req: Request) {
             idStripe: session.id,
             price: subscriptionOrder.totalPrice,
             status: "Paid",
-            pdfUrl: `https://doligateway.riottech.fr/get_pdf?mode=inline&charge_id=${chargeId}`,
+            pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
           },
         });
       }
@@ -173,7 +174,7 @@ export async function POST(req: Request) {
             idStripe: session_invoice.id,
             price: subscriptionOrder.subscriptionPrice,
             status: "Paid",
-            pdfUrl: `https://doligateway.riottech.fr/get_pdf?mode=inline&charge_id=${chargeId}`,
+            pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
           },
         });
       }

@@ -7,9 +7,9 @@ export const metadata = {
     description: "Activation d'une carte SIM RIOT TECH",
 };
 
-const activationSIMPage = async () => {
+const activationSIMPage = async (context: any) => {
     const subscriptions = await GetSubscriptions();
-
+    console.log(context);
     // const groupedSubscriptionsObj = subscriptions.reduce<
     //     Record<string, Subscription[]>
     // >((acc, product) => {

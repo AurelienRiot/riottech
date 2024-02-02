@@ -44,7 +44,7 @@ const ServicePage = () => {
                     Combien ça coûte
                 </h2>
                 <p className="mb-4">
-                    Prix de la Box 4G : à partir de
+                    {"Prix de la Box 4G : à partir de "}
                     <Currency
                         displayLogo={false}
                         value={195}
