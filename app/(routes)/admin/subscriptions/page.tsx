@@ -18,7 +18,14 @@ const SubscriptionPage = async () => {
       isArchived: item.isArchived ? "oui" : "non",
       priceHT: formatter.format(Number(item.priceHT)),
       dataCap: String(item.dataCap),
-      recurrence: item.recurrence === "month" ? "Mois" : "Année",
+      recurrence:
+        item.recurrence === "month"
+          ? "Mois"
+          : "year"
+          ? "An"
+          : "week"
+          ? "semaine"
+          : "jour",
       createdAt: item.createdAt,
     })
   );
