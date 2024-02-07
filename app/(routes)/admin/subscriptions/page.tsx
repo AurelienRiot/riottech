@@ -21,9 +21,9 @@ const SubscriptionPage = async () => {
       recurrence:
         item.recurrence === "month"
           ? "Mois"
-          : "year"
+          : item.recurrence === "year"
           ? "An"
-          : "week"
+          : item.recurrence === "week"
           ? "semaine"
           : "jour",
       createdAt: item.createdAt,

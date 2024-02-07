@@ -32,9 +32,9 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   const displayRecurrence =
     subscription?.recurrence === "month"
       ? "mois"
-      : "year"
+      : subscription?.recurrence === "year"
       ? "an"
-      : "week"
+      : subscription?.recurrence === "week"
       ? "semaine"
       : "jour";
   const nextRecurrence =
