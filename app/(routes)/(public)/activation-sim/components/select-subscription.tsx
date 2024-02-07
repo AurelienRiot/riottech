@@ -114,7 +114,13 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   data-active={sub.id === subscription?.id}
                   className="border-2 border-transparent data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border"
                 >
-                  {sub.recurrence === "month" ? "Mensuel" : "Annuel"}
+                  {sub.recurrence === "month"
+                    ? "Mensuel"
+                    : sub.recurrence === "year"
+                    ? "Annuel"
+                    : sub.recurrence === "week"
+                    ? "Hebdomadaire"
+                    : "Journalier"}
                 </Button>
               ))}
             </div>
