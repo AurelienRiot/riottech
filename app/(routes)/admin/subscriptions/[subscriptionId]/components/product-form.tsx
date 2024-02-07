@@ -83,7 +83,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
           productSpecs: "",
           fraisActivation: 0,
           dataCap: 0,
-          recurrence: "année",
+          recurrence: "year",
           isFeatured: false,
           isArchived: false,
         },
@@ -247,7 +247,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {["year", "month"].map((recur) => (
+                      {["year", "month", "day", "week"].map((recur) => (
                         <SelectItem key={recur} value={recur}>
                           {recur}
                         </SelectItem>
