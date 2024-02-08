@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 import React from "react";
 import Navbar from "@/components/navbar-admin/navbar";
+import prismadb from "@/lib/prismadb";
 
 export default async function AdminLayout({
   children,
@@ -12,6 +13,16 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
   const callbackUrl = "/admin";
   if (!session || !session.user || session.user.role !== "admin") {
+    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+  }
+
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user || user.role !== "admin") {
     redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
 

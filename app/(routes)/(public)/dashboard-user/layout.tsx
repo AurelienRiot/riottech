@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 import React from "react";
+import prismadb from "@/lib/prismadb";
 
 export const metadata = {
   title: "Riot Tech - Profil utilisateur",
@@ -15,7 +16,17 @@ export default async function Layout({
 }) {
   const session = await getServerSession(authOptions);
   const callbackUrl = "/dashboard-user";
-  if (!session) {
+  if (!session || !session.user) {
+    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+  }
+
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user) {
     redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
 
