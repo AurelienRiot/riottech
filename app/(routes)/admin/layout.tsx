@@ -4,6 +4,7 @@ import { authOptions } from "@/components/auth/authOptions";
 import React from "react";
 import Navbar from "@/components/navbar-admin/navbar";
 import prismadb from "@/lib/prismadb";
+import { Logout } from "@/components/auth/auth";
 
 export default async function AdminLayout({
   children,
@@ -23,7 +24,7 @@ export default async function AdminLayout({
   });
 
   if (!user || user.role !== "admin") {
-    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+    return <Logout />;
   }
 
   return (

@@ -40,7 +40,7 @@ interface SubscriptionFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   priceHT: z.coerce.number().min(1),
-  productSpecs: z.string().min(1),
+  productSpecs: z.string().default(""),
   description: z.string().min(1),
   fraisActivation: z.coerce.number().min(1),
   dataCap: z.coerce.number().min(0),
@@ -263,11 +263,11 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Drescription</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <TextArea
                       disabled={loading}
-                      placeholder="Despription de l'abonnement"
+                      placeholder="Description de l'abonnement"
                       {...field}
                     />
                   </FormControl>

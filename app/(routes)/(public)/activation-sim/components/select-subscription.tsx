@@ -46,7 +46,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       ? dateFormatter(addWeeks(new Date(), 1))
       : dateFormatter(addDays(new Date(), 1));
 
-  console.log(nextRecurrence);
   const onClick = async () => {
     setLoading(true);
     if (sim === "" || !subscription) {

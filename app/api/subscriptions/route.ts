@@ -42,13 +42,6 @@ export async function POST(req: Request) {
       });
     }
 
-    if (!productSpecs) {
-      return new NextResponse(
-        "Les spécifications de l'abonnement sont nécessaire",
-        { status: 400 }
-      );
-    }
-
     if (!fraisActivation) {
       return new NextResponse("Les frais d'activation sont nécessaire", {
         status: 400,

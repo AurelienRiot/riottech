@@ -82,13 +82,6 @@ export async function PATCH(
       });
     }
 
-    if (!productSpecs) {
-      return new NextResponse(
-        "Les spécifications de l'abonnement sont nécessaire",
-        { status: 400 }
-      );
-    }
-
     const subscription = await prismadb.subscription.update({
       where: {
         id: params.subscriptionId,

@@ -9,130 +9,124 @@ import { FetchSim } from "./fetch-sim";
 import { Separator } from "@/components/ui/separator";
 
 const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
-    const searchParams = useSearchParams();
-    const simParam = searchParams.get("sim");
-    const router = useRouter();
-    const [isSimInvalid, setIsSimInvalid] = useState(false);
-    const sim = simParam && /^\d{19}$/.test(simParam) ? simParam : "";
-    const [selectedSubscriptions, setSelectedSubscriptions] = useState<
-        Subscription[] | null
-    >(null);
-    const [loading, setLoading] = useState(true);
-    const [org, setOrg] = useState<null | {
-        orgImageUrl: string;
-        orgName: string;
-    }>(null);
+  const searchParams = useSearchParams();
+  const simParam = searchParams.get("sim");
+  const router = useRouter();
+  const [isSimInvalid, setIsSimInvalid] = useState(false);
+  const sim = simParam && /^\d{19}$/.test(simParam) ? simParam : "";
+  const [selectedSubscriptions, setSelectedSubscriptions] = useState<
+    Subscription[] | null
+  >(null);
+  const [loading, setLoading] = useState(true);
+  const [org, setOrg] = useState<null | {
+    orgImageUrl: string;
+    orgName: string;
+  }>(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(() => true);
-            if (searchParams.get("canceled")) {
-                toast.error("Erreur de paiement.");
-                router.replace(
-                    `/activation-sim?sim=${encodeURIComponent(sim)}`,
-                );
-            }
-            if (!searchParams.get("callbackUrl") && sim) {
-                router.replace(
-                    `/activation-sim?sim=${encodeURIComponent(
-                        sim,
-                    )}&callbackUrl=${encodeURIComponent(
-                        "/activation-sim?sim=" + sim,
-                    )}`,
-                );
-            }
-            if (sim) {
-                const res = await FetchSim(sim);
-                if (!res.available) {
-                    toast.error("Numéro de SIM Incorrect");
-                    setSelectedSubscriptions(null);
-                    setLoading(() => false);
-                    setIsSimInvalid(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(() => true);
+      if (searchParams.get("canceled")) {
+        toast.error("Erreur de paiement.");
+        router.replace(`/activation-sim?sim=${encodeURIComponent(sim)}`);
+      }
+      if (!searchParams.get("callbackUrl") && sim) {
+        router.replace(
+          `/activation-sim?sim=${encodeURIComponent(
+            sim
+          )}&callbackUrl=${encodeURIComponent("/activation-sim?sim=" + sim)}`
+        );
+      }
+      if (sim) {
+        const res = await FetchSim(sim);
+        console.log(res);
+        console.log("test");
+        if (!res.available) {
+          toast.error("Numéro de SIM Incorrect");
+          setSelectedSubscriptions(null);
+          setLoading(() => false);
+          setIsSimInvalid(true);
 
-                    return;
-                }
-                setSelectedSubscriptions(
-                    subscriptions.filter((subscription) =>
-                        res.RTsubIDs.includes(subscription.id),
-                    ),
-                );
-                setIsSimInvalid(false);
-                if (res.is_third) {
-                    setOrg({
-                        orgImageUrl: res.org_image_url ?? "",
-                        orgName: res.org_name,
-                    });
-                } else {
-                    setOrg(null);
-                }
-            }
-            setLoading(() => false);
-        };
+          return;
+        }
+        setSelectedSubscriptions(
+          subscriptions.filter((subscription) =>
+            res.RTsubIDs.includes(subscription.id)
+          )
+        );
+        setIsSimInvalid(false);
+        if (res.is_third) {
+          setOrg({
+            orgImageUrl: res.org_image_url ?? "",
+            orgName: res.org_name,
+          });
+        } else {
+          setOrg(null);
+        }
+      }
+      setLoading(() => false);
+    };
 
-        fetchData();
-    }, [subscriptions, sim, searchParams, router]);
+    fetchData();
+  }, [subscriptions, sim, searchParams, router]);
 
-    return (
+  return (
+    <>
+      {org ? (
         <>
-            {org ? (
-                <>
-                    <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
-                        Abonnement Carte SIM {org.orgName}, Via RIOT TECH
-                    </h1>
-                    <div className="mb-6 text-center text-secondary-foreground/80">
-                        {org.orgImageUrl ? (
-                            //  eslint-disable-next-line @next/next/no-img-element
-                            <img
-                                src={org.orgImageUrl}
-                                alt="Logo"
-                                className="max-w-52 mx-auto mb-4"
-                            />
-                        ) : null}
-                        <p>
-                            Utilisez cette page pour activer votre abonnement
-                            Carte SIM multi-opérateurs {org.orgName}, Via RIOT
-                            TECH. Avec l’abonnement RIOT TECH, profitez d’une
-                            connexion internet en toutes circonstances !
-                        </p>
-                    </div>
-                </>
-            ) : (
-                <>
-                    {" "}
-                    <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
-                        Abonnement Carte SIM RIOT TECH
-                    </h1>
-                    <div className="mb-6 text-center text-secondary-foreground/80">
-                        <p>
-                            Utilisez cette page pour activer votre abonnement
-                            Carte SIM multi-opérateurs RIOT TECH, saisissez le
-                            code complet de la carte SIM et laissez-vous guider
-                            !
-                        </p>
-                        <p>
-                            Avec l’abonnement RIOT TECH, profitez d’une
-                            connexion internet en toutes circonstances !
-                        </p>
-                    </div>{" "}
-                </>
-            )}
-
-            <Separator />
-
-            <SimForm
-                sim={sim}
-                loading={loading}
-                isSimInvalid={isSimInvalid}
-                setIsSimInvalid={setIsSimInvalid}
-            />
-            {selectedSubscriptions && (
-                <SelectSubscription
-                    subscriptions={selectedSubscriptions}
-                    sim={sim}
-                />
-            )}
+          <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
+            Abonnement Carte SIM {org.orgName}, Via RIOT TECH
+          </h1>
+          <div className="mb-6 text-center text-secondary-foreground/80">
+            {org.orgImageUrl ? (
+              //  eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={org.orgImageUrl}
+                alt="Logo"
+                className="max-w-52 mx-auto mb-4"
+              />
+            ) : null}
+            <p>
+              Utilisez cette page pour activer votre abonnement Carte SIM
+              multi-opérateurs {org.orgName}, Via RIOT TECH. Avec l’abonnement
+              RIOT TECH, profitez d’une connexion internet en toutes
+              circonstances !
+            </p>
+          </div>
         </>
-    );
+      ) : (
+        <>
+          {" "}
+          <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
+            Abonnement Carte SIM RIOT TECH
+          </h1>
+          <div className="mb-6 text-center text-secondary-foreground/80">
+            <p>
+              Utilisez cette page pour activer votre abonnement Carte SIM
+              multi-opérateurs RIOT TECH, saisissez le code complet de la carte
+              SIM et laissez-vous guider !
+            </p>
+            <p>
+              Avec l’abonnement RIOT TECH, profitez d’une connexion internet en
+              toutes circonstances !
+            </p>
+          </div>{" "}
+        </>
+      )}
+
+      <Separator />
+
+      <SimForm
+        sim={sim}
+        loading={loading}
+        isSimInvalid={isSimInvalid}
+        setIsSimInvalid={setIsSimInvalid}
+      />
+      {selectedSubscriptions && (
+        <SelectSubscription subscriptions={selectedSubscriptions} sim={sim} />
+      )}
+    </>
+  );
 };
 
 export default Client;

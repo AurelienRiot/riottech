@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 import React from "react";
 import prismadb from "@/lib/prismadb";
+import { Logout } from "@/components/auth/auth";
 
 export const metadata = {
   title: "Riot Tech - Profil utilisateur",
@@ -27,7 +28,7 @@ export default async function Layout({
   });
 
   if (!user) {
-    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
+    return <Logout />;
   }
 
   return <div className="relative h-full ">{children}</div>;

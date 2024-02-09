@@ -1,6 +1,7 @@
 "use client";
 
 import { DefaultSession } from "next-auth";
+import { signOut } from "next-auth/react";
 
 declare module "next-auth" {
   interface Session {
@@ -12,3 +13,8 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 }
+
+export const Logout = () => {
+  signOut({ callbackUrl: "/" });
+  return null;
+};
