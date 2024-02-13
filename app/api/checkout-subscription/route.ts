@@ -74,7 +74,9 @@ export async function POST(req: NextRequest) {
               sim: sim,
             },
           },
-          unit_amount: Number(subscription.priceHT.toFixed(2)) * 100,
+          unit_amount: Math.floor(
+            Number(subscription.priceHT.toFixed(2)) * 100
+          ),
           recurring: {
             interval:
               subscription.recurrence as Stripe.Price.Recurring.Interval,
@@ -92,7 +94,9 @@ export async function POST(req: NextRequest) {
 
             name: "Frais d'activation",
           },
-          unit_amount: Number(subscription.fraisActivation.toFixed(2)) * 100,
+          unit_amount: Math.floor(
+            Number(subscription.fraisActivation.toFixed(2)) * 100
+          ),
         },
       });
     } else {
