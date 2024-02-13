@@ -11,6 +11,8 @@ import Spinner from "@/components/animations/spinner";
 import { Input } from "@/components/ui/input";
 import { SimForm } from "./components/sim-form";
 import { SelectSubscription } from "./components/select-subscription";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/components/auth/authOptions";
 
 export const metadata = {
   title: "Riot Tech - Activation SIM",
@@ -21,11 +23,13 @@ const activationSIMPage = async (context: {
   searchParams: { sim: string; callbackUrl: string; subId: string };
 }) => {
   const subscriptions = await GetSubscriptions();
+  const session = await getServerSession(authOptions);
 
   if (
     !context.searchParams.callbackUrl &&
     context.searchParams.sim &&
-    context.searchParams.subId
+    context.searchParams.subId &&
+    !session
   ) {
     redirect(
       `/activation-sim?sim=${encodeURIComponent(

@@ -11,9 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import z from "zod";
 
 const simSchema = z.object({
@@ -35,7 +36,7 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
 }) => {
   const router = useRouter();
   const [isSimInvalid, setIsSimInvalid] = useState(!availableSim);
-  const [loading, setLoading] = useState(false);
+  const searchParams = useSearchParams();
 
   const form = useForm<SimSchema>({
     resolver: zodResolver(simSchema),
@@ -44,9 +45,17 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
     },
   });
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (searchParams.get("canceled")) {
+      toast.error("Erreur de paiement.");
+      router.replace(
+        `/activation-sim?sim=${encodeURIComponent(
+          sim
+        )}&subId=${encodeURIComponent(searchParams.get("subId") as string)}`
+      );
+    }
+  });
   const onSubmit = async (data: SimSchema) => {
-    setLoading(true);
     router.push(
       `/activation-sim?sim=${encodeURIComponent(
         data.sim
@@ -95,14 +104,6 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
           </Button>
         </form>
       </Form>
-      {/* <div id="commande" className="w-full">
-        {selectedGroupedSubscription && (
-          <SelectSubscription
-            subscriptions={selectedGroupedSubscription}
-            sim={sim}
-          />
-        )}
-      </div> */}
     </>
   );
 };
