@@ -8,12 +8,19 @@ import { SelectSubscription } from "./select-subscription";
 import { FetchSim } from "./fetch-sim";
 import { Separator } from "@/components/ui/separator";
 
-const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
+const Client = ({
+  subscriptions,
+  sim,
+  subId,
+}: {
+  subscriptions: Subscription[];
+  sim: string;
+  subId: string;
+}) => {
   const searchParams = useSearchParams();
-  const simParam = searchParams.get("sim");
   const router = useRouter();
   const [isSimInvalid, setIsSimInvalid] = useState(false);
-  const sim = simParam && /^\d{19}$/.test(simParam) ? simParam : "";
+  const simParam = sim && /^\d{19}$/.test(sim) ? sim : "";
   const [selectedSubscriptions, setSelectedSubscriptions] = useState<
     Subscription[] | null
   >(null);
@@ -30,13 +37,13 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
         toast.error("Erreur de paiement.");
         router.replace(`/activation-sim?sim=${encodeURIComponent(sim)}`);
       }
-      if (!searchParams.get("callbackUrl") && sim) {
-        router.replace(
-          `/activation-sim?sim=${encodeURIComponent(
-            sim
-          )}&callbackUrl=${encodeURIComponent("/activation-sim?sim=" + sim)}`
-        );
-      }
+      // if (!searchParams.get("callbackUrl") && sim) {
+      //   router.replace(
+      //     `/activation-sim?sim=${encodeURIComponent(
+      //       sim
+      //     )}&callbackUrl=${encodeURIComponent("/activation-sim?sim=" + sim)}`
+      //   );
+      // }
       if (sim) {
         const res = await FetchSim(sim);
         console.log(res);
@@ -115,7 +122,7 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
 
       <Separator />
 
-      <SimForm
+      {/* <SimForm
         sim={sim}
         loading={loading}
         isSimInvalid={isSimInvalid}
@@ -123,7 +130,7 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
       />
       {selectedSubscriptions && (
         <SelectSubscription subscriptions={selectedSubscriptions} sim={sim} />
-      )}
+      )} */}
     </>
   );
 };

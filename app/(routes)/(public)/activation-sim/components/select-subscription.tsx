@@ -1,9 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import { Subscription } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 import { dateFormatter } from "@/lib/utils";
@@ -16,18 +17,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
   sim: string;
+  subId: string;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   subscriptions,
   sim,
+  subId,
 }) => {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const { data: session } = useSession();
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(
+    subscriptions.find((subscription) => subscription.id === subId) ?? null
+  );
 
   const displayRecurrence =
     subscription?.recurrence === "month"
@@ -76,15 +83,28 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
 
   const groupedSubscriptions = Array.from(map.values());
 
+  useEffect(() => {
+    setSubscription(
+      subscriptions.find((subscription) => subscription.id === subId) ?? null
+    );
+  }, [subId, subscriptions]);
+
   return (
     <>
       <div className="mt-4 flex flex-col justify-center gap-2 text-center">
         <h2 className="text-center text-lg">Choisissez votre abonnement : </h2>
         <Select
           onValueChange={(value) => {
-            setSubscription(
-              subscriptions.find((subscription) => subscription.id === value) ??
-                null
+            router.push(
+              `/activation-sim?sim=${encodeURIComponent(
+                sim
+              )}&subId=${encodeURIComponent(
+                value
+              )}&callbackUrl=${encodeURIComponent(
+                `/activation-sim?sim=${sim}&subId=${value}
+                  
+                `
+              )}`
             );
           }}
         >
