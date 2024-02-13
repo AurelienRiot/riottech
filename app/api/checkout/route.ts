@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
             tax_code: "txcd_99999999",
             name: product.item.name,
           },
-          unit_amount: Math.floor(Number(product.item.priceHT) * 100),
+          unit_amount: Math.round(product.item.priceHT * 100),
         },
       });
     });
