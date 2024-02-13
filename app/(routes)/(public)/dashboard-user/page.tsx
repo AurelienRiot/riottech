@@ -90,7 +90,7 @@ const DashboardUser = async () => {
               <>
                 <p className="font-bold">TVA:</p>
                 <p>{user.tva}</p>
-                <p className="font-bold"> Raison Social: </p>
+                <p className="font-bold"> Raison Sociale: </p>
                 <p> {user.raisonSocial} </p>
               </>
             )}

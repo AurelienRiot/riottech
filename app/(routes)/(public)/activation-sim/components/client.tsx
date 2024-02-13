@@ -40,7 +40,6 @@ const Client = ({ subscriptions }: { subscriptions: Subscription[] }) => {
       if (sim) {
         const res = await FetchSim(sim);
         console.log(res);
-        console.log("test");
         if (!res.available) {
           toast.error("Numéro de SIM Incorrect");
           setSelectedSubscriptions(null);

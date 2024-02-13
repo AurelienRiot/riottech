@@ -67,6 +67,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isPro, setIsPro] = useState(!!initialData?.raisonSocial);
 
   const [suggestions, setSuggestions] = useState([]);
   const fullAdress: FullAdress = JSON.parse(
@@ -103,14 +104,27 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
 
-      const valideVat = await GetValideVat(data.tva);
-      if (!valideVat && data.isPro) {
-        toast.error(
-          "Le numéro de TVA n'est pas valide, metter un numéros valide ou passer en particulier ."
-        );
-        return;
+      if (isPro) {
+        if (!data.raisonSocial) {
+          toast.error(
+            "Veuillez renseigner la raison sociale ou passer en particulier."
+          );
+          return;
+        }
+        if (data.tva) {
+          const valideVat = await GetValideVat(data.tva);
+          if (!valideVat) {
+            toast.error(
+              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
+            );
+            return;
+          }
+          data.isPro = Boolean(valideVat);
+        }
+      } else {
+        data.isPro = false;
+        data.raisonSocial = "";
       }
-      data.isPro = Boolean(valideVat);
 
       data.adresse = JSON.stringify({
         label: query,
@@ -197,8 +211,38 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         )}
       </div>
       <Separator />
-      <h1>{initialData?.isPro ? "Professionnel" : "Particulier"}</h1>
+
       <p>{initialData?.email}</p>
+      <div className="flex mt-6 ">
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setIsPro(false);
+            form.setValue("tva", "");
+          }}
+          className={
+            !isPro
+              ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
+              : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+          }
+        >
+          Particulier
+        </Button>
+
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            setIsPro(true);
+          }}
+          className={
+            isPro
+              ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
+              : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+          }
+        >
+          Professionnel
+        </Button>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -386,12 +430,12 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               name="raisonSocial"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Raison social</FormLabel>
+                  <FormLabel>Raison sociale</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
                       disabled={loading}
-                      placeholder="Raison social"
+                      placeholder="Raison sociale"
                       {...field}
                     />
                   </FormControl>
