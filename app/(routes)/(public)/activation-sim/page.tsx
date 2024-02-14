@@ -103,7 +103,6 @@ const Test = async ({
   const selectedSubscriptions = subscriptions.filter((subscription) =>
     res.RTsubIDs.includes(subscription.id)
   );
-  console.log(selectedSubscriptions);
   const availableSim = sim ? res.available : true;
   const org = res.is_third
     ? {

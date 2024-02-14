@@ -4,7 +4,7 @@ import Currency from "@/components/ui/currency";
 import { Subscription } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 import { dateFormatter } from "@/lib/utils";
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/animations/spinner";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
@@ -32,9 +33,8 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
-  const [subscription, setSubscription] = useState<Subscription | null>(
-    subscriptions.find((subscription) => subscription.id === subId) ?? null
-  );
+  const subscription =
+    subscriptions.find((subscription) => subscription.id === subId) ?? null;
 
   const displayRecurrence =
     subscription?.recurrence === "month"
@@ -83,11 +83,18 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
 
   const groupedSubscriptions = Array.from(map.values());
 
-  useEffect(() => {
-    setSubscription(
-      subscriptions.find((subscription) => subscription.id === subId) ?? null
+  const redirectSub = (subId: string) => {
+    router.push(
+      `/activation-sim?sim=${encodeURIComponent(
+        sim
+      )}&subId=${encodeURIComponent(subId)}&callbackUrl=${encodeURIComponent(
+        `/activation-sim?sim=${sim}&subId=${subId}
+        
+      `
+      )}`,
+      { scroll: false }
     );
-  }, [subId, subscriptions]);
+  };
 
   return (
     <>
@@ -95,17 +102,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
         <h2 className="text-center text-lg">Choisissez votre abonnement : </h2>
         <Select
           onValueChange={(value) => {
-            router.push(
-              `/activation-sim?sim=${encodeURIComponent(
-                sim
-              )}&subId=${encodeURIComponent(
-                value
-              )}&callbackUrl=${encodeURIComponent(
-                `/activation-sim?sim=${sim}&subId=${value}
-                  
-                `
-              )}`
-            );
+            redirectSub(value);
           }}
         >
           <SelectTrigger className="w-[280px]">
@@ -129,7 +126,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
               {obj.map((sub) => (
                 <Button
                   key={sub.id}
-                  onClick={() => setSubscription(sub)}
+                  onClick={() => redirectSub(sub.id)}
                   data-active={sub.id === subscription?.id}
                   className="border-2 border-transparent data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border"
                 >
@@ -226,7 +223,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 onClick={onClick}
                 className="mt-4"
               >
-                Souscrire
+                {loading ? <Spinner size={20} /> : "Souscrire"}
               </Button>
             </div>
           </div>

@@ -36,6 +36,8 @@ const DashboardUser = async () => {
       .join(", "),
     totalPrice: formatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
+    mailSend: order.mailSend,
+    pdfUrl: order.pdfUrl,
     createdAt: order.createdAt,
   }));
 

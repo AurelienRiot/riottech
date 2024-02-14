@@ -34,14 +34,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatter2 = new Intl.NumberFormat("fr-FR", {
-  style: "currency",
-  currency: "EUR",
-  currencyDisplay: "symbol",
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 2,
-});
-
 export const formatter = (() => {
   const formatFunction = new Intl.NumberFormat("fr-FR", {
     style: "currency",

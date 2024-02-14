@@ -29,6 +29,7 @@ const UserSubscriptionPage = async ({
           ? "erreur"
           : "en cours",
       pdfUrl: history.pdfUrl,
+      mailSend: history.mailSend,
       createdAt: history.createdAt,
     }));
 

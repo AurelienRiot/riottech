@@ -13,6 +13,7 @@ export type SubscriptionHistoryColumn = {
   status: string;
   pdfUrl: string;
   price: string;
+  mailSend: boolean;
   createdAt: Date;
 };
 export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
@@ -51,9 +52,13 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     cell: ({ row }) => (
       <div className="flex ">
         {" "}
-        <Link href={row.original.pdfUrl} target="_blank">
-          <ExternalLink className="w-6 h-6 shrink-0" />
-        </Link>
+        {row.original.mailSend ? (
+          <Link href={row.original.pdfUrl} target="_blank">
+            <ExternalLink className="w-6 h-6 shrink-0" />
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
     ),
   },

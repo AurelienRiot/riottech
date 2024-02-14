@@ -2,15 +2,18 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ExternalLink } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export type OrderColumn = {
   id: string;
   isPaid: string;
   totalPrice: string;
   products: string;
+  mailSend: boolean;
+  pdfUrl: string;
   createdAt: Date;
 };
 export const columns: ColumnDef<OrderColumn>[] = [
@@ -25,6 +28,22 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "isPaid",
     header: "Payé",
+  },
+  {
+    accessorKey: "pdfUrl",
+    header: "Facture",
+    cell: ({ row }) => (
+      <div className="flex ">
+        {" "}
+        {row.original.mailSend ? (
+          <Link href={row.original.pdfUrl} target="_blank">
+            <ExternalLink className="w-6 h-6 shrink-0" />
+          </Link>
+        ) : (
+          ""
+        )}
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",

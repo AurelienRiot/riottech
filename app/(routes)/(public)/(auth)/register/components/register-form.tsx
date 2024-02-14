@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 import * as z from "zod";
+import Spinner from "@/components/animations/spinner";
 
 interface Suggestion {
   label: string;
@@ -592,7 +593,7 @@ export const RegisterForm = () => {
             />
           </div>
           <Button type="submit" disabled={loading} className="w-full" size="lg">
-            Créer le compte
+            {loading ? <Spinner size={20} /> : "Créer le compte"}
           </Button>
         </form>
       </Form>

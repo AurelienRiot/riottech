@@ -45,21 +45,20 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
     },
   });
 
-  useEffect(() => {
-    if (searchParams.get("canceled")) {
-      toast.error("Erreur de paiement.");
-      router.replace(
-        `/activation-sim?sim=${encodeURIComponent(
-          sim
-        )}&subId=${encodeURIComponent(searchParams.get("subId") as string)}`
-      );
-    }
-  });
+  if (searchParams.get("canceled")) {
+    toast.error("Erreur de paiement.");
+    router.replace(
+      `/activation-sim?sim=${encodeURIComponent(
+        sim
+      )}&subId=${encodeURIComponent(searchParams.get("subId") as string)}`
+    );
+  }
   const onSubmit = async (data: SimSchema) => {
     router.push(
       `/activation-sim?sim=${encodeURIComponent(
         data.sim
-      )}&callbackUrl=${encodeURIComponent(`/activation-sim?sim=${data.sim}`)}`
+      )}&callbackUrl=${encodeURIComponent(`/activation-sim?sim=${data.sim}`)}`,
+      { scroll: false }
     );
   };
   const simValue = form.watch("sim");
