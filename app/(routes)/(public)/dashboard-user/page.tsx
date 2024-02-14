@@ -52,6 +52,7 @@ const DashboardUser = async () => {
     isPaid: order.isPaid ? "oui" : "non",
     isActive: order.isActive ? "oui" : "non",
     sim: order.sim,
+    histories: order.subscriptionHistory.length,
     createdAt: order.createdAt,
   }));
 

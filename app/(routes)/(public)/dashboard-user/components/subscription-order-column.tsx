@@ -12,6 +12,7 @@ export type SubscriptionOrderColumn = {
   isPaid: string;
   totalPrice: string;
   subscription: string;
+  histories: number;
   createdAt: Date;
   isActive: string;
   sim: string;

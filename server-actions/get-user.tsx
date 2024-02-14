@@ -21,6 +21,7 @@ const GetUser = async () => {
               subscription: true,
             },
           },
+          subscriptionHistory: true,
         },
         orderBy: {
           createdAt: "desc",

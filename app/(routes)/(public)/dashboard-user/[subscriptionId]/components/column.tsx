@@ -10,7 +10,6 @@ import Link from "next/link";
 export type SubscriptionHistoryColumn = {
   id: string;
   type: string;
-  status: string;
   pdfUrl: string;
   price: string;
   mailSend: boolean;
@@ -33,15 +32,10 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
         {" "}
         <span
           style={{
-            color:
-              row.getValue("status") === "payé"
-                ? "green"
-                : row.getValue("status") === "erreur"
-                ? "red"
-                : "orange",
+            color: row.original.mailSend ? "green" : "orange",
           }}
         >
-          {row.getValue("status")}
+          {row.original.mailSend ? "Paiement validé" : "En cours de validation"}
         </span>
       </div>
     ),
@@ -50,14 +44,27 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     accessorKey: "pdfUrl",
     header: "Facture",
     cell: ({ row }) => (
-      <div className="flex ">
+      <div className="flex flex-col gap-1">
         {" "}
         {row.original.mailSend ? (
-          <Link href={row.original.pdfUrl} target="_blank">
-            <ExternalLink className="w-6 h-6 shrink-0" />
-          </Link>
+          <>
+            <Link
+              href={row.original.pdfUrl}
+              target="_blank"
+              className="hover:underline"
+            >
+              Ouvrir
+            </Link>
+            <Link
+              href={row.original.pdfUrl.replace(/mode=inline&/, "")}
+              target="_blank"
+              className="hover:underline"
+            >
+              Télécharger
+            </Link>
+          </>
         ) : (
-          ""
+          "Non disponible"
         )}
       </div>
     ),

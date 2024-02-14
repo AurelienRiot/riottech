@@ -22,12 +22,6 @@ const UserSubscriptionPage = async ({
       id: history.id,
       type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
       price: formatter.format(Number(history.price)),
-      status:
-        history.status === "Paid"
-          ? "payé"
-          : history.status === "Error"
-          ? "erreur"
-          : "en cours",
       pdfUrl: history.pdfUrl,
       mailSend: history.mailSend,
       createdAt: history.createdAt,

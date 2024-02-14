@@ -33,14 +33,27 @@ export const columns: ColumnDef<OrderColumn>[] = [
     accessorKey: "pdfUrl",
     header: "Facture",
     cell: ({ row }) => (
-      <div className="flex ">
+      <div className="flex flex-col gap-1">
         {" "}
         {row.original.mailSend ? (
-          <Link href={row.original.pdfUrl} target="_blank">
-            <ExternalLink className="w-6 h-6 shrink-0" />
-          </Link>
+          <>
+            <Link
+              href={row.original.pdfUrl}
+              target="_blank"
+              className="hover:underline"
+            >
+              Ouvrir
+            </Link>
+            <Link
+              href={row.original.pdfUrl.replace(/mode=inline&/, "")}
+              target="_blank"
+              className="hover:underline"
+            >
+              Télécharger
+            </Link>
+          </>
         ) : (
-          ""
+          "Non disponible"
         )}
       </div>
     ),
