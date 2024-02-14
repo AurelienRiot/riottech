@@ -78,8 +78,14 @@ export function DataTable<TData, TValue>({
   });
 
   const flatHeaders = table.getFlatHeaders();
+  console.log(flatHeaders);
   const searchKeys = flatHeaders
-    .filter((header) => header.id !== "actions" && header.id !== "createdAt")
+    .filter(
+      (header) =>
+        header.id !== "actions" &&
+        header.id !== "createdAt" &&
+        header.id !== "pdfUrl"
+    )
     .map((header) => header.id);
 
   const displayKeys = flatHeaders.map(
