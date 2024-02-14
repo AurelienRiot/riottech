@@ -171,11 +171,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 </h3>
                 <Separator className="mb-1 bg-secondary-foreground" />
                 <p className="flex gap-1 text-secondary-foreground/80">
-                  <Currency
-                    value={subscription.priceHT}
-                    displayLogo={false}
-                    displayText={false}
-                  />
+                  <Currency value={subscription.priceHT} displayLogo={false} />
                   {" et un coût d'achat de l'équipement de "}{" "}
                   <Currency
                     value={subscription.fraisActivation}
@@ -202,7 +198,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 <Currency
                   value={subscription.priceHT}
                   displayLogo={false}
-                  displayText={false}
                   className="mr-1"
                 />
                 {`  /  ${displayRecurrence}`}
