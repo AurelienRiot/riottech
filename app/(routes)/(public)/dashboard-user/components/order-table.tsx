@@ -3,14 +3,14 @@
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTable } from "./data-table";
-import { OrderColumn, columns } from "./order-column";
+import { OrderColumnType, OrdersColumn } from "./order-column";
 import { useRouter, useSearchParams } from "next/navigation";
 import useCart from "@/hooks/use-cart";
 import toast from "react-hot-toast";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 
 interface OrderTableProps {
-  data: OrderColumn[];
+  data: OrderColumnType[];
 }
 
 export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
@@ -39,7 +39,11 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
         description="Résumé des commandes"
       />
       <Separator />
-      <DataTable searchKey="products" columns={columns} initialData={data} />
+      <DataTable
+        searchKey="products"
+        columns={OrdersColumn}
+        initialData={data}
+      />
     </>
   );
 };

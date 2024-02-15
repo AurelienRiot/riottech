@@ -1,13 +1,13 @@
 "use client";
 
-import { SubscriptionOrderColumn } from "./subscription-order-column";
+import { SubscriptionOrderColumnType } from "./subscription-order-column";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { BiBookOpen } from "react-icons/bi";
 
 interface SubscriptionOrderCellActionProps {
-  data: SubscriptionOrderColumn;
+  data: SubscriptionOrderColumnType;
 }
 
 export const SubscriptionOrderCellAction: React.FC<

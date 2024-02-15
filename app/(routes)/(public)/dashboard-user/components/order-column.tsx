@@ -2,12 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ExternalLink } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
-import Link from "next/link";
+import { DisplayPdf } from "./display-pdf";
 
-export type OrderColumn = {
+export type OrderColumnType = {
   id: string;
   isPaid: string;
   totalPrice: string;
@@ -16,7 +16,7 @@ export type OrderColumn = {
   pdfUrl: string;
   createdAt: Date;
 };
-export const columns: ColumnDef<OrderColumn>[] = [
+export const OrdersColumn: ColumnDef<OrderColumnType>[] = [
   {
     accessorKey: "products",
     header: "Produits",
@@ -33,29 +33,10 @@ export const columns: ColumnDef<OrderColumn>[] = [
     accessorKey: "pdfUrl",
     header: "Facture",
     cell: ({ row }) => (
-      <div className="flex flex-col gap-1">
-        {" "}
-        {row.original.mailSend ? (
-          <>
-            <Link
-              href={row.original.pdfUrl}
-              target="_blank"
-              className="hover:underline"
-            >
-              Ouvrir
-            </Link>
-            <Link
-              href={row.original.pdfUrl.replace(/mode=inline&/, "")}
-              target="_blank"
-              className="hover:underline"
-            >
-              Télécharger
-            </Link>
-          </>
-        ) : (
-          "Non disponible"
-        )}
-      </div>
+      <DisplayPdf
+        avalaible={row.original.mailSend}
+        pdfUrl={row.original.pdfUrl}
+      />
     ),
   },
   {

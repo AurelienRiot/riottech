@@ -6,6 +6,7 @@ import { ArrowUpDown, ExternalLink } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
 import Link from "next/link";
+import { DisplayPdf } from "../../components/display-pdf";
 
 export type SubscriptionHistoryColumn = {
   id: string;
@@ -44,29 +45,10 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     accessorKey: "pdfUrl",
     header: "Facture",
     cell: ({ row }) => (
-      <div className="flex flex-col gap-1">
-        {" "}
-        {row.original.mailSend ? (
-          <>
-            <Link
-              href={row.original.pdfUrl}
-              target="_blank"
-              className="hover:underline"
-            >
-              Ouvrir
-            </Link>
-            <Link
-              href={row.original.pdfUrl.replace(/mode=inline&/, "")}
-              target="_blank"
-              className="hover:underline"
-            >
-              Télécharger
-            </Link>
-          </>
-        ) : (
-          "Non disponible"
-        )}
-      </div>
+      <DisplayPdf
+        avalaible={row.original.mailSend}
+        pdfUrl={row.original.pdfUrl}
+      />
     ),
   },
   {

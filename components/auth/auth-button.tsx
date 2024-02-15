@@ -36,3 +36,16 @@ export const LogoutButton = (
     </Button>
   );
 };
+export const LogoutButtonText = (
+  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+) => {
+  return (
+    <Button
+      title="Se deconnecter"
+      onClick={() => signOut({ callbackUrl: "/" })}
+      {...props}
+    >
+      Déconnexion
+    </Button>
+  );
+};
