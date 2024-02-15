@@ -75,7 +75,7 @@ const formSchema = z
       message: "L'adresse ne peut pas dépasser 100 caractères",
     }),
     tva: z.string().min(0).max(100, {
-      message: "Le numéros de TVA ne peut pas dépasser 100 caractères",
+      message: "Le numéro de TVA ne peut pas dépasser 100 caractères",
     }),
     raisonSocial: z.string().min(0).max(100, {
       message: "La raison sociale ne peut pas dépasser 100 caractères",
@@ -261,7 +261,7 @@ export const RegisterForm = () => {
                   name="tva"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Numéros de TVA</FormLabel>
+                      <FormLabel>Numéro de TVA</FormLabel>
                       <FormControl>
                         <div className="flex items-start gap-x-4">
                           <Input

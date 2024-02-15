@@ -14,7 +14,9 @@ declare module "next-auth" {
   }
 }
 
-export const Logout = () => {
-  signOut({ callbackUrl: "/" });
+export const Logout = ({ callbackUrl }: { callbackUrl: string }) => {
+  signOut({
+    callbackUrl: `/login?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+  });
   return null;
 };

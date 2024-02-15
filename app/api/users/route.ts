@@ -31,9 +31,12 @@ export async function POST(req: Request) {
       },
     });
     if (isEmailPresent) {
-      return new NextResponse("Un compte est déja crée avec cette email", {
-        status: 400,
-      });
+      return new NextResponse(
+        "Un compte existe déjà avec cette adresse e-mail, veuillez vous connecter.",
+        {
+          status: 400,
+        }
+      );
     }
 
     const hashpassword = await hash(password, 12);

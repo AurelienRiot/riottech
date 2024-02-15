@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!sim) {
-      return new NextResponse("Le numéros de sim est nécessaire", {
+      return new NextResponse("Le numéro de sim est nécessaire", {
         status: 400,
       });
     }

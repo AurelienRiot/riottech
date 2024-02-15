@@ -90,7 +90,7 @@ const UserProfile = async () => {
               <span className="capitalize">{user.raisonSocial}</span>
               <br />
               {"("}
-              <span className="capitalize">{user.name}</span>
+              <span className="capitalize">{user.name}</span>{" "}
               <span className="capitalize">{user.surname}</span>
               {")"}
             </h1>
