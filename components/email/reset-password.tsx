@@ -12,7 +12,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-export interface WelcomeEmailProps {
+export interface ResetPasswordEmailProps {
   baseUrl: string;
   fullName: string;
   resetToken: string;
@@ -22,7 +22,7 @@ export const ResetPasswordEmail = ({
   fullName,
   resetToken,
   baseUrl,
-}: WelcomeEmailProps) => (
+}: ResetPasswordEmailProps) => (
   <Html>
     <Head />
     <Preview>Réinitialiser le mot de passe</Preview>
@@ -30,9 +30,9 @@ export const ResetPasswordEmail = ({
       <Container style={container}>
         <a href={baseUrl} target="_blank">
           <Img
-            src={`${baseUrl}/icon-riot-tech.png`}
-            width="50"
-            height="50"
+            src={`${baseUrl}/icone.png`}
+            width="75"
+            height="75"
             alt="RIOT TECH Logo"
             style={logo}
           />

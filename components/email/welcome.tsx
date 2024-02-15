@@ -25,15 +25,18 @@ export const WelcomeEmail = ({ fullName, baseUrl }: WelcomeEmailProps) => (
       <Container style={container}>
         <a href={baseUrl} target="_blank">
           <Img
-            src={`${baseUrl}/icon-riot-tech.png`}
-            width="50"
-            height="50"
+            src={`${baseUrl}/icone.png`}
+            width="75"
+            height="75"
             alt="RIOT TECH Logo"
             style={logo}
           />
         </a>
-        <Text style={paragraph}>Bonjour {fullName},</Text>
+        {/* <Text style={paragraph}>Bonjour {fullName},</Text> */}
         <Text style={paragraph}>Bienvenue sur RIOT TECH</Text>
+        <Text style={paragraph}>
+          Vous venez de créer un compte sur riottech.fr
+        </Text>
         <Section style={btnContainer}>
           <Button style={button} href={`${baseUrl}/login`} target="_blank">
             Connectez-vous ici
@@ -71,6 +74,7 @@ const logo = {
 const paragraph = {
   fontSize: "16px",
   lineHeight: "26px",
+  textAlign: "center" as const,
 };
 
 const btnContainer = {

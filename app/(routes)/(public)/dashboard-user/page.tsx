@@ -1,6 +1,6 @@
 import GetUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
-import { addDelay, formatter } from "@/lib/utils";
+import { formatter } from "@/lib/utils";
 import { OrderColumnType, OrdersColumn } from "./components/order-column";
 import {
   SubscriptionOrderColumn,

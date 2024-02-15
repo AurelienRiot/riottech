@@ -5,6 +5,10 @@ import ModalProvider from "@/providers/modal-provider";
 import React, { Suspense } from "react";
 import { IsProProvider } from "@/hooks/use-is-pro";
 import { CategoriesProvider } from "@/providers/categories-provider";
+import dynamic from "next/dynamic";
+const CookiesBanner = dynamic(() => import("@/components/cookies-banner"), {
+  ssr: false,
+});
 
 export default async function PublicLayout({
   children,
@@ -20,6 +24,7 @@ export default async function PublicLayout({
         <ModalProvider />
         <NavBar />
         <div className="pt-16 ">{children}</div>
+        <CookiesBanner />
         <Footer />
       </IsProProvider>
     </>

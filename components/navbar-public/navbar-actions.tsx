@@ -57,7 +57,7 @@ const NavbarAction = () => {
             ? "/admin"
             : "/dashboard-user"
         }
-        className="group flex items-center justify-center rounded-full border bg-primary p-2 text-primary-foreground shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+        className="group flex items-center justify-center rounded-full border  p-2 text-sm sm:text-base shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
       >
         Mon Compte
         {/* <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " /> */}

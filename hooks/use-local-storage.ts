@@ -12,7 +12,7 @@ export const useLocalStorage = (key: string) => {
     }
   };
 
-  const setValue = (value: any) => {
+  const setValue = (value: object) => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {

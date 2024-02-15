@@ -28,16 +28,17 @@ const activationSIMPage = async (context: {
   if (
     !context.searchParams.callbackUrl &&
     context.searchParams.sim &&
-    context.searchParams.subId &&
     !session
   ) {
     redirect(
       `/activation-sim?sim=${encodeURIComponent(
         context.searchParams.sim
       )}&subId=${encodeURIComponent(
-        context.searchParams.subId
+        context.searchParams.subId ?? ""
       )}&callbackUrl=${encodeURIComponent(
-        `/activation-sim?sim=${context.searchParams.sim}&subId=${context.searchParams.subId}
+        `/activation-sim?sim=${context.searchParams.sim}&subId=${
+          context.searchParams.subId ?? ""
+        }
           
         `
       )}`

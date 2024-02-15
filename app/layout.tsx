@@ -8,49 +8,43 @@ import { ToasterProvider } from "@/providers/toast-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({
-    subsets: ["latin"],
-    variable: "--font-inter",
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 const sourceCodePro = Source_Code_Pro({
-    subsets: ["latin"],
-    variable: "--font-source-code-pro",
+  subsets: ["latin"],
+  variable: "--font-source-code-pro",
 });
 
 const pacifico = Pacifico({
-    weight: "400",
-    display: "swap",
-    subsets: ["latin"],
-    variable: "--font-pacifico",
+  weight: "400",
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-pacifico",
 });
 
 export const metadata: Metadata = {
-    title: "RIOT TECH",
-    description: "RIOT TECH",
+  title: "RIOT TECH",
+  description: "RIOT TECH",
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="fr">
-            <body
-                className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700  `}
-            >
-                <AuthProviders>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                    >
-                        <ToasterProvider />
-                        <TooltipProvider delayDuration={100}>
-                            {children}
-                        </TooltipProvider>
-                    </ThemeProvider>
-                </AuthProviders>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="fr">
+      <body
+        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 relative `}
+      >
+        <AuthProviders>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <ToasterProvider />
+            <TooltipProvider delayDuration={100}>{children}</TooltipProvider>
+          </ThemeProvider>
+        </AuthProviders>
+      </body>
+    </html>
+  );
 }

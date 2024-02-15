@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import MobileNav from "./mobile-nav";
+import Image from "next/image";
 
 const NavBar = () => {
   const [isNavbar, setIsNavbar] = useState(true);
@@ -42,15 +43,16 @@ const NavBar = () => {
           >
             <Container>
               <div className="relative flex h-16 items-center justify-between px-4 sm:px-6 lg:px-4">
-                <div className="flex ">
+                <div className="flex items-center">
                   <Link
                     href="/"
-                    className="ml-4 hidden items-center transition-all hover:scale-105 sm:flex lg:ml-0"
+                    className="ml-4 hidden items-center transition-all hover:scale-105 sm:flex lg:ml-0 w-12 h-12 relative"
                   >
-                    <p className="text-lg font-bold text-primary sm:text-xl">
+                    <Image src="/icone.png" alt="logo" fill />
+                    {/* <p className="text-lg font-bold text-primary sm:text-xl">
                       {" "}
                       RIOT TECH
-                    </p>
+                    </p> */}
                   </Link>
                   <div className="hidden lg:flex lg:items-center">
                     <MainNav />

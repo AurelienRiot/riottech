@@ -21,6 +21,7 @@ import * as z from "zod";
 import { TextArea } from "../../../../../components/ui/text-area";
 import { AlertModal } from "../../../../../components/modals/alert-modal-form";
 import { Button } from "../../../../../components/ui/button";
+import { useSession } from "next-auth/react";
 
 const formSchema = z.object({
   name: z
@@ -56,14 +57,14 @@ export const ContactForm: React.FC = (): React.ReactNode => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { data: session } = useSession();
   const action = "Envoyer";
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      mail: "",
+      name: session?.user?.name || "",
+      mail: session?.user?.email || "",
       phone: "",
       subject: "",
       message: "",

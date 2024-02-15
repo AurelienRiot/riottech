@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           role: user.role,
           email: user.email,
-          name: user.name,
+          name: user.raisonSocial || user.name + " " + user.surname,
           isPro: user.isPro,
           stripeCustomerId: user.stripeCustomerId,
         };

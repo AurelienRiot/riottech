@@ -33,8 +33,23 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
+
+  const map = new Map<string, Subscription[]>();
+  subscriptions.forEach((subscription) => {
+    const groupName = subscription.name;
+    if (!map.has(groupName)) {
+      map.set(groupName, []);
+    }
+    map.get(groupName)?.push(subscription);
+  });
+
+  const groupedSubscriptions = Array.from(map.values());
+
   const subscription =
-    subscriptions.find((subscription) => subscription.id === subId) ?? null;
+    subscriptions.find((subscription) => subscription.id === subId) ??
+    groupedSubscriptions.length === 1
+      ? groupedSubscriptions[0][0]
+      : null;
 
   const displayRecurrence =
     subscription?.recurrence === "month"
@@ -72,16 +87,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       setLoading(false);
     }
   };
-  const map = new Map<string, Subscription[]>();
-  subscriptions.forEach((subscription) => {
-    const groupName = subscription.name;
-    if (!map.has(groupName)) {
-      map.set(groupName, []);
-    }
-    map.get(groupName)?.push(subscription);
-  });
-
-  const groupedSubscriptions = Array.from(map.values());
 
   const redirectSub = (subId: string) => {
     router.push(
@@ -101,12 +106,19 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       <div className="mt-4 flex flex-col justify-center gap-2 text-center">
         <h2 className="text-center text-lg">Choisissez votre abonnement : </h2>
         <Select
+          defaultValue={
+            subscription
+              ? groupedSubscriptions.find((group) =>
+                  group.some((sub) => sub.id === subscription.id)
+                )?.[0].id
+              : undefined
+          }
           onValueChange={(value) => {
             redirectSub(value);
           }}
         >
           <SelectTrigger className="w-[280px]">
-            <SelectValue placeholder="abonnement" />
+            <SelectValue placeholder="Abonnement" />
           </SelectTrigger>
           <SelectContent position="popper">
             {groupedSubscriptions.map((obj) => (

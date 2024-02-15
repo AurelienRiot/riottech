@@ -1,17 +1,13 @@
 import GetProducts from "@/server-actions/get-products";
 import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
-import { getServerSession } from "next-auth";
 import ServicePage from "./components/services";
 import ImageAccueil from "./components/image-accueil";
-import { VisibleElement } from "@/components/animations/visible-element";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
-import { authOptions } from "@/components/auth/authOptions";
 import Reseau4GPage from "./components/reseau-4G";
 
 const HomePage = async () => {
-  const session = await getServerSession(authOptions);
   return (
     <>
       <ImageAccueil />
@@ -24,9 +20,9 @@ const HomePage = async () => {
             <ServicePage />
           </div>
           <div className="relative space-y-10 bg-primary-foreground/95 pb-10 pt-6  ">
-            <Suspense fallback={<Loading />}>
+            {/* <Suspense fallback={<Loading />}>
               <FeaturedProducts />
-            </Suspense>
+            </Suspense> */}
             {/*
                             <VisibleElement
                                 variant="fade"

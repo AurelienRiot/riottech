@@ -124,6 +124,9 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         data.raisonSocial = "";
       }
 
+      data.name = data.name.trim();
+      data.surname = data.surname.trim();
+      data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify({
         label: query,
         line1,
