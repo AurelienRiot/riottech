@@ -49,16 +49,19 @@ const NavbarAction = () => {
 
   return (
     <div className="flex items-center ml-4 gap-x-2 sm:gap-x-4 ">
-      {session?.user ? (
-        <Link
-          href={session.user.role === "admin" ? "/admin" : "/dashboard-user"}
-          className="group flex items-center justify-center rounded-full border bg-primary p-2 text-primary-foreground shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
-        >
-          <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " />
-        </Link>
-      ) : (
-        <LoginButton />
-      )}
+      <Link
+        href={
+          !session?.user
+            ? "/login"
+            : session.user.role === "admin"
+            ? "/admin"
+            : "/dashboard-user"
+        }
+        className="group flex items-center justify-center rounded-full border bg-primary p-2 text-primary-foreground shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+      >
+        Mon Compte
+        {/* <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " /> */}
+      </Link>
 
       <ThemeToggle />
 

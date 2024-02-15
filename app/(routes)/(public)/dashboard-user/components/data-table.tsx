@@ -78,7 +78,6 @@ export function DataTable<TData, TValue>({
   });
 
   const flatHeaders = table.getFlatHeaders();
-  console.log(flatHeaders);
   const searchKeys = flatHeaders
     .filter(
       (header) =>

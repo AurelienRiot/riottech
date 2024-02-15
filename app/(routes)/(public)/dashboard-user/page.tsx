@@ -8,6 +8,7 @@ import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import Link from "next/link";
 import { BsGear } from "react-icons/bs";
 import { LogoutButton } from "@/components/auth/auth-button";
+import { FaFileInvoice } from "react-icons/fa";
 
 type FullAdress = {
   label: string;
@@ -23,7 +24,7 @@ const DashboardUser = async () => {
   const user = await GetUser();
   if (!user) redirect("/login");
 
-  const formattedOrders: OrderColumn[] = (user?.orders || []).map((order) => ({
+  const formattedOrders: OrderColumn[] = (user.orders || []).map((order) => ({
     id: order.id,
     products: order.orderItems
       .map((item) => {
@@ -42,7 +43,7 @@ const DashboardUser = async () => {
   }));
 
   const formattedSubscriptionOrders: SubscriptionOrderColumn[] = (
-    user?.subscriptionOrder || []
+    user.subscriptionOrder || []
   ).map((order) => ({
     id: order.id,
     subscription: order.subscriptionItem
@@ -61,7 +62,7 @@ const DashboardUser = async () => {
   return (
     <div className="gap-4 mt-4 mb-4">
       <>
-        <div className="flex flex-col items-center justify-center w-40 h-32 mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white">
+        <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6">
           <h1 className="text-3xl font-bold text-center">
             {user.name} <br /> {user.surname}
           </h1>
@@ -71,9 +72,12 @@ const DashboardUser = async () => {
           ) : (
             <p className="text-xl ">Particulier</p>
           )}
-
-          <Link href="/dashboard-user/settings" className="mt-2 ">
-            <BsGear size={20} className="cursor-pointer" />
+          <Link href="/dashboard-user/invoices" className="mt-2 text-3xl">
+            <FaFileInvoice size={20} className="cursor-pointer inline" />{" "}
+            Factures
+          </Link>
+          <Link href="/dashboard-user/settings" className="mt-2 text-3xl">
+            <BsGear size={20} className="cursor-pointer inline" /> Paramètres
           </Link>
         </div>
         <div className="flex flex-col items-center justify-center text-gray-800 text-md sm:text-xl dark:text-white">

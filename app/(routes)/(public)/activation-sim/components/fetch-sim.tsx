@@ -15,7 +15,7 @@ export const FetchSim = async (sim: string): Promise<ValidSim> => {
     const response = await axios.get(
       `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`
     );
-    console.log(response.data);
+
     if (response.data.available) {
       return response.data as ValidSim;
       //   return {
