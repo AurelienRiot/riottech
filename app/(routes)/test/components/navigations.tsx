@@ -117,7 +117,7 @@ const Navigations = () => {
               >
                 <Image
                   src="/icon-riot-tech.png"
-                  alt="logo Riot Tech"
+                  alt="logo RIOT TECH"
                   fill
                   sizes="100%"
                   className="object-contain rounded-md"

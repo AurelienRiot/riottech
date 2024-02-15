@@ -106,7 +106,7 @@ export const PasswordForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mot de passe actuelle</FormLabel>
+                  <FormLabel>Mot de passe actuel</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-x-4">
                       <Input
@@ -162,7 +162,7 @@ export const PasswordForm = () => {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{"Confirmer le mot de passe"}</FormLabel>
+                  <FormLabel>{"Confirmer le nouveau mot de passe"}</FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-x-4">
                       <Input

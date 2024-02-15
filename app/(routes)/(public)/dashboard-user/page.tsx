@@ -62,23 +62,39 @@ const DashboardUser = async () => {
   return (
     <div className="gap-4 mt-4 mb-4">
       <>
-        <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6">
-          <h1 className="text-3xl font-bold text-center">
-            {user.name} <br /> {user.surname}
-          </h1>
-
+        <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
           {user.raisonSocial ? (
-            <p className="text-xl ">Professionnel</p>
+            <>
+              <h1 className="text-3xl font-bold text-center">
+                <span className="capitalize">{user.raisonSocial}</span>
+                <br />
+                {"("}
+                <span className="capitalize">{user.name}</span>
+                <span className="capitalize">{user.surname}</span>
+                {")"}
+              </h1>
+              <p className="text-xl ">Professionnel</p>
+            </>
           ) : (
-            <p className="text-xl ">Particulier</p>
+            <>
+              <h1 className="text-3xl font-bold text-center">
+                <span className="capitalize">{user.name}</span> <br />
+                <span className="capitalize">{user.surname}</span>
+              </h1>
+              <p className="text-xl ">Particulier</p>
+            </>
           )}
-          <Link href="/dashboard-user/invoices" className="mt-2 text-3xl">
-            <FaFileInvoice size={20} className="cursor-pointer inline" />{" "}
-            Factures
+          <Link href="/dashboard-user/invoices" className=" text-3xl ">
+            <span className="hover:underline cursor-pointer inline-flex items-center">
+              <FaFileInvoice size={20} /> Factures
+            </span>
           </Link>
-          <Link href="/dashboard-user/settings" className="mt-2 text-3xl">
-            <BsGear size={20} className="cursor-pointer inline" /> Paramètres
+          <Link href="/dashboard-user/settings" className=" text-3xl ">
+            <span className="hover:underline cursor-pointer inline-flex items-center">
+              <BsGear size={20} /> Paramètres
+            </span>
           </Link>
+          <LogoutButton />
         </div>
         <div className="flex flex-col items-center justify-center text-gray-800 text-md sm:text-xl dark:text-white">
           <div className="grid grid-cols-2 gap-4">
@@ -103,7 +119,7 @@ const DashboardUser = async () => {
             )}
           </div>
         </div>
-        <LogoutButton />
+
         <div className="p-4">
           <OrderTable data={formattedOrders} />
           {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}

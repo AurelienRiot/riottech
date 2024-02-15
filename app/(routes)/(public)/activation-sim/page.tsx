@@ -15,7 +15,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 
 export const metadata = {
-  title: "Riot Tech - Activation SIM",
+  title: "RIOT TECH - Activation SIM",
   description: "Activation d'une carte SIM RIOT TECH",
 };
 

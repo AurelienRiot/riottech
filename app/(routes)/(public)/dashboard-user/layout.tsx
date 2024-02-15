@@ -6,7 +6,7 @@ import prismadb from "@/lib/prismadb";
 import { Logout } from "@/components/auth/auth";
 
 export const metadata = {
-  title: "Riot Tech - Profil utilisateur",
+  title: "RIOT TECH - Profil utilisateur",
   description: "Profil utilisateur RIOT TECH",
 };
 
@@ -21,6 +21,10 @@ export default async function Layout({
     redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
   }
 
+  if (session.user.role === "admin") {
+    redirect("/admin");
+    return null;
+  }
   const user = await prismadb.user.findUnique({
     where: {
       id: session.user.id,
