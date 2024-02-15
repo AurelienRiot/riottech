@@ -41,7 +41,8 @@ export async function POST(req: Request) {
       name: raisonSocial ? raisonSocial : name + " " + surname,
       email: email,
       phone: phone,
-      tax_exempt: isPro ? "exempt" : "none",
+      // tax_exempt: isPro ? "exempt" : "none",
+      tax_exempt: "none",
       address: {
         line1: fullAdress.line1,
         line2: fullAdress.line2,

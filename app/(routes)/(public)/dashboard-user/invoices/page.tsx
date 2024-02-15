@@ -2,10 +2,31 @@ import ButtonBackward from "@/components/ui/button-backward";
 import GetUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import { InvoicesTable } from "./components/table";
-import { InvoicesColumn } from "./components/column";
+import { InvoicesColumn, columns } from "./components/column";
 import { formatter } from "@/lib/utils";
+import { Suspense } from "react";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 
 const InvoicesPage = async () => {
+  return (
+    <>
+      <div className="flex-col">
+        <div className="flex-1 p-8 pt-6 space-y-4">
+          <Suspense fallback={<LoadingFacture />}>
+            <Facture />
+          </Suspense>
+        </div>
+      </div>
+      <ButtonBackward />
+    </>
+  );
+};
+
+export default InvoicesPage;
+
+const Facture = async () => {
   const user = await GetUser();
   if (!user) redirect("/login");
 
@@ -50,16 +71,15 @@ const InvoicesPage = async () => {
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
+  return <InvoicesTable data={formattedInvoices} />;
+};
+
+const LoadingFacture = () => {
   return (
     <>
-      <div className="flex-col">
-        <div className="flex-1 p-8 pt-6 space-y-4">
-          <InvoicesTable data={formattedInvoices} />
-        </div>
-      </div>
-      <ButtonBackward />
+      <Heading title={`Factures `} description="Historique des factures" />
+      <Separator />
+      <DataTableSkeleton columns={columns} />
     </>
   );
 };
-
-export default InvoicesPage;

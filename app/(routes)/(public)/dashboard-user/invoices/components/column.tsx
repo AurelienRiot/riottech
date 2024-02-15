@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown, ExternalLink } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
 import Link from "next/link";

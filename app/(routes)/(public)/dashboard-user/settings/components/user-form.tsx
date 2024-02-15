@@ -26,6 +26,8 @@ import { signOut } from "next-auth/react";
 import AddressAutocomplete from "@/actions/adress-autocompleteFR";
 import { Switch } from "@/components/ui/switch";
 import { User } from "@prisma/client";
+import { addDelay } from "@/lib/utils";
+import Spinner from "@/components/animations/spinner";
 
 interface UserFormProps {
   initialData: User;
@@ -132,6 +134,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         postalCode,
       });
       await axios.patch("/api/users/id", data);
+      addDelay(2000);
       router.refresh();
       router.push("/dashboard-user");
       toast.success(toastMessage);
@@ -462,7 +465,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
             )}
           </div>
           <Button disabled={loading} className="ml-auto " type="submit">
-            {action}
+            {loading ? <Spinner size={20} /> : action}
           </Button>
         </form>
       </Form>

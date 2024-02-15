@@ -136,7 +136,8 @@ export async function PATCH(
     if (user.stripeCustomerId) {
       const customer = await stripe.customers.update(user.stripeCustomerId, {
         name: raisonSocial ? raisonSocial : name + " " + surname,
-        tax_exempt: isPro ? "exempt" : "none",
+        // tax_exempt: isPro ? "exempt" : "none",
+        tax_exempt: "none",
         address: {
           line1: fullAdress.line1,
           line2: fullAdress.line2,
