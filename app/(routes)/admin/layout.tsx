@@ -24,7 +24,7 @@ export default async function AdminLayout({
   });
 
   if (!user || user.role !== "admin") {
-    return <Logout />;
+    return <Logout callbackUrl="/" />;
   }
 
   return (
