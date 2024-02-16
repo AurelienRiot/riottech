@@ -85,7 +85,7 @@ const Navigations = () => {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const scrollThreshold = 30;
-    const previous = scrollY.getPrevious();
+    const previous = scrollY.getPrevious() || 0;
     const direction = latest > previous ? "down" : "up";
 
     if (direction === "down" && latest - previous > scrollThreshold) {

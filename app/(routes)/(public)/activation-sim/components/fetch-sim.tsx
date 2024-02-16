@@ -1,6 +1,7 @@
+import { addDelay } from "@/lib/utils";
 import axios from "axios";
 
-export type ValidSim = {
+export type FetchSimType = {
   RTsubIDs: string[];
   available: boolean;
   group: string;
@@ -10,14 +11,39 @@ export type ValidSim = {
   sim_serial: string;
 };
 
-export const FetchSim = async (sim: string): Promise<ValidSim> => {
+export const FetchSim = async (sim: string): Promise<FetchSimType> => {
+  if (!sim) {
+    console.log("no sim");
+    return {
+      RTsubIDs: [],
+      available: false,
+      group: "",
+      is_third: false,
+      org_image_url: "",
+      org_name: "",
+      sim_serial: "",
+    };
+  }
+
+  if (!/^\d{19}$/.test(sim)) {
+    console.log("regex error");
+    return {
+      RTsubIDs: [],
+      available: false,
+      group: "",
+      is_third: false,
+      org_image_url: "",
+      org_name: "",
+      sim_serial: "",
+    };
+  }
   try {
     const response = await axios.get(
       `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`
     );
 
     if (response.data.available) {
-      return response.data as ValidSim;
+      return response.data as FetchSimType;
       //   return {
       //     RTsubIDs: [
       //       "8a534334-0932-400b-b241-265d779bb997",
@@ -44,6 +70,7 @@ export const FetchSim = async (sim: string): Promise<ValidSim> => {
       sim_serial: "",
     };
   } catch (error) {
+    console.log("error");
     return {
       RTsubIDs: [],
       available: false,

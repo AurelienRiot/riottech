@@ -1,9 +1,7 @@
 import Container from "@/components/ui/container";
 import GetSubscriptions from "@/server-actions/get-subscriptions";
-import Client from "./components/client";
 import { redirect } from "next/navigation";
 import { FetchSim } from "./components/fetch-sim";
-import { Subscription } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +20,6 @@ export const metadata = {
 const activationSIMPage = async (context: {
   searchParams: { sim: string; callbackUrl: string; subId: string };
 }) => {
-  const subscriptions = await GetSubscriptions();
   const session = await getServerSession(authOptions);
 
   if (
@@ -44,24 +41,12 @@ const activationSIMPage = async (context: {
       )}`
     );
   }
-  // const groupedSubscriptionsObj = subscriptions.reduce<
-  //     Record<string, Subscription[]>
-  // >((acc, product) => {
-  //     if (!acc[product.name]) {
-  //         acc[product.name] = [];
-  //     }
-  //     acc[product.name].push(product);
-  //     return acc;
-  // }, {});
-  //
-  // const groupedSubscriptions = Object.values(groupedSubscriptionsObj);
 
   return (
     <Container className="bg-background pt-10">
       <div className="flex flex-col items-center justify-center p-2 text-primary sm:p-10">
-        <Suspense fallback={SuspenceForm()}>
-          <Test
-            subscriptions={subscriptions}
+        <Suspense fallback={<SuspenceForm sim={context.searchParams.sim} />}>
+          <ServerSim
             sim={context.searchParams.sim}
             subId={context.searchParams.subId}
           />
@@ -75,31 +60,9 @@ const activationSIMPage = async (context: {
 
 export default activationSIMPage;
 
-const Test = async ({
-  subscriptions,
-  sim,
-  subId,
-}: {
-  subscriptions: Subscription[];
-  sim: string;
-  subId: string;
-}) => {
+const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
   const res = await FetchSim(sim);
-  console.log(subId);
-  // if (!res.available) {
-  //   toast.error("Numéro de SIM Incorrect");
-  //   setSelectedSubscriptions(null);
-  //   setLoading(() => false);
-  //   setIsSimInvalid(true);
-
-  //   return;
-  // }
-  // setSelectedSubscriptions(
-  //   subscriptions.filter((subscription) =>
-  //     res.RTsubIDs.includes(subscription.id)
-  //   )
-  // );
-  // setIsSimInvalid(false);
+  const subscriptions = await GetSubscriptions();
 
   const selectedSubscriptions = subscriptions.filter((subscription) =>
     res.RTsubIDs.includes(subscription.id)
@@ -171,7 +134,7 @@ const Test = async ({
   );
 };
 
-const SuspenceForm = () => {
+const SuspenceForm = ({ sim }: { sim: string | undefined }) => {
   return (
     <>
       {" "}
@@ -196,7 +159,7 @@ const SuspenceForm = () => {
           <div>
             <Input
               type="number"
-              placeholder="89882470000XXXXXXXX"
+              placeholder={sim ?? "89882470000XXXXXXXX"}
               disabled={true}
             />
           </div>

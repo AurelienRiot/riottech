@@ -22,14 +22,14 @@ const CookiesBanner = () => {
     return null;
   }
   return (
-    <div className="fixed bottom-0  z-50 inset-x-0     bg-black text-white p-8 flex flex-col lg:flex-row justify-between items-center text-sm gap-2">
+    <div className="fixed bottom-0  z-50 inset-x-0     bg-black text-white p-8 flex flex-col lg:flex-row justify-between items-center text-sm gap-2 rounded-t-lg">
       <p className="max-w-4xl">
         En cliquant sur « Accepter tous les cookies », vous acceptez le stockage
         de cookies sur votre appareil pour améliorer la navigation sur le site,
         analyser son utilisation et contribuer à nos efforts de marketing.{" "}
         <Link
           href="/pdf/Politique-de-confidentialite.pdf"
-          className=" hover:underline"
+          className=" underline font-bold"
           target="_blank"
         >
           Politique de confidentialité

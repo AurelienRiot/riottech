@@ -179,7 +179,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   Prix
                 </h3>
                 <Separator className="mb-1 bg-secondary-foreground" />
-                <p className="flex gap-1 text-secondary-foreground/80">
+                <p className="inline gap-1 text-secondary-foreground/80">
                   <Currency value={subscription.priceHT} displayLogo={false} />
                   {" et un coût d'achat de l'équipement de "}{" "}
                   <Currency
@@ -193,7 +193,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
               <div className="font-medium text-secondary-foreground">
                 Total:
               </div>
-              <div className="flex font-medium text-secondary-foreground">
+              <div className=" font-medium text-secondary-foreground">
                 <Currency
                   value={subscription.priceHT + subscription.fraisActivation}
                 />
@@ -203,7 +203,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
               <div className="font-bold text-secondary-foreground">
                 Total récurrent:
               </div>
-              <div className="flex gap-1 font-bold text-secondary-foreground">
+              <div className="inline gap-1 font-bold text-secondary-foreground">
                 <Currency
                   value={subscription.priceHT}
                   displayLogo={false}
