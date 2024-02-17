@@ -1,10 +1,10 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { UserButtons } from "./page";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { OrdersColumn } from "./components/order-column";
 import { SubscriptionOrderColumn } from "./components/subscription-order-column";
+import { UserButtons } from "./components/user-buttons";
 
 const Loading = () => {
   return (

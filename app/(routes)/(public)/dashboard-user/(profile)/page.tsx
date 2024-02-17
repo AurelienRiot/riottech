@@ -1,14 +1,11 @@
+import { formatter } from "@/lib/utils";
 import GetUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
-import { addDelay, formatter } from "@/lib/utils";
 import { OrderColumnType } from "./components/order-column";
-import { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { OrderTable } from "./components/order-table";
+import { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
-import Link from "next/link";
-import { BsGear } from "react-icons/bs";
-import { LogoutButtonText } from "@/components/auth/auth-button";
-import { FaFileInvoice } from "react-icons/fa";
+import { UserButtons } from "./components/user-buttons";
 
 type FullAdress = {
   label: string;
@@ -122,21 +119,3 @@ const DashboardUser = async () => {
 };
 
 export default DashboardUser;
-
-export const UserButtons = () => {
-  return (
-    <>
-      <Link href="/dashboard-user/invoices" className=" text-3xl ">
-        <span className="hover:underline cursor-pointer inline-flex items-center gap-2">
-          <FaFileInvoice size={20} /> Factures
-        </span>
-      </Link>
-      <Link href="/dashboard-user/settings" className=" text-3xl ">
-        <span className="hover:underline cursor-pointer inline-flex items-center gap-2">
-          <BsGear size={20} /> Paramètres
-        </span>
-      </Link>
-      <LogoutButtonText />
-    </>
-  );
-};
