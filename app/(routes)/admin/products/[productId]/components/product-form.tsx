@@ -109,8 +109,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         },
   });
 
-  const productSpecs = form.watch("productSpecs");
-
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
@@ -119,8 +117,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       } else {
         await axios.post(`/api/products`, data);
       }
-      router.refresh();
       router.push(`/admin/products`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -138,8 +136,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(`/api/products/${params.productId}`);
-      router.refresh();
       router.push(`/admin/products`);
+      router.refresh();
       toast.success("Produit supprimé");
     } catch (error) {
       toast.error("Erreur");

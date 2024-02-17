@@ -17,7 +17,6 @@ import {
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import axios, { AxiosError } from "axios";
@@ -134,8 +133,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       setLoading(true);
 
       const user = await axios.delete(`/api/users/id-admin/${params.userId}`);
-      router.refresh();
       router.push(`/admin/users`);
+      router.refresh();
       toast.success("Utilisateur supprimé");
     } catch (error) {
       toast.error("Something went wrong.");

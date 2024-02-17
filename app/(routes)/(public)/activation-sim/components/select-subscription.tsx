@@ -1,14 +1,7 @@
 "use client";
+import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
-import { Subscription } from "@prisma/client";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { RegisterForm } from "../../(auth)/register/components/register-form";
-import { dateFormatter } from "@/lib/utils";
-import { addDays, addMonths, addWeeks, addYears } from "date-fns";
 import {
   Select,
   SelectContent,
@@ -17,8 +10,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { dateFormatter } from "@/lib/utils";
+import { Subscription } from "@prisma/client";
+import axios from "axios";
+import { addDays, addMonths, addWeeks, addYears } from "date-fns";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Spinner from "@/components/animations/spinner";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { RegisterForm } from "../../(auth)/register/components/register-form";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];

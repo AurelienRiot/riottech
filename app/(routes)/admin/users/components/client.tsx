@@ -1,8 +1,6 @@
 "use client";
 
-import { User } from "@prisma/client";
-import CardUser from "./card-user";
-import { useState } from "react";
+import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Heading } from "@/components/ui/heading";
+import { User } from "@prisma/client";
+import { useState } from "react";
+import CardUser from "./card-user";
 
 interface UserClientProps {
   users: User[];

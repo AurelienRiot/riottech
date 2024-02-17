@@ -1,16 +1,16 @@
-import Container from "@/components/ui/container";
-import GetSubscriptions from "@/server-actions/get-subscriptions";
-import { redirect } from "next/navigation";
-import { FetchSim } from "./components/fetch-sim";
-import { Separator } from "@/components/ui/separator";
-import { Suspense } from "react";
-import { Button } from "@/components/ui/button";
 import Spinner from "@/components/animations/spinner";
-import { Input } from "@/components/ui/input";
-import { SimForm } from "./components/sim-form";
-import { SelectSubscription } from "./components/select-subscription";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
+import { Button } from "@/components/ui/button";
+import Container from "@/components/ui/container";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import GetSubscriptions from "@/server-actions/get-subscriptions";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { FetchSim } from "./components/fetch-sim";
+import { SelectSubscription } from "./components/select-subscription";
+import { SimForm } from "./components/sim-form";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",

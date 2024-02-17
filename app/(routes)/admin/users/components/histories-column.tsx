@@ -1,10 +1,10 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { fr } from "date-fns/locale";
+import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+import { ArrowUpDown } from "lucide-react";
 import Link from "next/link";
 
 export type SubscriptionHistoryColumn = {

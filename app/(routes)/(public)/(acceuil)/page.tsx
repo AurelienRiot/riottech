@@ -1,12 +1,9 @@
-import GetProducts from "@/server-actions/get-products";
 import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
-import ServicePage from "./components/services";
+import GetProducts from "@/server-actions/get-products";
 import ImageAccueil from "./components/image-accueil";
-import { Suspense } from "react";
-import Loading from "@/components/loading";
 import Reseau4GPage from "./components/reseau-4G";
-import { TestForm } from "@/components/adress-form";
+import ServicePage from "./components/services";
 
 const HomePage = async () => {
   return (

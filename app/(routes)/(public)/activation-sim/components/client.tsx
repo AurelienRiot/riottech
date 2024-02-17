@@ -1,12 +1,10 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 import { Subscription } from "@prisma/client";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { SimForm } from "./sim-form";
-import { SelectSubscription } from "./select-subscription";
 import { FetchSim } from "./fetch-sim";
-import { Separator } from "@/components/ui/separator";
 
 const Client = ({
   subscriptions,

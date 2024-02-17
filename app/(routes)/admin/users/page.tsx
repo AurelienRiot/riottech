@@ -1,17 +1,6 @@
-import prismadb from "@/lib/prismadb";
-import { HistoryTable } from "./components/histories-table";
-import { DateRange } from "react-day-picker";
 import { GetUsersHistories } from "@/actions/get-users-histories";
-import UserClient from "./components/client";
-import { Suspense } from "react";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import Spinner from "@/components/animations/spinner";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
-import { columns } from "./components/histories-column";
-import { CalendarIcon, ChevronDown } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,9 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { Heading } from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { addDelay } from "@/lib/utils";
+import prismadb from "@/lib/prismadb";
+import { CalendarIcon, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { Suspense } from "react";
+import { DateRange } from "react-day-picker";
+import UserClient from "./components/client";
+import { columns } from "./components/histories-column";
+import { HistoryTable } from "./components/histories-table";
 
 const UserPage = async () => {
   const from = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -104,13 +103,12 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
 };
 
 const SeverUserClient = async () => {
-  await addDelay(1000);
   const allUsers = await prismadb.user.findMany({
     where: {
       role: "user",
     },
     orderBy: {
-      createdAt: "desc",
+      updatedAt: "desc",
     },
     include: {
       subscriptionOrder: true,

@@ -97,8 +97,8 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
       } else {
         await axios.post(`/api/subscriptions`, data);
       }
-      router.refresh();
       router.push(`/admin/subscriptions`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -116,8 +116,9 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(`/api/subscriptions/${params.subscriptionId}`);
-      router.refresh();
       router.push(`/admin/subscriptions`);
+      router.refresh();
+
       toast.success("Abonnement supprimé");
     } catch (error) {
       toast.error("Erreur");

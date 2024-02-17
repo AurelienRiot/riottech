@@ -4,18 +4,17 @@ import {
   FetchUsersHistories,
   GetUsersHistories,
 } from "@/actions/get-users-histories";
+import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import toast from "react-hot-toast";
-import Loading from "../../loading";
 import { DataTable } from "./data-table";
 import { SubscriptionHistoryColumn, columns } from "./histories-column";
-import Spinner from "@/components/animations/spinner";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
