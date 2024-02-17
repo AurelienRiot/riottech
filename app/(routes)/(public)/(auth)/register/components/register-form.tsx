@@ -25,15 +25,7 @@ import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
 import * as z from "zod";
 import Spinner from "@/components/animations/spinner";
-
-interface Suggestion {
-  label: string;
-  city: string;
-  country: string;
-  line1: string;
-  postal_code: string;
-  state: string;
-}
+import { AdressForm } from "@/components/adress-form";
 
 const formSchema = z
   .object({
@@ -93,39 +85,17 @@ export const RegisterForm = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isPro, setIsPro] = useState(true);
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard-user";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [filter, setFilter] = useState(true);
-
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [state, setState] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [line2, setLine2] = useState("");
-  const [line1, setLine1] = useState("");
-
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-    if (filter) {
-      const temp = await AddressAutocomplete(value);
-      setSuggestions(temp);
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleOnChangeAddress = async (suggestion: Suggestion) => {
-    setQuery(suggestion.label);
-    setCity(suggestion.city);
-    setCountry(suggestion.country);
-    setState(suggestion.state);
-    setPostalCode(suggestion.postal_code);
-    setLine1(suggestion.line1);
-    setSuggestions([]);
-  };
+  const [selectedAddress, setSelectedAddress] = useState({
+    label: "",
+    city: "",
+    country: "fr",
+    line1: "",
+    line2: "",
+    postalCode: "",
+    state: "",
+  });
 
   const onSubmit = async (data: RegisterFormValues) => {
     setLoading(true);
@@ -154,15 +124,7 @@ export const RegisterForm = () => {
       data.name = data.name.trim();
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
-      data.adresse = JSON.stringify({
-        label: query,
-        line1,
-        line2,
-        city,
-        country,
-        state,
-        postalCode,
-      });
+      data.adresse = JSON.stringify(selectedAddress);
       const res = await CreatUser(data);
       toast.success("Compte crée");
       signIn("credentials", {
@@ -202,14 +164,7 @@ export const RegisterForm = () => {
   });
 
   return (
-    <div
-      onClick={() => setSuggestions([])}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          setSuggestions([]);
-        }
-      }}
-    >
+    <div>
       <p className="text-center">
         Vous avez un compte ?{" "}
         <Link
@@ -292,12 +247,15 @@ export const RegisterForm = () => {
                             const temp = await AddressAutocomplete(
                               valideVat.address
                             );
-                            setQuery(temp[0].label);
-                            setCity(temp[0].city);
-                            setCountry(temp[0].country);
-                            setState(temp[0].state);
-                            setPostalCode(temp[0].postal_code);
-                            setLine1(temp[0].line1);
+                            setSelectedAddress({
+                              ...selectedAddress,
+                              label: temp[0].label,
+                              city: temp[0].city,
+                              country: temp[0].country,
+                              line1: temp[0].line1,
+                              postalCode: temp[0].postal_code,
+                              state: temp[0].state,
+                            });
 
                             form.setValue("raisonSocial", valideVat.name);
                             toast.success("TVA valide");
@@ -437,95 +395,10 @@ export const RegisterForm = () => {
             />
           </div>
           <div className="grid w-full  items-center gap-1.5">
-            <FormField
-              control={form.control}
-              name="adresse"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Adresse</FormLabel>
-                  <FormControl>
-                    <div className="relative items-start text-sm">
-                      <div className="mb-2 flex items-center space-x-2 pl-2">
-                        <p>Autres</p>
-                        <Switch
-                          onCheckedChange={() => {
-                            setFilter(!filter);
-                            setLine1("");
-                          }}
-                          checked={filter}
-                        />
-                        <p>France</p>
-                      </div>
-                      <Input
-                        disabled={loading}
-                        placeholder="1 Rue Sainte-Barbe, Strasbourg, 67000, FR"
-                        {...field}
-                        value={query}
-                        onChange={handleChange}
-                        // autoComplete="address-line1"
-                      />
-                      {line1 && (
-                        <div className="mt-2 flex flex-col gap-1">
-                          <span>
-                            <b>{"Adresse:"}</b>{" "}
-                            <input
-                              className="border-2"
-                              type="text"
-                              value={line1}
-                              onChange={(e) => setLine1(e.currentTarget.value)}
-                            />{" "}
-                          </span>
-                          <span>
-                            <b>{"Complément d'adresse:"}</b>{" "}
-                            <input
-                              className="border-2"
-                              type="text"
-                              value={line2}
-                              onChange={(e) => setLine2(e.currentTarget.value)}
-                            />{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Ville:</b> {city}{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Code postal:</b> {postalCode}{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Région:</b> {state}{" "}
-                          </span>
-                          {/* <span> <b>Pays:</b> {country} </span> */}
-                        </div>
-                      )}
-                      {suggestions.length > 0 && (
-                        <ul className="absolute left-0 top-16 z-10 mt-2 rounded-lg border border-gray-300 bg-white shadow-lg dark:bg-blue-950 ">
-                          {suggestions.map(
-                            (suggestion: Suggestion, index: number) => (
-                              <li
-                                key={index}
-                                className="cursor-pointer px-4 py-2 hover:bg-gray-100 dark:hover:bg-blue-900"
-                                onClick={() => {
-                                  handleOnChangeAddress(suggestion);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    handleOnChangeAddress(suggestion);
-                                  }
-                                }}
-                              >
-                                {suggestion.label}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      )}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <AdressForm
+              form={form}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
             />
           </div>
           <div className="grid w-full  items-center gap-1.5">

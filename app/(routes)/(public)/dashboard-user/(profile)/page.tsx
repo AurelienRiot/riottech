@@ -1,22 +1,14 @@
 import GetUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
-import { formatter } from "@/lib/utils";
-import { OrderColumnType, OrdersColumn } from "./components/order-column";
-import {
-  SubscriptionOrderColumn,
-  SubscriptionOrderColumnType,
-} from "./components/subscription-order-column";
+import { addDelay, formatter } from "@/lib/utils";
+import { OrderColumnType } from "./components/order-column";
+import { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { OrderTable } from "./components/order-table";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import Link from "next/link";
 import { BsGear } from "react-icons/bs";
 import { LogoutButtonText } from "@/components/auth/auth-button";
 import { FaFileInvoice } from "react-icons/fa";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
-import { Suspense } from "react";
 
 type FullAdress = {
   label: string;
@@ -29,18 +21,6 @@ type FullAdress = {
 };
 
 const DashboardUser = async () => {
-  return (
-    <div className="gap-4 mt-4 mb-4">
-      <Suspense fallback={<LoadingUserProfile />}>
-        <UserProfile />
-      </Suspense>
-    </div>
-  );
-};
-
-export default DashboardUser;
-
-const UserProfile = async () => {
   const user = await GetUser();
   if (!user) redirect("/login");
 
@@ -80,9 +60,8 @@ const UserProfile = async () => {
   }));
 
   const fullAdress: FullAdress = JSON.parse(user.adresse ? user.adresse : "{}");
-
   return (
-    <>
+    <div className="gap-4 mt-4 mb-4">
       <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
         {user.raisonSocial ? (
           <>
@@ -138,57 +117,13 @@ const UserProfile = async () => {
         {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}
         <SubscriptionOrderTable data={formattedSubscriptionOrders} />
       </div>
-    </>
-  );
-};
-
-const LoadingUserProfile = () => {
-  return (
-    <div className="gap-4 mt-4 mb-4">
-      <>
-        <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
-          <>
-            <h1 className="text-3xl font-bold text-center flex flex-col gap-1">
-              <Skeleton className="w-40 h-6 rounded-full" />
-              <Skeleton className="w-40 h-6 rounded-full" />
-            </h1>
-            <Skeleton className="w-24 h-4 rounded-full" />
-          </>
-
-          <UserButtons />
-        </div>
-        <div className="flex flex-col items-center justify-center text-gray-800 text-md sm:text-xl dark:text-white">
-          <div className="grid grid-cols-2 gap-4 items-center">
-            <p className="font-bold ">Email:</p>
-            <Skeleton className="w-24 h-4 rounded-full" />
-            <p className="font-bold">Adresse:</p>
-            <Skeleton className="w-24 h-4 rounded-full" />
-            <p className="font-bold">Télephone:</p>
-            <Skeleton className="w-24 h-4 rounded-full" />
-          </div>
-        </div>
-
-        <div className="p-4">
-          <>
-            <Heading title={`Commandes`} description="Résumé des commandes" />
-            <Separator />
-            <DataTableSkeleton columns={OrdersColumn} />
-          </>
-          <>
-            <Heading
-              title={`Abonnements `}
-              description="Résumé des abonnements"
-            />
-            <Separator />
-            <DataTableSkeleton columns={SubscriptionOrderColumn} />
-          </>
-        </div>
-      </>
     </div>
   );
 };
 
-const UserButtons = () => {
+export default DashboardUser;
+
+export const UserButtons = () => {
   return (
     <>
       <Link href="/dashboard-user/invoices" className=" text-3xl ">

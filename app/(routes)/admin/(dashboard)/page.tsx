@@ -9,7 +9,7 @@ const DynamicOverview = dynamic(() => import("@/components/overview"), {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { formatter } from "@/lib/utils";
+import { addDelay, formatter } from "@/lib/utils";
 import {
   CalendarSearch,
   CreditCardIcon,
@@ -17,21 +17,10 @@ import {
   Package,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const DashboardPage: React.FC = async () => {
-  const [
-    totalRevenue,
-    SalesCount,
-    stockOrderCount,
-    stockSubscriptionCount,
-    graphRevenue,
-  ] = await Promise.all([
-    GetTotalRevenue(),
-    GetSalesCount(),
-    GetStockOrderCount(),
-    GetStockSubscriptionCount(),
-    GetGraphRevenue(),
-  ]);
+const DashboardPage: React.FC = () => {
   return (
     <div className="flex-col">
       <div className="flex-1 p-8 pt-6 space-y-4">
@@ -50,7 +39,11 @@ const DashboardPage: React.FC = async () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {formatter.format(totalRevenue)}
+                <Suspense
+                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                >
+                  <TotalRevenue />
+                </Suspense>
               </div>
             </CardContent>
           </Card>
@@ -60,7 +53,13 @@ const DashboardPage: React.FC = async () => {
               <CreditCardIcon className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+{SalesCount}</div>
+              <div className="text-2xl font-bold">
+                <Suspense
+                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                >
+                  + <SalesCount />
+                </Suspense>
+              </div>
             </CardContent>
           </Card>
           <Card>
@@ -71,7 +70,14 @@ const DashboardPage: React.FC = async () => {
               <Package className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stockOrderCount}</div>
+              <div className="text-2xl font-bold">
+                {" "}
+                <Suspense
+                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                >
+                  <StockOrderCount />
+                </Suspense>
+              </div>
             </CardContent>
           </Card>
           <Card>
@@ -82,14 +88,22 @@ const DashboardPage: React.FC = async () => {
               <CalendarSearch className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stockSubscriptionCount}</div>
+              <div className="text-2xl font-bold">
+                <Suspense
+                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                >
+                  <StockSubscriptionCount />
+                </Suspense>
+              </div>
             </CardContent>
           </Card>
         </div>
         <Card className="col-span-4 p-4">
           <CardTitle>{"Vue d'ensemble"}</CardTitle>
           <CardContent className="p-0 sm:pl-2">
-            <DynamicOverview data={graphRevenue} />
+            <Suspense fallback={null}>
+              <GraphRevenue />
+            </Suspense>
           </CardContent>
         </Card>
       </div>
@@ -98,3 +112,28 @@ const DashboardPage: React.FC = async () => {
 };
 
 export default DashboardPage;
+
+const TotalRevenue = async () => {
+  const totalRevenue = await GetTotalRevenue();
+  return formatter.format(totalRevenue);
+};
+
+const SalesCount = async () => {
+  const salesCount = await GetSalesCount();
+  return String(salesCount);
+};
+
+const StockOrderCount = async () => {
+  const stockOrderCount = await GetStockOrderCount();
+  return String(stockOrderCount);
+};
+
+const StockSubscriptionCount = async () => {
+  const stockSubscriptionCount = await GetStockSubscriptionCount();
+  return String(stockSubscriptionCount);
+};
+
+const GraphRevenue = async () => {
+  const graphRevenue = await GetGraphRevenue();
+  return <DynamicOverview data={graphRevenue} />;
+};

@@ -24,30 +24,13 @@ import GetValideVat from "@/actions/get-valide-vat";
 import ButtonBackward from "@/components/ui/button-backward";
 import { signOut } from "next-auth/react";
 import AddressAutocomplete from "@/actions/adress-autocompleteFR";
-import { Switch } from "@/components/ui/switch";
 import { User } from "@prisma/client";
 import { addDelay } from "@/lib/utils";
 import Spinner from "@/components/animations/spinner";
+import { AdressForm, FullAdress } from "@/components/adress-form";
 
 interface UserFormProps {
   initialData: User;
-}
-type FullAdress = {
-  label: string;
-  city: string;
-  country: string;
-  line1: string;
-  line2: string;
-  postalCode: string;
-  state: string;
-};
-interface Suggestion {
-  label: string;
-  city: string;
-  country: string;
-  line1: string;
-  postal_code: string;
-  state: string;
 }
 
 const formSchema = z.object({
@@ -68,18 +51,19 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const [isPro, setIsPro] = useState(!!initialData?.raisonSocial);
 
-  const [suggestions, setSuggestions] = useState([]);
-  const fullAdress: FullAdress = JSON.parse(
-    initialData.adresse ? initialData.adresse : "{}"
+  const [selectedAddress, setSelectedAddress] = useState<FullAdress>(
+    initialData.adresse
+      ? JSON.parse(initialData.adresse)
+      : {
+          label: "",
+          city: "",
+          country: "fr",
+          line1: "",
+          line2: "",
+          postalCode: "",
+          state: "",
+        }
   );
-  const [filter, setFilter] = useState(fullAdress.line1 ? true : false);
-  const [query, setQuery] = useState(fullAdress.label);
-  const [city, setCity] = useState(fullAdress.city);
-  const [country, setCountry] = useState(fullAdress.country);
-  const [state, setState] = useState(fullAdress.state);
-  const [postalCode, setPostalCode] = useState(fullAdress.postalCode);
-  const [line2, setLine2] = useState(fullAdress.line2);
-  const [line1, setLine1] = useState(fullAdress.line1);
 
   const title = "Modifier le profil";
   const toastMessage = "Profil mise à jour";
@@ -91,7 +75,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       name: initialData.name,
       surname: initialData.surname,
       phone: initialData.phone,
-      adresse: initialData.adresse,
+      adresse: selectedAddress.label,
       tva: initialData.tva,
       raisonSocial: initialData.raisonSocial,
       isPro: initialData.isPro,
@@ -127,19 +111,11 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       data.name = data.name.trim();
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
-      data.adresse = JSON.stringify({
-        label: query,
-        line1,
-        line2,
-        city,
-        country,
-        state,
-        postalCode,
-      });
+      data.adresse = JSON.stringify(selectedAddress);
       await axios.patch("/api/users/id", data);
-      addDelay(2000);
+      router.replace("/dashboard-user");
       router.refresh();
-      router.push("/dashboard-user");
+
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -172,37 +148,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     }
   };
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    if (filter) {
-      const temp = await AddressAutocomplete(value);
-      setSuggestions(temp);
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleOnChangeAddress = async (suggestion: Suggestion) => {
-    setQuery(suggestion.label);
-    setCity(suggestion.city);
-    setCountry(suggestion.country);
-    setState(suggestion.state);
-    setPostalCode(suggestion.postal_code);
-    setLine1(suggestion.line1);
-    setSuggestions([]);
-  };
-
   return (
-    <div
-      onClick={() => setSuggestions([])}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          setSuggestions([]);
-        }
-      }}
-    >
+    <div>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -307,94 +254,10 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="adresse"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Adresse</FormLabel>
-                  <FormControl>
-                    <div className="relative items-start text-sm">
-                      <div className="flex items-center pl-2 mb-2 space-x-2">
-                        <p>Autres</p>
-                        <Switch
-                          onCheckedChange={() => {
-                            setFilter(!filter);
-                            setLine1("");
-                          }}
-                          checked={filter}
-                        />
-                        <p>France</p>
-                      </div>
-                      <Input
-                        disabled={loading}
-                        placeholder="1 Rue Sainte-Barbe, Strasbourg, 67000, FR"
-                        {...field}
-                        value={query}
-                        onChange={handleChange}
-                      />
-                      {line1 && (
-                        <div className="flex flex-col gap-1 mt-2">
-                          <span>
-                            <b>{"Adresse:"}</b>{" "}
-                            <input
-                              className="border-2"
-                              type="text"
-                              value={line1}
-                              onChange={(e) => setLine1(e.currentTarget.value)}
-                            />{" "}
-                          </span>
-                          <span>
-                            <b>{"Complément d'adresse:"}</b>{" "}
-                            <input
-                              className="border-2"
-                              type="text"
-                              value={line2}
-                              onChange={(e) => setLine2(e.currentTarget.value)}
-                            />{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Ville:</b> {city}{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Code postal:</b> {postalCode}{" "}
-                          </span>
-                          <span>
-                            {" "}
-                            <b>Région:</b> {state}{" "}
-                          </span>
-                          {/* <span> <b>Pays:</b> {country} </span> */}
-                        </div>
-                      )}
-                      {suggestions.length > 0 && (
-                        <ul className="absolute left-0 z-10 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg top-16 dark:bg-blue-950 ">
-                          {suggestions.map(
-                            (suggestion: Suggestion, index: number) => (
-                              <li
-                                key={index}
-                                className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-blue-900"
-                                onClick={() => {
-                                  handleOnChangeAddress(suggestion);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter") {
-                                    handleOnChangeAddress(suggestion);
-                                  }
-                                }}
-                              >
-                                {suggestion.label}
-                              </li>
-                            )
-                          )}
-                        </ul>
-                      )}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+            <AdressForm
+              form={form}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
             />
 
             {isPro && (
@@ -424,12 +287,15 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                               const temp = await AddressAutocomplete(
                                 valideVat.address
                               );
-                              setQuery(temp[0].label);
-                              setCity(temp[0].city);
-                              setCountry(temp[0].country);
-                              setState(temp[0].state);
-                              setPostalCode(temp[0].postal_code);
-                              setLine1(temp[0].line1);
+                              setSelectedAddress({
+                                ...selectedAddress,
+                                label: temp[0].label,
+                                city: temp[0].city,
+                                country: temp[0].country,
+                                line1: temp[0].line1,
+                                postalCode: temp[0].postal_code,
+                                state: temp[0].state,
+                              });
 
                               form.setValue("raisonSocial", valideVat.name);
                               toast.success("TVA valide");

@@ -149,7 +149,7 @@ export const PasswordForm = () => {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         tabIndex={-1}
                       >
-                        {showPassword ? <EyeOff /> : <Eye />}
+                        {showNewPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>
@@ -177,7 +177,7 @@ export const PasswordForm = () => {
                         onClick={() => setShowNewPassword(!showNewPassword)}
                         tabIndex={-1}
                       >
-                        {showPassword ? <EyeOff /> : <Eye />}
+                        {showNewPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
                   </FormControl>

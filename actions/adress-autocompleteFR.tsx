@@ -22,9 +22,18 @@ interface Feature {
   };
 }
 
+export type Suggestion = {
+  label: string;
+  city: string;
+  country: string;
+  line1: string;
+  postal_code: string;
+  state: string;
+};
+
 const AddressAutocomplete = async (value: string) => {
-  const trimmedValue = value.replace(/\s/g, "");
-  if (trimmedValue.length < 3) return [];
+  const trimmedValue = value.trim();
+  if (trimmedValue.length < 3) return [] as Suggestion[];
 
   const response = await fetch(
     `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
@@ -41,7 +50,7 @@ const AddressAutocomplete = async (value: string) => {
     postal_code: feature.properties.postcode,
     state: feature.properties.context.split(", ").at(-1),
   }));
-  return suggestions;
+  return suggestions as Suggestion[];
 };
 
 export default AddressAutocomplete;

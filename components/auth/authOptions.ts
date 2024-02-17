@@ -1,4 +1,5 @@
 import prismadb from "@/lib/prismadb";
+import { compare } from "bcrypt";
 import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -36,6 +37,15 @@ export const authOptions: NextAuthOptions = {
           },
         });
         if (!user) {
+          return null;
+        }
+
+        const verifyPassword = await compare(
+          credentials.password,
+          user.password
+        );
+        console.log(verifyPassword);
+        if (!verifyPassword) {
           return null;
         }
 

@@ -14,7 +14,7 @@ import { authOptions } from "@/components/auth/authOptions";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",
-  description: "Activation d'une carte SIM RIOT TECH",
+  description: "J'Active ma SIM RIOT TECH",
 };
 
 const activationSIMPage = async (context: {

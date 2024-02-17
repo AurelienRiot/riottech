@@ -6,7 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
 import Link from "next/link";
-import { DisplayPdf } from "../../components/display-pdf";
+import { DisplayPdf } from "../../(profile)/components/display-pdf";
 
 export type InvoicesColumn = {
   type: string;

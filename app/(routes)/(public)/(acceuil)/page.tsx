@@ -6,6 +6,7 @@ import ImageAccueil from "./components/image-accueil";
 import { Suspense } from "react";
 import Loading from "@/components/loading";
 import Reseau4GPage from "./components/reseau-4G";
+import { TestForm } from "@/components/adress-form";
 
 const HomePage = async () => {
   return (

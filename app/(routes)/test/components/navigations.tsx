@@ -116,7 +116,7 @@ const Navigations = () => {
                 className="w-14 h-14 relative transition-all duration-300 data-[nav=closed]:w-8  data-[nav=closed]:h-8"
               >
                 <Image
-                  src="/icon-riot-tech.png"
+                  src="/icone.png"
                   alt="logo RIOT TECH"
                   fill
                   sizes="100%"

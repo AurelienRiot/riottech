@@ -35,7 +35,10 @@ export function DataTableSkeleton<TData, TValue>({
   });
 
   return (
-    <div className="overflow-auto">
+    <div
+      className="overflow-auto
+    mt-4"
+    >
       <div className="border rounded-md">
         <Table>
           <TableHeader>
@@ -44,7 +47,7 @@ export function DataTableSkeleton<TData, TValue>({
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="bg-primary text-primary-foreground"
+                    className="bg-gray-400 text-white dark:bg-black"
                   >
                     {header.isPlaceholder
                       ? null
@@ -59,11 +62,14 @@ export function DataTableSkeleton<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} className="animate-pulse">
+              <TableRow
+                key={row.id}
+                className="animate-pulse even:bg-gray-200 odd:dark:bg-blue-950 even:dark:bg-gray-900"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className="bg-gray-300 h-12  items-center justify-center"
+                    className="h-12  items-center justify-center "
                   >
                     <Skeleton className="w-24 h-4 rounded-full" />
                   </TableCell>

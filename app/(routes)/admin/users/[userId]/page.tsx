@@ -7,6 +7,8 @@ import { SubscriptionOrderColumn } from "./components/subscription-order-column"
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import ButtonBackward from "@/components/ui/button-backward";
 
+export const dynamic = "force-dynamic";
+
 const UserPage = async ({ params }: { params: { userId: string } }) => {
   const user = await prismadb.user.findUnique({
     where: {

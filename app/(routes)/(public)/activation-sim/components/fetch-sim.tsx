@@ -1,4 +1,3 @@
-import { addDelay } from "@/lib/utils";
 import axios from "axios";
 
 export type FetchSimType = {

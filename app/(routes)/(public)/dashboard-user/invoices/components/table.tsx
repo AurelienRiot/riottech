@@ -2,7 +2,7 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "../../components/data-table";
+import { DataTable } from "../../(profile)/components/data-table";
 import { InvoicesColumn, columns } from "./column";
 
 interface InvoicesTableProps {
