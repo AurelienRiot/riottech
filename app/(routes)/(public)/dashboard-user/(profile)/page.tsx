@@ -84,10 +84,10 @@ const DashboardUser = async () => {
         <UserButtons />
       </div>
       <div className="flex flex-col items-center justify-center text-gray-800 text-md sm:text-xl dark:text-white">
-        <div className="grid grid-cols-2 gap-4">
-          <p className="font-bold ">Email:</p>
+        <div className="grid grid-cols-1 items-center justify-items-center sm:justify-items-start sm:grid-cols-2 gap-4">
+          <p className="font-bold ">Email :</p>
           <p>{user.email}</p>
-          <p className="font-bold">Adresse:</p>
+          <p className="font-bold">Adresse :</p>
           {fullAdress.line1 ? (
             <p>
               {fullAdress.line1} {fullAdress.postalCode} {fullAdress.city}{" "}
@@ -96,13 +96,13 @@ const DashboardUser = async () => {
             <p>{fullAdress.label} </p>
           )}
 
-          <p className="font-bold">Télephone:</p>
+          <p className="font-bold">Télephone :</p>
           <p>{user.phone}</p>
           {user.raisonSocial && (
             <>
-              <p className="font-bold">TVA:</p>
+              <p className="font-bold">TVA :</p>
               <p>{user.tva}</p>
-              <p className="font-bold"> Raison Sociale: </p>
+              <p className="font-bold"> Raison Sociale : </p>
               <p> {user.raisonSocial} </p>
             </>
           )}

@@ -78,13 +78,9 @@ export function DataTable<TData, TValue>({
   });
 
   const flatHeaders = table.getFlatHeaders();
+  const excludedIds = new Set(["actions", "createdAt", "pdfUrl"]);
   const searchKeys = flatHeaders
-    .filter(
-      (header) =>
-        header.id !== "actions" &&
-        header.id !== "createdAt" &&
-        header.id !== "pdfUrl"
-    )
+    .filter((header) => !excludedIds.has(header.id))
     .map((header) => header.id);
 
   const displayKeys = flatHeaders.map(
@@ -93,7 +89,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="overflow-auto">
-      <div className="grid grid-cols-1 gap-4 py-4 justify-content-center md:grid-cols-5 text-primary">
+      <div className="grid grid-cols-1 gap-4 p-4 justify-content-center md:grid-cols-5 text-primary">
         <Input
           placeholder="Recherche"
           value={
@@ -155,7 +151,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className="bg-primary text-primary-foreground"
+                      className="bg-gray-400 text-white dark:bg-black"
                     >
                       {header.isPlaceholder
                         ? null
@@ -175,7 +171,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={"odd:bg-secondary even:bg-primary/50"}
+                  className="even:bg-gray-200 odd:dark:bg-blue-950 even:dark:bg-gray-900"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

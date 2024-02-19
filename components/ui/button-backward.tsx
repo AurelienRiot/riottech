@@ -6,15 +6,15 @@ import { HiArrowNarrowLeft } from "react-icons/hi";
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick?: () => void;
+  url?: string;
 }
 
 const ButtonBackward = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, disabled, type = "button", onClick, ...props }, ref) => {
+  ({ className, disabled, type = "button", url, ...props }, ref) => {
     const router = useRouter();
     const handleClick = () => {
-      if (onClick) {
-        onClick();
+      if (url) {
+        router.push(url);
       } else {
         router.back();
       }

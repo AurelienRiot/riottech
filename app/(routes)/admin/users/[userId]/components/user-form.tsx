@@ -4,6 +4,7 @@ import AddressAutocomplete from "@/actions/adress-autocompleteFR";
 import GetValideVat from "@/actions/get-valide-vat";
 import { AdressForm, FullAdress } from "@/components/adress-form";
 import { AlertModal } from "@/components/modals/alert-modal-form";
+import { TVAForm } from "@/components/tva-form";
 import { Button } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
 import {
@@ -34,7 +35,14 @@ interface UserFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   surname: z.string().min(1),
-  phone: z.string().min(0),
+  phone: z
+    .string()
+    .refine((value) => value === "" || value.length <= 20, {
+      message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
+    })
+    .refine((value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value), {
+      message: "Le numéro de téléphone n'est pas valide",
+    }),
   adresse: z.string().min(0),
   tva: z.string().min(0),
   raisonSocial: z.string().min(0),
@@ -255,55 +263,12 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
             />
             {isPro && (
               <>
-                <FormField
-                  control={form.control}
-                  name="tva"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Numeros de TVA</FormLabel>
-                      <div className="flex space-x-2">
-                        <FormControl>
-                          <Input
-                            type="text"
-                            disabled={loading}
-                            placeholder="03132345"
-                            {...field}
-                          />
-                        </FormControl>
-                        <Button
-                          disabled={loading || !field.value}
-                          onClick={async (e) => {
-                            e.preventDefault();
-                            setLoading(true);
-                            const valideVat = await GetValideVat(field.value);
-                            if (valideVat) {
-                              const temp = await AddressAutocomplete(
-                                valideVat.address
-                              );
-                              setSelectedAddress({
-                                ...selectedAddress,
-                                label: temp[0].label,
-                                city: temp[0].city,
-                                country: temp[0].country,
-                                line1: temp[0].line1,
-                                postalCode: temp[0].postal_code,
-                                state: temp[0].state,
-                              });
-
-                              form.setValue("raisonSocial", valideVat.name);
-                              toast.success("TVA valide");
-                            } else {
-                              toast.error("TVA non valide");
-                            }
-                            setLoading(false);
-                          }}
-                        >
-                          Vérifier la TVA
-                        </Button>
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                <TVAForm
+                  form={form}
+                  loading={loading}
+                  setLoading={setLoading}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
                 />
                 <FormField
                   control={form.control}

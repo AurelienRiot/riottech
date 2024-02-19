@@ -22,6 +22,7 @@ import { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
 import { columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
+import { addDelay } from "@/lib/utils";
 
 const UserPage = async () => {
   const from = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);

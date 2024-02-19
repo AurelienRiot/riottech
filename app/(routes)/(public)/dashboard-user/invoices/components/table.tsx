@@ -17,7 +17,7 @@ export const InvoicesTable: React.FC<InvoicesTableProps> = ({ data }) => {
         description="Historique des factures"
       />
       <Separator />
-      <DataTable searchKey="status" columns={columns} initialData={data} />
+      <DataTable searchKey="products" columns={columns} initialData={data} />
     </>
   );
 };

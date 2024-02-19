@@ -14,8 +14,7 @@ const SettingsLoading = () => {
         <div>
           <div className="flex flex-col items-center justify-between gap-4 mb-4 md:flex-row">
             <h2 className="text-3xl font-bold tracking-tight">
-              {" "}
-              <Skeleton className="w-40 h-6 rounded-full" />{" "}
+              Modifier le profil
             </h2>
             <Button variant="outline" className="ml-3" disabled={true}>
               {" "}

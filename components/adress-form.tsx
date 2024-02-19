@@ -1,20 +1,13 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UseFormReturn, useForm } from "react-hook-form";
-import * as z from "zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+import AddressAutocomplete, {
+  Suggestion,
+} from "@/actions/adress-autocompleteFR";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
+import { Path, PathValue, useForm } from "react-hook-form";
+import { Button } from "./ui/button";
 import {
   Command,
   CommandEmpty,
@@ -22,19 +15,17 @@ import {
   CommandInput,
   CommandItem,
 } from "./ui/command";
-import { Dispatch, SetStateAction, useState } from "react";
-import AddressAutocomplete, {
-  Suggestion,
-} from "@/actions/adress-autocompleteFR";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import Link from "next/link";
-import { Skeleton } from "./ui/skeleton";
-
-interface UserFormProps {
-  name: string;
-  adresse: string;
-}
 
 export type FullAdress = {
   label: string;
@@ -44,51 +35,6 @@ export type FullAdress = {
   line2: string;
   postalCode: string;
   state: string;
-};
-
-const formSchema = z.object({
-  name: z.string().min(1),
-  adresse: z.string().min(0),
-});
-
-type UserFormValues = z.infer<typeof formSchema>;
-
-export const TestForm = ({ initialData }: { initialData: UserFormProps }) => {
-  const [selectedAddress, setSelectedAddress] = useState({
-    label: "",
-    city: "",
-    country: "fr",
-    line1: "",
-    line2: "",
-    postalCode: "",
-    state: "",
-  });
-
-  const form = useForm<UserFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: initialData.name,
-      adresse: initialData.adresse,
-    },
-  });
-
-  const onSubmit = async (data: UserFormValues) => {
-    console.log(data);
-    console.log(JSON.stringify(selectedAddress));
-  };
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mx-3.5">
-        <AdressForm
-          form={form}
-          selectedAddress={selectedAddress}
-          setSelectedAddress={setSelectedAddress}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
-  );
 };
 
 interface AdressFormProps<T extends { adresse: string }> {
@@ -121,8 +67,7 @@ export const AdressForm = <T extends { adresse: string }>({
     <div className={cn("space-y-2", className)}>
       <FormField
         control={form.control}
-        // @ts-expect-error
-        name="adresse"
+        name={"adresse" as Path<T>}
         render={({ field }) => (
           <FormItem className="flex flex-col">
             <FormLabel>Adresse</FormLabel>
@@ -175,8 +120,10 @@ export const AdressForm = <T extends { adresse: string }>({
                     onValueChange={(e) => {
                       setSearchTerm(e);
                       if (query.length < 3) {
-                        // @ts-expect-error
-                        form.setValue("adresse", "");
+                        form.setValue(
+                          "adresse" as Path<T>,
+                          "" as PathValue<T, Path<T>>
+                        );
                       }
                       setOpen(true);
                     }}
@@ -191,8 +138,10 @@ export const AdressForm = <T extends { adresse: string }>({
                         value={query}
                         key={address.label}
                         onSelect={() => {
-                          // @ts-expect-error
-                          form.setValue("adresse", address.label);
+                          form.setValue(
+                            "adresse" as Path<T>,
+                            address.label as PathValue<T, Path<T>>
+                          );
                           setSelectedAddress((selectedAddress) => ({
                             ...selectedAddress,
                             label: address.label,
@@ -220,6 +169,7 @@ export const AdressForm = <T extends { adresse: string }>({
         <AddressInput
           label="Adresse"
           addressKey="line1"
+          autoComplete="street-address"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />
@@ -232,18 +182,21 @@ export const AdressForm = <T extends { adresse: string }>({
         <AddressInput
           label="Ville"
           addressKey="city"
+          autoComplete="address-level2"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />
         <AddressInput
           label="Code postal"
           addressKey="postalCode"
+          autoComplete="postal-code"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />
         <AddressInput
           label="Région"
           addressKey="state"
+          autoComplete="address-level1"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />
@@ -252,6 +205,7 @@ export const AdressForm = <T extends { adresse: string }>({
           <AddressInput
             label="Pays"
             addressKey="country"
+            autoComplete="country"
             selectedAddress={selectedAddress}
             setSelectedAddress={setSelectedAddress}
           />
@@ -261,17 +215,19 @@ export const AdressForm = <T extends { adresse: string }>({
   );
 };
 
-type AddressInputProps = {
+type AddressInputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
   addressKey: keyof FullAdress;
   selectedAddress: FullAdress;
   setSelectedAddress: Dispatch<SetStateAction<FullAdress>>;
 };
+
 const AddressInput = ({
   label,
   addressKey,
   selectedAddress,
   setSelectedAddress,
+  ...props
 }: AddressInputProps) => {
   return (
     <span className="flex flex-col  gap-1 justify-left w-fit">
@@ -309,6 +265,7 @@ const AddressInput = ({
             [addressKey]: e.target.value,
           }));
         }}
+        {...props}
       />
     </span>
   );

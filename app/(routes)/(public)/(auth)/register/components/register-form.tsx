@@ -26,6 +26,7 @@ import { Eye, EyeOff } from "lucide-react";
 import * as z from "zod";
 import Spinner from "@/components/animations/spinner";
 import { AdressForm } from "@/components/adress-form";
+import { TVAForm } from "@/components/tva-form";
 
 const formSchema = z
   .object({
@@ -213,63 +214,12 @@ export const RegisterForm = () => {
           {isPro && (
             <>
               <div className="grid w-full  items-center gap-1.5">
-                <FormField
-                  control={form.control}
-                  name="tva"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Numéro de TVA</FormLabel>
-                      <FormControl>
-                        <div className="flex items-start gap-x-4">
-                          <Input
-                            disabled={loading}
-                            placeholder="FR32948952"
-                            {...field}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter") {
-                                e.preventDefault();
-                                document
-                                  .getElementById("verify-button")
-                                  ?.click();
-                              }
-                            }}
-                          />
-                        </div>
-                      </FormControl>
-                      <Button
-                        id="verify-button"
-                        disabled={loading || !field.value}
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          setLoading(true);
-                          const valideVat = await GetValideVat(field.value);
-                          if (valideVat) {
-                            const temp = await AddressAutocomplete(
-                              valideVat.address
-                            );
-                            setSelectedAddress({
-                              ...selectedAddress,
-                              label: temp[0].label,
-                              city: temp[0].city,
-                              country: temp[0].country,
-                              line1: temp[0].line1,
-                              postalCode: temp[0].postal_code,
-                              state: temp[0].state,
-                            });
-
-                            form.setValue("raisonSocial", valideVat.name);
-                            toast.success("TVA valide");
-                          } else {
-                            toast.error("TVA non valide");
-                          }
-                          setLoading(false);
-                        }}
-                      >
-                        Vérifier la TVA
-                      </Button>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                <TVAForm
+                  form={form}
+                  loading={loading}
+                  setLoading={setLoading}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
                 />
               </div>
               <div className="grid w-full  items-center gap-1.5">

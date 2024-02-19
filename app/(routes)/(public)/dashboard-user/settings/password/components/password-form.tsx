@@ -191,9 +191,7 @@ export const PasswordForm = () => {
           </Button>
         </form>
       </Form>
-      <ButtonBackward
-        onClick={() => router.replace("/dashboard-user/settings")}
-      />
+      <ButtonBackward url="/dashboard-user/settings" />
     </>
   );
 };

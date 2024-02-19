@@ -28,6 +28,7 @@ import { User } from "@prisma/client";
 import { addDelay } from "@/lib/utils";
 import Spinner from "@/components/animations/spinner";
 import { AdressForm, FullAdress } from "@/components/adress-form";
+import { TVAForm } from "@/components/tva-form";
 
 interface UserFormProps {
   initialData: User;
@@ -36,7 +37,14 @@ interface UserFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   surname: z.string().min(1),
-  phone: z.string().min(0),
+  phone: z
+    .string()
+    .refine((value) => value === "" || value.length <= 20, {
+      message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
+    })
+    .refine((value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value), {
+      message: "Le numéro de téléphone n'est pas valide",
+    }),
   adresse: z.string().min(0),
   tva: z.string().min(0),
   raisonSocial: z.string().min(0),
@@ -84,6 +92,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
   const onSubmit = async (data: UserFormValues) => {
     try {
+      console.log(form.formState);
       setLoading(true);
 
       if (isPro) {
@@ -173,8 +182,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         </Button>
       </div>
       <Separator />
-      <p>{initialData.email}</p>
-      <div className="flex mt-6 ">
+      <p className="p-6  font-bold">{initialData.email}</p>
+      <div className="flex">
         <Button
           onClick={(e) => {
             e.preventDefault();
@@ -254,63 +263,15 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            <AdressForm
-              form={form}
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
 
             {isPro && (
               <>
-                <FormField
-                  control={form.control}
-                  name="tva"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Numeros de TVA</FormLabel>
-                      <div className="flex space-x-2">
-                        <FormControl>
-                          <Input
-                            type="text"
-                            disabled={loading}
-                            placeholder="FR03132345"
-                            {...field}
-                          />
-                        </FormControl>
-                        <Button
-                          disabled={loading || !field.value}
-                          onClick={async (e) => {
-                            e.preventDefault();
-                            setLoading(true);
-                            const valideVat = await GetValideVat(field.value);
-                            if (valideVat) {
-                              const temp = await AddressAutocomplete(
-                                valideVat.address
-                              );
-                              setSelectedAddress({
-                                ...selectedAddress,
-                                label: temp[0].label,
-                                city: temp[0].city,
-                                country: temp[0].country,
-                                line1: temp[0].line1,
-                                postalCode: temp[0].postal_code,
-                                state: temp[0].state,
-                              });
-
-                              form.setValue("raisonSocial", valideVat.name);
-                              toast.success("TVA valide");
-                            } else {
-                              toast.error("TVA non valide");
-                            }
-                            setLoading(false);
-                          }}
-                        >
-                          Vérifier la TVA
-                        </Button>
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                <TVAForm
+                  form={form}
+                  loading={loading}
+                  setLoading={setLoading}
+                  selectedAddress={selectedAddress}
+                  setSelectedAddress={setSelectedAddress}
                 />
                 <FormField
                   control={form.control}
@@ -332,16 +293,18 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 />
               </>
             )}
+            <AdressForm
+              form={form}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
           </div>
           <Button disabled={loading} className="ml-auto " type="submit">
             {loading ? <Spinner size={20} /> : action}
           </Button>
         </form>
       </Form>
-      <ButtonBackward
-        onClick={() => router.replace("/dashboard-user")}
-        className="mt-4"
-      />
+      <ButtonBackward url="/dashboard-user" className="mt-4" />
     </div>
   );
 };
