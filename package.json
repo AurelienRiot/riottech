@@ -36,6 +36,8 @@
     "@react-email/render": "0.0.12",
     "@react-three/drei": "^9.97.6",
     "@react-three/fiber": "^8.15.16",
+    "@stripe/react-stripe-js": "^2.5.0",
+    "@stripe/stripe-js": "^3.0.3",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/react-table": "^8.12.0",
