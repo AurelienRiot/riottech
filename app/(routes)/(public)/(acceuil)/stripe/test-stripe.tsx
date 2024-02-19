@@ -1,58 +1,112 @@
 "use client";
+import { FullAdress } from "@/components/adress-form";
 import { Button } from "@/components/ui/button";
 import {
   AddressElement,
+  CardElement,
   Elements,
+  EmbeddedCheckout,
+  EmbeddedCheckoutProvider,
   PaymentElement,
+  PaymentRequestButtonElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { Stripe, StripeElementsOptions } from "@stripe/stripe-js";
-import { useEffect, useState } from "react";
+import { StripeElementsOptions } from "@stripe/stripe-js";
+import { FormEvent } from "react";
 import toast from "react-hot-toast";
 
 export const TestStripe = ({
   options,
+  user,
 }: {
-  options: StripeElementsOptions | undefined;
+  options: {
+    clientSecret: string | null;
+    onComplete?: (() => void) | undefined;
+  };
+  user: {
+    address: string;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+  };
 }) => {
-  const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
-
-  useEffect(() => {
-    const fetchStripe = async () => {
-      setStripePromise(
-        await loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY as string)
-      );
-    };
-
-    fetchStripe();
-  }, []);
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
+  );
 
   return (
-    <Elements stripe={stripePromise} options={options}>
-      <div className="w-full max-w-md mx-auto">
-        <CheckoutForm />
-      </div>
-    </Elements>
+    // <Elements stripe={stripePromise} options={options}>
+    //   <CheckoutForm user={user} />
+    // </Elements>
+    <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+      <EmbeddedCheckout />
+    </EmbeddedCheckoutProvider>
   );
 };
 
-const CheckoutForm = () => {
+const CheckoutForm = ({
+  user,
+}: {
+  user: {
+    address: string;
+    name: string;
+    surname: string;
+    email: string;
+    phone: string;
+  };
+}) => {
   const stripe = useStripe();
   const elements = useElements();
+  const fullAdress: FullAdress = JSON.parse(user.address);
+
+  const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    console.log(elements.getElement("payment"));
+    toast.success("Paiement réussi");
+  };
+
   return (
     <form
-      className="flex flex-col gap-4 justify-center items-center p-8"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        toast.success("Paiement réussi");
-      }}
+      className="flex  gap-4 justify-center items-center p-8"
+      onSubmit={handlePayment}
     >
+      <div className="flex flex-col gap-4 justify-center items-center">
+        <AddressElement
+          options={{
+            display: {
+              name: "split",
+            },
+            mode: "billing",
+            defaultValues: {
+              address: {
+                line1: fullAdress.line1,
+                line2: fullAdress.line2,
+                city: fullAdress.city,
+                state: fullAdress.state,
+                postal_code: fullAdress.postalCode,
+                country: fullAdress.country,
+              },
+              firstName: user.surname,
+              lastName: user.name,
+              phone: user.phone,
+            },
+          }}
+        />
+        <Button>Payer</Button>
+      </div>
+
       <PaymentElement
-        options={{ paymentMethodOrder: ["sepa_debit", "card"] }}
+        options={{
+          paymentMethodOrder: ["sepa_debit", "card"],
+          defaultValues: { billingDetails: { email: user.email } },
+        }}
       />
-      <Button>Payer</Button>
     </form>
   );
 };

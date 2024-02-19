@@ -168,6 +168,7 @@ export const AdressForm = <T extends { adresse: string }>({
       <div className="flex flex-col gap-1 ">
         <AddressInput
           label="Adresse"
+          placeholder="Adresse"
           addressKey="line1"
           autoComplete="street-address"
           selectedAddress={selectedAddress}
@@ -176,6 +177,7 @@ export const AdressForm = <T extends { adresse: string }>({
         <AddressInput
           label="Complément d'adresse"
           addressKey="line2"
+          placeholder="App., bureau, local, etc. (facultatif)"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />

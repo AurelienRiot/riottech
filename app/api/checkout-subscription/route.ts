@@ -139,6 +139,10 @@ export async function POST(req: NextRequest) {
         name: "never",
         address: isAdresse ? "never" : "auto",
       },
+      payment_intent_data: {
+        statement_descriptor: `Abonnement RIOTTECH SIM ${sim}`,
+        statement_descriptor_suffix: `Abonnement RIOTTECH SIM ${sim}`,
+      },
       billing_address_collection: isAdresse ? "auto" : "required",
       payment_method_types: ["sepa_debit", "card"],
       phone_number_collection: {
