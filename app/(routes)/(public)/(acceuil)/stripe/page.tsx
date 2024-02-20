@@ -91,7 +91,8 @@ const StripePage = async () => {
       address: isAdresse ? "never" : "auto",
     },
     billing_address_collection: isAdresse ? "auto" : "required",
-    payment_method_types: ["sepa_debit", "card"],
+    // payment_method_types: ["sepa_debit", "card"],
+    payment_method_configuration: "pmc_1NRrnKBoSjU0YaqskP92j3oP",
     phone_number_collection: {
       enabled: false,
     },
@@ -99,8 +100,6 @@ const StripePage = async () => {
     ui_mode: "embedded",
     return_url: `${process.env.NEXTAUTH_URL}/`,
   });
-
-  console.log(sessionStripe);
 
   if (!sessionStripe.client_secret) {
     console.log("client secret not exist");

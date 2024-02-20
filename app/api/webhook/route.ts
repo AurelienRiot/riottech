@@ -139,7 +139,6 @@ export async function POST(req: Request) {
         });
       }
     }
-
     if (event.type === "invoice.payment_succeeded") {
       const session_invoice = event.data.object as Stripe.Invoice;
       const subscription = session_invoice.subscription;

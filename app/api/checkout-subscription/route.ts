@@ -49,7 +49,8 @@ export async function POST(req: NextRequest) {
         status: 401,
       });
     }
-    const taxe = user.isPro ? 1 : 1.2;
+    // const taxe = user.isPro ? 1 : 1.2;0
+    const taxe = 1.2;
 
     const subscription = await prismadb.subscription.findUnique({
       where: {

@@ -54,6 +54,9 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Le prix total est nécessaire", { status: 400 });
     }
 
+    // const taxe = user.isPro ? 1 : 1.2;0
+    const taxe = 1.2;
+
     const productIds = itemsWithQuantities.map((item) => item.id);
     const products = await prismadb.product.findMany({
       where: {
@@ -93,7 +96,7 @@ export async function POST(req: NextRequest) {
     const order = await prismadb.order.create({
       data: {
         isPaid: false,
-        totalPrice: user.isPro ? Number(totalPrice) : Number(totalPrice) * 1.2,
+        totalPrice: Number(totalPrice) * taxe,
         orderItems: {
           create: itemsWithQuantities.map((item) => ({
             product: {
