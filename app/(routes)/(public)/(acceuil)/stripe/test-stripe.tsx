@@ -42,7 +42,7 @@ export const TestStripe = ({
     //   <CheckoutForm user={user} />
     // </Elements>
     <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-      <EmbeddedCheckout />
+      <EmbeddedCheckout className="p-8" />
     </EmbeddedCheckoutProvider>
   );
 };

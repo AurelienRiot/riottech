@@ -110,9 +110,14 @@ const DashboardUser = async () => {
       </div>
 
       <div className="p-4">
-        <OrderTable data={formattedOrders} />
+        {formattedSubscriptionOrders.length > 0 ? (
+          <SubscriptionOrderTable data={formattedSubscriptionOrders} />
+        ) : null}
+        {formattedOrders.length > 0 ? (
+          <OrderTable data={formattedOrders} />
+        ) : null}
+
         {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}
-        <SubscriptionOrderTable data={formattedSubscriptionOrders} />
       </div>
     </div>
   );

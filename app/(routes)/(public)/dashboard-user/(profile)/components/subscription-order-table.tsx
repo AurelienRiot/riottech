@@ -7,6 +7,8 @@ import {
   SubscriptionOrderColumnType,
   SubscriptionOrderColumn,
 } from "./subscription-order-column";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface SubscriptionOrderTableProps {
   data: SubscriptionOrderColumnType[];
@@ -15,6 +17,15 @@ interface SubscriptionOrderTableProps {
 export const SubscriptionOrderTable: React.FC<SubscriptionOrderTableProps> = ({
   data,
 }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  if (typeof window !== "undefined") {
+    if (searchParams.get("success-subscription")) {
+      toast.success("Paiement réussi.");
+      router.replace("/dashboard-user");
+    }
+  }
   return (
     <>
       <Heading
