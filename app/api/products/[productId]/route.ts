@@ -1,7 +1,7 @@
+import { authOptions } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
 
 export async function GET(
   req: Request,

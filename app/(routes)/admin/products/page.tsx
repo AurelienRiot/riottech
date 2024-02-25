@@ -7,6 +7,7 @@ const ProductPage = async () => {
   const products = await prismadb.product.findMany({
     include: {
       category: true,
+      images: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -16,6 +17,7 @@ const ProductPage = async () => {
   const formattedProducts: ProductColumn[] = products.map((item) => ({
     id: item.id,
     name: item.name,
+    image: item.images[0].url,
     isFeatured: item.isFeatured ? "oui" : "non",
     isArchived: item.isArchived ? "oui" : "non",
     priceHT: formatter.format(item.priceHT),

@@ -59,3 +59,12 @@ export function addDelay(ms: number) {
 export const randomFromInterval = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
+
+export const checkIfUrlAccessible = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url);
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};

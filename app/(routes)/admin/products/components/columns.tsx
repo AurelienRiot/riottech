@@ -7,10 +7,12 @@ import { ArrowUpDown } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
 import Link from "next/link";
+import Image from "next/image";
 
 export type ProductColumn = {
   id: string;
   name: string;
+  image: string;
   priceHT: string;
   category: string;
   isFeatured: string;
@@ -23,8 +25,17 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <div className="flex">
-        {" "}
+      <div className="flex hover:underline justify-start items-center gap-2">
+        {row.original.image ? (
+          <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
+            <Image
+              src={row.original.image}
+              alt=""
+              fill
+              className="object-cover rounded-sm"
+            />
+          </span>
+        ) : null}
         <Link href={`/admin/products/${row.original.id}`}>
           {row.getValue("name")}
         </Link>

@@ -7,6 +7,7 @@ const BillboardsPage = async () => {
 
   const formattedBillboards: BillboardColumn[] = billboards.map((item) => ({
     id: item.id,
+    image: item.imageUrl,
     name: item.label,
     createdAt: item.createdAt,
   }));

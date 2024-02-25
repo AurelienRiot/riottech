@@ -20,7 +20,7 @@ const s3 = new S3Client({
     accessKeyId: accessKeyId,
     secretAccessKey: secretAccessKey,
   },
-  endpoint: "https://s3.fr-par.scw.cloud", // Change this to your Scaleway S3 endpoint
+  endpoint: "https://s3.fr-par.scw.cloud",
 });
 
 async function listBuckets() {
@@ -30,6 +30,7 @@ async function listBuckets() {
     response.Buckets?.forEach((bucket) => {
       console.log(`- ${bucket.Name}`);
     });
+    return response.Buckets;
   } catch (error) {
     console.error(`An error occurred: ${error}`);
   }

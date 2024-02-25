@@ -31,9 +31,10 @@ const UploadImage = ({
 }: UploadImageProps) => {
   const [files, setFiles] = useState<_Object[]>([]);
   const [displayFiles, setDisplayFiles] = useState<boolean>(false);
+  const [search, setSearch] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const imagesPerPage = 5;
+  const imagesPerPage = 10;
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) {
@@ -81,6 +82,7 @@ const UploadImage = ({
 
     setFiles((prev) => prev.filter((file) => file.Key !== key));
     setSelectedFiles((prev) => prev.filter((file) => file !== key));
+    toast.success("Image supprimée");
   };
 
   useEffect(() => {
@@ -179,9 +181,21 @@ const UploadImage = ({
         />
         {files.length > 0 && displayFiles && (
           <>
-            <div className="space-y-2 pr-3">
+            <Input
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Rechercher"
+              className="w-fit"
+            />
+            <div
+              className="flex flex-row flex-wrap p-2 gap-4 max-w-[1000px]
+            whitespace-nowrap"
+            >
               {files
-                .filter((file) => !selectedFiles.includes(file.Key ?? ""))
+                .filter(
+                  (file) =>
+                    !selectedFiles.includes(file.Key ?? "") &&
+                    file.Key?.toLowerCase().includes(search.toLowerCase())
+                )
                 .slice(
                   (currentPage - 1) * imagesPerPage,
                   currentPage * imagesPerPage
@@ -189,7 +203,7 @@ const UploadImage = ({
                 .map((file) => (
                   <div
                     key={file.Key}
-                    className="flex justify-left gap-2 rounded-lg overflow-hidden border border-slate-100 group hover:pr-0 pr-2 hover:border-slate-300 transition-all"
+                    className="flex justify-left gap-2 rounded-lg overflow-hidden border border-slate-100 group pr-2 hover:border-slate-300 transition-all relative"
                   >
                     <div
                       className="flex items-center flex-1 p-2 w-fit cursor-pointer"
@@ -222,16 +236,17 @@ const UploadImage = ({
                     </div>
                     <button
                       onClick={(e) => {
+                        e.preventDefault();
                         onDelete(file.Key);
                       }}
-                      className="bg-red-500 hover:bg-red-500/90 text-white transition-all items-center justify-center px-2 hidden group-hover:flex"
+                      className="bg-red-500 absolute right-0 hover:bg-red-500/90 text-white transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
                     >
                       <X size={20} />
                     </button>
                   </div>
                 ))}
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-start space-x-2 py-4">
               <Button
                 variant="outline"
                 size="sm"
