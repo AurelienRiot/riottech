@@ -234,7 +234,7 @@ const UploadImage = ({
                         </div>
                       </div>
                     </div>
-                    <button
+                    {/* <button
                       onClick={(e) => {
                         e.preventDefault();
                         onDelete(file.Key);
@@ -242,7 +242,7 @@ const UploadImage = ({
                       className="bg-red-500 absolute right-0 hover:bg-red-500/90 text-white transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
                     >
                       <X size={20} />
-                    </button>
+                    </button> */}
                   </div>
                 ))}
             </div>
