@@ -1,5 +1,6 @@
 "use client";
 
+import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
-import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -35,6 +35,8 @@ import { toast } from "react-hot-toast";
 import * as z from "zod";
 import { FormattedProduct } from "../page";
 import RenderMarkdown from "./render-markdown";
+
+const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
 interface ProductFormProps {
   initialData:
@@ -73,6 +75,11 @@ const formSchema = z.object({
 
 export type ProductFormValues = z.infer<typeof formSchema>;
 
+export const getFileKey = (url: string): string => {
+  const parts = url.split("/");
+  return parts[parts.length - 1];
+};
+
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialData,
   categories,
@@ -81,6 +88,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>(
+    initialData?.images.map((image) => getFileKey(image.url)) || []
+  );
 
   const title = initialData ? "Modifier le produit" : "Crée un nouveau produit";
   const description = initialData
@@ -112,6 +122,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const onSubmit = async (data: ProductFormValues) => {
     try {
       setLoading(true);
+      data.images = selectedFiles.map((file) => ({
+        url: `https://${bucketName}.s3.fr-par.scw.cloud/${file}`,
+      }));
       if (initialData) {
         await axios.patch(`/api/products/${params.productId}`, data);
       } else {
@@ -181,17 +194,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  <ImageUpload
-                    value={field.value.map((image) => image.url)}
-                    disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([...field.value, { url }])
-                    }
-                    onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
-                      ])
-                    }
+                  <UploadImage
+                    selectedFiles={selectedFiles}
+                    setSelectedFiles={setSelectedFiles}
+                    multipleImages
                   />
                 </FormControl>
                 <FormMessage />

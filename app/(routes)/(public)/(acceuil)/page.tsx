@@ -4,7 +4,6 @@ import GetProducts from "@/server-actions/get-products";
 import ImageAccueil from "./components/image-accueil";
 import Reseau4GPage from "./components/reseau-4G";
 import ServicePage from "./components/services";
-import UploadImage from "@/components/images-upload/image-upload2";
 
 const HomePage = async () => {
   return (
@@ -31,7 +30,6 @@ const HomePage = async () => {
                             )}`}</VisibleElement> */}
 
             <Reseau4GPage />
-            <UploadImage />
           </div>
         </>
       </Container>

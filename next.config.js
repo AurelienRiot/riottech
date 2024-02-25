@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "object-storage-dev.s3.fr-par.scw.cloud",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   output: "standalone",

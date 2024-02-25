@@ -40,6 +40,9 @@ export async function POST(req: Request) {
 
     if (event.type === "checkout.session.completed") {
       const orderId = session?.metadata?.orderId;
+      if (!orderId) {
+        return new NextResponse("No order id", { status: 200 });
+      }
       const paymentInvoiceId = session.invoice as string;
       const paymentIntentId = session.payment_intent as string;
 

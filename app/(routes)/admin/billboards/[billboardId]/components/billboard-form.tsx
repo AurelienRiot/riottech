@@ -1,5 +1,6 @@
 "use client";
 
+import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
-import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
+import { getFileKey } from "../../../products/[productId]/components/product-form";
+
+const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
 interface BillboardFormProps {
   initialData: Billboard | null;
@@ -42,6 +45,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>(
+    initialData?.imageUrl ? [getFileKey(initialData?.imageUrl)] : []
+  );
 
   const title = initialData
     ? "Modification de panneaux d'affichage"
@@ -65,6 +71,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const onSubmit = async (data: BillboardFormValues) => {
     try {
       setLoading(true);
+      data.imageUrl = `https://${bucketName}.s3.fr-par.scw.cloud/${selectedFiles[0]}`;
       if (initialData) {
         await axios.patch(`/api/billboards/${params.billboardId}`, data);
       } else {
@@ -131,11 +138,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               <FormItem>
                 <FormLabel>{"Image du panneau d'affichage"} </FormLabel>
                 <FormControl>
-                  <ImageUpload
-                    value={field.value ? [field.value] : []}
-                    disabled={loading}
-                    onChange={(url) => field.onChange(url)}
-                    onRemove={() => field.onChange("")}
+                  <UploadImage
+                    selectedFiles={selectedFiles}
+                    setSelectedFiles={setSelectedFiles}
                   />
                 </FormControl>
                 <FormMessage />

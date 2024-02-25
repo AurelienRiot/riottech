@@ -1,111 +1,127 @@
 "use server";
 
-import axios from "axios";
-import { createHash, createHmac } from "crypto";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  ListBucketsCommand,
+  ListObjectsV2Command,
+  PutObjectCommand,
+  PutObjectCommandInput,
+  S3Client,
+} from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
-const bucketName = process.env.SCALEWAY_BUCKET_NAME as string;
-const region = "fr-par";
-const url = `https://${bucketName}.s3.${region}.scw.cloud`;
 
-const UploadServer = async (formData: FormData) => {
-  const date =
-    new Date()
-      .toISOString()
-      .replace(/[^0-9]/g, "")
-      .slice(0, -3) + "Z";
-  const method = "POST";
-  const content = "agricoltura.jpeg";
-  const authorizationHeader = generateAuthorizationHeader({
-    method,
-    content,
-    date,
-  });
-  const payloadHash = createHmac("sha256", "").update("").digest("hex");
+const s3 = new S3Client({
+  region: "fr-par",
+  credentials: {
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
+  },
+  endpoint: "https://s3.fr-par.scw.cloud", // Change this to your Scaleway S3 endpoint
+});
 
-  const canonicalQueryString = "";
-  const canonicalHeaders = `content-type: multipart/form-data\nhost: ${url}/${content}\nx-amz-content-sha256: ${payloadHash}\nx-amz-date: ${date}`;
-  const signedHeaders =
-    "content-type;host;x-amz-content-sha256;x-amz-date;x-auth-token;authorization;signature;content-type";
-  const algorithm = "AWS4-HMAC-SHA256";
-  const credentialScope = `${date.substring(0, 8)}/${region}/s3/aws4_request`;
-  const canonicalRequest = `${method}\n${content}\n${canonicalQueryString}\n${canonicalHeaders}\n${signedHeaders}\n${payloadHash}`;
-  const canonicalRequestHash = createHash("sha256")
-    .update(canonicalRequest)
-    .digest("hex");
+async function listBuckets() {
+  try {
+    const response = await s3.send(new ListBucketsCommand({}));
+    console.log("Buckets:");
+    response.Buckets?.forEach((bucket) => {
+      console.log(`- ${bucket.Name}`);
+    });
+  } catch (error) {
+    console.error(`An error occurred: ${error}`);
+  }
+}
 
-  const stringToSign = `${algorithm}\n${date}\n${credentialScope}\n${canonicalRequestHash}`;
+async function listFiles(bucketName: string) {
+  try {
+    const files = await s3.send(
+      new ListObjectsV2Command({ Bucket: bucketName })
+    );
 
-  const signingKey = signature(
-    signature(
-      signature(
-        signature(`AWS4${secretAccessKey}`, date.substring(0, 8)),
-        region
-      ),
-      "s3"
-    ),
-    "aws4_request"
-  );
+    return files.Contents?.sort(
+      (a, b) =>
+        new Date(b.LastModified ?? 0).getTime() -
+        new Date(a.LastModified ?? 0).getTime()
+    );
+  } catch (error) {
+    console.error(`An error occurred: ${error}`);
+  }
+}
 
-  const signatureValue = signature(signingKey, stringToSign);
+async function uploadFile({
+  bucketName,
+  formData,
+}: {
+  bucketName: string;
+  formData: FormData;
+}) {
+  try {
+    const filesValues: string[] = [];
+    formData.forEach(async (value, key) => {
+      const uniqueName = `${uuidv4()}-${key}`;
+      filesValues.push(uniqueName);
+      console.log(uniqueName);
+      if (typeof value === "string") {
+        return;
+      }
 
-  const headers = {
-    host: `${url}/${content}`,
-    "Content-Length": formData.get("Content-Length")?.toString(),
-    "Content-Type": "multipart/form-data",
-    "x-amz-content-sha256": payloadHash,
-    "x-amz-date": date,
-    Authorization: authorizationHeader,
-    Expect: "the 100-continue HTTP status code",
+      const array = await value.arrayBuffer();
+
+      const uploadParams: PutObjectCommandInput = {
+        Bucket: bucketName,
+        Key: uniqueName,
+        // @ts-ignore
+        Body: array,
+        ACL: "public-read",
+      };
+
+      await s3.send(new PutObjectCommand(uploadParams));
+    });
+    return filesValues;
+    // console.log(`File ${fileName} uploaded with unique name ${uniqueName}`);
+  } catch (error) {
+    return null;
+    console.error(`An error occurred: ${error}`);
+  }
+}
+
+async function downloadFile(
+  bucketName: string,
+  objectName: string,
+  fileName: string
+) {
+  try {
+    const file = await s3.send(
+      new GetObjectCommand({ Bucket: bucketName, Key: objectName })
+    );
+    // fs.writeFileSync(fileName,  file.Body as Buffer);
+    console.log(`File ${objectName} downloaded to ${fileName}`);
+  } catch (error) {
+    console.error(`An error occurred: ${error}`);
+  }
+}
+
+async function deleteObject({
+  bucketName,
+  key,
+}: {
+  bucketName: string;
+  key: string;
+}) {
+  const deleteParams = {
+    Bucket: bucketName,
+    Key: key,
   };
 
-  axios
-    .post(`${url}/${content}`, formData, { headers })
-    .then((response) => {
-      console.log("Object uploaded successfully:", response.data);
-    })
-    .catch((error) => {
-      console.error("Error uploading object:", error);
-    });
-};
-
-export default UploadServer;
-
-const signature = (key: string, message: string) =>
-  createHmac("sha256", key).update(message).digest("hex");
-
-function generateAuthorizationHeader({
-  method,
-  content,
-  date,
-}: {
-  method: string;
-  content: string;
-  date: string;
-}) {
-  const canonicalRequest = `${method}\n\n\n\n\n\n\n\n\n\n\n\n${date}\n${content}`;
-  const stringToSign = `AWS4-HMAC-SHA256\n${date}\n${date.substring(
-    0,
-    8
-  )}/${region}/s3/aws4_request\n${createHash("sha256")
-    .update(canonicalRequest)
-    .digest("hex")}`;
-  const dateKey = createHmac("sha256", `AWS4${secretAccessKey}`)
-    .update(date.substring(0, 8))
-    .digest();
-  const dateRegionKey = createHmac("sha256", dateKey).update(region).digest();
-  const dateRegionServiceKey = createHmac("sha256", dateRegionKey)
-    .update("s3")
-    .digest();
-  const signingKey = createHmac("sha256", dateRegionServiceKey)
-    .update("aws4_request")
-    .digest();
-  const signature = createHmac("sha256", signingKey)
-    .update(stringToSign)
-    .digest("hex");
-  return `AWS4-HMAC-SHA256 Credential=${accessKeyId}/${date.substring(
-    0,
-    8
-  )}/${region}/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=${signature}`;
+  try {
+    await s3.send(new DeleteObjectCommand(deleteParams));
+    console.log(`Successfully deleted object: ${key}`);
+  } catch (error) {
+    console.error(`Error deleting object: ${key}`, error);
+  }
 }
+
+export { downloadFile, listBuckets, listFiles, uploadFile, deleteObject };
