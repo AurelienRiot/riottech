@@ -10,6 +10,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
+import { checkAdmin } from "../auth/checkAuth";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
@@ -24,6 +25,10 @@ const s3 = new S3Client({
 });
 
 async function listBuckets() {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return;
+  }
   try {
     const response = await s3.send(new ListBucketsCommand({}));
     console.log("Buckets:");
@@ -37,6 +42,10 @@ async function listBuckets() {
 }
 
 async function listFiles(bucketName: string) {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return;
+  }
   try {
     const files = await s3.send(
       new ListObjectsV2Command({ Bucket: bucketName })
@@ -59,32 +68,35 @@ async function uploadFile({
   bucketName: string;
   formData: FormData;
 }) {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return;
+  }
   try {
     const filesValues: string[] = [];
     formData.forEach(async (value, key) => {
-      const uniqueName = `${uuidv4()}-${key}`;
-      filesValues.push(uniqueName);
-      console.log(uniqueName);
-      if (typeof value === "string") {
-        return;
+      if (value instanceof File) {
+        const uniqueName = `${uuidv4()}-${key}`;
+        filesValues.push(uniqueName);
+
+        const array = await value.arrayBuffer();
+
+        const uploadParams: PutObjectCommandInput = {
+          Bucket: bucketName,
+          Key: uniqueName,
+          // @ts-ignore
+          Body: array,
+          ACL: "public-read",
+        };
+
+        await s3.send(new PutObjectCommand(uploadParams));
       }
-
-      const array = await value.arrayBuffer();
-
-      const uploadParams: PutObjectCommandInput = {
-        Bucket: bucketName,
-        Key: uniqueName,
-        // @ts-ignore
-        Body: array,
-        ACL: "public-read",
-      };
-
-      await s3.send(new PutObjectCommand(uploadParams));
     });
+
     return filesValues;
+
     // console.log(`File ${fileName} uploaded with unique name ${uniqueName}`);
   } catch (error) {
-    return null;
     console.error(`An error occurred: ${error}`);
   }
 }
@@ -94,6 +106,10 @@ async function downloadFile(
   objectName: string,
   fileName: string
 ) {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return;
+  }
   try {
     const file = await s3.send(
       new GetObjectCommand({ Bucket: bucketName, Key: objectName })
@@ -112,6 +128,10 @@ async function deleteObject({
   bucketName: string;
   key: string;
 }) {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return;
+  }
   const deleteParams = {
     Bucket: bucketName,
     Key: key,

@@ -99,20 +99,20 @@ const UploadImage = ({
   return (
     <div className="flex flex-col justify-left gap-4 p-4">
       <div className="flex gap-4 justify-left items-center">
-        <label className="relative w-fit flex flex-col items-center justify-center px-4  py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 ">
+        <label className="relative w-fit flex flex-col items-center justify-center px-4  py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 transition-colors ">
           <div className=" text-center">
-            <div className=" border p-2 rounded-md max-w-min mx-auto">
-              <UploadCloud size={20} />
+            <div className=" border p-2 rounded-md max-w-min mx-auto bg-foreground">
+              <UploadCloud size={20} className="text-primary-foreground" />
             </div>
 
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-primary">
               <span className="font-semibold">
                 {multipleImages ? "Ajouter des images" : "Ajouter une image"}
               </span>
             </p>
           </div>
           <Input
-            accept="image/png, image/jpeg, image/jpg, image/webp"
+            accept="image/png, image/jpeg, image/jpg, image/webp, image/svg"
             type="file"
             className="hidden"
             onChange={handleFileChange}
@@ -141,36 +141,34 @@ const UploadImage = ({
 
       {selectedFiles.length !== 0 && (
         <div key={selectedFiles.join("")}>
-          <h1>
+          <h1 className="text-primary">
             {" "}
             {multipleImages ? "Images selectionnées" : "Image selectionnée"}
           </h1>
           <ul className="flex flex-wrap gap-2">
-            {files
-              .filter((file) => selectedFiles.includes(file.Key ?? ""))
-              .map((file) => (
-                <li
-                  key={file.Key}
-                  onClick={() =>
-                    setSelectedFiles((prev) =>
-                      prev.filter((item) => item !== file.Key)
-                    )
-                  }
-                  className="cursor-pointer hover:ring-2 rounded-xl relative aspect-square h-[100px] bg-gray-300"
-                >
-                  <Image
-                    src={`https://${bucketName}.s3.fr-par.scw.cloud/${file.Key}`}
-                    alt=""
-                    fill
-                    className="object-cover rounded-xl"
-                  />
-                </li>
-              ))}
+            {selectedFiles.map((key) => (
+              <li
+                key={key}
+                onClick={() =>
+                  setSelectedFiles((prev) =>
+                    prev.filter((item) => item !== key)
+                  )
+                }
+                className="cursor-pointer hover:ring-2 rounded-xl relative aspect-square h-[100px] bg-transparent"
+              >
+                <Image
+                  src={`https://${bucketName}.s3.fr-par.scw.cloud/${key}`}
+                  alt=""
+                  fill
+                  className="object-cover rounded-xl"
+                />
+              </li>
+            ))}
           </ul>
         </div>
       )}
-      <div>
-        <p className="font-medium my-2 mt-6 text-muted-foreground text-sm">
+      <div className="space-y-4">
+        <p className="font-medium my-2 mt-6 text-primary text-sm">
           Images disponibles
         </p>
         <Switch

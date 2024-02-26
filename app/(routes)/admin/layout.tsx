@@ -1,30 +1,22 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/components/auth/authOptions";
-import React from "react";
-import Navbar from "@/components/navbar-admin/navbar";
-import prismadb from "@/lib/prismadb";
 import { Logout } from "@/components/auth/auth";
+import { checkAdmin } from "@/components/auth/checkAuth";
+import Navbar from "@/components/navbar-admin/navbar";
+import React from "react";
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
   const callbackUrl = "/admin";
-  if (!session || !session.user || session.user.role !== "admin") {
-    redirect(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);
-  }
 
-  const user = await prismadb.user.findUnique({
-    where: {
-      id: session.user.id,
-    },
-  });
-
-  if (!user || user.role !== "admin") {
-    return <Logout callbackUrl="/" />;
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return (
+      <Logout
+        callbackUrl={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+      />
+    );
   }
 
   return (
