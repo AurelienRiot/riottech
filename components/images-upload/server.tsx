@@ -11,6 +11,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from "uuid";
 import { checkAdmin } from "../auth/checkAuth";
+import prismadb from "@/lib/prismadb";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
@@ -121,17 +122,44 @@ async function downloadFile(
   }
 }
 
+type ReturnTypeDeleteObject =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      error: string;
+    };
+
 async function deleteObject({
   bucketName,
   key,
 }: {
   bucketName: string;
   key: string;
-}) {
+}): Promise<ReturnTypeDeleteObject> {
   const isAuth = await checkAdmin();
   if (!isAuth) {
-    return;
+    return { success: false, error: "Unauthorized" };
   }
+
+  const images = await prismadb.image.findMany({
+    where: {
+      url: `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
+    },
+    include: {
+      product: true,
+    },
+  });
+
+  if (images.length > 0) {
+    const productNames = images.map((image) => image.product.name).join(", ");
+    return {
+      success: false,
+      error: `L'image est utilisée par le(s) produit(s) ${productNames}`,
+    };
+  }
+
   const deleteParams = {
     Bucket: bucketName,
     Key: key,
@@ -139,9 +167,11 @@ async function deleteObject({
 
   try {
     await s3.send(new DeleteObjectCommand(deleteParams));
-    console.log(`Successfully deleted object: ${key}`);
+    console.log(`Image supprimé`);
+    return { success: true };
   } catch (error) {
     console.error(`Error deleting object: ${key}`, error);
+    return { success: false, error: "Error deleting object" };
   }
 }
 
