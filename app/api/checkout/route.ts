@@ -119,6 +119,9 @@ export async function POST(req: NextRequest) {
       automatic_tax: {
         enabled: true,
       },
+      payment_intent_data: {
+        setup_future_usage: "on_session",
+      },
       customer: session.user.stripeCustomerId,
       customer_update: { name: "never", address: isAdresse ? "never" : "auto" },
       billing_address_collection: isAdresse ? "auto" : "required",
