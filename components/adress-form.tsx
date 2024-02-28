@@ -135,6 +135,7 @@ export const AdressForm = <T extends { adresse: string }>({
                     {suggestions.map((address) => (
                       <CommandItem
                         // value={Object.values(address).join(", ")}
+                        className="cursor-pointer bg-white hover:bg-slate-100"
                         value={query}
                         key={address.label}
                         onSelect={() => {

@@ -80,12 +80,11 @@ async function uploadFile({
         const uniqueName = `${uuidv4()}-${key}`;
         filesValues.push(uniqueName);
 
-        const array = await value.arrayBuffer();
+        const array = Buffer.from(await value.arrayBuffer());
 
         const uploadParams: PutObjectCommandInput = {
           Bucket: bucketName,
           Key: uniqueName,
-          // @ts-ignore
           Body: array,
           ACL: "public-read",
         };

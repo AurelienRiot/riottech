@@ -1,20 +1,15 @@
 "use client";
 import { addDelay } from "@/lib/utils";
 import { _Object } from "@aws-sdk/client-s3";
-import { UploadCloud, X } from "lucide-react";
+import { Loader2, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, listFiles, uploadFile } from "./server";
+import { AnimateHeight } from "../animations/animate-height";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -32,11 +27,13 @@ const UploadImage = ({
   const [files, setFiles] = useState<_Object[]>([]);
   const [displayFiles, setDisplayFiles] = useState<boolean>(false);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const imagesPerPage = 10;
 
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+  const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     if (!event.target.files || event.target.files.length === 0) {
       return;
     }
@@ -46,12 +43,39 @@ const UploadImage = ({
       formData.append(file.name, file);
     });
 
+    await fileChange(formData);
+  };
+
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    const formData = new FormData();
+    Array.from(event.dataTransfer.files).forEach((file) => {
+      if (
+        file.type === "image/png" ||
+        file.type === "image/jpeg" ||
+        file.type === "image/jpg" ||
+        file.type === "image/webp"
+      ) {
+        formData.append(file.name, file);
+      } else {
+        toast.error(
+          `Le format du fichier n'est pas supporté : ${file.name}\nFormats supportés : png, jpeg, jpg, webp`,
+          { duration: 5000 }
+        );
+      }
+    });
+    await fileChange(formData);
+  };
+
+  const fileChange = async (formData: FormData) => {
     const result = await uploadFile({
       bucketName,
       formData,
     });
     if (!result) {
       toast.error("Une erreur est survenue dans l'envoi des fichiers");
+      setLoading(false);
       return;
     }
     await addDelay(1000);
@@ -59,6 +83,7 @@ const UploadImage = ({
     const updatedFiles = await listFiles(bucketName);
     if (!updatedFiles) {
       toast.error("Une erreur est survenue dans la récuperation des fichiers");
+      setLoading(false);
       return;
     }
 
@@ -68,6 +93,7 @@ const UploadImage = ({
     } else {
       setSelectedFiles([result[0]]);
     }
+    setLoading(false);
   };
 
   const onDelete = async (key: string | undefined) => {
@@ -102,9 +128,28 @@ const UploadImage = ({
 
   return (
     <div className="flex flex-col justify-left gap-4 p-4">
-      <div className="flex gap-4 justify-left items-center">
-        <label className="relative w-fit flex flex-col items-center justify-center px-4  py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 transition-colors ">
-          <div className=" text-center">
+      <div
+        className="flex gap-4 justify-left items-center"
+        onDrop={handleDrop}
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <label
+          className="relative w-fit flex flex-col items-center justify-center px-4  py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 transition-colors 
+         "
+        >
+          <div
+            data-state={loading}
+            className="hidden data-[state=true]:block absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 "
+          >
+            <Loader2 className="animate-spin" />
+          </div>
+
+          <div
+            data-state={loading}
+            className=" text-center data-[state=true]:blur-md"
+          >
             <div className=" border p-2 rounded-md max-w-min mx-auto bg-foreground">
               <UploadCloud size={20} className="text-primary-foreground" />
             </div>
@@ -116,10 +161,10 @@ const UploadImage = ({
             </p>
           </div>
           <Input
-            accept="image/png, image/jpeg, image/jpg, image/webp, image/svg"
+            accept="image/png, image/jpeg, image/jpg, image/webp"
             type="file"
             className="hidden"
-            onChange={handleFileChange}
+            onChange={handleFile}
             multiple={multipleImages}
           />
         </label>
@@ -144,7 +189,7 @@ const UploadImage = ({
       </div>
 
       {selectedFiles.length !== 0 && (
-        <div key={selectedFiles.join("")}>
+        <div>
           <h1 className="text-primary">
             {" "}
             {multipleImages ? "Images selectionnées" : "Image selectionnée"}
@@ -181,16 +226,16 @@ const UploadImage = ({
           }}
           checked={displayFiles}
         />
-        {files.length > 0 && displayFiles && (
-          <>
+        {files.length > 0 && (
+          <AnimateHeight display={displayFiles} className="space-y-4 ">
             <Input
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher"
-              className="w-fit"
+              className="w-fit "
             />
             <div
               className="flex flex-row flex-wrap p-2 gap-4 max-w-[1000px]
-            whitespace-nowrap"
+            whitespace-nowrap "
             >
               {files
                 .filter(
@@ -248,7 +293,7 @@ const UploadImage = ({
                   </div>
                 ))}
             </div>
-            <div className="flex items-center justify-start space-x-2 py-4">
+            <div className="flex items-center justify-start space-x-2 ">
               <Button
                 variant="outline"
                 size="sm"
@@ -275,7 +320,7 @@ const UploadImage = ({
                 Suivant
               </Button>
             </div>
-          </>
+          </AnimateHeight>
         )}
       </div>
     </div>

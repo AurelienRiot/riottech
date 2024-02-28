@@ -27,6 +27,11 @@ import * as z from "zod";
 import Spinner from "@/components/animations/spinner";
 import { AdressForm } from "@/components/adress-form";
 import { TVAForm } from "@/components/tva-form";
+import {
+  AnimateHeight,
+  AnimateHeightInner,
+  AnimateHeightOuter,
+} from "@/components/animations/animate-height";
 
 const formSchema = z
   .object({
@@ -181,7 +186,10 @@ export const RegisterForm = () => {
           onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
           className="w-full space-y-12 sm:w-[400px]"
         >
-          <div className="mt-6 flex justify-between">
+          <div
+            data-state={isPro}
+            className="mt-6 flex justify-between data-[state=false]:-mb-12 transition-all duration-500"
+          >
             <Button
               onClick={(e) => {
                 e.preventDefault();
@@ -211,41 +219,35 @@ export const RegisterForm = () => {
               Professionnel
             </Button>
           </div>
-          {isPro && (
-            <>
-              <div className="grid w-full  items-center gap-1.5">
-                <TVAForm
-                  form={form}
-                  loading={loading}
-                  setLoading={setLoading}
-                  selectedAddress={selectedAddress}
-                  setSelectedAddress={setSelectedAddress}
-                />
-              </div>
-              <div className="grid w-full  items-center gap-1.5">
-                <FormField
-                  control={form.control}
-                  name="raisonSocial"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Raison Social</FormLabel>
-                      <FormControl>
-                        <div className="flex items-start gap-x-4">
-                          <Input
-                            disabled={loading}
-                            placeholder="Entreprise"
-                            {...field}
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </>
-          )}
-          <div className="grid w-full  items-center gap-1.5">
+          <AnimateHeight display={isPro} className="p-1">
+            <TVAForm
+              form={form}
+              loading={loading}
+              setLoading={setLoading}
+              selectedAddress={selectedAddress}
+              setSelectedAddress={setSelectedAddress}
+            />
+            <FormField
+              control={form.control}
+              name="raisonSocial"
+              render={({ field }) => (
+                <FormItem className="mt-12">
+                  <FormLabel>Raison Social</FormLabel>
+                  <FormControl>
+                    <div className="flex items-start gap-x-4">
+                      <Input
+                        disabled={loading}
+                        placeholder="Entreprise"
+                        {...field}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </AnimateHeight>
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="name"
@@ -270,7 +272,7 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="surname"
@@ -295,7 +297,7 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="email"
@@ -322,7 +324,7 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="phone"
@@ -344,14 +346,14 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <AdressForm
               form={form}
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="password"
@@ -384,7 +386,7 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -417,7 +419,12 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <Button type="submit" disabled={loading} className="w-full" size="lg">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full p-1"
+            size="lg"
+          >
             {loading ? <Spinner size={20} /> : "Créer le compte"}
           </Button>
         </form>
