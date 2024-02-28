@@ -4,9 +4,9 @@ import AddressAutocomplete, {
 } from "@/actions/adress-autocompleteFR";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
 import { Path, PathValue, useForm } from "react-hook-form";
+import { AnimateHeight } from "./animations/animate-height";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -15,6 +15,7 @@ import {
   CommandInput,
   CommandItem,
 } from "./ui/command";
+import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
 import {
   FormControl,
   FormField,
@@ -26,8 +27,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
-import { AnimateHeight } from "./animations/animate-height";
 
 export type FullAdress = {
   label: string;

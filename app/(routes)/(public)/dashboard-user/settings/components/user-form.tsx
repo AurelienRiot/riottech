@@ -29,6 +29,8 @@ import { addDelay } from "@/lib/utils";
 import Spinner from "@/components/animations/spinner";
 import { AdressForm, FullAdress } from "@/components/adress-form";
 import { TVAForm } from "@/components/tva-form";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 interface UserFormProps {
   initialData: User;
@@ -37,14 +39,9 @@ interface UserFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   surname: z.string().min(1),
-  phone: z
-    .string()
-    .refine((value) => value === "" || value.length <= 20, {
-      message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
-    })
-    .refine((value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value), {
-      message: "Le numéro de téléphone n'est pas valide",
-    }),
+  phone: z.string().refine(isValidPhoneNumber, {
+    message: "Le numéro de téléphone n'est pas valide",
+  }),
   adresse: z.string().min(0),
   tva: z.string().min(0),
   raisonSocial: z.string().min(0),
@@ -252,10 +249,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Numeros de téléphone</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      disabled={loading}
-                      placeholder="06 00 00 00"
+                    <PhoneInput
+                      placeholder="Entrer un numéro de téléphone"
                       {...field}
                     />
                   </FormControl>

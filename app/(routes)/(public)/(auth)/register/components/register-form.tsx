@@ -32,6 +32,8 @@ import {
   AnimateHeightInner,
   AnimateHeightOuter,
 } from "@/components/animations/animate-height";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 const formSchema = z
   .object({
@@ -62,8 +64,8 @@ const formSchema = z
     }),
     phone: z
       .string()
-      .refine((value) => value === "" || value.length <= 20, {
-        message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
+      .refine(isValidPhoneNumber, {
+        message: "Le numéro de téléphone n'est pas valide",
       })
       .refine(
         (value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value),
@@ -131,13 +133,14 @@ export const RegisterForm = () => {
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
-      const res = await CreatUser(data);
-      toast.success("Compte crée");
-      signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        callbackUrl,
-      });
+      // const res = await CreatUser(data);
+      // toast.success("Compte crée");
+      // signIn("credentials", {
+      //   email: data.email,
+      //   password: data.password,
+      //   callbackUrl,
+      // });
+      console.log(data);
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.data && axiosError.response.status === 400) {
@@ -333,11 +336,15 @@ export const RegisterForm = () => {
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
+                      {/* <Input
                         disabled={loading}
                         placeholder="06 23 39 94 39"
                         {...field}
                         autoComplete="tel"
+                      /> */}
+                      <PhoneInput
+                        placeholder="Entrer un numéro de téléphone"
+                        {...field}
                       />
                     </div>
                   </FormControl>

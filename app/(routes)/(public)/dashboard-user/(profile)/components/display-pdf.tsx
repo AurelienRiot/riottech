@@ -9,7 +9,7 @@ export const DisplayPdf = ({
   pdfUrl: string;
 }) => {
   return (
-    <div className="flex flex-row gap-1">
+    <span className="flex flex-row gap-1">
       {" "}
       {avalaible ? (
         <>
@@ -31,6 +31,6 @@ export const DisplayPdf = ({
       ) : (
         "Non disponible"
       )}
-    </div>
+    </span>
   );
 };

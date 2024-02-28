@@ -1,11 +1,10 @@
 "use client";
 
-import AddressAutocomplete from "@/actions/adress-autocompleteFR";
 import GetValideVat from "@/actions/get-valide-vat";
 import { AdressForm, FullAdress } from "@/components/adress-form";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { TVAForm } from "@/components/tva-form";
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
 import {
   Form,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
@@ -26,6 +26,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 
 interface UserFormProps {
@@ -35,14 +36,9 @@ interface UserFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   surname: z.string().min(1),
-  phone: z
-    .string()
-    .refine((value) => value === "" || value.length <= 20, {
-      message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
-    })
-    .refine((value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value), {
-      message: "Le numéro de téléphone n'est pas valide",
-    }),
+  phone: z.string().refine(isValidPhoneNumber, {
+    message: "Le numéro de téléphone n'est pas valide",
+  }),
   adresse: z.string().min(0),
   tva: z.string().min(0),
   raisonSocial: z.string().min(0),
@@ -245,10 +241,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Numeros de téléphone</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      disabled={loading}
-                      placeholder="06 00 00 00"
+                    <PhoneInput
+                      placeholder="Entrer un numéro de téléphone"
                       {...field}
                     />
                   </FormControl>
@@ -291,9 +285,9 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               </>
             )}
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
       <ButtonBackward />
