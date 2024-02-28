@@ -26,6 +26,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
+import { AnimateHeight } from "./animations/animate-height";
 
 export type FullAdress = {
   label: string;
@@ -64,7 +66,7 @@ export const AdressForm = <T extends { adresse: string }>({
   };
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-4 -mb-8", className)}>
       <FormField
         control={form.control}
         name={"adresse" as Path<T>}
@@ -93,14 +95,14 @@ export const AdressForm = <T extends { adresse: string }>({
                     />
                     <p>France</p>
                   </div>
-                  {filter && (
+                  <AnimateHeight display={filter}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         role="combobox"
                         onClick={() => setOpen((open) => !open)}
                         className={cn(
-                          " justify-between active:scale-100",
+                          " justify-between active:scale-100 ",
                           field.value && "text-muted-foreground font-normal "
                         )}
                       >
@@ -108,7 +110,7 @@ export const AdressForm = <T extends { adresse: string }>({
                         <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
-                  )}
+                  </AnimateHeight>
                 </div>
               </FormControl>
               <PopoverContent className="w-fit p-0" side="bottom" align="start">
@@ -143,8 +145,8 @@ export const AdressForm = <T extends { adresse: string }>({
                             "adresse" as Path<T>,
                             address.label as PathValue<T, Path<T>>
                           );
-                          setSelectedAddress((selectedAddress) => ({
-                            ...selectedAddress,
+                          setSelectedAddress((prev) => ({
+                            ...prev,
                             label: address.label,
                             city: address.city,
                             country: address.country,
@@ -166,10 +168,9 @@ export const AdressForm = <T extends { adresse: string }>({
           </FormItem>
         )}
       />
-      <div className="flex flex-col gap-1 ">
+      <div className="flex flex-col gap-4">
         <AddressInput
           label="Adresse"
-          placeholder="Adresse"
           addressKey="line1"
           autoComplete="street-address"
           selectedAddress={selectedAddress}
@@ -178,7 +179,6 @@ export const AdressForm = <T extends { adresse: string }>({
         <AddressInput
           label="Complément d'adresse"
           addressKey="line2"
-          placeholder="App., bureau, local, etc. (facultatif)"
           selectedAddress={selectedAddress}
           setSelectedAddress={setSelectedAddress}
         />
@@ -204,15 +204,16 @@ export const AdressForm = <T extends { adresse: string }>({
           setSelectedAddress={setSelectedAddress}
         />
 
-        {!filter && (
-          <AddressInput
+        <AnimateHeight display={!filter} className="py-2 -mt-2 ">
+          <AddressInputCountry
+            filter={filter}
             label="Pays"
             addressKey="country"
             autoComplete="country"
             selectedAddress={selectedAddress}
             setSelectedAddress={setSelectedAddress}
           />
-        )}
+        </AnimateHeight>
       </div>
     </div>
   );
@@ -233,47 +234,76 @@ const AddressInput = ({
   ...props
 }: AddressInputProps) => {
   return (
-    <span className="flex flex-col  gap-1 justify-left w-fit">
-      <span className="inline text-sm min-w-max">
-        {addressKey === "country" ? (
-          <Tooltip>
-            <TooltipTrigger asChild className="hover:underline group ">
-              <Link
-                href={"https://fr.wikipedia.org/wiki/ISO_3166-1_alpha-2"}
-                target="_blank"
-              >
-                {label}
-                <sup className="text-xs text-blue-500 group-hover:no-underline ">
-                  ?
-                </sup>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Code de pays à deux lettres</p>
-            </TooltipContent>
-          </Tooltip>
-        ) : (
-          label
-        )}
-        {" :"}
-      </span>
-
-      <input
-        className="border h-6 px-2 py-1 rounded-md text-sm inline "
+    <div className="relative p-2">
+      <FloatingInput
+        {...props}
+        id={addressKey}
         type="text"
         value={selectedAddress[addressKey]}
         onChange={(e) => {
-          setSelectedAddress((selectedAddress) => ({
-            ...selectedAddress,
+          setSelectedAddress((prev) => ({
+            ...prev,
             [addressKey]: e.target.value,
           }));
         }}
-        {...props}
       />
-    </span>
+      <FloatingLabel htmlFor={addressKey}>{label}</FloatingLabel>
+    </div>
   );
 };
 
+const AddressInputCountry = ({
+  label,
+  addressKey,
+  selectedAddress,
+  setSelectedAddress,
+  filter,
+  ...props
+}: AddressInputProps & { filter: boolean }) => {
+  return (
+    <div className="relative p-2">
+      <FloatingInput
+        {...props}
+        id="country"
+        type="text"
+        value={filter ? "" : selectedAddress["country"]}
+        onChange={(e) => {
+          setSelectedAddress((prev) => ({
+            ...prev,
+            country: e.target.value,
+          }));
+        }}
+      />
+      <Tooltip>
+        <TooltipTrigger
+          asChild
+          data-state={filter}
+          className=" group 
+            absolute start-2 top-2 z-10 origin-[0] 
+             -translate-y-4 scale-75 transform bg-background px-2 text-sm text-primary duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 font-medium"
+        >
+          <label htmlFor="country">
+            Pays
+            <sup
+              className="text-xs text-blue-500 cursor-pointer "
+              onClick={() =>
+                window.open(
+                  "https://fr.wikipedia.org/wiki/ISO_3166-1_alpha-2",
+                  "_blank"
+                )
+              }
+            >
+              ?
+            </sup>
+          </label>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Code de pays à deux lettres</p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  );
+};
 const SkeletonAdressInput = ({ label }: { label: string }) => {
   return (
     <span className="flex  gap-1 items-center justify-left w-full">
