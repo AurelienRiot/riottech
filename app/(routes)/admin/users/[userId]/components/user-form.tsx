@@ -276,6 +276,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                           type="text"
                           disabled={loading}
                           placeholder="Raison sociale"
+                          autoComplete="tel"
                           {...field}
                         />
                       </FormControl>

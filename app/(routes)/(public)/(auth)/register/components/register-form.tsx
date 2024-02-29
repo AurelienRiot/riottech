@@ -336,15 +336,10 @@ export const RegisterForm = () => {
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      {/* <Input
-                        disabled={loading}
-                        placeholder="06 23 39 94 39"
-                        {...field}
-                        autoComplete="tel"
-                      /> */}
                       <PhoneInput
                         placeholder="Entrer un numéro de téléphone"
                         defaultCountry="FR"
+                        autoComplete="tel"
                         {...field}
                       />
                     </div>

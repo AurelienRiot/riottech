@@ -8,9 +8,12 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -32,14 +36,9 @@ const formSchema = z.object({
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "L'email ne peut pas être vide" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
-  phone: z
-    .string()
-    .refine((value) => value === "" || value.length <= 20, {
-      message: "Le numéro de téléphone ne peut pas dépasser 20 caractères",
-    })
-    .refine((value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value), {
-      message: "Le numéro de téléphone n'est pas valide",
-    }),
+  phone: z.string().refine(isValidPhoneNumber, {
+    message: "Le numéro de téléphone n'est pas valide",
+  }),
   subject: z
     .string()
     .min(1, { message: "Le sujet ne peut pas être vide" })
@@ -115,12 +114,12 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               name="name"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>{"Nom/Prénom ou nom d'entreprise :"}</FormLabel>
                   <FormControl>
-                    <FloatingLabelInput
-                      {...field}
-                      id="name"
+                    <Input
                       disabled={loading}
-                      label="Nom/Prénom ou nom d'entreprise"
+                      placeholder="Nom"
+                      {...field}
                       autoComplete="name"
                     />
                   </FormControl>
@@ -133,14 +132,16 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               name="mail"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <FloatingLabelInput
-                      {...field}
-                      id="email"
-                      disabled={loading}
-                      label="Email"
-                      autoComplete="email"
-                    />
+                    <div className="flex items-start gap-x-4">
+                      <Input
+                        disabled={loading}
+                        placeholder="exemple@mail.com"
+                        {...field}
+                        autoComplete="email"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -151,13 +152,13 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Numeros de téléphone</FormLabel>
                   <FormControl>
-                    <FloatingLabelInput
-                      {...field}
-                      id="phone"
-                      disabled={loading}
-                      label="Téléphone"
+                    <PhoneInput
+                      placeholder="Entrer un numéro de téléphone"
+                      defaultCountry="FR"
                       autoComplete="tel"
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
@@ -169,13 +170,15 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               name="subject"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Sujet</FormLabel>
                   <FormControl>
-                    <FloatingLabelInput
-                      {...field}
-                      id="subject"
-                      disabled={loading}
-                      label="Sujet"
-                    />
+                    <div className="flex items-start gap-x-4">
+                      <Input
+                        disabled={loading}
+                        placeholder="Renseignement"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,13 +189,15 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               name="message"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Message</FormLabel>
                   <FormControl>
-                    <TextArea
-                      disabled={loading}
-                      placeholder="Message"
-                      {...field}
-                      className="placeholder:text-primary placeholder:font-medium"
-                    />
+                    <div className="flex items-start gap-x-4">
+                      <TextArea
+                        disabled={loading}
+                        placeholder="..."
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
