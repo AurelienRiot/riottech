@@ -243,6 +243,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                   <FormControl>
                     <PhoneInput
                       placeholder="Entrer un numéro de téléphone"
+                      defaultCountry="FR"
                       {...field}
                     />
                   </FormControl>

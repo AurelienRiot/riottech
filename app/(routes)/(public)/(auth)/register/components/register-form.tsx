@@ -344,6 +344,7 @@ export const RegisterForm = () => {
                       /> */}
                       <PhoneInput
                         placeholder="Entrer un numéro de téléphone"
+                        defaultCountry="FR"
                         {...field}
                       />
                     </div>
