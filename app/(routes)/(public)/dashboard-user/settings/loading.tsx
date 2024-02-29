@@ -65,7 +65,7 @@ const SettingsLoading = () => {
                 <Input disabled={true} type="text" placeholder={"Prénom"} />
               </div>
               <div className="space-y-2">
-                <div>Numeros de téléphone</div>
+                <div>Numéro de téléphone</div>
 
                 <Input
                   disabled={true}

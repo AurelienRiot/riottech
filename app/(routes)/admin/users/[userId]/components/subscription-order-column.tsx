@@ -33,7 +33,7 @@ export const columns: ColumnDef<SubscriptionOrderColumn>[] = [
   },
   {
     accessorKey: "sim",
-    header: "Numeros de SIM",
+    header: "Numéro de SIM",
   },
   {
     accessorKey: "totalPrice",

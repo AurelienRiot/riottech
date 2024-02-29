@@ -29,7 +29,7 @@ export type FullAdress = {
   state: string;
 };
 
-type TVAFormProps<T extends {}> = {
+type TVAFormProps<T extends { tva: string; raisonSocial: string }> = {
   form: UseFormReturn<T, any, T>;
   loading: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -77,7 +77,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
         name={"tva" as Path<T>}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Numeros de TVA</FormLabel>
+            <FormLabel>Numéro de TVA</FormLabel>
             <div className="flex space-x-2">
               <FormControl>
                 <Input
