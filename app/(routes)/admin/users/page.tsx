@@ -175,23 +175,20 @@ const SeverUserClientLoading = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex justify-center flex-col items-center">
-                <p className="p-2 flex justify-center">
+                <div className="p-2 flex justify-center">
                   <Skeleton className="w-24 h-4 rounded-full" />
-                </p>
-                <p className="p-2 flex justify-center items-center">
+                </div>
+                <div className="p-2 flex justify-center items-center">
                   {`Nombre de commandes : `}{" "}
-                  <Skeleton
-                    className="w-5 h-4 rounded-full
-                  ml-2"
-                  />
-                </p>
-                <p className="p-2 flex justify-center items-center">
+                  <Skeleton className="w-5 h-4 rounded-full ml-2" />
+                </div>
+                <div className="p-2 flex justify-center items-center">
                   {`Nombre d'abonnements : `}
                   <Skeleton
                     className="w-5 h-4 rounded-full
                   ml-2"
                   />
-                </p>
+                </div>
               </CardContent>
               <CardFooter className="flex flex-col justify-between gap-y-3 lg:flex-row lg:gap-x-2">
                 <Button variant="destructive" className="hover:underline">

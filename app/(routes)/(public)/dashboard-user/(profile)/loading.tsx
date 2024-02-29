@@ -12,10 +12,10 @@ const Loading = () => {
       <>
         <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
           <>
-            <h1 className="text-3xl font-bold text-center flex flex-col gap-1">
+            <div className="text-3xl font-bold text-center flex flex-col gap-1">
               <Skeleton className="w-40 h-6 rounded-full" />
               <Skeleton className="w-40 h-6 rounded-full" />
-            </h1>
+            </div>
             <Skeleton className="w-24 h-4 rounded-full" />
           </>
 

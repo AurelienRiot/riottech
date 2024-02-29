@@ -6,7 +6,11 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
 import { Path, PathValue, useForm } from "react-hook-form";
-import { AnimateHeight } from "./animations/animate-height";
+import {
+  AnimateHeight,
+  AnimateHeightInner,
+  AnimateHeightOuter,
+} from "./animations/animate-height";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -101,6 +105,7 @@ export const AdressForm = <T extends { adresse: string }>({
                         variant="outline"
                         role="combobox"
                         onClick={() => setOpen((open) => !open)}
+                        disabled={!filter}
                         className={cn(
                           " justify-between active:scale-100 ",
                           field.value && "text-muted-foreground font-normal "
@@ -204,24 +209,17 @@ export const AdressForm = <T extends { adresse: string }>({
           setSelectedAddress={setSelectedAddress}
         />
 
-        <AnimateHeight display={!filter} className=" ">
-          {/* <AddressInputCountry
-            filter={filter}
-            label="Pays"
-            addressKey="country"
-            autoComplete="country"
-            selectedAddress={selectedAddress}
-            setSelectedAddress={setSelectedAddress}
-          /> */}
+        <AnimateHeight display={!filter}>
           <CountrySelect
             value={country}
             onChange={(value) => {
               setCountry(value);
               setSelectedAddress((prev) => ({ ...prev, country: value }));
             }}
+            disabled={filter}
             options={CountriesList}
             phoneCode={false}
-            className="w-fit rounded-lg mx-2 "
+            className="w-fit rounded-lg mx-2  "
           />
         </AnimateHeight>
       </div>
@@ -316,13 +314,13 @@ const AddressInputCountry = ({
 };
 const SkeletonAdressInput = ({ label }: { label: string }) => {
   return (
-    <span className="flex  gap-1 items-center justify-left w-full">
+    <div className="flex  gap-1 items-center justify-left w-full">
       <span className="inline text-sm min-w-max">{label + " :"}</span>
 
-      <span className="border h-6 px-2 py-1 rounded-md text-sm flex justify-center items-center">
+      <div className="border h-6 px-2 py-1 rounded-md text-sm flex justify-center items-center">
         <Skeleton className="w-20 h-4 rounded-full" />
-      </span>
-    </span>
+      </div>
+    </div>
   );
 };
 

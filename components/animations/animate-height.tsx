@@ -17,6 +17,7 @@ const AnimateHeightOuter = React.forwardRef<HTMLDivElement, AnimateHeightProps>(
         )}
         ref={ref}
         {...props}
+        aria-hidden={!display}
       >
         {children}
       </div>

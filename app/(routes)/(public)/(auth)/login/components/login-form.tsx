@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -39,7 +39,6 @@ type LoginFormValues = z.infer<typeof formSchema>;
 export const LoginForm: React.FC = (): React.ReactNode => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard-user";
 
@@ -52,7 +51,6 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    setLoading(true);
     const authentifier = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -64,7 +62,6 @@ export const LoginForm: React.FC = (): React.ReactNode => {
       router.refresh();
       router.push(callbackUrl);
     }
-    setLoading(false);
   };
 
   return (
@@ -86,7 +83,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                       <Input
                         type="email"
                         autoCapitalize="off"
-                        disabled={loading}
+                        disabled={form.formState.isSubmitting}
                         placeholder="exemple@email.com"
                         {...field}
                         autoComplete="email"
@@ -109,7 +106,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                     <>
                       <div className="flex items-center gap-x-4">
                         <Input
-                          disabled={loading}
+                          disabled={form.formState.isSubmitting}
                           placeholder="*********"
                           {...field}
                           type={showPassword ? "text" : "password"}
@@ -139,9 +136,14 @@ export const LoginForm: React.FC = (): React.ReactNode => {
               )}
             />
           </div>
-          <Button type="submit" disabled={loading} className="w-full" size="lg">
+
+          <LoadingButton
+            disabled={form.formState.isSubmitting}
+            type="submit"
+            className="w-full"
+          >
             Se connecter
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
       <p className="text-center">

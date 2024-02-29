@@ -30,9 +30,9 @@ const SettingsLoading = () => {
             </Button>
           </div>
           <Separator />
-          <p>
+          <div>
             <Skeleton className="w-40 h-6 rounded-full" />{" "}
-          </p>
+          </div>
           <div className="flex mt-6 ">
             <Button
               disabled={true}

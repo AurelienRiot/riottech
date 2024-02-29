@@ -71,23 +71,28 @@ InputComponent.displayName = "InputComponent";
 
 type CountrySelectOption = { label: string; value: RPNInput.Country };
 
-type CountrySelectProps = {
-  disabled?: boolean;
+type CountrySelectProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onChange"
+> & {
   value: RPNInput.Country;
   onChange: (value: RPNInput.Country) => void;
   options: CountrySelectOption[];
   phoneCode?: boolean;
-  className?: string;
+  iconComponent?: React.ElementType;
 };
 
 const CountrySelect = ({
+  iconComponent,
   disabled,
   value,
   onChange,
   options,
   phoneCode = true,
   className,
+  ...props
 }: CountrySelectProps) => {
+  const [isOpen, setIsOpen] = React.useState(false);
   const handleSelect = React.useCallback(
     (country: RPNInput.Country) => {
       onChange(country);
@@ -96,7 +101,7 @@ const CountrySelect = ({
   );
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
           type="button"
@@ -106,6 +111,7 @@ const CountrySelect = ({
             className
           )}
           disabled={disabled}
+          {...props}
         >
           <FlagComponent country={value} countryName={value} />
           <ChevronsUpDown
@@ -128,7 +134,10 @@ const CountrySelect = ({
                   <CommandItem
                     className="gap-2"
                     key={option.value}
-                    onSelect={() => handleSelect(option.value)}
+                    onSelect={() => {
+                      handleSelect(option.value);
+                      setIsOpen(false);
+                    }}
                   >
                     <FlagComponent
                       country={option.value}

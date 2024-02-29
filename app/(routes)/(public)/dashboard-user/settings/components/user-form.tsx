@@ -2,10 +2,9 @@
 
 import GetValideVat from "@/actions/get-valide-vat";
 import { AdressForm, FullAdress } from "@/components/adress-form";
-import Spinner from "@/components/animations/spinner";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { TVAForm } from "@/components/tva-form";
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
 import {
   Form,
@@ -300,9 +299,9 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               setSelectedAddress={setSelectedAddress}
             />
           </div>
-          <Button disabled={loading} className="ml-auto " type="submit">
-            {loading ? <Spinner size={20} /> : action}
-          </Button>
+          <LoadingButton disabled={loading} className="ml-auto " type="submit">
+            {action}
+          </LoadingButton>
         </form>
       </Form>
       <ButtonBackward url="/dashboard-user" className="mt-4" />
