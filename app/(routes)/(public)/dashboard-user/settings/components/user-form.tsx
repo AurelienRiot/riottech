@@ -39,9 +39,14 @@ interface UserFormProps {
 const formSchema = z.object({
   name: z.string().min(1),
   surname: z.string().min(1),
-  phone: z.string().refine(isValidPhoneNumber, {
-    message: "Le numéro de téléphone n'est pas valide",
-  }),
+  phone: z.string().refine(
+    (value) => {
+      return value === "" || isValidPhoneNumber(value);
+    },
+    {
+      message: "Le numéro de téléphone n'est pas valide",
+    }
+  ),
   adresse: z.string().min(0),
   tva: z.string().min(0),
   raisonSocial: z.string().min(0),
@@ -62,7 +67,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       : {
           label: "",
           city: "",
-          country: "fr",
+          country: "FR",
           line1: "",
           line2: "",
           postalCode: "",
@@ -253,6 +258,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                       defaultCountry="FR"
                       placeholder="Entrer un numéro de téléphone"
                       autoComplete="tel"
+                      className="w-full"
                       {...field}
                     />
                   </FormControl>

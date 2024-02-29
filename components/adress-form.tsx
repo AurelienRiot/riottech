@@ -27,6 +27,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { CountriesList, CountrySelect, isCountry } from "./ui/phone-input";
+import * as RPNInput from "react-phone-number-input";
 
 export type FullAdress = {
   label: string;
@@ -55,7 +57,10 @@ export const AdressForm = <T extends { adresse: string }>({
   const [suggestions, setSuggestions] = useState([] as Suggestion[]);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState(
-    selectedAddress.country === "fr" ? true : false
+    selectedAddress.country.toUpperCase() === "FR" ? true : false
+  );
+  const [country, setCountry] = useState<RPNInput.Country>(
+    isCountry(selectedAddress.country) ? selectedAddress.country : "FR"
   );
 
   const setSearchTerm = async (value: string) => {
@@ -80,15 +85,11 @@ export const AdressForm = <T extends { adresse: string }>({
                     <Switch
                       onCheckedChange={() => {
                         setFilter(!filter);
-                        filter
-                          ? setSelectedAddress({
-                              ...selectedAddress,
-                              country: "",
-                            })
-                          : setSelectedAddress({
-                              ...selectedAddress,
-                              country: "fr",
-                            });
+                        setSelectedAddress({
+                          ...selectedAddress,
+                          country: "FR",
+                        });
+                        setCountry("FR");
                       }}
                       checked={filter}
                     />
@@ -203,14 +204,24 @@ export const AdressForm = <T extends { adresse: string }>({
           setSelectedAddress={setSelectedAddress}
         />
 
-        <AnimateHeight display={!filter} className="py-2 -mt-2 ">
-          <AddressInputCountry
+        <AnimateHeight display={!filter} className=" ">
+          {/* <AddressInputCountry
             filter={filter}
             label="Pays"
             addressKey="country"
             autoComplete="country"
             selectedAddress={selectedAddress}
             setSelectedAddress={setSelectedAddress}
+          /> */}
+          <CountrySelect
+            value={country}
+            onChange={(value) => {
+              setCountry(value);
+              setSelectedAddress((prev) => ({ ...prev, country: value }));
+            }}
+            options={CountriesList}
+            phoneCode={false}
+            className="w-fit rounded-lg mx-2 "
           />
         </AnimateHeight>
       </div>

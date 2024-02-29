@@ -36,9 +36,14 @@ const formSchema = z.object({
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "L'email ne peut pas être vide" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
-  phone: z.string().refine(isValidPhoneNumber, {
-    message: "Le numéro de téléphone n'est pas valide",
-  }),
+  phone: z.string().refine(
+    (value) => {
+      return value === "" || isValidPhoneNumber(value);
+    },
+    {
+      message: "Le numéro de téléphone n'est pas valide",
+    }
+  ),
   subject: z
     .string()
     .min(1, { message: "Le sujet ne peut pas être vide" })
@@ -158,6 +163,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                       placeholder="Entrer un numéro de téléphone"
                       defaultCountry="FR"
                       autoComplete="tel"
+                      className="w-full"
                       {...field}
                     />
                   </FormControl>

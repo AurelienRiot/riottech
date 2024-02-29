@@ -45,7 +45,7 @@ const AddressAutocomplete = async (value: string) => {
   const suggestions = features.map((feature: Feature) => ({
     label: feature.properties.label,
     city: feature.properties.city,
-    country: "fr",
+    country: "FR",
     line1: feature.properties.name,
     postal_code: feature.properties.postcode,
     state: feature.properties.context.split(", ").at(-1),

@@ -1,9 +1,11 @@
 "use client";
 
-import AddressAutocomplete from "@/actions/adress-autocompleteFR";
 import CreatUser from "@/actions/create-user";
 import GetValideVat from "@/actions/get-valide-vat";
-import { Button } from "@/components/ui/button";
+import { AdressForm } from "@/components/adress-form";
+import { AnimateHeight } from "@/components/animations/animate-height";
+import { TVAForm } from "@/components/tva-form";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,27 +15,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Eye, EyeOff } from "lucide-react";
-import * as z from "zod";
-import Spinner from "@/components/animations/spinner";
-import { AdressForm } from "@/components/adress-form";
-import { TVAForm } from "@/components/tva-form";
-import {
-  AnimateHeight,
-  AnimateHeightInner,
-  AnimateHeightOuter,
-} from "@/components/animations/animate-height";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import * as z from "zod";
 
 const formSchema = z
   .object({
@@ -62,15 +55,14 @@ const formSchema = z
     surname: z.string().min(1).max(100, {
       message: "Le prénom ne peut pas dépasser 100 caractères",
     }),
-    phone: z
-      .string()
-      .refine(isValidPhoneNumber, {
+    phone: z.string().refine(
+      (value) => {
+        return value === "" || isValidPhoneNumber(value);
+      },
+      {
         message: "Le numéro de téléphone n'est pas valide",
-      })
-      .refine(
-        (value) => value === "" || /^\+?[0-9] ?(\d ?){1,14}$/.test(value),
-        { message: "Le numéro de téléphone n'est pas valide" }
-      ),
+      }
+    ),
     adresse: z.string().min(0).max(100, {
       message: "L'adresse ne peut pas dépasser 100 caractères",
     }),
@@ -98,7 +90,7 @@ export const RegisterForm = () => {
   const [selectedAddress, setSelectedAddress] = useState({
     label: "",
     city: "",
-    country: "fr",
+    country: "FR",
     line1: "",
     line2: "",
     postalCode: "",
@@ -133,14 +125,13 @@ export const RegisterForm = () => {
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
-      // const res = await CreatUser(data);
-      // toast.success("Compte crée");
-      // signIn("credentials", {
-      //   email: data.email,
-      //   password: data.password,
-      //   callbackUrl,
-      // });
-      console.log(data);
+      const res = await CreatUser(data);
+      toast.success("Compte crée");
+      signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl,
+      });
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.data && axiosError.response.status === 400) {
@@ -340,6 +331,7 @@ export const RegisterForm = () => {
                         placeholder="Entrer un numéro de téléphone"
                         defaultCountry="FR"
                         autoComplete="tel"
+                        className="w-full"
                         {...field}
                       />
                     </div>
@@ -422,14 +414,15 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <Button
+
+          <LoadingButton
             type="submit"
             disabled={loading}
             className="w-full p-1"
             size="lg"
           >
-            {loading ? <Spinner size={20} /> : "Créer le compte"}
-          </Button>
+            {"Créer le compte"}
+          </LoadingButton>
         </form>
       </Form>
     </div>
