@@ -1,15 +1,13 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { formatter } from "@/lib/utils";
 import { GetGraphRevenue } from "@/server-actions/get-graph-revenue";
 import { GetSalesCount } from "@/server-actions/get-sales-count";
 import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
 import { GetStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
 import { GetTotalRevenue } from "@/server-actions/get-total-revenue";
-const DynamicOverview = dynamic(() => import("@/components/overview"), {
-  ssr: false,
-});
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
-import { addDelay, formatter } from "@/lib/utils";
 import {
   CalendarSearch,
   CreditCardIcon,
@@ -18,7 +16,9 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+const DynamicOverview = dynamic(() => import("@/components/overview"), {
+  ssr: false,
+});
 
 const DashboardPage: React.FC = () => {
   return (

@@ -1,10 +1,6 @@
 "use client";
 
-import useCart from "@/hooks/use-cart";
-import { ShoppingBag, User2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { ThemeToggle } from "../theme-toggle";
-import { LoginButton } from "../auth/auth-button";
+import CartItem from "@/components/cart-item";
 import {
   Sheet,
   SheetContent,
@@ -13,11 +9,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Link from "next/link";
-import CartItem from "@/components/cart-item";
+import useCart from "@/hooks/use-cart";
 import { AnimatePresence, motion } from "framer-motion";
-import { HiOutlineExternalLink } from "react-icons/hi";
+import { ShoppingBag } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { HiOutlineExternalLink } from "react-icons/hi";
+import { ThemeToggle } from "../theme-toggle";
 import { Button } from "../ui/button";
 
 const NavbarAction = () => {

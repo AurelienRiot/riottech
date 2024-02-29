@@ -1,7 +1,12 @@
 "use client";
 
+import GetValideVat from "@/actions/get-valide-vat";
+import { AdressForm, FullAdress } from "@/components/adress-form";
+import Spinner from "@/components/animations/spinner";
 import { AlertModal } from "@/components/modals/alert-modal-form";
+import { TVAForm } from "@/components/tva-form";
 import { Button } from "@/components/ui/button";
+import ButtonBackward from "@/components/ui/button-backward";
 import {
   Form,
   FormControl,
@@ -11,26 +16,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { Trash } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import * as z from "zod";
-import GetValideVat from "@/actions/get-valide-vat";
-import ButtonBackward from "@/components/ui/button-backward";
-import { signOut } from "next-auth/react";
-import AddressAutocomplete from "@/actions/adress-autocompleteFR";
-import { User } from "@prisma/client";
-import { addDelay } from "@/lib/utils";
-import Spinner from "@/components/animations/spinner";
-import { AdressForm, FullAdress } from "@/components/adress-form";
-import { TVAForm } from "@/components/tva-form";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import * as z from "zod";
 
 interface UserFormProps {
   initialData: User;

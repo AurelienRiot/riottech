@@ -142,7 +142,7 @@ async function deleteObject({
     return { success: false, error: "Unauthorized" };
   }
 
-  const images = await prismadb.image.findMany({
+  const imagesProducts = await prismadb.image.findMany({
     where: {
       url: `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
     },
@@ -151,11 +151,29 @@ async function deleteObject({
     },
   });
 
-  if (images.length > 0) {
-    const productNames = images.map((image) => image.product.name).join(", ");
+  if (imagesProducts.length > 0) {
+    const productNames = imagesProducts
+      .map((image) => image.product.name)
+      .join(", ");
     return {
       success: false,
-      error: `L'image est utilisée par le(s) produit(s) ${productNames}`,
+      error: `L'image est utilisée par le(s) produit(s) : ${productNames}`,
+    };
+  }
+
+  const imagesBillboard = await prismadb.billboard.findMany({
+    where: {
+      imageUrl: `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
+    },
+  });
+
+  if (imagesBillboard.length > 0) {
+    const productNames = imagesBillboard
+      .map((billboard) => billboard.label)
+      .join(", ");
+    return {
+      success: false,
+      error: `L'image est utilisée par le(s) pannneau(s) : ${productNames}`,
     };
   }
 

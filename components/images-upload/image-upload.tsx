@@ -5,7 +5,7 @@ import { Loader2, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Button } from "../ui/button";
+import { Button, LoadingButton } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, listFiles, uploadFile } from "./server";
@@ -168,24 +168,24 @@ const UploadImage = ({
             multiple={multipleImages}
           />
         </label>
-        {/* <Button
+        <LoadingButton
           className=" w-fit "
+          disabled={loading}
           onClick={async (e) => {
             e.preventDefault();
+            setLoading(true);
             const files = await listFiles(bucketName);
+            console.log(bucketName);
             if (!files) {
               return;
             }
-            files.sort(
-              (a, b) =>
-                new Date(b.LastModified ?? 0).getTime() -
-                new Date(a.LastModified ?? 0).getTime()
-            );
+
             setFiles(files);
+            setLoading(false);
           }}
         >
           Rechercher les images
-        </Button> */}
+        </LoadingButton>
       </div>
 
       {selectedFiles.length !== 0 && (
@@ -282,9 +282,11 @@ const UploadImage = ({
                       </div>
                     </div>
                     <button
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault();
-                        onDelete(file.Key);
+                        setLoading(true);
+                        await onDelete(file.Key);
+                        setLoading(false);
                       }}
                       className="bg-red-500 absolute right-0 hover:bg-red-500/90 text-white transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
                     >
