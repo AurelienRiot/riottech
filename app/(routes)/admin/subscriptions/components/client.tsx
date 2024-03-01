@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { SubscriptionColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { ApiList } from "@/components/ui/api-list";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { AnimateWidth } from "@/components/animations/animate-size";
 
 interface SubscriptionClientProps {
   data: SubscriptionColumn[];
@@ -37,6 +40,7 @@ export const SubscriptionClient: React.FC<SubscriptionClientProps> = ({
       <DataTable searchKey="name" columns={columns} initialData={data} />
       <Heading title="API" description="Requete API pour les abonnements" />
       <Separator />
+
       <ApiList entityName="subscriptions" entityIdName="subscriptionId" />
     </>
   );

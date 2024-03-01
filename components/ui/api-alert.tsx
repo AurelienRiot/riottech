@@ -1,8 +1,8 @@
 "use client";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Copy, Server } from "lucide-react";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Copy, Server } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 interface ApiAlertProps {
@@ -36,6 +36,7 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
       <Server className="w-4 h-4" />
       <AlertTitle className="flex items-center gap-x-2">
         {title}
+
         <Badge variant={VariantMap[variant]}>{textMap[variant]}</Badge>
       </AlertTitle>
       <AlertDescription className="flex flex-row items-center mt-4 overflow-x-auto gap-x-4">

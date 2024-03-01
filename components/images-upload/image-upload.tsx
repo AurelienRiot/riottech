@@ -9,7 +9,7 @@ import { Button, LoadingButton } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, listFiles, uploadFile } from "./server";
-import { AnimateHeight } from "../animations/animate-height";
+import { AnimateHeight } from "../animations/animate-size";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -25,7 +25,7 @@ const UploadImage = ({
   multipleImages = false,
 }: UploadImageProps) => {
   const [files, setFiles] = useState<_Object[]>([]);
-  const [displayFiles, setDisplayFiles] = useState<boolean>(false);
+  const [displayFiles, setDisplayFiles] = useState(false);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -226,18 +226,18 @@ const UploadImage = ({
           }}
           checked={displayFiles}
         />
-        {files.length > 0 && (
-          <AnimateHeight display={displayFiles} className="space-y-4 p-1">
-            <Input
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Rechercher"
-              className="w-fit "
-            />
-            <div
-              className="flex flex-row flex-wrap p-2 gap-4 max-w-[1000px]
+        <AnimateHeight display={displayFiles} className="space-y-4 p-1">
+          <Input
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher"
+            className="w-fit "
+          />
+          <div
+            className="flex flex-row flex-wrap p-2 gap-4 max-w-[1000px]
             whitespace-nowrap "
-            >
-              {files
+          >
+            {files.length > 0 ? (
+              files
                 .filter(
                   (file) =>
                     !selectedFiles.includes(file.Key ?? "") &&
@@ -294,40 +294,39 @@ const UploadImage = ({
                       <X size={20} />
                     </button>
                   </div>
-                ))}
-            </div>
-            <div className="flex items-center justify-start space-x-2 ">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setCurrentPage((prev) => prev - 1);
-                }}
-                disabled={currentPage === 1}
-              >
-                Précedent
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setCurrentPage((prev) => prev + 1);
-                }}
-                disabled={
-                  currentPage * imagesPerPage >=
-                  files.length - selectedFiles.length
-                }
-              >
-                Suivant
-              </Button>
-            </div>
-          </AnimateHeight>
-        )}
-        {files.length === 0 && displayFiles && (
-          <Loader2 className="w-4 h-4 animate-spin" />
-        )}
+                ))
+            ) : (
+              <Loader2 className="w-8 h-8 animate-spin m-4" />
+            )}
+          </div>
+          <div className="flex items-center justify-start space-x-2 ">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => prev - 1);
+              }}
+              disabled={currentPage === 1}
+            >
+              Précedent
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage((prev) => prev + 1);
+              }}
+              disabled={
+                currentPage * imagesPerPage >=
+                files.length - selectedFiles.length
+              }
+            >
+              Suivant
+            </Button>
+          </div>
+        </AnimateHeight>
       </div>
     </div>
   );

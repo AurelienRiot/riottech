@@ -3,7 +3,7 @@
 import CreatUser from "@/actions/create-user";
 import GetValideVat from "@/actions/get-valide-vat";
 import { AdressForm } from "@/components/adress-form";
-import { AnimateHeight } from "@/components/animations/animate-height";
+import { AnimateHeight } from "@/components/animations/animate-size";
 import { TVAForm } from "@/components/tva-form";
 import { Button, LoadingButton } from "@/components/ui/button";
 import {

@@ -1,7 +1,14 @@
 import prismadb from "@/lib/prismadb";
 import { SubscriptionClient } from "./components/client";
-import { SubscriptionColumn } from "./components/columns";
-import { formatter } from "@/lib/utils";
+import { Recurrences, SubscriptionColumn } from "./components/columns";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { ChevronRight } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const SubscriptionPage = async () => {
   const subscriptions = await prismadb.subscription.findMany({
@@ -16,16 +23,15 @@ const SubscriptionPage = async () => {
       name: item.name,
       isFeatured: item.isFeatured ? "oui" : "non",
       isArchived: item.isArchived ? "oui" : "non",
-      priceHT: formatter.format(Number(item.priceHT)),
+      priceHT: String(item.priceHT),
       dataCap: String(item.dataCap),
-      recurrence:
-        item.recurrence === "month"
-          ? "Mois"
-          : item.recurrence === "year"
-          ? "An"
-          : item.recurrence === "week"
-          ? "semaine"
-          : "jour",
+      recurrence: (item.recurrence === "month"
+        ? "Mensuel"
+        : item.recurrence === "year"
+        ? "Annuel"
+        : item.recurrence === "week"
+        ? "Hebdomadaire"
+        : "journaliaire") as keyof typeof Recurrences,
       createdAt: item.createdAt,
     })
   );

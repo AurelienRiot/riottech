@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
 import { Path, PathValue, useForm } from "react-hook-form";
 import * as RPNInput from "react-phone-number-input";
-import { AnimateHeight } from "./animations/animate-height";
+import { AnimateHeight } from "./animations/animate-size";
 import { Button } from "./ui/button";
 import {
   Command,
