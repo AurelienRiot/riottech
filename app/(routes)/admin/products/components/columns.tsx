@@ -32,6 +32,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
               src={row.original.image}
               alt=""
               fill
+              sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
               className="object-cover rounded-sm"
             />
           </span>

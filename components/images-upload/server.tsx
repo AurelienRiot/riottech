@@ -12,6 +12,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { checkAdmin } from "../auth/checkAuth";
 import prismadb from "@/lib/prismadb";
+import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
@@ -89,9 +90,14 @@ async function uploadFile({
           ACL: "public-read",
         };
 
-        await s3.send(new PutObjectCommand(uploadParams));
+        const result = await s3.send(new PutObjectCommand(uploadParams));
       }
     });
+
+    const validUrls = filesValues.map(
+      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`
+    );
+    await checkUrls(validUrls);
 
     return filesValues;
 
@@ -191,5 +197,26 @@ async function deleteObject({
     return { success: false, error: "Error deleting object" };
   }
 }
+
+const checkUrls = async (urls: (string | null)[]): Promise<void> => {
+  const invalidUrls = await Promise.all(
+    urls.map(async (url) => {
+      if (!url) {
+        return null;
+      }
+      const isAccessible = await checkIfUrlAccessible(url);
+      return isAccessible ? null : url;
+    })
+  );
+
+  if (invalidUrls.some((url) => url !== null)) {
+    // If there are still invalid URLs, wait for 250ms and check again
+    await addDelay(250);
+    return checkUrls(invalidUrls.filter((url) => url !== null));
+  } else {
+    // All URLs are valid
+    return;
+  }
+};
 
 export { downloadFile, listBuckets, listFiles, uploadFile, deleteObject };

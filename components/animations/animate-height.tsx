@@ -12,7 +12,7 @@ const AnimateHeightOuter = React.forwardRef<HTMLDivElement, AnimateHeightProps>(
       <div
         data-state={display}
         className={cn(
-          "grid grid-rows-[0fr] data-[state=true]:grid-rows-[1fr]   transition-[grid-template-rows] duration-500 ",
+          "group/height grid grid-rows-[0fr] data-[state=true]:grid-rows-[1fr] opacity-0 data-[state=true]:opacity-100 transition-all duration-500 ",
           className
         )}
         ref={ref}
@@ -31,7 +31,14 @@ const AnimateHeightInner = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
   return (
-    <div className={cn("overflow-hidden ", className)} ref={ref} {...props}>
+    <div
+      className={cn(
+        "overflow-hidden group-data-[state=false]/height:p-0 transition-all",
+        className
+      )}
+      ref={ref}
+      {...props}
+    >
       <div>{children}</div>
     </div>
   );

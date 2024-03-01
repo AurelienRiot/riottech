@@ -32,6 +32,7 @@ export type FullAdress = {
 type TVAFormProps<T extends { tva: string; raisonSocial: string }> = {
   form: UseFormReturn<T, any, T>;
   loading: boolean;
+  disabled?: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
   selectedAddress: FullAdress;
   setSelectedAddress: Dispatch<SetStateAction<FullAdress>>;
@@ -40,6 +41,7 @@ type TVAFormProps<T extends { tva: string; raisonSocial: string }> = {
 export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
   form,
   loading,
+  disabled = false,
   setLoading,
   selectedAddress,
   setSelectedAddress,
@@ -82,7 +84,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
               <FormControl>
                 <Input
                   type="text"
-                  disabled={loading}
+                  disabled={loading || disabled}
                   placeholder="FR03132345"
                   {...field}
                 />

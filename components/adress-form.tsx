@@ -6,11 +6,8 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
 import { Path, PathValue, useForm } from "react-hook-form";
-import {
-  AnimateHeight,
-  AnimateHeightInner,
-  AnimateHeightOuter,
-} from "./animations/animate-height";
+import * as RPNInput from "react-phone-number-input";
+import { AnimateHeight } from "./animations/animate-height";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -18,6 +15,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "./ui/command";
 import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
 import {
@@ -27,12 +25,11 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { CountriesList, CountrySelect, isCountry } from "./ui/phone-input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { CountriesList, CountrySelect, isCountry } from "./ui/phone-input";
-import * as RPNInput from "react-phone-number-input";
 
 export type FullAdress = {
   label: string;
@@ -99,7 +96,7 @@ export const AdressForm = <T extends { adresse: string }>({
                     />
                     <p>France</p>
                   </div>
-                  <AnimateHeight display={filter}>
+                  <AnimateHeight display={filter} className="p-1">
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -119,10 +116,10 @@ export const AdressForm = <T extends { adresse: string }>({
                 </div>
               </FormControl>
               <PopoverContent className="w-fit p-0" side="bottom" align="start">
-                <Command>
+                <Command loop>
                   <CommandInput
                     placeholder="Entrer l'adresse..."
-                    className="h-9"
+                    className="h-9 "
                     value={query}
                     onValueChange={(e) => {
                       setSearchTerm(e);
@@ -135,15 +132,15 @@ export const AdressForm = <T extends { adresse: string }>({
                       setOpen(true);
                     }}
                   />
-                  {query.length > 2 && (
-                    <CommandEmpty>Adresse introuvable</CommandEmpty>
-                  )}
-                  <CommandGroup>
-                    {suggestions.map((address) => (
+                  <CommandList>
+                    {query.length > 2 && (
+                      <CommandEmpty>Adresse introuvable</CommandEmpty>
+                    )}
+                    {suggestions.map((address, index) => (
                       <CommandItem
-                        // value={Object.values(address).join(", ")}
-                        className="cursor-pointer bg-white hover:bg-slate-100"
-                        value={query}
+                        className="cursor-pointer
+                          bg-popover  text-popover-foreground"
+                        value={query + " " + index.toString()}
                         key={address.label}
                         onSelect={() => {
                           form.setValue(
@@ -165,7 +162,7 @@ export const AdressForm = <T extends { adresse: string }>({
                         {address.label}
                       </CommandItem>
                     ))}
-                  </CommandGroup>
+                  </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>
@@ -209,7 +206,7 @@ export const AdressForm = <T extends { adresse: string }>({
           setSelectedAddress={setSelectedAddress}
         />
 
-        <AnimateHeight display={!filter}>
+        <AnimateHeight display={!filter} className="p-1">
           <CountrySelect
             value={country}
             onChange={(value) => {
@@ -219,7 +216,7 @@ export const AdressForm = <T extends { adresse: string }>({
             disabled={filter}
             options={CountriesList}
             phoneCode={false}
-            className="w-fit rounded-lg mx-2  "
+            className="w-fit rounded-lg mx-1  "
           />
         </AnimateHeight>
       </div>

@@ -216,6 +216,7 @@ export const RegisterForm = () => {
           <AnimateHeight display={isPro} className="p-1">
             <TVAForm
               form={form}
+              disabled={!isPro}
               loading={loading}
               setLoading={setLoading}
               selectedAddress={selectedAddress}
@@ -230,7 +231,7 @@ export const RegisterForm = () => {
                   <FormControl>
                     <div className="flex items-start gap-x-4">
                       <Input
-                        disabled={loading}
+                        disabled={loading || !isPro}
                         placeholder="Entreprise"
                         {...field}
                       />

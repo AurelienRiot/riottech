@@ -1,5 +1,5 @@
 "use client";
-import { addDelay } from "@/lib/utils";
+import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 import { _Object } from "@aws-sdk/client-s3";
 import { Loader2, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
@@ -78,7 +78,6 @@ const UploadImage = ({
       setLoading(false);
       return;
     }
-    await addDelay(1000);
 
     const updatedFiles = await listFiles(bucketName);
     if (!updatedFiles) {
@@ -168,7 +167,7 @@ const UploadImage = ({
             multiple={multipleImages}
           />
         </label>
-        <LoadingButton
+        {/* <LoadingButton
           className=" w-fit "
           disabled={loading}
           onClick={async (e) => {
@@ -185,7 +184,7 @@ const UploadImage = ({
           }}
         >
           Rechercher les images
-        </LoadingButton>
+        </LoadingButton> */}
       </div>
 
       {selectedFiles.length !== 0 && (
@@ -209,6 +208,7 @@ const UploadImage = ({
                   src={`https://${bucketName}.s3.fr-par.scw.cloud/${key}`}
                   alt=""
                   fill
+                  sizes="(max-width: 768px) 100px, (max-width: 1200px) 100px, 100px"
                   className="object-cover rounded-xl"
                 />
               </li>
@@ -227,7 +227,7 @@ const UploadImage = ({
           checked={displayFiles}
         />
         {files.length > 0 && (
-          <AnimateHeight display={displayFiles} className="space-y-4 ">
+          <AnimateHeight display={displayFiles} className="space-y-4 p-1">
             <Input
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Rechercher"
@@ -250,10 +250,10 @@ const UploadImage = ({
                 .map((file) => (
                   <div
                     key={file.Key}
-                    className="flex justify-left gap-2 rounded-lg overflow-hidden border border-slate-100 group pr-2 hover:border-slate-300 transition-all relative"
+                    className="flex justify-left gap-2 rounded-lg overflow-hidden border border-slate-100  pr-2 hover:border-slate-300 transition-all relative group"
                   >
                     <div
-                      className="flex items-center flex-1 p-2 w-fit cursor-pointer"
+                      className="flex  items-center flex-1 p-2 w-fit cursor-pointer"
                       onClick={(e) => {
                         if (multipleImages) {
                           setSelectedFiles((prev) => [...prev, file.Key ?? ""]);
@@ -267,6 +267,7 @@ const UploadImage = ({
                           src={`https://${bucketName}.s3.fr-par.scw.cloud/${file.Key}`}
                           alt=""
                           fill
+                          sizes="(max-width: 768px) 40px, (max-width: 1200px) 40px, 40px"
                           className="object-cover"
                         />
                       </div>
@@ -288,7 +289,7 @@ const UploadImage = ({
                         await onDelete(file.Key);
                         setLoading(false);
                       }}
-                      className="bg-red-500 absolute right-0 hover:bg-red-500/90 text-white transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90 absolute right-0  transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
                     >
                       <X size={20} />
                     </button>
@@ -323,6 +324,9 @@ const UploadImage = ({
               </Button>
             </div>
           </AnimateHeight>
+        )}
+        {files.length === 0 && displayFiles && (
+          <Loader2 className="w-4 h-4 animate-spin" />
         )}
       </div>
     </div>
