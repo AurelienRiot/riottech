@@ -40,7 +40,7 @@ export function MoreDropdownMenu(props: DropdownMenuProps) {
           }}
         >
           <Icons.superscript className="mr-2 size-5" />
-          Superscript
+          Exposant
           {/* (⌘+,) */}
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -53,7 +53,7 @@ export function MoreDropdownMenu(props: DropdownMenuProps) {
           }}
         >
           <Icons.subscript className="mr-2 size-5" />
-          Subscript
+          Indice
           {/* (⌘+.) */}
         </DropdownMenuItem>
       </DropdownMenuContent>

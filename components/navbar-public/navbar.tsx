@@ -48,7 +48,12 @@ const NavBar = () => {
                     href="/"
                     className="ml-4 hidden items-center transition-all hover:scale-105 sm:flex lg:ml-0 w-12 h-12 relative"
                   >
-                    <Image src="/icone.png" alt="logo" fill />
+                    <Image
+                      src="/icone.png"
+                      alt="logo"
+                      fill
+                      sizes="(max-width: 768px) 50px, (max-width: 1200px) 50px, 50px"
+                    />
                     {/* <p className="text-lg font-bold text-primary sm:text-xl">
                       {" "}
                       RIOT TECH

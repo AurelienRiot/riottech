@@ -13,7 +13,7 @@ export function CommentToolbarButton() {
   if (hidden) return null;
 
   return (
-    <ToolbarButton tooltip="Comment (⌘+⇧+M)" {...props}>
+    <ToolbarButton tooltip="Commentaire (⌘+⇧+M)" {...props}>
       <Icons.commentAdd />
     </ToolbarButton>
   );

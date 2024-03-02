@@ -59,7 +59,7 @@ export function CodeBlockCombobox() {
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search language..." />
+          <CommandInput placeholder="Recherché un language..." />
           <CommandEmpty>No language found.</CommandEmpty>
 
           <CommandList>

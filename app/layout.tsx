@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter  selection:bg-green-300 dark:selection:bg-green-700 relative `}
+        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter   relative `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

@@ -25,21 +25,18 @@ export function FloatingToolbarButtons() {
         <>
           <TurnIntoDropdownMenu />
 
-          <MarkToolbarButton nodeType={MARK_BOLD} tooltip="Bold (⌘+B)">
+          <MarkToolbarButton nodeType={MARK_BOLD} tooltip="Gras (⌘+B)">
             <Icons.bold />
           </MarkToolbarButton>
-          <MarkToolbarButton nodeType={MARK_ITALIC} tooltip="Italic (⌘+I)">
+          <MarkToolbarButton nodeType={MARK_ITALIC} tooltip="Italique (⌘+I)">
             <Icons.italic />
           </MarkToolbarButton>
-          <MarkToolbarButton
-            nodeType={MARK_UNDERLINE}
-            tooltip="Underline (⌘+U)"
-          >
+          <MarkToolbarButton nodeType={MARK_UNDERLINE} tooltip="Souligné (⌘+U)">
             <Icons.underline />
           </MarkToolbarButton>
           <MarkToolbarButton
             nodeType={MARK_STRIKETHROUGH}
-            tooltip="Strikethrough (⌘+⇧+M)"
+            tooltip="Barré (⌘+⇧+X)"
           >
             <Icons.strikethrough />
           </MarkToolbarButton>
@@ -51,7 +48,7 @@ export function FloatingToolbarButtons() {
         </>
       )}
 
-      <CommentToolbarButton />
+      {/* <CommentToolbarButton /> */}
 
       <MoreDropdownMenu />
     </>

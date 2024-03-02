@@ -36,7 +36,6 @@ import {
   unwrapCodeBlock,
 } from "@udecode/plate-code-block";
 import { createComboboxPlugin } from "@udecode/plate-combobox";
-import { createCommentsPlugin, MARK_COMMENT } from "@udecode/plate-comments";
 import {
   createPlugins,
   isBlockAboveEmpty,
@@ -122,14 +121,11 @@ import {
 } from "@udecode/plate-table";
 import { createTrailingBlockPlugin } from "@udecode/plate-trailing-block";
 
-import { autoformatPlugin } from "@/lib/plate/autoformatPlugin";
-import { dragOverCursorPlugin } from "@/lib/plate/dragOverCursorPlugin";
 import { BlockquoteElement } from "@/components/plate-ui/blockquote-element";
 import { CodeBlockElement } from "@/components/plate-ui/code-block-element";
 import { CodeLeaf } from "@/components/plate-ui/code-leaf";
 import { CodeLineElement } from "@/components/plate-ui/code-line-element";
 import { CodeSyntaxLeaf } from "@/components/plate-ui/code-syntax-leaf";
-import { CommentLeaf } from "@/components/plate-ui/comment-leaf";
 import { EmojiCombobox } from "@/components/plate-ui/emoji-combobox";
 import { ExcalidrawElement } from "@/components/plate-ui/excalidraw-element";
 import { HeadingElement } from "@/components/plate-ui/heading-element";
@@ -145,6 +141,7 @@ import { MentionElement } from "@/components/plate-ui/mention-element";
 import { MentionInputElement } from "@/components/plate-ui/mention-input-element";
 import { ParagraphElement } from "@/components/plate-ui/paragraph-element";
 import { withPlaceholders } from "@/components/plate-ui/placeholder";
+import { TabbableElement } from "@/components/plate-ui/tabbable-element";
 import {
   TableCellElement,
   TableCellHeaderElement,
@@ -153,7 +150,8 @@ import { TableElement } from "@/components/plate-ui/table-element";
 import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import { TodoListElement } from "@/components/plate-ui/todo-list-element";
 import { withDraggables } from "@/components/plate-ui/with-draggables";
-import { TabbableElement } from "@/components/plate-ui/tabbable-element";
+import { autoformatPlugin } from "@/lib/plate/autoformatPlugin";
+import { dragOverCursorPlugin } from "@/lib/plate/dragOverCursorPlugin";
 
 const resetBlockTypesCommonRule = {
   types: [ELEMENT_BLOCKQUOTE, ELEMENT_TODO_LI],
@@ -368,7 +366,7 @@ export const plugins = createPlugins(
     dragOverCursorPlugin,
 
     // Collaboration
-    createCommentsPlugin(),
+    // createCommentsPlugin(),
 
     // Deserialization
     createDeserializeDocxPlugin(),
@@ -413,7 +411,7 @@ export const plugins = createPlugins(
         [MARK_SUBSCRIPT]: withProps(PlateLeaf, { as: "sub" }),
         [MARK_SUPERSCRIPT]: withProps(PlateLeaf, { as: "sup" }),
         [MARK_UNDERLINE]: withProps(PlateLeaf, { as: "u" }),
-        [MARK_COMMENT]: CommentLeaf,
+        // [MARK_COMMENT]: CommentLeaf,
       })
     ),
   }

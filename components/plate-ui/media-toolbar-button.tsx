@@ -19,7 +19,7 @@ export const MediaToolbarButton = withRef<
   const { props } = useMediaToolbarButton({ nodeType });
 
   return (
-    <ToolbarButton ref={ref} {...props} {...rest}>
+    <ToolbarButton tooltip="Image" ref={ref} {...props} {...rest}>
       <Icons.image />
     </ToolbarButton>
   );

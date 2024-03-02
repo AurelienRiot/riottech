@@ -22,7 +22,7 @@ export const ListToolbarButton = withRef<
   return (
     <ToolbarButton
       ref={ref}
-      tooltip={nodeType === ELEMENT_UL ? "Bulleted List" : "Numbered List"}
+      tooltip={nodeType === ELEMENT_UL ? "Liste à puces" : "Liste numérotée"}
       {...props}
       {...rest}
     >

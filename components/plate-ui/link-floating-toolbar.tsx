@@ -107,7 +107,7 @@ export function LinkFloatingToolbar({ state }: LinkFloatingToolbarProps) {
         className={buttonVariants({ variant: "ghost", size: "sm" })}
         {...editButtonProps}
       >
-        Edit link
+        Éditer le lien
       </button>
 
       <Separator orientation="vertical" />

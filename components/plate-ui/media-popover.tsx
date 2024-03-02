@@ -64,7 +64,7 @@ export function MediaPopover({ pluginKey, children }: MediaPopoverProps) {
 
               <FloatingMediaPrimitive.UrlInput
                 className={inputVariants({ variant: "ghost", h: "sm" })}
-                placeholder="Paste the embed link..."
+                placeholder="Collez le lien..."
                 options={{
                   pluginKey,
                 }}
@@ -76,7 +76,7 @@ export function MediaPopover({ pluginKey, children }: MediaPopoverProps) {
             <FloatingMediaPrimitive.EditButton
               className={buttonVariants({ variant: "ghost", size: "sm" })}
             >
-              Edit link
+              Éditer le lien
             </FloatingMediaPrimitive.EditButton>
 
             <Separator orientation="vertical" className="my-1" />

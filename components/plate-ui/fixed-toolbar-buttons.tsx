@@ -50,21 +50,24 @@ export function FixedToolbarButtons() {
             </ToolbarGroup>
 
             <ToolbarGroup>
-              <MarkToolbarButton tooltip="Bold (⌘+B)" nodeType={MARK_BOLD}>
+              <MarkToolbarButton tooltip="Gras (⌘+B)" nodeType={MARK_BOLD}>
                 <Icons.bold />
               </MarkToolbarButton>
-              <MarkToolbarButton tooltip="Italic (⌘+I)" nodeType={MARK_ITALIC}>
+              <MarkToolbarButton
+                tooltip="Italique (⌘+I)"
+                nodeType={MARK_ITALIC}
+              >
                 <Icons.italic />
               </MarkToolbarButton>
               <MarkToolbarButton
-                tooltip="Underline (⌘+U)"
+                tooltip="Souligné (⌘+U)"
                 nodeType={MARK_UNDERLINE}
               >
                 <Icons.underline />
               </MarkToolbarButton>
 
               <MarkToolbarButton
-                tooltip="Strikethrough (⌘+⇧+M)"
+                tooltip="Barré (⌘+⇧+X)"
                 nodeType={MARK_STRIKETHROUGH}
               >
                 <Icons.strikethrough />
@@ -75,12 +78,15 @@ export function FixedToolbarButtons() {
             </ToolbarGroup>
 
             <ToolbarGroup>
-              <ColorDropdownMenu nodeType={MARK_COLOR} tooltip="Text Color">
+              <ColorDropdownMenu
+                nodeType={MARK_COLOR}
+                tooltip="Couleur de la police"
+              >
                 <Icons.color className={iconVariants({ variant: "toolbar" })} />
               </ColorDropdownMenu>
               <ColorDropdownMenu
                 nodeType={MARK_BG_COLOR}
-                tooltip="Highlight Color"
+                tooltip="Couleur d'arrière-plan"
               >
                 <Icons.bg className={iconVariants({ variant: "toolbar" })} />
               </ColorDropdownMenu>
@@ -99,7 +105,7 @@ export function FixedToolbarButtons() {
             </ToolbarGroup>
 
             <ToolbarGroup>
-              <LinkToolbarButton />
+              {/* <LinkToolbarButton /> */}
 
               <MediaToolbarButton nodeType={ELEMENT_IMAGE} />
 
@@ -115,7 +121,7 @@ export function FixedToolbarButtons() {
         <div className="grow" />
 
         <ToolbarGroup noSeparator>
-          <CommentToolbarButton />
+          {/* <CommentToolbarButton /> */}
           <ModeDropdownMenu />
         </ToolbarGroup>
       </div>

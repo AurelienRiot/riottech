@@ -32,13 +32,13 @@ export function ModeDropdownMenu(props: DropdownMenuProps) {
     editing: (
       <>
         <Icons.editing className="mr-2 size-5" />
-        <span className="hidden lg:inline">Editing</span>
+        <span className="hidden lg:inline">Édition</span>
       </>
     ),
     viewing: (
       <>
         <Icons.viewing className="mr-2 size-5" />
-        <span className="hidden lg:inline">Viewing</span>
+        <span className="hidden lg:inline">Affichage</span>
       </>
     ),
   };
@@ -48,7 +48,7 @@ export function ModeDropdownMenu(props: DropdownMenuProps) {
       <DropdownMenuTrigger asChild>
         <ToolbarButton
           pressed={openState.open}
-          tooltip="Editing mode"
+          tooltip="Mode d'édition"
           isDropdown
           className="min-w-[auto] lg:min-w-[130px]"
         >

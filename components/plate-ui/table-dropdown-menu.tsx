@@ -42,7 +42,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
   return (
     <DropdownMenu modal={false} {...openState} {...props}>
       <DropdownMenuTrigger asChild>
-        <ToolbarButton pressed={openState.open} tooltip="Table" isDropdown>
+        <ToolbarButton pressed={openState.open} tooltip="Tableau" isDropdown>
           <Icons.table />
         </ToolbarButton>
       </DropdownMenuTrigger>
@@ -54,7 +54,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Icons.table className={iconVariants({ variant: "menuItem" })} />
-            <span>Table</span>
+            <span>Tableau</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem
@@ -65,7 +65,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.add className={iconVariants({ variant: "menuItem" })} />
-              Insert table
+              Inserér un tableau
             </DropdownMenuItem>
             <DropdownMenuItem
               className="min-w-[180px]"
@@ -76,7 +76,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.trash className={iconVariants({ variant: "menuItem" })} />
-              Delete table
+              Supprimer le tableau
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
@@ -84,7 +84,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger disabled={!tableSelected}>
             <Icons.column className={iconVariants({ variant: "menuItem" })} />
-            <span>Column</span>
+            <span>Colonne</span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem
@@ -96,7 +96,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.add className={iconVariants({ variant: "menuItem" })} />
-              Insert column after
+              Inserer une colonne
             </DropdownMenuItem>
             <DropdownMenuItem
               className="min-w-[180px]"
@@ -107,7 +107,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.minus className={iconVariants({ variant: "menuItem" })} />
-              Delete column
+              Supprimer la colonne
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
@@ -115,7 +115,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
         <DropdownMenuSub>
           <DropdownMenuSubTrigger disabled={!tableSelected}>
             <Icons.row className={iconVariants({ variant: "menuItem" })} />
-            <span>Row</span>
+            <span>Rangés </span>
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem
@@ -127,7 +127,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.add className={iconVariants({ variant: "menuItem" })} />
-              Insert row after
+              Insérer une rangée
             </DropdownMenuItem>
             <DropdownMenuItem
               className="min-w-[180px]"
@@ -138,7 +138,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               }}
             >
               <Icons.minus className={iconVariants({ variant: "menuItem" })} />
-              Delete row
+              Supprimer la rangée
             </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>

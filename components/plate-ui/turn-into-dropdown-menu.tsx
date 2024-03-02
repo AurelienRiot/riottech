@@ -31,8 +31,8 @@ import { ToolbarButton } from "./toolbar";
 const items = [
   {
     value: ELEMENT_PARAGRAPH,
-    label: "Paragraph",
-    description: "Paragraph",
+    label: "Paragraphe",
+    description: "Paragraphe",
     icon: Icons.paragraph,
   },
   {
@@ -105,7 +105,7 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
       <DropdownMenuTrigger asChild>
         <ToolbarButton
           pressed={openState.open}
-          tooltip="Turn into"
+          tooltip="Créer"
           isDropdown
           className="lg:min-w-[130px]"
         >
@@ -115,7 +115,7 @@ export function TurnIntoDropdownMenu(props: DropdownMenuProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start" className="min-w-0">
-        <DropdownMenuLabel>Turn into</DropdownMenuLabel>
+        <DropdownMenuLabel>Créer</DropdownMenuLabel>
 
         <DropdownMenuRadioGroup
           className="flex flex-col gap-0.5"
