@@ -1,11 +1,6 @@
 "use client";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-  ForwardRefComponent,
-  HTMLMotionProps,
-  motion,
-  useInView,
-} from "framer-motion";
 
 export type HTMLElements =
   | "div"

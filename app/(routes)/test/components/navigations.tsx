@@ -1,7 +1,7 @@
 "use client";
 import { LoginButton } from "@/components/auth/auth-button";
 import CartItem from "@/components/cart-item";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/icons2";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Collapsible,

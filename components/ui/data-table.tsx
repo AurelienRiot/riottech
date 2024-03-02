@@ -29,10 +29,11 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTriggerUpDown,
   SelectTrigger,
   SelectValue,
 } from "./select";
+import { ChevronsUpDown, UndoIcon } from "lucide-react";
+import { AnimateHeight, AnimateWidth } from "../animations/animate-size";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,6 +49,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [selectValue, setSelectValue] = useState(searchKey);
   const [data, setData] = useState(initialData);
+  const [deleteValue, setDeleteValue] = useState<string | undefined>(undefined);
 
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -87,8 +89,6 @@ export function DataTable<TData, TValue>({
     )
     .map((header) => header.id);
 
-  const removeKeys = ["🚫", ...searchKeys];
-
   const displayKeys = flatHeaders.map((header) =>
     header.id === "priceHT"
       ? "Prix"
@@ -97,14 +97,13 @@ export function DataTable<TData, TValue>({
       : header.column.columnDef.header
   );
 
-  const displayRemovesKeys = ["🚫", ...displayKeys];
-
-  function removeDuplicates(array: any[], key: string) {
-    const seen: { [key: string]: boolean } = {};
-    const result = [];
-    if (key === "🚫") {
+  function removeDuplicates<TData>(array: any[], key: string) {
+    if (key === "🚫" || !key) {
       return array;
     }
+    const result: TData[] = [];
+    const seen: { [key: string]: boolean } = {};
+
     for (const obj of array) {
       if (!(obj[key] in seen)) {
         seen[obj[key]] = true;
@@ -129,13 +128,13 @@ export function DataTable<TData, TValue>({
         />
         <div className="relative inline-flex sm:pl-2 ">
           <Select
-            value={selectValue}
+            defaultValue={searchKey}
             onValueChange={(newValue) => {
               table.getColumn(selectValue)?.setFilterValue("");
               setSelectValue(newValue);
             }}
           >
-            <SelectTrigger className="w-[130px]">
+            <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="Select a value" />
             </SelectTrigger>
             <SelectContent>
@@ -155,9 +154,9 @@ export function DataTable<TData, TValue>({
               table.setPageSize(Number(newPageSize));
             }}
           >
-            <SelectTriggerUpDown className="w-[130px]">
+            <SelectTrigger IconSelect={ChevronsUpDown} className="w-[130px]">
               <SelectValue placeholder="Select a page size" />
-            </SelectTriggerUpDown>
+            </SelectTrigger>
             <SelectContent className="w-[130px]">
               {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={String(pageSize)}>
@@ -169,22 +168,40 @@ export function DataTable<TData, TValue>({
         </div>
         <div className="sm:pl-2">
           <Select
+            value={deleteValue}
+            defaultValue={deleteValue}
             onValueChange={(selectedKey) => {
+              setDeleteValue(selectedKey);
               setData(removeDuplicates(initialData, selectedKey));
             }}
           >
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Supprimer récurence" />
+            <SelectTrigger value={deleteValue} className="w-[200px]">
+              <SelectValue
+                placeholder="Supprimer récurences"
+                className="placeholder-shown:text-red-500"
+              />
             </SelectTrigger>
             <SelectContent>
-              {removeKeys.map((key, index) => (
+              {searchKeys.map((key, index) => (
                 <SelectItem key={key} value={key}>
-                  {String(displayRemovesKeys[index])}
+                  {String(displayKeys[index])}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
+        <AnimateWidth display={!!deleteValue}>
+          <Button
+            variant={"outline"}
+            className="w-full border-dashed"
+            onClick={() => {
+              setData(initialData);
+              setDeleteValue("");
+            }}
+          >
+            reset
+          </Button>
+        </AnimateWidth>
       </div>
 
       <div className="rounded-md border ">
