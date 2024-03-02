@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} font-Inter   relative `}
+        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} min-h-screen bg-background font-Inter antialiased   relative `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

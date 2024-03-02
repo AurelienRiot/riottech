@@ -22,7 +22,7 @@ const ButtonBackward = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          "w-auto rounded-full bg-black border-transparent px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50 text-white font-semibold hover:opacity-75 transition-all ",
+          "w-auto rounded-full  border-transparent px-8 py-3 disabled:cursor-not-allowed disabled:opacity-50 text-primary-foreground font-semibold   animate-shine bg-gradient-to-r from-primary via-primary/75 to-primary   bg-[length:400%_100%] ",
           className
         )}
         onClick={handleClick}

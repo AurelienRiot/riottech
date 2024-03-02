@@ -191,6 +191,10 @@ module.exports = {
             bottom: "-10%",
           },
         },
+        shine: {
+          from: { backgroundPosition: "200% 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -207,6 +211,8 @@ module.exports = {
         "load-bar": "load-bar 1s linear infinite",
 
         blob: "blob 15s linear infinite",
+
+        shine: "shine 10s ease-out infinite",
       },
     },
   },

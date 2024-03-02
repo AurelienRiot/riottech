@@ -175,10 +175,13 @@ export function DataTable<TData, TValue>({
               setData(removeDuplicates(initialData, selectedKey));
             }}
           >
-            <SelectTrigger value={deleteValue} className="w-[200px]">
+            <SelectTrigger value={deleteValue} className="w-[200px] ">
               <SelectValue
-                placeholder="Supprimer récurences"
-                className="placeholder-shown:text-red-500"
+                placeholder={
+                  <span className="text-muted-foreground">
+                    Supprimer récurences
+                  </span>
+                }
               />
             </SelectTrigger>
             <SelectContent>

@@ -149,9 +149,10 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="group"
         >
           Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2 group-active:rotate-180 transition-all duration-100" />
         </Button>
       );
     },
