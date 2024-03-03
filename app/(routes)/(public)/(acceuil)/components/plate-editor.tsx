@@ -18,19 +18,16 @@ import { Button } from "@/components/ui/button";
 import { MENTIONABLES } from "@/lib/plate/mentionables";
 import { plugins } from "@/lib/plate/plate-plugins";
 
-const initialValue = [
-  {
-    id: "1",
-    type: ELEMENT_PARAGRAPH,
-    children: [
-      { text: "Hello", underline: true },
-      { text: ", " },
-      { text: "World", bold: true },
-      { text: "!" },
-    ],
-  },
-];
-0;
+// const initialValue = [
+//   {
+//     type: ELEMENT_PARAGRAPH,
+//     children: [{ text: "Hello World" }],
+//   },
+// ];
+
+const initialValue = JSON.parse(
+  '[{"type":"p","children":[{"text":"Hello World"}]},{"type":"p","children":[{"text":"Hello World"}]}]'
+);
 
 export function PlateEditor() {
   const [value, setValue] = useState(initialValue);
@@ -79,7 +76,10 @@ export function PlateEditor() {
         {/* </CommentsProvider> */}
       </DndProvider>
 
-      <Button className="w-full mt-2" onClick={() => console.log(value)}>
+      <Button
+        className="w-full mt-2"
+        onClick={() => console.log(JSON.stringify(value))}
+      >
         Envoyer
       </Button>
       {/* <Plate value={value} plugins={plugins}>

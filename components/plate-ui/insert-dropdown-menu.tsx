@@ -116,12 +116,6 @@ const items = [
         description: "Vidéo",
         icon: Icons.embed,
       },
-      // {
-      //   value: ELEMENT_EXCALIDRAW,
-      //   label: "Excalidraw",
-      //   description: "Excalidraw",
-      //   icon: Icons.excalidraw,
-      // },
     ],
   },
   // {

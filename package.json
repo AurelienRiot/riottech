@@ -11,7 +11,6 @@
     "email": "email dev --dir components/email -p 3001"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.18",
     "@hookform/resolvers": "3.3.4",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -58,7 +57,6 @@
     "@udecode/plate-cursor": "^30.5.3",
     "@udecode/plate-dnd": "^30.5.3",
     "@udecode/plate-emoji": "^30.7.0",
-    "@udecode/plate-excalidraw": "^30.5.3",
     "@udecode/plate-floating": "^30.5.3",
     "@udecode/plate-font": "^30.5.3",
     "@udecode/plate-heading": "^30.5.3",

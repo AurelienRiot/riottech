@@ -8,6 +8,7 @@ import useCart from "@/hooks/use-cart";
 import { Markdown } from "@/components/markdown";
 import Link from "next/link";
 import { ProductWithCategoryAndImages } from "@/types";
+import { PlateVis } from "./plate-vis";
 
 interface InfoProps {
   data: ProductWithCategoryAndImages;
@@ -53,7 +54,8 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         </Button>
       </div>
 
-      <Markdown className="mt-8 ">{data.productSpecs}</Markdown>
+      {/* <Markdown className="mt-8 ">{data.productSpecs}</Markdown> */}
+      <PlateVis value={data.productSpecs} />
     </div>
   );
 };

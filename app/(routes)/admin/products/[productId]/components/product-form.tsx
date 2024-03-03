@@ -2,7 +2,7 @@
 
 import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -35,6 +35,7 @@ import { toast } from "react-hot-toast";
 import * as z from "zod";
 import { FormattedProduct } from "../page";
 import RenderMarkdown from "./render-markdown";
+import { PlateEditor } from "./plate-editor";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -337,11 +338,25 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             />
           </div>
 
-          <RenderMarkdown loading={loading} form={form} />
+          {/* <RenderMarkdown loading={loading} form={form} /> */}
+          <PlateEditor
+            form={form}
+            loading={loading}
+            initialValue={
+              initialData?.productSpecs
+                ? JSON.parse(initialData?.productSpecs)
+                : [
+                    {
+                      type: "p",
+                      children: [{ text: "Hello World" }],
+                    },
+                  ]
+            }
+          />
 
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </>

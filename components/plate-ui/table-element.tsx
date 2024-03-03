@@ -3,6 +3,7 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { PopoverAnchor } from "@radix-ui/react-popover";
 import { cn, withRef } from "@udecode/cn";
 import {
+  focusEditor,
   isSelectionExpanded,
   PlateElement,
   useEditorRef,
@@ -12,6 +13,10 @@ import {
   withHOC,
 } from "@udecode/plate-common";
 import {
+  deleteColumn,
+  deleteRow,
+  insertTableColumn,
+  insertTableRow,
   mergeTableCells,
   TableProvider,
   TTableElement,
@@ -30,6 +35,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuPortal,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
@@ -55,7 +61,7 @@ export const TableBordersDropdownMenuContent = withRef<
       className={cn("min-w-[220px]")}
       side="right"
       align="start"
-      sideOffset={0}
+      sideOffset={5}
       {...props}
     >
       <DropdownMenuCheckboxItem
@@ -63,28 +69,28 @@ export const TableBordersDropdownMenuContent = withRef<
         onCheckedChange={getOnSelectTableBorder("bottom")}
       >
         <Icons.borderBottom className={iconVariants({ size: "sm" })} />
-        <div>Bottom Border</div>
+        <div>Bordure inférieure</div>
       </DropdownMenuCheckboxItem>
       <DropdownMenuCheckboxItem
         checked={hasTopBorder}
         onCheckedChange={getOnSelectTableBorder("top")}
       >
         <Icons.borderTop className={iconVariants({ size: "sm" })} />
-        <div>Top Border</div>
+        <div>Bordure superieure</div>
       </DropdownMenuCheckboxItem>
       <DropdownMenuCheckboxItem
         checked={hasLeftBorder}
         onCheckedChange={getOnSelectTableBorder("left")}
       >
         <Icons.borderLeft className={iconVariants({ size: "sm" })} />
-        <div>Left Border</div>
+        <div>Bordure gauche</div>
       </DropdownMenuCheckboxItem>
       <DropdownMenuCheckboxItem
         checked={hasRightBorder}
         onCheckedChange={getOnSelectTableBorder("right")}
       >
         <Icons.borderRight className={iconVariants({ size: "sm" })} />
-        <div>Right Border</div>
+        <div>Bordure droite</div>
       </DropdownMenuCheckboxItem>
 
       <Separator />
@@ -94,14 +100,14 @@ export const TableBordersDropdownMenuContent = withRef<
         onCheckedChange={getOnSelectTableBorder("none")}
       >
         <Icons.borderNone className={iconVariants({ size: "sm" })} />
-        <div>No Border</div>
+        <div>Aucune bordure</div>
       </DropdownMenuCheckboxItem>
       <DropdownMenuCheckboxItem
         checked={hasOuterBorders}
         onCheckedChange={getOnSelectTableBorder("outer")}
       >
         <Icons.borderAll className={iconVariants({ size: "sm" })} />
-        <div>Outside Borders</div>
+        <div>Bordure externe</div>
       </DropdownMenuCheckboxItem>
     </DropdownMenuContent>
   );
@@ -156,7 +162,8 @@ export const TableFloatingToolbar = withRef<typeof PopoverContent>(
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" isMenu>
               <Icons.borderAll className="mr-2 size-4" />
-              Borders
+              Bordures
+              <Icons.chevronRight className="ml-auto size-4" />
             </Button>
           </DropdownMenuTrigger>
 
@@ -165,9 +172,91 @@ export const TableFloatingToolbar = withRef<typeof PopoverContent>(
           </DropdownMenuPortal>
         </DropdownMenu>
 
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" isMenu>
+              <Icons.column className={iconVariants({ variant: "menuItem" })} />
+              <span>Colonne</span>
+              <Icons.chevronRight className="ml-auto size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent
+              className="min-w-[220px]"
+              side="right"
+              align="start"
+              sideOffset={5}
+            >
+              <DropdownMenuItem
+                className="min-w-[180px]"
+                onSelect={async () => {
+                  insertTableColumn(editor);
+                  focusEditor(editor);
+                }}
+              >
+                <Icons.add className={iconVariants({ variant: "menuItem" })} />
+                Inserer une colonne
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="min-w-[180px]"
+                onSelect={async () => {
+                  deleteColumn(editor);
+                  focusEditor(editor);
+                }}
+              >
+                <Icons.minus
+                  className={iconVariants({ variant: "menuItem" })}
+                />
+                Supprimer la colonne
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" isMenu>
+              <Icons.row className={iconVariants({ variant: "menuItem" })} />
+              <span>Rangés </span>
+              <Icons.chevronRight className="ml-auto size-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent
+              className="min-w-[220px]"
+              side="right"
+              align="start"
+              sideOffset={5}
+            >
+              <DropdownMenuItem
+                className="min-w-[180px]"
+                onSelect={async () => {
+                  insertTableRow(editor);
+                  focusEditor(editor);
+                }}
+              >
+                <Icons.add className={iconVariants({ variant: "menuItem" })} />
+                Insérer une rangée
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="min-w-[180px]"
+                onSelect={async () => {
+                  deleteRow(editor);
+                  focusEditor(editor);
+                }}
+              >
+                <Icons.minus
+                  className={iconVariants({ variant: "menuItem" })}
+                />
+                Supprimer la rangée
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+
         <Button contentEditable={false} variant="ghost" isMenu {...buttonProps}>
           <Icons.delete className="mr-2 size-4" />
-          Delete
+          Supprimé
         </Button>
       </>
     );
@@ -209,7 +298,7 @@ export const TableElement = withHOC(
             ref={ref}
             asChild
             className={cn(
-              "my-4 ml-px mr-0 table h-px w-full table-fixed border-collapse",
+              "my-4 ml-px mr-0 table h-px w-full min-w-[300px] max-w-[800px]   border-collapse ",
               isSelectingCell && "[&_*::selection]:bg-none",
               className
             )}
@@ -229,7 +318,7 @@ export const TableElement = withHOC(
                 ))}
               </colgroup>
 
-              <tbody className="min-w-full">{children}</tbody>
+              <tbody className="w-full">{children}</tbody>
             </table>
           </PlateElement>
         </div>
