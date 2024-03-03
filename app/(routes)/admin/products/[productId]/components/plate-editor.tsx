@@ -57,7 +57,7 @@ export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
                       ref={containerRef}
                       className={cn(
                         // Block selection
-                        "[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4"
+                        "[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px] [&_.slate-start-area-top]:!h-4 rounded-md border border-input "
                       )}
                     >
                       <FixedToolbar>
@@ -65,7 +65,7 @@ export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
                       </FixedToolbar>
                       <Editor
                         disabled={loading}
-                        className="px-4 rounded-t-none"
+                        className="px-6 rounded-t-none"
                         autoFocus
                         focusRing={false}
                         variant="ghost"

@@ -3,11 +3,13 @@ import { useState } from "react";
 
 const GridCells = ({
   handleCellClick,
+  size = 5,
 }: {
   handleCellClick: (rowIndex: number, colIndex: number) => void;
+  size?: number;
 }) => {
   const [grid, setGrid] = useState(
-    Array.from({ length: 5 }, () => Array.from({ length: 5 }, () => 0))
+    Array.from({ length: size }, () => Array.from({ length: size }, () => 0))
   );
 
   const handleOnMouseOver = (rowIndex: number, colIndex: number) => {
@@ -21,15 +23,18 @@ const GridCells = ({
   };
 
   return (
-    <div className="flex w-[88px] flex-wrap flex-row items-center self-center">
+    <div
+      style={{ width: 16.2 * size }}
+      className="flex  flex-wrap flex-row items-center self-center gap-[0.5px]"
+    >
       {grid.map((row, rowIndex) =>
         row.map((cellValue, colIndex) => (
           <div
             key={`${rowIndex}-${colIndex}`}
-            className={`h-4 w-4 cursor-pointer border-2 m-[0.5px] border-border  ${
+            className={`h-4 w-4 cursor-pointer border-2  border-border rounded-md transition-colors  ${
               cellValue === 1 ? "bg-foreground" : "bg-background"
             }`}
-            onClick={() => handleCellClick(rowIndex, colIndex)}
+            onClick={() => handleCellClick(rowIndex + 1, colIndex + 1)}
             onMouseOver={() => handleOnMouseOver(rowIndex, colIndex)}
           ></div>
         ))

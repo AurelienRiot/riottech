@@ -29,6 +29,7 @@ import {
   useOpenState,
 } from "./dropdown-menu";
 import { ToolbarButton } from "./toolbar";
+import GridCells from "@/app/(routes)/admin/products/[productId]/components/grid-cells";
 
 export function TableDropdownMenu(props: DropdownMenuProps) {
   const tableSelected = useEditorSelector(
@@ -48,24 +49,54 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        align="start"
+        align="center"
         className="flex w-[180px] min-w-0 flex-col gap-0.5"
       >
-        <DropdownMenuSub>
+        <DropdownMenuItem
+          className="min-w-[180px] flex flex-col h-full "
+          onSelect={async () => {
+            insertTable(editor);
+            focusEditor(editor);
+          }}
+        >
+          <div className="flex">
+            <Icons.add className={iconVariants({ variant: "menuItem" })} />
+            Inserér un tableau
+          </div>
+          <GridCells
+            handleCellClick={(rowIndex: number, colIndex: number) => {
+              insertTable(editor, {
+                rowCount: rowIndex,
+                colCount: colIndex,
+              });
+            }}
+          />
+        </DropdownMenuItem>
+        {/* <DropdownMenuSub>
           <DropdownMenuSubTrigger>
             <Icons.table className={iconVariants({ variant: "menuItem" })} />
             <span>Tableau</span>
           </DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
+          <DropdownMenuSubContent sideOffset={-180} alignOffset={30}>
             <DropdownMenuItem
-              className="min-w-[180px]"
+              className="min-w-[180px] flex flex-col h-full"
               onSelect={async () => {
                 insertTable(editor);
                 focusEditor(editor);
               }}
             >
-              <Icons.add className={iconVariants({ variant: "menuItem" })} />
-              Inserér un tableau
+              <div className="flex">
+                <Icons.add className={iconVariants({ variant: "menuItem" })} />
+                Inserér un tableau
+              </div>
+              <GridCells
+                handleCellClick={(rowIndex: number, colIndex: number) => {
+                  insertTable(editor, {
+                    rowCount: rowIndex,
+                    colCount: colIndex,
+                  });
+                }}
+              />
             </DropdownMenuItem>
             <DropdownMenuItem
               className="min-w-[180px]"
@@ -141,7 +172,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
               Supprimer la rangée
             </DropdownMenuItem>
           </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        </DropdownMenuSub> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
