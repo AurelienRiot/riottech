@@ -49,7 +49,7 @@ export const MediaEmbedElement = withHOC(
               align={align}
               options={{
                 align,
-                maxWidth: isTweet ? 550 : "100%",
+                maxWidth: isTweet ? 550 : "90%",
                 minWidth: isTweet ? 300 : 100,
               }}
             >
