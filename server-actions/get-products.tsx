@@ -22,7 +22,11 @@ const GetProducts = async (
       isArchived: false,
     },
     include: {
-      images: true,
+      images: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
       category: true,
     },
     orderBy: {

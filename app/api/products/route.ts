@@ -67,15 +67,19 @@ export async function POST(req: Request) {
         productSpecs,
         isFeatured,
         isArchived,
-        images: {
-          createMany: {
-            data: [...images.map((image: { url: string }) => image)],
-          },
-        },
       },
     });
 
-    return NextResponse.json(product);
+    for (const image of images) {
+      await prismadb.image.create({
+        data: {
+          url: image.url,
+          productId: product.id,
+        },
+      });
+    }
+
+    return NextResponse.json("product created");
   } catch (error) {
     console.log("[PRODUCTS_POST]", error);
     return new NextResponse("Internal error", { status: 500 });

@@ -87,7 +87,7 @@ export async function PATCH(
       });
     }
 
-    await prismadb.product.update({
+    const product = await prismadb.product.update({
       where: {
         id: params.productId,
       },
@@ -106,20 +106,16 @@ export async function PATCH(
       },
     });
 
-    const product = await prismadb.product.update({
-      where: {
-        id: params.productId,
-      },
-      data: {
-        images: {
-          createMany: {
-            data: [...images.map((image: { url: string }) => image)],
-          },
+    for (const image of images) {
+      await prismadb.image.create({
+        data: {
+          url: image.url,
+          productId: product.id,
         },
-      },
-    });
+      });
+    }
 
-    return NextResponse.json(product);
+    return NextResponse.json("product updated");
   } catch (error) {
     console.log("[PRODUCT_PATCH]", error);
     return new NextResponse("Internal error", { status: 500 });
@@ -149,7 +145,7 @@ export async function DELETE(
       },
     });
 
-    return NextResponse.json(product);
+    return NextResponse.json("product deleted");
   } catch (error) {
     console.log("[PRODUCT_DELETE]", error);
     return new NextResponse("Internal error", { status: 500 });

@@ -6,7 +6,11 @@ const GetProduct = async (id: string) => {
       id,
     },
     include: {
-      images: true,
+      images: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
       category: true,
     },
   });

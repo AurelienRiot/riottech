@@ -65,7 +65,7 @@ export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
                       </FixedToolbar>
                       <Editor
                         disabled={loading}
-                        className="px-[96px] py-16 rounded-t-none "
+                        className="px-[96px] py-16 rounded-t-none shadow-inner bg-primary-foreground bg-clip-content"
                         autoFocus
                         focusRing={false}
                         variant="ghost"

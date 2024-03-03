@@ -32,7 +32,7 @@ const HomePage = async () => {
 
             <Reseau4GPage />
           </div>
-          <PlateEditor />
+          {/* <PlateEditor /> */}
         </>
       </Container>
     </>

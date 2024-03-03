@@ -7,7 +7,11 @@ const ProductPage = async () => {
   const products = await prismadb.product.findMany({
     include: {
       category: true,
-      images: true,
+      images: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",

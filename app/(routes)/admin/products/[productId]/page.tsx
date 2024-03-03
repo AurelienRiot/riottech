@@ -14,27 +14,31 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
       id: params.productId,
     },
     include: {
-      images: true,
+      images: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
     },
   });
 
   const categories = await prismadb.category.findMany();
 
-  const accessibleImages = await Promise.all(
-    (product?.images || []).filter(Boolean).map(async (image) => {
-      const check = await checkIfUrlAccessible(image.url);
-      if (check) {
-        return image;
-      }
-    })
-  );
+  // const accessibleImages = await Promise.all(
+  //   (product?.images || []).filter(Boolean).map(async (image) => {
+  //     const check = await checkIfUrlAccessible(image.url);
+  //     if (check) {
+  //       return image;
+  //     }
+  //   })
+  // );
   const formattedProduct: (FormattedProduct & { images: Image[] }) | null =
     product
       ? {
           ...product,
-          images: accessibleImages.filter(
-            (image) => image !== undefined
-          ) as Image[],
+          // images: accessibleImages.filter(
+          //   (image) => image !== undefined
+          // ) as Image[],
           priceHT: parseFloat(String(product.priceHT)),
           priceTTC: parseFloat(String(product.priceHT)),
         }
