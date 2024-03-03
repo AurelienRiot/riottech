@@ -41,7 +41,10 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
     cell: ({ row }) => (
       <div className="flex">
         {" "}
-        <Link href={`/admin/subscriptions/${row.original.id}`}>
+        <Link
+          href={`/admin/subscriptions/${row.original.id}`}
+          className="hover:underline"
+        >
           {row.getValue("name")}
         </Link>
       </div>

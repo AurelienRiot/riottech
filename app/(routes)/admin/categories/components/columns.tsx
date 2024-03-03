@@ -22,7 +22,10 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     cell: ({ row }) => (
       <div className="flex ">
         {" "}
-        <Link href={`/admin/categories/${row.original.id}`}>
+        <Link
+          href={`/admin/categories/${row.original.id}`}
+          className="hover:underline"
+        >
           {row.getValue("name")}
         </Link>
       </div>

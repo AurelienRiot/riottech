@@ -21,9 +21,12 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     accessorKey: "user",
     header: "Client",
     cell: ({ row }) => (
-      <div className="flex md:pl-10 capitalize hover:underline">
+      <div className="flex md:pl-10 capitalize ">
         {" "}
-        <Link href={`/admin/users/${row.original.userId}`}>
+        <Link
+          href={`/admin/users/${row.original.userId}`}
+          className="hover:underline"
+        >
           {row.getValue("user")}
         </Link>
       </div>

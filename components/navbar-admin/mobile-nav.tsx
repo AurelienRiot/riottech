@@ -30,6 +30,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { adminRoutes } from "./main-nav";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -42,6 +43,7 @@ export default function MobileNav({ className }: MobileNavProps) {
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
+  const routes = adminRoutes(pathname);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -63,142 +65,28 @@ export default function MobileNav({ className }: MobileNavProps) {
         <Command>
           <CommandList>
             <CommandInput placeholder="recherche" />
-            <CommandEmpty> Aucun resultat</CommandEmpty>
+            <CommandEmpty> Aucun résultat</CommandEmpty>
             <CommandGroup>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <LayoutDashboardIcon className="mr-2 h-4 w-4" />
-                Dashboard
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/` ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/billboards`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <PresentationIcon className="mr-2 h-4 w-4" />
-                {"Panneaux d'affichages"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/billboards`
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/categories`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <RowsIcon className="mr-2 h-4 w-4" />
-                {"Categories"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/categories`
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/products`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <PackageIcon className="mr-2 h-4 w-4" />
-                {"Produits"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/products` ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/subscriptions`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <CalendarSearchIcon className="mr-2 h-4 w-4" />
-                {"Abonnements"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/subscriptions`
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/orders`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <ListOrderedIcon className="mr-2 h-4 w-4" />
-                {"Commandes"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/orders` ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/users`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <Users className="mr-2 h-4 w-4" />
-                {"Clients"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/amdin/users` ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push(`/admin/contacts`);
-                  setOpen(false);
-                }}
-                className="test-sm"
-              >
-                <PhoneCallIcon className="mr-2 h-4 w-4" />
-                {"Contacts"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === `/admin/contacts` ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem>
+              {routes.map((route) => (
+                <CommandItem
+                  key={route.href}
+                  value={route.label}
+                  onSelect={() => {
+                    router.push(route.href);
+                    setOpen(false);
+                  }}
+                  className="test-sm cursor-pointer"
+                >
+                  <route.Icone className="mr-2 h-4 w-4" />
+                  {route.label}
+                  <Check
+                    className={cn(
+                      "ml-auto h-4 w-4",
+                      route.active ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
           <CommandSeparator />

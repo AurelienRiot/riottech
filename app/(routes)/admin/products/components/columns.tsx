@@ -1,13 +1,13 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { CellAction } from "./cell-action";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { fr } from "date-fns/locale";
+import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import Link from "next/link";
+import { fr } from "date-fns/locale";
+import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { CellAction } from "./cell-action";
 
 export type ProductColumn = {
   id: string;
@@ -25,7 +25,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <div className="flex hover:underline justify-start items-center gap-2">
+      <Link
+        href={`/admin/products/${row.original.id}`}
+        className="flex hover:underline justify-start items-center gap-2 cursor-pointer"
+      >
         {row.original.image ? (
           <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
             <Image
@@ -37,10 +40,8 @@ export const columns: ColumnDef<ProductColumn>[] = [
             />
           </span>
         ) : null}
-        <Link href={`/admin/products/${row.original.id}`}>
-          {row.getValue("name")}
-        </Link>
-      </div>
+        <span>{row.getValue("name")}</span>
+      </Link>
     ),
   },
   {

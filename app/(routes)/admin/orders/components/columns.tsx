@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { fr } from "date-fns/locale";
 import { format } from "date-fns";
+import Link from "next/link";
 
 export type OrderColumn = {
   id: string;
+  userId: string;
   name: string;
   phone: string;
   address: string;
@@ -26,6 +28,17 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "name",
     header: "Nom",
+    cell: ({ row }) => (
+      <div className="flex md:pl-10 capitalize ">
+        {" "}
+        <Link
+          href={`/admin/users/${row.original.userId}`}
+          className="hover:underline"
+        >
+          {row.getValue("name")}
+        </Link>
+      </div>
+    ),
   },
   {
     accessorKey: "phone",
