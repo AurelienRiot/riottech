@@ -13,10 +13,6 @@ import { FixedToolbarButtons } from "@/components/plate-ui/fixed-toolbar-buttons
 import { FloatingToolbar } from "@/components/plate-ui/floating-toolbar";
 import { FloatingToolbarButtons } from "@/components/plate-ui/floating-toolbar-buttons";
 import { MentionCombobox } from "@/components/plate-ui/mention-combobox";
-import { MENTIONABLES } from "@/lib/plate/mentionables";
-import { plugins } from "@/lib/plate/plate-plugins";
-import { ProductFormValues } from "./product-form";
-import { UseFormReturn } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -24,6 +20,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { MENTIONABLES } from "@/lib/plate/mentionables";
+import { plugins } from "@/lib/plate/plate-plugins";
+import { UseFormReturn } from "react-hook-form";
+import { ProductFormValues } from "./product-form";
 
 type PlateEditorProps = {
   form: UseFormReturn<ProductFormValues>;
@@ -43,7 +43,7 @@ export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
           <>
             <FormLabel>Spécification du produit</FormLabel>
 
-            <div className="grid grid-cols-1 lg:flex">
+            <div className="flex">
               <FormControl className="min-h-[20rem] lg:w-1/2">
                 <DndProvider backend={HTML5Backend}>
                   <Plate
@@ -65,7 +65,7 @@ export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
                       </FixedToolbar>
                       <Editor
                         disabled={loading}
-                        className="px-6 rounded-t-none"
+                        className="px-[96px] py-16 rounded-t-none "
                         autoFocus
                         focusRing={false}
                         variant="ghost"

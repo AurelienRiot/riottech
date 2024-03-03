@@ -41,11 +41,7 @@ export default function RootLayout({
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToasterProvider />
-            <TooltipProvider
-              delayDuration={100}
-              skipDelayDuration={0}
-              disableHoverableContent
-            >
+            <TooltipProvider delayDuration={100} skipDelayDuration={0}>
               {children}
             </TooltipProvider>
           </ThemeProvider>
