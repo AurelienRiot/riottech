@@ -12,9 +12,10 @@ import { PlateVis } from "./plate-vis";
 
 interface InfoProps {
   data: ProductWithCategoryAndImages;
+  scroll?: boolean;
 }
 
-const Info: React.FC<InfoProps> = ({ data }) => {
+const Info: React.FC<InfoProps> = ({ data, scroll }) => {
   const cart = useCart();
 
   const value = Number(data.priceHT);
@@ -55,7 +56,10 @@ const Info: React.FC<InfoProps> = ({ data }) => {
       </div>
 
       {/* <Markdown className="mt-8 ">{data.productSpecs}</Markdown> */}
-      <PlateVis value={data.productSpecs} />
+      <PlateVis
+        value={data.productSpecs}
+        className={scroll ? "overflow-scroll h-[500px] hide-scrollbar" : ""}
+      />
     </div>
   );
 };

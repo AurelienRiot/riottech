@@ -39,7 +39,7 @@ const PreviewModal = () => {
                   <Gallery images={product.images} />
                 </div>
                 <div className="sm:col-span-8 lg:col-span-7">
-                  <Info data={product} />
+                  <Info data={product} scroll />
                 </div>
               </div>
             </div>
