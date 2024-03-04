@@ -52,13 +52,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
         align="center"
         className="flex w-[180px] min-w-0 flex-col gap-0.5"
       >
-        <DropdownMenuItem
-          className="min-w-[180px] flex flex-col h-full "
-          onSelect={async () => {
-            insertTable(editor);
-            focusEditor(editor);
-          }}
-        >
+        <DropdownMenuItem className="min-w-[180px] flex flex-col h-full ">
           <div className="flex">
             <Icons.add className={iconVariants({ variant: "menuItem" })} />
             Inserér un tableau
@@ -69,6 +63,7 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
                 rowCount: rowIndex,
                 colCount: colIndex,
               });
+              focusEditor(editor);
             }}
           />
         </DropdownMenuItem>
