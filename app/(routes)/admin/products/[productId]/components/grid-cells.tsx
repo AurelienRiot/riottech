@@ -24,7 +24,7 @@ const GridCells = ({
 
   return (
     <div
-      style={{ width: 16.2 * size }}
+      style={{ width: 16.5 * size }}
       className="flex  flex-wrap flex-row items-center self-center gap-[0.5px]"
     >
       {grid.map((row, rowIndex) =>

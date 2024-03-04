@@ -215,7 +215,6 @@ export const RegisterForm = () => {
           </div>
           <AnimateHeight display={isPro} className="p-1">
             <TVAForm
-              form={form}
               disabled={!isPro}
               loading={loading}
               setLoading={setLoading}
@@ -344,7 +343,6 @@ export const RegisterForm = () => {
           </div>
           <div className="grid w-full  items-center gap-1.5 p-1">
             <AdressForm
-              form={form}
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />

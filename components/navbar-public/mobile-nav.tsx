@@ -1,14 +1,5 @@
 "use client";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronDown, LucidePhoneCall, StoreIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   Command,
   CommandGroup,
@@ -16,12 +7,21 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { BsSim } from "react-icons/bs";
-import { BiCctv } from "react-icons/bi";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Check, ChevronDown, LucidePhoneCall, StoreIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { BiCctv } from "react-icons/bi";
+import { BsSim } from "react-icons/bs";
 
-import { ImConnection } from "react-icons/im";
 import { useCategories } from "@/hooks/use-categories";
+import { ImConnection } from "react-icons/im";
 
 type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -71,6 +71,7 @@ export default function MobileNav({ className }: MobileNavProps) {
             strokeWidth="2"
             className="absolute left-[10px] top-[18px] h-4  w-4 transition-transform duration-300 group-data-[state=open]:translate-x-[5px] group-data-[state=open]:translate-y-[-2px] group-data-[state=open]:-rotate-45 "
             viewBox="0 0 24 24"
+            aria-hidden
           >
             <line x1="2" y1="2" x2="22" y2="2"></line>
           </svg>
@@ -84,6 +85,7 @@ export default function MobileNav({ className }: MobileNavProps) {
             strokeWidth="2"
             className="absolute left-[10px] top-[13px] h-4 w-4 transition-transform duration-300 group-data-[state=open]:translate-x-[-4px] group-data-[state=open]:translate-y-[3px] group-data-[state=open]:rotate-45  "
             viewBox="0 0 24 24"
+            aria-hidden
           >
             <line x1="2" y1="2" x2="14" y2="2"></line>
           </svg>
@@ -96,6 +98,7 @@ export default function MobileNav({ className }: MobileNavProps) {
             strokeWidth="2"
             className="absolute left-[15px] top-[23px] h-4  w-4 transition-transform duration-300 group-data-[state=open]:translate-x-[-5px] group-data-[state=open]:translate-y-[-3px] group-data-[state=open]:rotate-45 "
             viewBox="0 0 24 24"
+            aria-hidden
           >
             <line x1="2" y1="2" x2="14" y2="2"></line>
           </svg>

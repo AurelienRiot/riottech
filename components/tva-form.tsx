@@ -6,7 +6,7 @@ import {
   ControllerRenderProps,
   Path,
   PathValue,
-  UseFormReturn,
+  useFormContext,
 } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Button } from "./ui/button";
@@ -29,8 +29,7 @@ export type FullAdress = {
   state: string;
 };
 
-type TVAFormProps<T extends { tva: string; raisonSocial: string }> = {
-  form: UseFormReturn<T, any, T>;
+type TVAFormProps = {
   loading: boolean;
   disabled?: boolean;
   setLoading: Dispatch<SetStateAction<boolean>>;
@@ -39,13 +38,13 @@ type TVAFormProps<T extends { tva: string; raisonSocial: string }> = {
 };
 
 export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
-  form,
   loading,
   disabled = false,
   setLoading,
   selectedAddress,
   setSelectedAddress,
-}: TVAFormProps<T>) => {
+}: TVAFormProps) => {
+  const form = useFormContext<T>();
   const verifyTVA = async (field: ControllerRenderProps<T, Path<T>>) => {
     setLoading(true);
     const valideVat = await GetValideVat(field.value);

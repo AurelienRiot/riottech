@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,27 +7,28 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { BsSim } from "react-icons/bs";
 import { LucidePhoneCall } from "lucide-react";
-import { BiCctv } from "react-icons/bi";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BiCctv } from "react-icons/bi";
+import { BsSim } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
-import { useCategories } from "@/hooks/use-categories";
 
 const MainNav = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const categories = useCategories((s) => s.categories);
+  // const categories = useCategories((s) => s.categories);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  const routes = categories.map((route) => ({
-    href: `/category/${route.id}`,
-    label: route.name,
-    active: pathname === `/category/${route.id}`,
-  }));
+  // const routes = categories.map((route) => ({
+  //   href: `/category/${route.id}`,
+  //   label: route.name,
+  //   active: pathname === `/category/${route.id}`,
+  // }));
 
   return (
     <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 ">

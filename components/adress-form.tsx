@@ -5,14 +5,13 @@ import AddressAutocomplete, {
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
-import { Path, PathValue, useForm } from "react-hook-form";
+import { Path, PathValue, useFormContext } from "react-hook-form";
 import * as RPNInput from "react-phone-number-input";
 import { AnimateHeight } from "./animations/animate-size";
 import { Button } from "./ui/button";
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -41,19 +40,18 @@ export type FullAdress = {
   state: string;
 };
 
-interface AdressFormProps<T extends { adresse: string }> {
-  form: ReturnType<typeof useForm<T>>;
+interface AdressFormProps {
   selectedAddress: FullAdress;
   setSelectedAddress: Dispatch<SetStateAction<FullAdress>>;
   className?: string;
 }
 
 export const AdressForm = <T extends { adresse: string }>({
-  form,
   selectedAddress,
   setSelectedAddress,
   className,
-}: AdressFormProps<T>) => {
+}: AdressFormProps) => {
+  const form = useFormContext<T>();
   const [open, setOpen] = useState(false);
   const [suggestions, setSuggestions] = useState([] as Suggestion[]);
   const [query, setQuery] = useState("");

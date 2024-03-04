@@ -302,7 +302,6 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                     <FormControl>
                       <Checkbox
                         checked={field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>

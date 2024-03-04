@@ -22,17 +22,17 @@ import {
 } from "@/components/ui/form";
 import { MENTIONABLES } from "@/lib/plate/mentionables";
 import { plugins } from "@/lib/plate/plate-plugins";
-import { UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { ProductFormValues } from "./product-form";
 
 type PlateEditorProps = {
-  form: UseFormReturn<ProductFormValues>;
   loading: boolean;
   initialValue: TElement[];
 };
 
-export function PlateEditor({ form, loading, initialValue }: PlateEditorProps) {
+export function PlateEditor({ loading, initialValue }: PlateEditorProps) {
   const containerRef = useRef(null);
+  const form = useFormContext<ProductFormValues>();
 
   return (
     <FormField

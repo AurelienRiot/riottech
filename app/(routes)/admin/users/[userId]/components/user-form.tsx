@@ -258,14 +258,12 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               )}
             />
             <AdressForm
-              form={form}
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
             {isPro && (
               <>
                 <TVAForm
-                  form={form}
                   loading={loading}
                   setLoading={setLoading}
                   selectedAddress={selectedAddress}

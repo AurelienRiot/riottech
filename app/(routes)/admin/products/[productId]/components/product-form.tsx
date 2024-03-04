@@ -34,7 +34,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
 import { FormattedProduct } from "../page";
-import RenderMarkdown from "./render-markdown";
 import { PlateEditor } from "./plate-editor";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
@@ -299,7 +298,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormControl>
                       <Checkbox
                         checked={field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
@@ -322,7 +320,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                     <FormControl>
                       <Checkbox
                         checked={field.value}
-                        // @ts-ignore
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
@@ -340,7 +337,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
           {/* <RenderMarkdown loading={loading} form={form} /> */}
           <PlateEditor
-            form={form}
             loading={loading}
             initialValue={
               initialData?.productSpecs
