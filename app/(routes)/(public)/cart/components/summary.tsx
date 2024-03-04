@@ -1,11 +1,11 @@
 "use client";
 
-import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import Currency from "@/components/ui/currency";
 import { Button } from "@/components/ui/button";
+import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
-import { useRouter, useSearchParams } from "next/navigation";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 interface SummaryProps {
@@ -15,17 +15,9 @@ interface SummaryProps {
 const Summary: React.FC<SummaryProps> = ({ userId }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
   const cart = useCart();
 
   const [isMounted, setIsMounted] = useState(false);
-
-  if (typeof window !== "undefined") {
-    if (searchParams.get("canceled")) {
-      toast.error("Erreur de paiement.");
-      router.replace("/cart");
-    }
-  }
 
   useEffect(() => {
     setIsMounted(true);
