@@ -7,6 +7,7 @@ import { OrderColumnType, OrdersColumn } from "./order-column";
 import { useRouter, useSearchParams } from "next/navigation";
 import useCart from "@/hooks/use-cart";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 interface OrderTableProps {
   data: OrderColumnType[];
@@ -17,13 +18,13 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
   const router = useRouter();
   const removeAll = useCart((state) => state.removeAll);
 
-  if (typeof window !== "undefined") {
+  useEffect(() => {
     if (searchParams.get("success-order")) {
       toast.success("Paiement réussi.");
       router.replace("/dashboard-user");
       removeAll();
     }
-  }
+  }, [searchParams, router, removeAll]);
 
   return (
     <>

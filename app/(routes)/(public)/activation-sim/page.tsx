@@ -11,6 +11,7 @@ import { Suspense } from "react";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
+import { ToastSearchParams } from "@/lib/toast-search-params";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",
@@ -43,18 +44,28 @@ const activationSIMPage = async (context: {
   }
 
   return (
-    <Container className="bg-background pt-10">
-      <div className="flex flex-col items-center justify-center p-2 text-primary sm:p-10">
-        <Suspense fallback={<SuspenceForm sim={context.searchParams.sim} />}>
-          <ServerSim
-            sim={context.searchParams.sim}
-            subId={context.searchParams.subId}
-          />
-        </Suspense>
+    <>
+      <ToastSearchParams
+        searchParam="canceled"
+        message="Erreur de paiement."
+        url={`/activation-sim?sim=${encodeURIComponent(
+          context.searchParams.sim
+        )}&subId=${encodeURIComponent(context.searchParams.subId)}`}
+        toastType="error"
+      />
+      <Container className="bg-background pt-10">
+        <div className="flex flex-col items-center justify-center p-2 text-primary sm:p-10">
+          <Suspense fallback={<SuspenceForm sim={context.searchParams.sim} />}>
+            <ServerSim
+              sim={context.searchParams.sim}
+              subId={context.searchParams.subId}
+            />
+          </Suspense>
 
-        {/* <Client subscriptions={subscriptions} sim={context.searchParams.sim} subId={context.searchParams.subId} /> */}
-      </div>
-    </Container>
+          {/* <Client subscriptions={subscriptions} sim={context.searchParams.sim} subId={context.searchParams.subId} /> */}
+        </div>
+      </Container>
+    </>
   );
 };
 

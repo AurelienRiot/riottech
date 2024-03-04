@@ -6,6 +6,7 @@ import { OrderTable } from "./components/order-table";
 import { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import { UserButtons } from "./components/user-buttons";
+import { ToastSearchParams } from "@/lib/toast-search-params";
 
 type FullAdress = {
   label: string;
@@ -57,8 +58,15 @@ const DashboardUser = async () => {
   }));
 
   const fullAdress: FullAdress = JSON.parse(user.adresse ? user.adresse : "{}");
+
   return (
     <div className="gap-4 mt-4 mb-4">
+      <ToastSearchParams
+        searchParam="success-subscription"
+        message="Paiement réussi."
+        url="/dashboard-user"
+        toastType="success"
+      />
       <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
         {user.raisonSocial ? (
           <>
