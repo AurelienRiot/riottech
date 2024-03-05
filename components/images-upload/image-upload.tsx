@@ -1,15 +1,15 @@
 "use client";
-import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 import { _Object } from "@aws-sdk/client-s3";
-import { Loader2, UploadCloud, X } from "lucide-react";
+import { Loader2, Plus, Trash, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Button, LoadingButton } from "../ui/button";
+import { AnimateHeight } from "../animations/animate-size";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, listFiles, uploadFile } from "./server";
-import { AnimateHeight } from "../animations/animate-size";
+import { Reorder } from "framer-motion";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -25,12 +25,8 @@ const UploadImage = ({
   multipleImages = false,
 }: UploadImageProps) => {
   const [files, setFiles] = useState<_Object[]>([]);
-  const [displayFiles, setDisplayFiles] = useState(false);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const imagesPerPage = 10;
+  const [loading, setLoading] = useState(false);
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true);
@@ -61,7 +57,7 @@ const UploadImage = ({
       } else {
         toast.error(
           `Le format du fichier n'est pas supporté : ${file.name}\nFormats supportés : png, jpeg, jpg, webp`,
-          { duration: 5000 }
+          { duration: 5000 },
         );
       }
     });
@@ -95,25 +91,6 @@ const UploadImage = ({
     setLoading(false);
   };
 
-  const onDelete = async (key: string | undefined) => {
-    if (!key) {
-      toast.error("key not found");
-      return;
-    }
-    const deleted = await deleteObject({
-      bucketName,
-      key,
-    });
-
-    if (deleted.success) {
-      setFiles((prev) => prev.filter((file) => file.Key !== key));
-      setSelectedFiles((prev) => prev.filter((file) => file !== key));
-      toast.success("Image supprimée");
-    } else {
-      toast.error(deleted.error);
-    }
-  };
-
   useEffect(() => {
     const fetchFiles = async () => {
       const files = await listFiles(bucketName);
@@ -126,21 +103,21 @@ const UploadImage = ({
   }, []);
 
   return (
-    <div className="flex flex-col justify-left gap-4 p-4">
+    <div className="justify-left flex flex-col gap-4 p-4">
       <div
-        className="flex gap-4 justify-left items-center"
+        className="justify-left flex items-center gap-4"
         onDrop={handleDrop}
         onDragOver={(e) => {
           e.preventDefault();
         }}
       >
         <label
-          className="relative w-fit flex flex-col items-center justify-center px-4  py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 transition-colors 
+          className="relative flex w-fit cursor-pointer flex-col items-center justify-center  rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-4 py-6 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700 
          "
         >
           <div
             data-state={loading}
-            className="hidden data-[state=true]:block absolute right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 "
+            className="absolute right-1/2 top-1/2 hidden -translate-y-1/2 translate-x-1/2 data-[state=true]:block "
           >
             <Loader2 className="animate-spin" />
           </div>
@@ -149,7 +126,7 @@ const UploadImage = ({
             data-state={loading}
             className=" text-center data-[state=true]:blur-md"
           >
-            <div className=" border p-2 rounded-md max-w-min mx-auto bg-foreground">
+            <div className=" mx-auto max-w-min rounded-md border bg-foreground p-2">
               <UploadCloud size={20} className="text-primary-foreground" />
             </div>
 
@@ -187,149 +164,242 @@ const UploadImage = ({
         </LoadingButton> */}
       </div>
 
+      <DisplaySelectedImages
+        selectedFiles={selectedFiles}
+        setSelectedFiles={setSelectedFiles}
+        multipleImages={multipleImages}
+      />
+
+      <DisplayImages
+        files={files}
+        setFiles={setFiles}
+        selectedFiles={selectedFiles}
+        setSelectedFiles={setSelectedFiles}
+        multipleImages={multipleImages}
+        setLoading={setLoading}
+      />
+    </div>
+  );
+};
+
+export default UploadImage;
+
+type DisplaySelectedImagesProps = {
+  selectedFiles: string[];
+  setSelectedFiles: React.Dispatch<React.SetStateAction<string[]>>;
+  multipleImages: boolean;
+};
+
+const DisplaySelectedImages = ({
+  selectedFiles,
+  setSelectedFiles,
+  multipleImages,
+}: DisplaySelectedImagesProps) => {
+  return (
+    <>
       {selectedFiles.length !== 0 && (
         <div>
           <h1 className="text-primary">
             {" "}
             {multipleImages ? "Images selectionnées" : "Image selectionnée"}
           </h1>
-          <ul className="flex flex-wrap gap-2">
+          <Reorder.Group
+            as="ul"
+            values={selectedFiles}
+            onReorder={setSelectedFiles}
+            className="hide-scrollbar flex max-w-[1000px] flex-row gap-4 overflow-x-auto p-2"
+            axis="x"
+          >
             {selectedFiles.map((key) => (
-              <li
+              <Reorder.Item
                 key={key}
-                onClick={() =>
-                  setSelectedFiles((prev) =>
-                    prev.filter((item) => item !== key)
-                  )
-                }
-                className="cursor-pointer hover:ring-2 rounded-xl relative aspect-square h-[100px] bg-transparent"
+                value={key}
+                as="li"
+                className="group relative aspect-square h-[100px] cursor-pointer   rounded-xl bg-transparent hover:ring-2"
               >
                 <Image
                   src={`https://${bucketName}.s3.fr-par.scw.cloud/${key}`}
                   alt=""
                   fill
                   sizes="(max-width: 768px) 100px, (max-width: 1200px) 100px, 100px"
-                  className="object-cover rounded-xl"
+                  className="pointer-events-none rounded-xl object-cover"
                 />
-              </li>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedFiles((prev) =>
+                      prev.filter((item) => item !== key),
+                    );
+                  }}
+                  className="absolute right-0 z-10 hidden items-center justify-center  rounded-tr-md bg-destructive px-2 text-destructive-foreground transition-all hover:bg-destructive/90 group-hover:flex"
+                >
+                  <X size={20} />
+                </button>
+              </Reorder.Item>
             ))}
-          </ul>
+          </Reorder.Group>
         </div>
       )}
-      <div className="space-y-4">
-        <p className="font-medium my-2 mt-6 text-primary text-sm">
-          Images disponibles
-        </p>
-        <Switch
-          onCheckedChange={() => {
-            setDisplayFiles(!displayFiles);
-          }}
-          checked={displayFiles}
-        />
-        <AnimateHeight display={displayFiles} className="space-y-4 p-1">
-          <Input
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher"
-            className="w-fit "
-          />
-          <div
-            className="flex flex-row flex-wrap p-2 gap-4 max-w-[1000px]
-            whitespace-nowrap "
-          >
-            {files.length > 0 ? (
-              files
-                .filter(
-                  (file) =>
-                    !selectedFiles.includes(file.Key ?? "") &&
-                    file.Key?.toLowerCase().includes(search.toLowerCase())
-                )
-                .slice(
-                  (currentPage - 1) * imagesPerPage,
-                  currentPage * imagesPerPage
-                )
-                .map((file) => (
-                  <div
-                    key={file.Key}
-                    className="flex justify-left gap-2 rounded-lg overflow-hidden border border-slate-100  pr-2 hover:border-slate-300 transition-all relative group"
-                  >
-                    <div
-                      className="flex  items-center flex-1 p-2 w-fit cursor-pointer"
-                      onClick={(e) => {
-                        if (multipleImages) {
-                          setSelectedFiles((prev) => [...prev, file.Key ?? ""]);
-                        } else {
-                          setSelectedFiles([file.Key ?? ""]);
-                        }
-                      }}
-                    >
-                      <div className="text-white rounded-xl relative aspect-square h-10">
-                        <Image
-                          src={`https://${bucketName}.s3.fr-par.scw.cloud/${file.Key}`}
-                          alt=""
-                          fill
-                          sizes="(max-width: 768px) 40px, (max-width: 1200px) 40px, 40px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div
-                        className="w-fit
-                     ml-2 space-y-1"
-                      >
-                        <div className="text-sm flex justify-between">
-                          <p className="text-muted-foreground ">
-                            {file.Key?.slice(37)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        setLoading(true);
-                        await onDelete(file.Key);
-                        setLoading(false);
-                      }}
-                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90 absolute right-0  transition-all items-center justify-center px-2 hidden group-hover:flex rounded-tr-md"
-                    >
-                      <X size={20} />
-                    </button>
-                  </div>
-                ))
-            ) : (
-              <Loader2 className="w-8 h-8 animate-spin m-4" />
-            )}
-          </div>
-          <div className="flex items-center justify-start space-x-2 ">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage((prev) => prev - 1);
-              }}
-              disabled={currentPage === 1}
-            >
-              Précedent
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={(e) => {
-                e.preventDefault();
-                setCurrentPage((prev) => prev + 1);
-              }}
-              disabled={
-                currentPage * imagesPerPage >=
-                files.length - selectedFiles.length
-              }
-            >
-              Suivant
-            </Button>
-          </div>
-        </AnimateHeight>
-      </div>
-    </div>
+    </>
   );
 };
 
-export default UploadImage;
+type DisplayImagesProps = {
+  files: _Object[];
+  setFiles: React.Dispatch<React.SetStateAction<_Object[]>>;
+  selectedFiles: string[];
+  setSelectedFiles: React.Dispatch<React.SetStateAction<string[]>>;
+  multipleImages: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const DisplayImages = ({
+  files,
+  setFiles,
+  selectedFiles,
+  setSelectedFiles,
+  multipleImages,
+  setLoading,
+}: DisplayImagesProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const imagesPerPage = 10;
+  const [displayFiles, setDisplayFiles] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const onDelete = async (key: string | undefined) => {
+    if (!key) {
+      toast.error("key not found");
+      return;
+    }
+    const deleted = await deleteObject({
+      bucketName,
+      key,
+    });
+
+    if (deleted.success) {
+      setFiles((prev) => prev.filter((file) => file.Key !== key));
+      setSelectedFiles((prev) => prev.filter((file) => file !== key));
+      toast.success("Image supprimée");
+    } else {
+      toast.error(deleted.error);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="my-2 mt-6 text-sm font-medium text-primary">
+        Images disponibles
+      </p>
+      <Switch
+        onCheckedChange={() => {
+          setDisplayFiles(!displayFiles);
+        }}
+        checked={displayFiles}
+      />
+      <AnimateHeight display={displayFiles} className="space-y-4 p-1">
+        <Input
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Rechercher"
+          className="w-fit "
+        />
+        <div
+          className="flex max-w-[1000px] flex-row flex-wrap gap-4 whitespace-nowrap
+            p-2 "
+        >
+          {files.length > 0 ? (
+            files
+              .filter(
+                (file) =>
+                  !selectedFiles.includes(file.Key ?? "") &&
+                  file.Key?.toLowerCase().includes(search.toLowerCase()),
+              )
+              .slice(
+                (currentPage - 1) * imagesPerPage,
+                currentPage * imagesPerPage,
+              )
+              .map((file) => (
+                <div
+                  key={file.Key}
+                  className="justify-left group relative flex gap-2 overflow-hidden rounded-lg  border border-slate-100 pr-2 transition-all hover:border-slate-300"
+                >
+                  <div className="flex  w-fit flex-1  items-center p-2">
+                    <div className="relative aspect-square h-10 rounded-xl text-white">
+                      <Image
+                        src={`https://${bucketName}.s3.fr-par.scw.cloud/${file.Key}`}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 40px, (max-width: 1200px) 40px, 40px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div
+                      className="ml-2
+                     w-fit space-y-1"
+                    >
+                      <div className="flex justify-between text-sm">
+                        <p className="text-muted-foreground ">
+                          {file.Key?.slice(37)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      setLoading(true);
+                      await onDelete(file.Key);
+                      setLoading(false);
+                    }}
+                    className="absolute right-0 hidden items-center justify-center  rounded-tr-md bg-destructive px-2 py-1 text-destructive-foreground transition-all hover:bg-destructive/90 group-hover:flex"
+                  >
+                    <Trash size={15} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (multipleImages) {
+                        setSelectedFiles((prev) => [...prev, file.Key ?? ""]);
+                      } else {
+                        setSelectedFiles([file.Key ?? ""]);
+                      }
+                    }}
+                    className="absolute left-0 hidden items-center justify-center  rounded-tl-md bg-green-800 px-2 py-1 text-green-50 transition-all hover:bg-green-800/90 group-hover:flex"
+                  >
+                    <Plus size={15} />
+                  </button>
+                </div>
+              ))
+          ) : (
+            <Loader2 className="m-4 h-8 w-8 animate-spin" />
+          )}
+        </div>
+        <div className="flex items-center justify-start space-x-2 ">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              setCurrentPage((prev) => prev - 1);
+            }}
+            disabled={currentPage === 1}
+          >
+            Précedent
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              setCurrentPage((prev) => prev + 1);
+            }}
+            disabled={
+              currentPage * imagesPerPage >= files.length - selectedFiles.length
+            }
+          >
+            Suivant
+          </Button>
+        </div>
+      </AnimateHeight>
+    </div>
+  );
+};

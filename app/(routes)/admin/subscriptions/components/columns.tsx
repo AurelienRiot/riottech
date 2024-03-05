@@ -41,12 +41,11 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
     cell: ({ row }) => (
       <div className="flex">
         {" "}
-        <Link
-          href={`/admin/subscriptions/${row.original.id}`}
-          className="hover:underline"
-        >
-          {row.getValue("name")}
-        </Link>
+        <Button asChild variant={"link"}>
+          <Link href={`/admin/subscriptions/${row.original.id}`}>
+            {row.getValue("name")}
+          </Link>
+        </Button>
       </div>
     ),
   },

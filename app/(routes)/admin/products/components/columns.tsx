@@ -25,23 +25,25 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <Link
-        href={`/admin/products/${row.original.id}`}
-        className="flex hover:underline justify-start items-center gap-2 cursor-pointer"
-      >
-        {row.original.image ? (
-          <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
-            <Image
-              src={row.original.image}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
-              className="object-cover rounded-sm"
-            />
-          </span>
-        ) : null}
-        <span>{row.getValue("name")}</span>
-      </Link>
+      <Button asChild variant={"link"}>
+        <Link
+          href={`/admin/products/${row.original.id}`}
+          className="flex  justify-start items-center gap-2 cursor-pointer"
+        >
+          {row.original.image ? (
+            <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
+              <Image
+                src={row.original.image}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
+                className="object-cover rounded-sm"
+              />
+            </span>
+          ) : null}
+          <span>{row.getValue("name")}</span>
+        </Link>
+      </Button>
     ),
   },
   {

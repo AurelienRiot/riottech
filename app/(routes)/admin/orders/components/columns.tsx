@@ -30,13 +30,11 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Nom",
     cell: ({ row }) => (
       <div className="flex md:pl-10 capitalize ">
-        {" "}
-        <Link
-          href={`/admin/users/${row.original.userId}`}
-          className="hover:underline"
-        >
-          {row.getValue("name")}
-        </Link>
+        <Button asChild variant={"link"}>
+          <Link href={`/admin/users/${row.original.userId}`}>
+            {row.getValue("name")}
+          </Link>
+        </Button>
       </div>
     ),
   },

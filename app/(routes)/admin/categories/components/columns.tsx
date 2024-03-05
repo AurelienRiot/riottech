@@ -21,13 +21,11 @@ export const columns: ColumnDef<CategoryColumn>[] = [
     header: "Nom",
     cell: ({ row }) => (
       <div className="flex ">
-        {" "}
-        <Link
-          href={`/admin/categories/${row.original.id}`}
-          className="hover:underline"
-        >
-          {row.getValue("name")}
-        </Link>
+        <Button asChild variant={"link"}>
+          <Link href={`/admin/categories/${row.original.id}`}>
+            {row.getValue("name")}
+          </Link>
+        </Button>
       </div>
     ),
   },

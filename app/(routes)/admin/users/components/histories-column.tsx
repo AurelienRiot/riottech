@@ -23,12 +23,11 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     cell: ({ row }) => (
       <div className="flex md:pl-10 capitalize ">
         {" "}
-        <Link
-          href={`/admin/users/${row.original.userId}`}
-          className="hover:underline"
-        >
-          {row.getValue("user")}
-        </Link>
+        <Button asChild variant={"linkHover2"}>
+          <Link href={`/admin/users/${row.original.userId}`}>
+            {row.getValue("user")}
+          </Link>
+        </Button>
       </div>
     ),
   },

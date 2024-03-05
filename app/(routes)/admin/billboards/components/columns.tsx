@@ -21,23 +21,25 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     accessorKey: "name",
     header: "Nom du panneau d'affichage",
     cell: ({ row }) => (
-      <Link
-        href={`/admin/billboards/${row.original.id}`}
-        className="flex hover:underline justify-start items-center gap-2"
-      >
-        {row.original.image ? (
-          <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
-            <Image
-              src={row.original.image}
-              alt=""
-              fill
-              sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
-              className="object-cover rounded-sm"
-            />
-          </span>
-        ) : null}
-        <span>{row.getValue("name")}</span>
-      </Link>
+      <Button asChild variant={"link"}>
+        <Link
+          href={`/admin/billboards/${row.original.id}`}
+          className="flex justify-start items-center gap-2"
+        >
+          {row.original.image ? (
+            <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
+              <Image
+                src={row.original.image}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
+                className="object-cover rounded-sm"
+              />
+            </span>
+          ) : null}
+          <span>{row.getValue("name")}</span>
+        </Link>
+      </Button>
     ),
   },
   {
