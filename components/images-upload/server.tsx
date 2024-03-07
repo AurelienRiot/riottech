@@ -50,13 +50,13 @@ async function listFiles(bucketName: string) {
   }
   try {
     const files = await s3.send(
-      new ListObjectsV2Command({ Bucket: bucketName })
+      new ListObjectsV2Command({ Bucket: bucketName }),
     );
 
     return files.Contents?.sort(
       (a, b) =>
         new Date(b.LastModified ?? 0).getTime() -
-        new Date(a.LastModified ?? 0).getTime()
+        new Date(a.LastModified ?? 0).getTime(),
     );
   } catch (error) {
     console.error(`An error occurred: ${error}`);
@@ -81,11 +81,12 @@ async function uploadFile({
         const uniqueName = `${uuidv4()}-${key}`;
         filesValues.push(uniqueName);
 
-        const array = Buffer.from(await value.arrayBuffer());
+        const array = await value.arrayBuffer();
 
         const uploadParams: PutObjectCommandInput = {
           Bucket: bucketName,
           Key: uniqueName,
+          // @ts-ignore
           Body: array,
           ACL: "public-read",
         };
@@ -95,7 +96,7 @@ async function uploadFile({
     });
 
     const validUrls = filesValues.map(
-      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`
+      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
     );
     await checkUrls(validUrls);
 
@@ -110,7 +111,7 @@ async function uploadFile({
 async function downloadFile(
   bucketName: string,
   objectName: string,
-  fileName: string
+  fileName: string,
 ) {
   const isAuth = await checkAdmin();
   if (!isAuth) {
@@ -118,7 +119,7 @@ async function downloadFile(
   }
   try {
     const file = await s3.send(
-      new GetObjectCommand({ Bucket: bucketName, Key: objectName })
+      new GetObjectCommand({ Bucket: bucketName, Key: objectName }),
     );
     // fs.writeFileSync(fileName,  file.Body as Buffer);
     console.log(`File ${objectName} downloaded to ${fileName}`);
@@ -206,7 +207,7 @@ const checkUrls = async (urls: (string | null)[]): Promise<void> => {
       }
       const isAccessible = await checkIfUrlAccessible(url);
       return isAccessible ? null : url;
-    })
+    }),
   );
 
   if (invalidUrls.some((url) => url !== null)) {

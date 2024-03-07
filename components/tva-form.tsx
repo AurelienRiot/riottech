@@ -62,7 +62,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
 
       form.setValue(
         "raisonSocial" as Path<T>,
-        valideVat.name as PathValue<T, Path<T>>
+        valideVat.name as PathValue<T, Path<T>>,
       );
       toast.success("TVA valide");
     } else {

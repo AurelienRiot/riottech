@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, listFiles, uploadFile } from "./server";
-import { Reorder } from "framer-motion";
+import { AnimatePresence, Reorder } from "framer-motion";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -207,36 +207,42 @@ const DisplaySelectedImages = ({
             as="ul"
             values={selectedFiles}
             onReorder={setSelectedFiles}
-            className="hide-scrollbar flex max-w-[1000px] flex-row gap-4 overflow-x-auto p-2"
+            layoutScroll
+            className="hide-scrollbar flex max-w-[1000px] flex-row gap-4 overflow-x-scroll p-2"
             axis="x"
           >
-            {selectedFiles.map((key) => (
-              <Reorder.Item
-                key={key}
-                value={key}
-                as="li"
-                className="group relative aspect-square h-[100px] cursor-pointer   rounded-xl bg-transparent hover:ring-2"
-              >
-                <Image
-                  src={`https://${bucketName}.s3.fr-par.scw.cloud/${key}`}
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 100px, (max-width: 1200px) 100px, 100px"
-                  className="pointer-events-none rounded-xl object-cover"
-                />
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSelectedFiles((prev) =>
-                      prev.filter((item) => item !== key),
-                    );
-                  }}
-                  className="absolute right-0 z-10 hidden items-center justify-center  rounded-tr-md bg-destructive px-2 text-destructive-foreground transition-all hover:bg-destructive/90 group-hover:flex"
+            <AnimatePresence>
+              {selectedFiles.map((key) => (
+                <Reorder.Item
+                  key={key}
+                  value={key}
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: "100px" }}
+                  exit={{ opacity: 0, width: 0 }}
+                  as="li"
+                  className="group relative aspect-square h-[100px] cursor-pointer   rounded-xl bg-transparent hover:ring-2"
                 >
-                  <X size={20} />
-                </button>
-              </Reorder.Item>
-            ))}
+                  <Image
+                    src={`https://${bucketName}.s3.fr-par.scw.cloud/${key}`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 768px) 100px, (max-width: 1200px) 100px, 100px"
+                    className="pointer-events-none rounded-xl object-cover"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSelectedFiles((prev) =>
+                        prev.filter((item) => item !== key),
+                      );
+                    }}
+                    className="absolute right-0 z-10 hidden items-center justify-center  rounded-tr-md bg-destructive px-2 text-destructive-foreground transition-all hover:bg-destructive/90 group-hover:flex"
+                  >
+                    <X size={20} />
+                  </button>
+                </Reorder.Item>
+              ))}
+            </AnimatePresence>
           </Reorder.Group>
         </div>
       )}

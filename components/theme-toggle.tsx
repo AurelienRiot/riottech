@@ -1,35 +1,30 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { interpolate } from "flubber";
 import { Button } from "@/components/ui/button";
+import { interpolate } from "flubber";
 import {
+  motion,
   useAnimate,
   useMotionValue,
-  motion,
   useTransform,
 } from "framer-motion";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { Moon } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  // className="bg-primary-foreground text-primary dark:border-2 "
-  // >
-  //   <SunIcon className="absolute rotate-90 scale-0 transition-all dark:-rotate-0 dark:scale-100 h-6 w-6  " />
-  //   <MoonIcon className="absolute  h-6 w-6   rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0  " />
+
   return (
     <Button
       variant={"rounded"}
       onClick={() => {
         setTheme(theme === "light" ? "dark" : "light");
-        console.log(theme);
       }}
       size="icon"
-      className="bg-primary-foreground text-primary rounded-full  px-0 py-0 "
+      className="rounded-full bg-primary-foreground px-0  py-0 text-primary "
     >
       <AnimatedIcon
-        className="duration-300 transition-all h-6 w-6 "
+        className="h-6 w-6 transition-all duration-300 "
         theme={theme}
       />
 
