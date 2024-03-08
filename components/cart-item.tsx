@@ -31,7 +31,7 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
 
   return (
     <>
-      <div className="relative w-24 h-24 overflow-hidden bg-white rounded-md sm:h-48 sm:w-48">
+      <div className="relative h-24 w-24 overflow-hidden rounded-md bg-white sm:h-48 sm:w-48">
         <Image
           fill
           src={data.images[0].url}
@@ -40,8 +40,8 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
           className="object-cover object-center"
         />
       </div>
-      <div className="relative flex flex-col justify-between flex-1 ml-4 sm:ml-6">
-        <div className="absolute top-0 right-0 z-10">
+      <div className="relative ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+        <div className="absolute right-0 top-0 z-10">
           <IconButton
             className="bg-primary-foreground"
             onClick={onRemove}
@@ -58,19 +58,19 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
             </Link>
           </div>
           <Currency value={value} /> <br />
-          <div className="flex gap-2 sm:flex-col items-left ">
+          <div className="items-left flex gap-2 sm:flex-col ">
             Quantité:
             <div className="flex items-center gap-2 tabular-nums	">
               <IconButton
-                className="w-5 h-5 p-0.5 bg-primary-foreground  "
+                className="h-5 w-5 bg-primary-foreground p-0.5  "
                 onClick={handleDecrement}
                 icon={<Minus size={20} className="text-primary" />}
               />
               {quantity}
               <IconButton
-                className="w-5 h-5 p-0.5 bg-primary-foreground "
+                className="h-5 w-5 bg-primary-foreground p-0.5 "
                 onClick={handleIncrement}
-                icon={<Plus size={20} className="font-bold stroke-2" />}
+                icon={<Plus size={20} className="stroke-2 font-bold" />}
               />
             </div>
           </div>

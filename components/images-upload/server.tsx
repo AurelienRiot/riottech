@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import { checkAdmin } from "../auth/checkAuth";
 import prismadb from "@/lib/prismadb";
 import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
@@ -25,6 +26,40 @@ const s3 = new S3Client({
   },
   endpoint: "https://s3.fr-par.scw.cloud",
 });
+
+type SignatureReturnType =
+  | {
+      success: true;
+      data: {
+        preSignedUrl: string;
+      };
+    }
+  | {
+      success: false;
+      message: string;
+    };
+async function getSignature({
+  bucketName,
+  fileName,
+}: {
+  bucketName: string;
+  fileName: string;
+}): Promise<SignatureReturnType> {
+  const isAuth = await checkAdmin();
+  if (!isAuth) {
+    return {
+      success: false,
+      message: "Vous devez être authentifier",
+    };
+  }
+  const command = new PutObjectCommand({ Bucket: bucketName, Key: fileName });
+  const preSignedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+  return {
+    success: true,
+    data: { preSignedUrl },
+  };
+}
 
 async function listBuckets() {
   const isAuth = await checkAdmin();
@@ -58,51 +93,6 @@ async function listFiles(bucketName: string) {
         new Date(b.LastModified ?? 0).getTime() -
         new Date(a.LastModified ?? 0).getTime(),
     );
-  } catch (error) {
-    console.error(`An error occurred: ${error}`);
-  }
-}
-
-async function uploadFile({
-  bucketName,
-  formData,
-}: {
-  bucketName: string;
-  formData: FormData;
-}) {
-  const isAuth = await checkAdmin();
-  if (!isAuth) {
-    return;
-  }
-  try {
-    const filesValues: string[] = [];
-    formData.forEach(async (value, key) => {
-      if (value instanceof File) {
-        const uniqueName = `${uuidv4()}-${key}`;
-        filesValues.push(uniqueName);
-
-        const array = await value.arrayBuffer();
-
-        const uploadParams: PutObjectCommandInput = {
-          Bucket: bucketName,
-          Key: uniqueName,
-          // @ts-ignore
-          Body: array,
-          ACL: "public-read",
-        };
-
-        const result = await s3.send(new PutObjectCommand(uploadParams));
-      }
-    });
-
-    const validUrls = filesValues.map(
-      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
-    );
-    await checkUrls(validUrls);
-
-    return filesValues;
-
-    // console.log(`File ${fileName} uploaded with unique name ${uniqueName}`);
   } catch (error) {
     console.error(`An error occurred: ${error}`);
   }
@@ -199,25 +189,4 @@ async function deleteObject({
   }
 }
 
-const checkUrls = async (urls: (string | null)[]): Promise<void> => {
-  const invalidUrls = await Promise.all(
-    urls.map(async (url) => {
-      if (!url) {
-        return null;
-      }
-      const isAccessible = await checkIfUrlAccessible(url);
-      return isAccessible ? null : url;
-    }),
-  );
-
-  if (invalidUrls.some((url) => url !== null)) {
-    // If there are still invalid URLs, wait for 250ms and check again
-    await addDelay(250);
-    return checkUrls(invalidUrls.filter((url) => url !== null));
-  } else {
-    // All URLs are valid
-    return;
-  }
-};
-
-export { downloadFile, listBuckets, listFiles, uploadFile, deleteObject };
+export { downloadFile, listBuckets, listFiles, deleteObject, getSignature };

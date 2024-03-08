@@ -8,8 +8,9 @@ import { AnimateHeight } from "../animations/animate-size";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
-import { deleteObject, listFiles, uploadFile } from "./server";
+import { deleteObject, getSignature, listFiles } from "./server";
 import { AnimatePresence, Reorder } from "framer-motion";
+import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -34,60 +35,91 @@ const UploadImage = ({
       return;
     }
 
-    const formData = new FormData();
+    const files: File[] = [];
     Array.from(event.target.files).forEach((file) => {
-      formData.append(file.name, file);
+      files.push(file);
     });
 
-    await fileChange(formData);
+    await fileChange(files);
   };
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setLoading(true);
-    const formData = new FormData();
+    const files: File[] = [];
     Array.from(event.dataTransfer.files).forEach((file) => {
       if (
-        file.type === "image/png" ||
-        file.type === "image/jpeg" ||
-        file.type === "image/jpg" ||
-        file.type === "image/webp"
+        file.type !== "image/png" &&
+        file.type !== "image/jpeg" &&
+        file.type !== "image/jpg" &&
+        file.type !== "image/webp"
       ) {
-        formData.append(file.name, file);
-      } else {
         toast.error(
           `Le format du fichier n'est pas supporté : ${file.name}\nFormats supportés : png, jpeg, jpg, webp`,
           { duration: 5000 },
         );
+      } else {
+        files.push(file);
       }
     });
-    await fileChange(formData);
+
+    await fileChange(files);
   };
 
-  const fileChange = async (formData: FormData) => {
-    const result = await uploadFile({
-      bucketName,
-      formData,
+  const fileChange = async (files: File[]) => {
+    const uploadPromises = files.map(async (file) => {
+      const originalFileName = file.name;
+      const fileNameWithoutExtension =
+        originalFileName.substring(0, originalFileName.lastIndexOf(".")) ||
+        originalFileName;
+      const randomString = generateRandomString(10);
+      const uniqueFileName = `${randomString}-${fileNameWithoutExtension}`;
+      const result = await getSignature({
+        bucketName: bucketName,
+        fileName: uniqueFileName,
+      });
+      if (!result.success) {
+        toast.error(result.message);
+        setLoading(false);
+        return;
+      }
+
+      const { preSignedUrl } = result.data;
+
+      const response = await fetch(preSignedUrl, {
+        method: "PUT",
+        body: file,
+      });
+
+      const data = await response.json();
+      console.log(data);
+      // return { publicId: data.public_id, secureUrl: data.secure_url }; // Return the successful upload's data
     });
-    if (!result) {
-      toast.error("Une erreur est survenue dans l'envoi des fichiers");
-      setLoading(false);
-      return;
-    }
 
-    const updatedFiles = await listFiles(bucketName);
-    if (!updatedFiles) {
-      toast.error("Une erreur est survenue dans la récuperation des fichiers");
-      setLoading(false);
-      return;
-    }
+    const results = await Promise.all(uploadPromises);
+    // const validUrls = results.map(
+    //   (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
+    // );
 
-    setFiles(updatedFiles);
-    if (multipleImages) {
-      setSelectedFiles((prev) => [...prev, ...result]);
-    } else {
-      setSelectedFiles([result[0]]);
-    }
+    // await checkUrls(validUrls);
+
+    // const updatedFiles = await listFiles();
+    // if (!updatedFiles.success) {
+    //   toast.error(updatedFiles.message);
+    //   setLoading(false);
+    //   return;
+    // }
+    // console.log(updatedFiles.data);
+
+    // setFiles(updatedFiles.data);
+    // if (multipleImages) {
+    //   setSelectedFiles((prev) => [
+    //     ...prev,
+    //     ...validUrls.map((item) => item.publicId),
+    //   ]);
+    // } else {
+    //   setSelectedFiles([validUrls[0].publicId]);
+    // }
     setLoading(false);
   };
 
@@ -344,7 +376,8 @@ const DisplayImages = ({
                     >
                       <div className="flex justify-between text-sm">
                         <p className="text-muted-foreground ">
-                          {file.Key?.slice(37)}
+                          {/* {file.Key?.slice(37)} */}
+                          {file.Key}
                         </p>
                       </div>
                     </div>
@@ -408,4 +441,35 @@ const DisplayImages = ({
       </AnimateHeight>
     </div>
   );
+};
+
+const checkUrls = async (urls: (string | null)[]): Promise<void> => {
+  const invalidUrls = await Promise.all(
+    urls.map(async (url) => {
+      if (!url) {
+        return null;
+      }
+      const isAccessible = await checkIfUrlAccessible(url);
+      return isAccessible ? null : url;
+    }),
+  );
+
+  if (invalidUrls.some((url) => url !== null)) {
+    // If there are still invalid URLs, wait for 250ms and check again
+    await addDelay(250);
+    return checkUrls(invalidUrls.filter((url) => url !== null));
+  } else {
+    // All URLs are valid
+    return;
+  }
+};
+
+const generateRandomString = (length: number) => {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
 };

@@ -11,6 +11,7 @@
     "email": "email dev --dir components/email -p 3001"
   },
   "dependencies": {
+    "@aws-sdk/s3-request-presigner": "^3.529.1",
     "@hookform/resolvers": "3.3.4",
     "@prisma/client": "5.10.2",
     "@radix-ui/react-avatar": "^1.0.4",
