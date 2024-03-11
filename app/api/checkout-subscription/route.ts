@@ -141,8 +141,8 @@ export async function POST(req: NextRequest) {
         address: isAdresse ? "never" : "auto",
       },
       payment_intent_data: {
-        statement_descriptor: `Abonnement RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
-        statement_descriptor_suffix: `Abonnement RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
+        statement_descriptor: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
+        statement_descriptor_suffix: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
         setup_future_usage: "off_session",
       },
       billing_address_collection: isAdresse ? "auto" : "required",
