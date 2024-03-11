@@ -39,7 +39,7 @@ export const formatter = (() => {
     style: "currency",
     currency: "EUR",
     currencyDisplay: "symbol",
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format;
 

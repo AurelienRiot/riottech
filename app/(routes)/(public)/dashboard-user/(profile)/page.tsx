@@ -7,6 +7,7 @@ import { SubscriptionOrderColumnType } from "./components/subscription-order-col
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import { UserButtons } from "./components/user-buttons";
 import { ToastSearchParams } from "@/lib/toast-search-params";
+import UserPhone from "./components/user-phone";
 
 type FullAdress = {
   label: string;
@@ -39,7 +40,7 @@ const DashboardUser = async () => {
       mailSend: order.mailSend,
       pdfUrl: order.pdfUrl,
       createdAt: order.createdAt,
-    })
+    }),
   );
 
   const formattedSubscriptionOrders: SubscriptionOrderColumnType[] = (
@@ -60,17 +61,17 @@ const DashboardUser = async () => {
   const fullAdress: FullAdress = JSON.parse(user.adresse ? user.adresse : "{}");
 
   return (
-    <div className="gap-4 mt-4 mb-4">
+    <div className="mb-4 mt-4 gap-4">
       <ToastSearchParams
         searchParam="success-subscription"
         message="Paiement réussi."
         url="/dashboard-user"
         toastType="success"
       />
-      <div className="flex flex-col items-center justify-center w-fit h-fit mx-auto mb-4 text-gray-800 border-2 rounded-md shadow-xl dark:text-white p-6 gap-2">
+      <div className="mx-auto mb-4 flex h-fit w-fit flex-col items-center justify-center gap-2 rounded-md border-2 p-6 text-gray-800 shadow-xl dark:text-white">
         {user.raisonSocial ? (
           <>
-            <h1 className="text-3xl font-bold text-center">
+            <h1 className="text-center text-3xl font-bold">
               <span className="capitalize">{user.raisonSocial}</span>
               <br />
               {"("}
@@ -82,7 +83,7 @@ const DashboardUser = async () => {
           </>
         ) : (
           <>
-            <h1 className="text-3xl font-bold text-center">
+            <h1 className="text-center text-3xl font-bold">
               <span className="capitalize">{user.name}</span> <br />
               <span className="capitalize">{user.surname}</span>
             </h1>
@@ -91,8 +92,8 @@ const DashboardUser = async () => {
         )}
         <UserButtons />
       </div>
-      <div className="flex flex-col items-center justify-center text-gray-800 text-md sm:text-xl dark:text-white">
-        <div className="grid grid-cols-1 items-center justify-items-center sm:justify-items-start sm:grid-cols-2 gap-4">
+      <div className="text-md flex flex-col items-center justify-center text-gray-800 dark:text-white sm:text-xl">
+        <div className="grid grid-cols-1 items-center justify-items-center gap-4 sm:grid-cols-2 sm:justify-items-start">
           <p className="font-bold ">Email :</p>
           <p>{user.email}</p>
           <p className="font-bold">Adresse :</p>
@@ -105,7 +106,7 @@ const DashboardUser = async () => {
           )}
 
           <p className="font-bold">Télephone :</p>
-          <p>{user.phone}</p>
+          <UserPhone phone={user.phone} />
           {user.raisonSocial && (
             <>
               <p className="font-bold">TVA :</p>

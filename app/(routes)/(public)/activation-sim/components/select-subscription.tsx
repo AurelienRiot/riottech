@@ -107,7 +107,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       )}&subId=${encodeURIComponent(subscriptionId)}`,
       { scroll: false },
     );
-    router.refresh();
   };
 
   return (
