@@ -25,7 +25,7 @@ const simSchema = z.object({
 type SimSchema = z.infer<typeof simSchema>;
 
 type ActivationSimFormProps = {
-  sim: string;
+  sim: string | undefined;
   availableSim: boolean;
 };
 
@@ -39,17 +39,15 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({
   const form = useForm<SimSchema>({
     resolver: zodResolver(simSchema),
     defaultValues: {
-      sim,
+      sim: sim || "",
     },
   });
 
   const onSubmit = async (data: SimSchema) => {
-    router.push(
-      `/activation-sim?sim=${encodeURIComponent(
-        data.sim
-      )}&callbackUrl=${encodeURIComponent(`/activation-sim?sim=${data.sim}`)}`,
-      { scroll: false }
-    );
+    router.push(`/activation-sim?sim=${encodeURIComponent(data.sim)}`, {
+      scroll: false,
+    });
+    router.refresh();
   };
   const simValue = form.watch("sim");
   useEffect(() => {

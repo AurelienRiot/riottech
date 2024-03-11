@@ -1,17 +1,14 @@
 import Spinner from "@/components/animations/spinner";
-import { authOptions } from "@/components/auth/authOptions";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { ToastSearchParams } from "@/lib/toast-search-params";
 import GetSubscriptions from "@/server-actions/get-subscriptions";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
-import { ToastSearchParams } from "@/lib/toast-search-params";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",
@@ -21,35 +18,13 @@ export const metadata = {
 const activationSIMPage = async (context: {
   searchParams: { sim: string; callbackUrl: string; subId: string };
 }) => {
-  const session = await getServerSession(authOptions);
-
-  if (
-    !context.searchParams.callbackUrl &&
-    context.searchParams.sim &&
-    !session
-  ) {
-    redirect(
-      `/activation-sim?sim=${encodeURIComponent(
-        context.searchParams.sim
-      )}&subId=${encodeURIComponent(
-        context.searchParams.subId ?? ""
-      )}&callbackUrl=${encodeURIComponent(
-        `/activation-sim?sim=${context.searchParams.sim}&subId=${
-          context.searchParams.subId ?? ""
-        }
-          
-        `
-      )}`
-    );
-  }
-
   return (
     <>
       <ToastSearchParams
         searchParam="canceled"
         message="Erreur de paiement."
         url={`/activation-sim?sim=${encodeURIComponent(
-          context.searchParams.sim
+          context.searchParams.sim,
         )}&subId=${encodeURIComponent(context.searchParams.subId)}`}
         toastType="error"
       />
@@ -61,8 +36,6 @@ const activationSIMPage = async (context: {
               subId={context.searchParams.subId}
             />
           </Suspense>
-
-          {/* <Client subscriptions={subscriptions} sim={context.searchParams.sim} subId={context.searchParams.subId} /> */}
         </div>
       </Container>
     </>
@@ -76,7 +49,7 @@ const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
   const subscriptions = await GetSubscriptions();
 
   const selectedSubscriptions = subscriptions.filter((subscription) =>
-    res.RTsubIDs.includes(subscription.id)
+    res.RTsubIDs.includes(subscription.id),
   );
   const availableSim = sim ? res.available : true;
   const org = res.is_third
@@ -99,7 +72,7 @@ const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
               <img
                 src={org.orgImageUrl}
                 alt="Logo"
-                className="max-w-52 mx-auto mb-4"
+                className="mx-auto mb-4 max-w-52"
               />
             ) : null}
             <p>
@@ -137,8 +110,8 @@ const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
       {selectedSubscriptions.length > 0 ? (
         <SelectSubscription
           subscriptions={selectedSubscriptions}
-          subId={subId}
           sim={sim}
+          initSubId={subId}
         />
       ) : null}
     </>

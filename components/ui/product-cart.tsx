@@ -42,20 +42,20 @@ const ProductCart: React.FC<ProductCartProps> = ({ data }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      className="p-3 m-2 space-y-4 border cursor-pointer group rounded-xl bg-secondary "
+      className="group m-2 cursor-pointer space-y-4 rounded-xl border bg-secondary p-3 "
     >
       <VisibleElement
         onClick={handleClick}
-        className="relative bg-white aspect-square rounded-xl before:rounded-xl before:inset-0 before:absolute before:z-10 before:bg-black/20 before:opacity-0 before:animate-in before:duration-300 before:ease-linear group-hover:before:opacity-100 "
+        className="relative aspect-square rounded-xl bg-white before:absolute before:inset-0 before:z-10 before:rounded-xl before:bg-black/20 before:opacity-0 before:duration-300 before:ease-linear before:animate-in group-hover:before:opacity-100 "
       >
         <Image
           src={data?.images?.[0].url}
           fill
           sizes="80vw"
           alt="Image"
-          className="object-cover rounded-md aspect-square "
+          className="aspect-square rounded-md object-cover "
         />
-        <div className="absolute w-full px-6 sm:transition sm:opacity-0 sm:group-hover:opacity-100 bottom-5">
+        <div className="absolute bottom-5 w-full px-6 sm:opacity-0 sm:transition sm:group-hover:opacity-100">
           <div className="flex justify-center gap-x-6">
             <IconButton
               className="z-20"

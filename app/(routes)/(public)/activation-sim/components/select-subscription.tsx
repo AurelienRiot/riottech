@@ -15,24 +15,28 @@ import { Subscription } from "@prisma/client";
 import axios from "axios";
 import { addDays, addMonths, addWeeks, addYears } from "date-fns";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
-  sim: string;
-  subId: string;
+  sim: string | undefined;
+  initSubId: string | undefined;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   subscriptions,
   sim,
-  subId,
+  initSubId,
 }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
+  const [subId, setSubId] = useState(initSubId);
+  const [selectedSubscription, setSelectedSubscription] =
+    useState<Subscription | null>(null);
+  const searchParams = useSearchParams();
 
   const map = new Map<string, Subscription[]>();
   subscriptions.forEach((subscription) => {
@@ -43,41 +47,44 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     map.get(groupName)?.push(subscription);
   });
 
+  useEffect(() => {
+    setSubId(searchParams.get("subId") ?? undefined);
+    console.log(searchParams.get("subId"));
+    setSelectedSubscription(
+      subscriptions.find((sub) => sub.id === subId) ?? null,
+    );
+  }, [searchParams, subscriptions, subId, setSubId, setSelectedSubscription]);
+
   const groupedSubscriptions = Array.from(map.values());
 
-  const subscription =
-    subscriptions.find((subscription) => subscription.id === subId) ??
-    groupedSubscriptions.length === 1
-      ? groupedSubscriptions[0][0]
-      : null;
-
   const displayRecurrence =
-    subscription?.recurrence === "month"
+    selectedSubscription?.recurrence === "month"
       ? "mois"
-      : subscription?.recurrence === "year"
-      ? "an"
-      : subscription?.recurrence === "week"
-      ? "semaine"
-      : "jour";
+      : selectedSubscription?.recurrence === "year"
+        ? "an"
+        : selectedSubscription?.recurrence === "week"
+          ? "semaine"
+          : "jour";
+
   const nextRecurrence =
-    subscription?.recurrence === "month"
+    selectedSubscription?.recurrence === "month"
       ? dateFormatter(addMonths(new Date(), 1))
-      : subscription?.recurrence === "year"
-      ? dateFormatter(addYears(new Date(), 1))
-      : subscription?.recurrence === "week"
-      ? dateFormatter(addWeeks(new Date(), 1))
-      : dateFormatter(addDays(new Date(), 1));
+      : selectedSubscription?.recurrence === "year"
+        ? dateFormatter(addYears(new Date(), 1))
+        : selectedSubscription?.recurrence === "week"
+          ? dateFormatter(addWeeks(new Date(), 1))
+          : dateFormatter(addDays(new Date(), 1));
 
   const onClick = async () => {
     setLoading(true);
-    if (sim === "" || !subscription) {
+    if (sim === "" || !selectedSubscription) {
       toast.error("Veuillez renseigner le numéro de la SIM.");
       setLoading(false);
       return;
     }
     try {
       const response = await axios.post("/api/checkout-subscription", {
-        subscriptionId: subscription.id,
+        subscriptionId: selectedSubscription.id,
         sim,
       });
       window.location = response.data.url;
@@ -88,17 +95,19 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     }
   };
 
-  const redirectSub = (subId: string) => {
+  const redirectSub = (subscriptionId: string) => {
+    if (!sim) {
+      router.refresh();
+      toast.error("Erreur. Veuillez renseigner le numéro de la SIM.");
+      return;
+    }
     router.push(
       `/activation-sim?sim=${encodeURIComponent(
-        sim
-      )}&subId=${encodeURIComponent(subId)}&callbackUrl=${encodeURIComponent(
-        `/activation-sim?sim=${sim}&subId=${subId}
-        
-      `
-      )}`,
-      { scroll: false }
+        sim,
+      )}&subId=${encodeURIComponent(subscriptionId)}`,
+      { scroll: false },
     );
+    router.refresh();
   };
 
   return (
@@ -106,10 +115,10 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       <div className="mt-4 flex flex-col justify-center gap-2 text-center">
         <h2 className="text-center text-lg">Choisissez votre abonnement : </h2>
         <Select
-          defaultValue={
-            subscription
+          value={
+            selectedSubscription
               ? groupedSubscriptions.find((group) =>
-                  group.some((sub) => sub.id === subscription.id)
+                  group.some((sub) => sub.id === selectedSubscription.id),
                 )?.[0].id
               : undefined
           }
@@ -129,7 +138,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
           </SelectContent>
         </Select>
         {groupedSubscriptions.map((obj, index) =>
-          obj.some((sub) => sub.id === subscription?.id) ? (
+          obj.some((sub) => sub.id === selectedSubscription?.id) ? (
             <div
               key={index}
               className="flex flex-row justify-center gap-2 text-center"
@@ -139,23 +148,23 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 <Button
                   key={sub.id}
                   onClick={() => redirectSub(sub.id)}
-                  data-active={sub.id === subscription?.id}
+                  data-active={sub.id === selectedSubscription?.id}
                   className="border-2 border-transparent data-[active=false]:bg-primary-foreground data-[active=false]:text-primary hover:data-[active=false]:border-border"
                 >
                   {sub.recurrence === "month"
                     ? "Mensuel"
                     : sub.recurrence === "year"
-                    ? "Annuel"
-                    : sub.recurrence === "week"
-                    ? "Hebdomadaire"
-                    : "Journalier"}
+                      ? "Annuel"
+                      : sub.recurrence === "week"
+                        ? "Hebdomadaire"
+                        : "Journalier"}
                 </Button>
               ))}
             </div>
-          ) : null
+          ) : null,
         )}
       </div>
-      {subscription ? (
+      {selectedSubscription ? (
         <>
           <div className="mt-4 flex flex-col rounded-lg bg-gray-200 p-4 dark:bg-gray-900">
             <div className="mb-2  flex w-fit flex-col justify-center self-center rounded-lg bg-gray-100 p-2 text-center dark:bg-gray-800">
@@ -171,7 +180,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 </h3>
                 <Separator className="mb-1 bg-secondary-foreground" />
                 <p className="text-secondary-foreground/80">
-                  Carte SIM RIOT TECH {subscription?.name} x 1
+                  Carte SIM RIOT TECH {selectedSubscription?.name} x 1
                 </p>
               </div>
               <div>
@@ -180,10 +189,13 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 </h3>
                 <Separator className="mb-1 bg-secondary-foreground" />
                 <p className="inline gap-1 text-secondary-foreground/80">
-                  <Currency value={subscription.priceHT} displayLogo={false} />
+                  <Currency
+                    value={selectedSubscription.priceHT}
+                    displayLogo={false}
+                  />
                   {" et un coût d'achat de l'équipement de "}{" "}
                   <Currency
-                    value={subscription.fraisActivation}
+                    value={selectedSubscription.fraisActivation}
                     displayLogo={false}
                   />{" "}
                 </p>
@@ -195,7 +207,10 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
               </div>
               <div className=" font-medium text-secondary-foreground">
                 <Currency
-                  value={subscription.priceHT + subscription.fraisActivation}
+                  value={
+                    selectedSubscription.priceHT +
+                    selectedSubscription.fraisActivation
+                  }
                 />
               </div>
             </div>
@@ -205,7 +220,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
               </div>
               <div className="inline gap-1 font-bold text-secondary-foreground">
                 <Currency
-                  value={subscription.priceHT}
+                  value={selectedSubscription.priceHT}
                   displayLogo={false}
                   className="mr-1"
                 />
@@ -225,7 +240,9 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                     <span className="text-xs text-red-500">*Obligatoire</span>
                   </h1>
 
-                  <RegisterForm />
+                  <RegisterForm
+                    callback={`/activation-sim?sim=${sim}&subId=${subId}`}
+                  />
                 </div>
               </div>
             )}

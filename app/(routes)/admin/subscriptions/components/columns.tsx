@@ -66,7 +66,7 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {"Prix"}
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
         </Button>
       );
     },
@@ -83,7 +83,7 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           {"Limite donnée (GB)"}
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
         </Button>
       );
     },
@@ -97,23 +97,23 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="ghost" className="group">
-              {"Récurrence"}
+              Renouvellement
               <ChevronRight
-                className="flex-shrink-0 w-4 h-4 ml-2
-              group-data-[state=open]:rotate-90 transition-all"
+                className="ml-2 h-4 w-4 flex-shrink-0
+              transition-all group-data-[state=open]:rotate-90"
               />
             </Button>
           </PopoverTrigger>
           <PopoverContent
             align="start"
             sideOffset={4}
-            className="w-[180px] h-auto p-1 flex flex-col gap-3"
+            className="flex h-auto w-[180px] flex-col gap-3 p-1"
           >
             {Recurrences.map((recurrence) => {
               return (
                 <Label
                   key={recurrence}
-                  className="cursor-pointer flex items-center justify-left p-2 gap-2 hover:text-accent-foreground hover:bg-accent rounded-md"
+                  className="justify-left flex cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-accent hover:text-accent-foreground"
                 >
                   <Checkbox
                     value={recurrence}
@@ -127,7 +127,7 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
                       const filterValues = Array.from(selectedValues);
 
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined
+                        filterValues.length ? filterValues : undefined,
                       );
                     }}
                   />
@@ -154,7 +154,7 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
           className="group"
         >
           Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2 group-active:rotate-180 transition-all duration-100" />
+          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0 transition-all duration-100 group-active:rotate-180" />
         </Button>
       );
     },

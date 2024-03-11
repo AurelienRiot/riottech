@@ -38,7 +38,7 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   }
   try {
     const response = await axios.get(
-      `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`
+      `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`,
     );
 
     if (response.data.available) {

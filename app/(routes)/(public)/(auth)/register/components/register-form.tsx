@@ -61,7 +61,7 @@ const formSchema = z
       },
       {
         message: "Le numéro de téléphone n'est pas valide",
-      }
+      },
     ),
     adresse: z.string().min(0).max(100, {
       message: "L'adresse ne peut pas dépasser 100 caractères",
@@ -80,12 +80,14 @@ const formSchema = z
   });
 export type RegisterFormValues = z.infer<typeof formSchema>;
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ callback }: { callback?: string }) => {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isPro, setIsPro] = useState(true);
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = callback
+    ? callback
+    : searchParams.get("callbackUrl") || "/";
   const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState({
     label: "",
@@ -103,7 +105,7 @@ export const RegisterForm = () => {
       if (isPro) {
         if (!data.raisonSocial) {
           toast.error(
-            "Veuillez renseigner la raison sociale ou passer en particulier."
+            "Veuillez renseigner la raison sociale ou passer en particulier.",
           );
           return;
         }
@@ -111,7 +113,7 @@ export const RegisterForm = () => {
           const valideVat = await GetValideVat(data.tva);
           if (!valideVat) {
             toast.error(
-              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
+              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
             );
             return;
           }
@@ -182,7 +184,7 @@ export const RegisterForm = () => {
         >
           <div
             data-state={isPro}
-            className="mt-6 flex justify-between data-[state=false]:-mb-12 transition-all duration-500"
+            className="mt-6 flex justify-between transition-all duration-500 data-[state=false]:-mb-12"
           >
             <Button
               onClick={(e) => {

@@ -42,6 +42,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   const [showPassword, setShowPassword] = useState(false);
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard-user";
 
+  console.log("callbackUrl", callbackUrl);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,7 +70,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-          className="space-y-12 w-full sm:w-[400px]"
+          className="w-full space-y-12 sm:w-[400px]"
         >
           <div className="grid w-full  items-center gap-1.5">
             <FormField
