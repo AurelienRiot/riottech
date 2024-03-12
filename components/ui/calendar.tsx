@@ -35,7 +35,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -47,7 +47,7 @@ function Calendar({
         cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
         ),
         day_selected:
           "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
@@ -63,33 +63,34 @@ function Calendar({
       components={{
         Dropdown: ({ value, onChange, children, ...props }: DropdownProps) => {
           const options = React.Children.toArray(
-            children
+            children,
           ) as React.ReactElement<React.HTMLProps<HTMLOptionElement>>[];
-          const selected = options.find((child) => child.props.value === value);
-          const handleChange = (value: string) => {
+          const selected = options.find(
+            (child) => `${child.props.value}` === `${value}`,
+          );
+          const handleChange = (newValue: string) => {
             const changeEvent = {
-              target: { value },
+              target: { value: newValue },
             } as React.ChangeEvent<HTMLSelectElement>;
             onChange?.(changeEvent);
           };
+
           return (
             <Select
-              value={value ? String(value) : ""}
-              onValueChange={(value) => {
-                handleChange(value);
-              }}
+              value={value != null ? value.toString() : ""}
+              onValueChange={handleChange}
             >
               <SelectTrigger className="pr-1.5 focus:ring-0">
                 <SelectValue>{selected?.props?.children}</SelectValue>
               </SelectTrigger>
               <SelectContent position="popper">
                 <ScrollArea className="h-80">
-                  {options.map((option, id: number) => (
+                  {options.map((option, id) => (
                     <SelectItem
                       key={`${option.props.value}-${id}`}
                       value={
-                        option.props.value
-                          ? String(option.props.value)
+                        option.props.value != null
+                          ? option.props.value.toString()
                           : `default-value-${id}`
                       }
                     >
@@ -101,8 +102,9 @@ function Calendar({
             </Select>
           );
         },
-        IconLeft: ({ ...props }) => <ChevronLeft className="w-4 h-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="w-4 h-4" />,
+
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />

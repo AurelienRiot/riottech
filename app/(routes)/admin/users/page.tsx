@@ -22,7 +22,6 @@ import { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
 import { columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
-import { addDelay } from "@/lib/utils";
 
 const UserPage = async () => {
   const from = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -51,7 +50,7 @@ const ServerHistoryTableLoading = () => {
     <div className="m-4">
       <Heading title={`Historiques`} description="Gérez les historiques" />
       <Separator className="mb-4" />
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <Button
           variant={"outline"}
           disabled={true}
@@ -59,7 +58,7 @@ const ServerHistoryTableLoading = () => {
             "w-[300px] justify-start text-left font-normal text-muted-foreground"
           }
         >
-          <CalendarIcon className="w-4 h-4 mr-2" />
+          <CalendarIcon className="mr-2 h-4 w-4" />
 
           <span>Choisir une date</span>
         </Button>
@@ -146,7 +145,7 @@ const SeverUserClientLoading = () => {
   return (
     <div className="m-4">
       <Heading title={`Clients `} description="Liste des clients" />
-      <div className="grid grid-cols-1 gap-4 mt-4 justify-content-center md:grid-cols-6">
+      <div className="justify-content-center mt-4 grid grid-cols-1 gap-4 md:grid-cols-6">
         <Input placeholder="Recherche" disabled={true} />
 
         <div
@@ -155,38 +154,38 @@ const SeverUserClientLoading = () => {
           }
         >
           <p>nom</p>
-          <ChevronDown className="w-4 h-4 opacity-50" />
+          <ChevronDown className="h-4 w-4 opacity-50" />
         </div>
       </div>
-      <div className="grid grid-cols-1 p-6 space-y-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
+      <div className="grid grid-cols-1 space-y-4 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
         {Array.from({ length: 4 }, (_, index) => (
           <div key={index} className="m-4">
             <Card>
               <CardHeader>
                 <CardTitle
-                  className="cursor-pointer hover:underline
-                 flex items-center justify-left gap-3"
+                  className="justify-left flex
+                 cursor-pointer items-center gap-3 hover:underline"
                 >
-                  <Skeleton className="w-20 h-4 rounded-full " />
-                  <Skeleton className="w-16 h-4 rounded-full" />
+                  <Skeleton className="h-4 w-20 rounded-full " />
+                  <Skeleton className="h-4 w-16 rounded-full" />
                 </CardTitle>
-                <CardDescription className="flex items-center justify-left">
-                  <Skeleton className="w-24 h-4 rounded-full" />
+                <CardDescription className="justify-left flex items-center">
+                  <Skeleton className="h-4 w-24 rounded-full" />
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex justify-center flex-col items-center">
-                <div className="p-2 flex justify-center">
-                  <Skeleton className="w-24 h-4 rounded-full" />
+              <CardContent className="flex flex-col items-center justify-center">
+                <div className="flex justify-center p-2">
+                  <Skeleton className="h-4 w-24 rounded-full" />
                 </div>
-                <div className="p-2 flex justify-center items-center">
+                <div className="flex items-center justify-center p-2">
                   {`Nombre de commandes : `}{" "}
-                  <Skeleton className="w-5 h-4 rounded-full ml-2" />
+                  <Skeleton className="ml-2 h-4 w-5 rounded-full" />
                 </div>
-                <div className="p-2 flex justify-center items-center">
+                <div className="flex items-center justify-center p-2">
                   {`Nombre d'abonnements : `}
                   <Skeleton
-                    className="w-5 h-4 rounded-full
-                  ml-2"
+                    className="ml-2 h-4 w-5
+                  rounded-full"
                   />
                 </div>
               </CardContent>
