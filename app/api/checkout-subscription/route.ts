@@ -142,7 +142,6 @@ export async function POST(req: NextRequest) {
       },
       payment_intent_data: {
         statement_descriptor: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
-        statement_descriptor_suffix: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
       },
       billing_address_collection: isAdresse ? "auto" : "required",
       payment_method_types: ["sepa_debit", "card"],
