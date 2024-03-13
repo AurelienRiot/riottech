@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         "Erreur, un compte admin ne peut passer de commande",
         {
           status: 401,
-        }
+        },
       );
     }
 
@@ -109,7 +109,7 @@ export async function POST(req: NextRequest) {
           (
             (subscription.priceHT + subscription.fraisActivation) *
             taxe
-          ).toFixed(2)
+          ).toFixed(2),
         ),
         subscriptionPrice: Number((subscription.priceHT * taxe).toFixed(2)),
         sim: sim,
@@ -143,7 +143,6 @@ export async function POST(req: NextRequest) {
       payment_intent_data: {
         statement_descriptor: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
         statement_descriptor_suffix: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
-        setup_future_usage: "off_session",
       },
       billing_address_collection: isAdresse ? "auto" : "required",
       payment_method_types: ["sepa_debit", "card"],
@@ -166,17 +165,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-
 function getLastSixNumbers(inputString: string): string {
   // Use a regular expression to extract all numbers from the input string
   const numbers = inputString.match(/\d/g);
   if (numbers === null) {
-      // Return an error message or handle the case where no numbers are found
-      return "No numbers found";
+    // Return an error message or handle the case where no numbers are found
+    return "No numbers found";
   }
 
   // Join the numbers back into a string and then take the last six characters
-  const lastSix = numbers.join('').slice(-6);
+  const lastSix = numbers.join("").slice(-6);
 
   return lastSix;
 }
