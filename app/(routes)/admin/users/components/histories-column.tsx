@@ -21,7 +21,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
     accessorKey: "user",
     header: "Client",
     cell: ({ row }) => (
-      <div className="flex md:pl-10 capitalize ">
+      <div className="flex capitalize md:pl-10 ">
         {" "}
         <Button asChild variant={"linkHover2"}>
           <Link href={`/admin/users/${row.original.userId}`}>
@@ -46,7 +46,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   },
   {
     accessorKey: "status",
-    header: "Statut",
+    header: "État du paiement",
     cell: ({ row }) => (
       <div className="flex md:pl-10">
         {" "}
@@ -56,8 +56,8 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
               row.getValue("status") === "payé"
                 ? "green"
                 : row.getValue("status") === "erreur"
-                ? "red"
-                : "orange",
+                  ? "red"
+                  : "orange",
           }}
         >
           {row.getValue("status")}
@@ -74,7 +74,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
         </Button>
       );
     },

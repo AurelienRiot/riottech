@@ -4,8 +4,13 @@ import Stripe from "stripe";
 
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/strip";
+import { transporter } from "@/lib/nodemailer";
+import { render } from "@react-email/render";
+import SubscriptionEmail from "@/components/email/subscription";
 
 const PDF_URL = process.env.PDF_URL;
+const baseUrl = process.env.NEXT_PUBLIC_URL as string;
+
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = headers().get("Stripe-Signature") as string;
@@ -16,7 +21,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOKS_SECRET!
+      process.env.STRIPE_WEBHOOKS_SECRET!,
     );
   } catch (error: any) {
     return new NextResponse(`Webhook Eror: ${error.message}`, { status: 400 });
@@ -105,7 +110,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
     });
   } else {
     const subscription = await stripe.subscriptions.retrieve(
-      session?.subscription as string
+      session?.subscription as string,
     );
 
     const subscriptionOrder = await prismadb.subscriptionOrder.update({
@@ -132,12 +137,25 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
         pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
       },
     });
+
+    await transporter.sendMail({
+      from: "facturation@riottech.fr",
+      to: session?.customer_details?.email || "",
+      subject: "Votre abonnement RIOT TECH",
+      html: render(
+        SubscriptionEmail({
+          sim: subscriptionOrder.sim,
+          subscription: subscriptionOrder.name,
+          baseUrl,
+        }),
+      ),
+    });
   }
 }
 
 async function customerSubscriptionUpdated(session: Stripe.Checkout.Session) {
   const subscription = await stripe.subscriptions.retrieve(
-    session.id as string
+    session.id as string,
   );
 
   const subscriptionOrder = await prismadb.subscriptionOrder.findUnique({

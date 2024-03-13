@@ -27,7 +27,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   },
   {
     accessorKey: "status",
-    header: "Statut",
+    header: "État du paiement",
     cell: ({ row }) => (
       <div className="flex md:pl-10">
         {" "}
@@ -60,7 +60,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
         </Button>
       );
     },
