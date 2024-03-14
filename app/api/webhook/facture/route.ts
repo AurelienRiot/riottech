@@ -1,4 +1,4 @@
-import Billing from "@/components/email/billing";
+import BillingEmail from "@/components/email/billing";
 import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
 import { dateFormatter, formatter } from "@/lib/utils";
@@ -20,14 +20,14 @@ export async function POST(req: NextRequest) {
       `${PDF_URL}/get_pdf?charge_id=${chargeId}`,
       {
         responseType: "arraybuffer",
-      }
+      },
     );
 
     const contentDisposition = response.headers["content-disposition"];
     let filename = "unknown";
     if (contentDisposition) {
       const matches = contentDisposition.match(
-        /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+        /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/,
       );
       if (matches != null && matches[1]) {
         filename = matches[1].replace(/['"]/g, "");
@@ -73,12 +73,12 @@ export async function POST(req: NextRequest) {
           to: email,
           subject: "Votre facture RIOT TECH",
           html: render(
-            Billing({
+            BillingEmail({
               email,
               price,
               date,
               baseUrl,
-            })
+            }),
           ),
           attachments: [
             {
@@ -119,12 +119,12 @@ export async function POST(req: NextRequest) {
           to: user?.email,
           subject: "Votre facture RIOT TECH",
           html: render(
-            Billing({
+            BillingEmail({
               email,
               price,
               date,
               baseUrl,
-            })
+            }),
           ),
           attachments: [
             {

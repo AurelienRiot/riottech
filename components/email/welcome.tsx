@@ -8,14 +8,17 @@ export interface WelcomeEmailProps {
 
 export const WelcomeEmail = ({ fullName, baseUrl }: WelcomeEmailProps) => (
   <MainBody baseUrl={baseUrl} previewText="Bienvenue sur RIOT TECH">
-    {/* <Text style={paragraph}>Bonjour {fullName},</Text> */}
-
     <WelcomeBody baseUrl={baseUrl} />
     <Footer />
   </MainBody>
 );
 
 export default WelcomeEmail;
+
+WelcomeEmail.PreviewProps = {
+  fullName: "Alan Turing",
+  baseUrl: "https://riottech.vercel.app",
+} as WelcomeEmailProps;
 
 const WelcomeBody = ({ baseUrl }: { baseUrl: string }) => (
   <>

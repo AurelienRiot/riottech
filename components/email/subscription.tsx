@@ -1,15 +1,5 @@
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Img,
-  Preview,
-  Section,
-  Text,
-} from "@react-email/components";
+import { Button, Section, Text } from "@react-email/components";
+import { Footer, MainBody } from "./common";
 
 export interface SubscriptionEmailProps {
   baseUrl: string;
@@ -22,107 +12,48 @@ export const SubscriptionEmail = ({
   baseUrl,
   sim,
 }: SubscriptionEmailProps) => (
-  <Html>
-    <Head />
-    <Preview>Bienvenue sur RIOT TECH</Preview>
-    <Body style={main}>
-      <Container style={container}>
-        <Section style={redZone}>
-          <Text style={paragraphRedZone}>
-            {" "}
-            {`Votre souscription à l'abonnement ${subscription}`}
-          </Text>
-          <Text style={paragraphRedZone}> est validée !</Text>
-        </Section>
-        <Text style={paragraph}>Paiement en cours de validation</Text>
-        <Text style={paragraph}>
-          Retrouvez les détails et factures de votre abonnement sur
-        </Text>
-        <Section style={btnContainer}>
-          <Button
-            style={button}
-            href={`${baseUrl}/dashboard-user/invoices`}
-            target="_blank"
-          >
-            riottech.fr
-          </Button>
-        </Section>
+  <MainBody baseUrl={baseUrl} previewText="Abonnement RIOT TECH">
+    <SubscriptionBody subscription={subscription} sim={sim} baseUrl={baseUrl} />
+    <Footer />
+  </MainBody>
+);
 
-        <Text style={paragraph}>sim : {sim} </Text>
-        <Text style={paragraph}>
-          Cordialement,
-          <br />
-          RIOT TECH
-        </Text>
-        <Hr style={hr} />
-        <Text style={footer}>RIOT TECH - Kervihan 56930 Pluméliau-Bieuzy</Text>
-      </Container>
-    </Body>
-  </Html>
+SubscriptionEmail.PreviewProps = {
+  subscription: "50GO mensuel",
+  baseUrl: "https://riottech.vercel.app",
+  sim: "123456789123456789",
+} as SubscriptionEmailProps;
+
+const SubscriptionBody = ({
+  subscription,
+  baseUrl,
+  sim,
+}: SubscriptionEmailProps) => (
+  <>
+    <Section className="m-3 rounded-lg bg-white text-center">
+      <Text className="text-center text-base font-bold ">
+        {" "}
+        {`Votre souscription à l'abonnement ${subscription} est validée !`}
+      </Text>
+    </Section>
+    <Text className="text-center text-base ">
+      Paiement en cours de validation
+    </Text>
+    <Text className="text-center text-base ">
+      Retrouvez les détails et factures de votre abonnement sur
+    </Text>
+    <Section className="text-center">
+      <Button
+        className="rounded-lg bg-primary px-6 py-3 text-center text-base text-white "
+        href={`${baseUrl}/dashboard-user/invoices`}
+        target="_blank"
+      >
+        riottech.fr
+      </Button>
+    </Section>
+
+    <Text className="text-center text-base ">sim : {sim} </Text>
+  </>
 );
 
 export default SubscriptionEmail;
-
-const main = {
-  backgroundColor: "#ffffff",
-  fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-};
-
-const container = {
-  margin: "0 auto",
-  padding: "20px 0 48px",
-};
-
-const logo = {
-  margin: "0 auto",
-};
-
-const paragraph = {
-  fontSize: "16px",
-  lineHeight: "26px",
-  textAlign: "center" as const,
-};
-
-const paragraphRedZone = {
-  fontSize: "16px",
-  lineHeight: "26px",
-  textAlign: "center" as const,
-  fontHeight: 700,
-};
-
-const btnContainer = {
-  textAlign: "center" as const,
-  itemAlign: "center" as const,
-  display: "flex",
-  justifyContent: "center" as const,
-};
-
-const redZone = {
-  textAlign: "center" as const,
-  background: "#FFF",
-  margin: "10px",
-  borderRadius: "10px",
-};
-
-const button = {
-  backgroundColor: "#5F51E8",
-  borderRadius: "10px",
-  color: "#fff",
-  fontSize: "16px",
-  textDecoration: "none",
-  textAlign: "center" as const,
-  display: "block",
-  padding: "12px",
-  width: "fit-content",
-};
-
-const hr = {
-  borderColor: "#cccccc",
-  margin: "20px 0",
-};
-
-const footer = {
-  color: "#8898aa",
-  fontSize: "12px",
-};
