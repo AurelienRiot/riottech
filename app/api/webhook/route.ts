@@ -1,3 +1,4 @@
+import { Subscription } from "@prisma/client";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -128,6 +129,19 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       },
     });
 
+    const sub = await prismadb.subscriptionOrder.findUnique({
+      where: {
+        id: subscriptionOrder.id,
+      },
+      select: {
+        subscriptionItem: {
+          select: {
+            subscription: { select: { name: true } },
+          },
+        },
+      },
+    });
+
     await prismadb.subscriptionHistory.create({
       data: {
         subscriptionOrderId: subscriptionOrder.id,
@@ -145,7 +159,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       html: render(
         SubscriptionEmail({
           sim: subscriptionOrder.sim,
-          subscription: subscriptionOrder.name,
+          subscription: sub?.subscriptionItem[0].subscription.name || "",
           baseUrl,
         }),
       ),

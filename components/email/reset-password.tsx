@@ -67,7 +67,7 @@ export const ResetPasswordEmail = ({
           RIOT TECH
         </Text>
         <Hr style={hr} />
-        <Text style={footer}>Kervihan 56930 Pluméliau-Bieuzy</Text>
+        <Text style={footer}>RIOT TECH - Kervihan 56930 Pluméliau-Bieuzy</Text>
       </Container>
     </Body>
   </Html>

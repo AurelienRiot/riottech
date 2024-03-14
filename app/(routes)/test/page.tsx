@@ -10,6 +10,7 @@ import Navigations from "./components/navigations";
 import ParticleRing from "./components/particle-ring";
 import CSSCarousel from "./components/css-carousel";
 import BlopSVG from "./components/blop";
+import SubscriptionEmail from "@/components/email/subscription";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
@@ -56,22 +57,26 @@ const HomePage = async () => {
           alt="image background"
           width={1920}
           height={1080}
-          className="fixed top-0 -z-10 left-0 object-cover object-center h-screen w-screen"
+          className="fixed left-0 top-0 -z-10 h-screen w-screen object-cover object-center"
         />
-
+        {/* 
         <Navigations />
-        <div className=" relative h-screen bg-primary-foreground/90 w-full flex  ">
-          <div className={"absolute top-[40%] left-[33%] w-72 h-72 bg-purple-300 rounded-full  mix-blend-multiply blur-xl opacity-70 animate-blob"}/>
+        <div className=" relative flex h-screen w-full bg-primary-foreground/90  ">
           <div
-            className="absolute top-[40%] left-[47%]  w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply blur-xl opacity-70 animate-blob"
+            className={
+              "absolute left-[33%] top-[40%] h-72 w-72 animate-blob rounded-full  bg-purple-300 opacity-70 mix-blend-multiply blur-xl"
+            }
+          />
+          <div
+            className="absolute left-[47%] top-[40%]  h-72 w-72 animate-blob rounded-full bg-yellow-300 opacity-70 mix-blend-multiply blur-xl"
             style={{ animationDelay: "5000ms" }}
           ></div>
           <div
-            className="absolute top-[45%] left-[40%] w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply blur-xl opacity-70  animate-blob "
+            className="absolute left-[40%] top-[45%] h-72 w-72 animate-blob rounded-full bg-pink-300 opacity-70 mix-blend-multiply  blur-xl "
             style={{ animationDelay: "10000ms" }}
           ></div>
 
-          <div className="absolute  flex flex-col w-11/12 sm:w-4/5 lg:w-2/3 xl:w-1/2 gap-2 top-[45%] left-1/2 -translate-x-1/2  bg-primary-foreground/40 sm:p-4 p-2 rounded-lg opacity-100 ">
+          <div className="absolute  left-1/2 top-[45%] flex w-11/12 -translate-x-1/2 flex-col gap-2 rounded-lg bg-primary-foreground/40 p-2  opacity-100 sm:w-4/5 sm:p-4 lg:w-2/3 xl:w-1/2 ">
             <h1 className="text-center text-[clamp(20px,4vw+5px,50px)] ">
               Spécialisé en réseaux isolés et systèmes de surveillance
             </h1>
@@ -83,22 +88,20 @@ const HomePage = async () => {
           </div>
           <BlopSVG />
         </div>
-        <div className="h-screen bg-green-600/90 w-full ">
+        <div className="h-screen w-full bg-green-600/90 ">
           <MouseHover />
         </div>
-        <div className="h-screen bg-yellow-400/90 w-full ">
+        <div className="h-screen w-full bg-yellow-400/90 ">
           <CursorDifference />
         </div>
 
-        {/* <div className="h-screen bg-white/90 w-full  ">
-          <MouseSticky />
-        </div> */}
-        <div className="h-[100vh] bg-blue-600/90 w-full    ">
+        <div className="h-[100vh] w-full bg-blue-600/90    ">
           <MouseSticky2 />
         </div>
-        <div className="h-screen bg-teal-600/90 w-full  ">
+        <div className="h-screen w-full bg-teal-600/90  ">
           <MouseSticky3 />
-        </div>
+        </div> */}
+        <div className="h-screen w-full bg-teal-600/90  "></div>
         <Carousel />
         {/* <div className="h-screen  w-full  ">
           <ParticleRing />

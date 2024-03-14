@@ -42,7 +42,6 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   const [showPassword, setShowPassword] = useState(false);
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard-user";
 
-  console.log("callbackUrl", callbackUrl);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
