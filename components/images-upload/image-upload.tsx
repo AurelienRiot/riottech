@@ -1,5 +1,7 @@
 "use client";
+import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 import { _Object } from "@aws-sdk/client-s3";
+import { AnimatePresence, Reorder } from "framer-motion";
 import { Loader2, Plus, Trash, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -9,8 +11,6 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { deleteObject, getSignature, listFiles } from "./server";
-import { AnimatePresence, Reorder } from "framer-motion";
-import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -68,20 +68,20 @@ const UploadImage = ({
 
   const fileChange = async (files: File[]) => {
     const uploadPromises = files.map(async (file) => {
+      console.log(file.type);
       const originalFileName = file.name;
       const fileNameWithoutExtension =
         originalFileName.substring(0, originalFileName.lastIndexOf(".")) ||
         originalFileName;
       const randomString = generateRandomString(10);
-      const uniqueFileName = `${randomString}-${fileNameWithoutExtension}`;
+      const uniqueFileName = `${randomString}-${fileNameWithoutExtension.replace(/\s/g, "")}`;
       const result = await getSignature({
-        bucketName: bucketName,
         fileName: uniqueFileName,
+        contentType: file.type,
       });
       if (!result.success) {
         toast.error(result.message);
-        setLoading(false);
-        return;
+        return null;
       }
 
       const { preSignedUrl } = result.data;
@@ -89,47 +89,47 @@ const UploadImage = ({
       const response = await fetch(preSignedUrl, {
         method: "PUT",
         body: file,
+        headers: {
+          "x-amz-acl": "public-read",
+        },
       });
 
-      const data = await response.json();
-      console.log(data);
-      // return { publicId: data.public_id, secureUrl: data.secure_url }; // Return the successful upload's data
+      return uniqueFileName;
     });
 
     const results = await Promise.all(uploadPromises);
-    // const validUrls = results.map(
-    //   (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
-    // );
 
-    // await checkUrls(validUrls);
+    const validUrls = results.map(
+      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
+    );
 
-    // const updatedFiles = await listFiles();
-    // if (!updatedFiles.success) {
-    //   toast.error(updatedFiles.message);
-    //   setLoading(false);
-    //   return;
-    // }
-    // console.log(updatedFiles.data);
+    await checkUrls(validUrls);
 
-    // setFiles(updatedFiles.data);
-    // if (multipleImages) {
-    //   setSelectedFiles((prev) => [
-    //     ...prev,
-    //     ...validUrls.map((item) => item.publicId),
-    //   ]);
-    // } else {
-    //   setSelectedFiles([validUrls[0].publicId]);
-    // }
+    const updatedFiles = await listFiles();
+    if (!updatedFiles.success) {
+      toast.error(updatedFiles.message);
+      setLoading(false);
+      return;
+    }
+    setFiles(updatedFiles.data);
+    if (multipleImages) {
+      setSelectedFiles((prev) => [
+        ...prev,
+        ...results.filter((item): item is string => item !== null),
+      ]);
+    } else {
+      setSelectedFiles([results[0] ?? ""]);
+    }
     setLoading(false);
   };
 
   useEffect(() => {
     const fetchFiles = async () => {
-      const files = await listFiles(bucketName);
-      if (!files) {
+      const files = await listFiles();
+      if (!files.success) {
         return;
       }
-      setFiles(files);
+      setFiles(files.data);
     };
     fetchFiles();
   }, []);
@@ -376,8 +376,7 @@ const DisplayImages = ({
                     >
                       <div className="flex justify-between text-sm">
                         <p className="text-muted-foreground ">
-                          {/* {file.Key?.slice(37)} */}
-                          {file.Key}
+                          {file.Key?.slice(11)}
                         </p>
                       </div>
                     </div>
@@ -456,7 +455,7 @@ const checkUrls = async (urls: (string | null)[]): Promise<void> => {
 
   if (invalidUrls.some((url) => url !== null)) {
     // If there are still invalid URLs, wait for 250ms and check again
-    await addDelay(250);
+    await addDelay(500);
     return checkUrls(invalidUrls.filter((url) => url !== null));
   } else {
     // All URLs are valid

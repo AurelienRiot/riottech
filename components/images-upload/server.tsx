@@ -1,22 +1,22 @@
 "use server";
 
+import prismadb from "@/lib/prismadb";
 import {
+  Bucket,
   DeleteObjectCommand,
   GetObjectCommand,
   ListBucketsCommand,
   ListObjectsV2Command,
   PutObjectCommand,
-  PutObjectCommandInput,
   S3Client,
+  _Object,
 } from "@aws-sdk/client-s3";
-import { v4 as uuidv4 } from "uuid";
-import { checkAdmin } from "../auth/checkAuth";
-import prismadb from "@/lib/prismadb";
-import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { checkAdmin } from "../auth/checkAuth";
 
 const accessKeyId = process.env.SCALEWAY_ACCESS_KEY_ID as string;
 const secretAccessKey = process.env.SCALEWAY_SECRET_ACCESS_KEY as string;
+const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
 const s3 = new S3Client({
   region: "fr-par",
@@ -39,11 +39,11 @@ type SignatureReturnType =
       message: string;
     };
 async function getSignature({
-  bucketName,
   fileName,
+  contentType,
 }: {
-  bucketName: string;
   fileName: string;
+  contentType: string;
 }): Promise<SignatureReturnType> {
   const isAuth = await checkAdmin();
   if (!isAuth) {
@@ -52,7 +52,12 @@ async function getSignature({
       message: "Vous devez être authentifier",
     };
   }
-  const command = new PutObjectCommand({ Bucket: bucketName, Key: fileName });
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    ContentType: contentType,
+    ACL: "public-read",
+  });
   const preSignedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
 
   return {
@@ -61,10 +66,23 @@ async function getSignature({
   };
 }
 
-async function listBuckets() {
+type listBucketsReturnType =
+  | {
+      success: true;
+      data: Bucket[];
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+async function listBuckets(): Promise<listBucketsReturnType> {
   const isAuth = await checkAdmin();
   if (!isAuth) {
-    return;
+    return {
+      success: false,
+      message: "Vous devez être authentifier",
+    };
   }
   try {
     const response = await s3.send(new ListBucketsCommand({}));
@@ -72,37 +90,66 @@ async function listBuckets() {
     response.Buckets?.forEach((bucket) => {
       console.log(`- ${bucket.Name}`);
     });
-    return response.Buckets;
+    if (!response.Buckets) {
+      return {
+        success: false,
+        message: "An error occurred",
+      };
+    }
+    return {
+      success: true,
+      data: response.Buckets,
+    };
   } catch (error) {
     console.error(`An error occurred: ${error}`);
+    return { success: false, message: "An error occurred" };
   }
 }
 
-async function listFiles(bucketName: string) {
+type listFilesReturnType =
+  | {
+      success: true;
+      data: _Object[];
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+async function listFiles(): Promise<listFilesReturnType> {
   const isAuth = await checkAdmin();
   if (!isAuth) {
-    return;
+    return {
+      success: false,
+      message: "Vous devez être authentifier",
+    };
   }
   try {
     const files = await s3.send(
       new ListObjectsV2Command({ Bucket: bucketName }),
     );
+    if (!files.Contents) {
+      return {
+        success: false,
+        message: "An error occurred",
+      };
+    }
 
-    return files.Contents?.sort(
-      (a, b) =>
-        new Date(b.LastModified ?? 0).getTime() -
-        new Date(a.LastModified ?? 0).getTime(),
-    );
+    return {
+      success: true,
+      data: files.Contents?.sort(
+        (a, b) =>
+          new Date(b.LastModified ?? 0).getTime() -
+          new Date(a.LastModified ?? 0).getTime(),
+      ),
+    };
   } catch (error) {
     console.error(`An error occurred: ${error}`);
+    return { success: false, message: "An error occurred" };
   }
 }
 
-async function downloadFile(
-  bucketName: string,
-  objectName: string,
-  fileName: string,
-) {
+async function downloadFile(objectName: string, fileName: string) {
   const isAuth = await checkAdmin();
   if (!isAuth) {
     return;
@@ -128,7 +175,6 @@ type ReturnTypeDeleteObject =
     };
 
 async function deleteObject({
-  bucketName,
   key,
 }: {
   bucketName: string;
@@ -189,4 +235,4 @@ async function deleteObject({
   }
 }
 
-export { downloadFile, listBuckets, listFiles, deleteObject, getSignature };
+export { deleteObject, downloadFile, getSignature, listBuckets, listFiles };
