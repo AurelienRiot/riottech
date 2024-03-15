@@ -5,9 +5,14 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CategoryColumn, columns } from "./columns";
-import { DataTable } from "@/components/ui/data-table";
+import {
+  CategoryColumn,
+  columns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./columns";
 import { ApiList } from "@/components/ui/api-list";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface CategoryClientProps {
   data: CategoryColumn[];
@@ -25,14 +30,19 @@ export const CategoryClient: React.FC<CategoryClientProps> = ({ data }) => {
         />
         <Button
           onClick={() => router.push(`/admin/categories/new`)}
-          className="pt-6 pb-6 m-2 sm:ml-2 sm:pt-0 sm:pb-0"
+          className="m-2 pb-6 pt-6 sm:ml-2 sm:pb-0 sm:pt-0"
         >
-          <Plus className="w-8 h-8 mr-2 sm:h-4 sm:w-4" />
+          <Plus className="mr-2 h-8 w-8 sm:h-4 sm:w-4" />
           Ajouter un nouveau
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} initialData={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchableColumns={searchableColumns}
+        viewOptionsColumns={viewOptionsColumns}
+      />
       <Heading title="API" description="Requete API pour les categories" />
       <Separator />
       <ApiList entityName="categories" entityIdName="categoryId" />

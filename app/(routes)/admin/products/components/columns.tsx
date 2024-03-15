@@ -8,15 +8,30 @@ import { ArrowUpDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CellAction } from "./cell-action";
+import {
+  CheckboxCell,
+  CreatedAtCell,
+  NameCell,
+  NameWithImageCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { changeArchived, changeFeatured } from "./server-actions";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import {
+  DataTableFilterableColumn,
+  DataTableSearchableColumn,
+  DataTableViewOptionsColumn,
+} from "@/types";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 
 export type ProductColumn = {
   id: string;
   name: string;
   image: string;
   priceHT: string;
-  category: string;
-  isFeatured: string;
-  isArchived: string;
+  categoryId: string;
+  categoryLabel: string;
+  isFeatured: boolean;
+  isArchived: boolean;
   createdAt: Date;
 };
 
@@ -25,65 +40,104 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <Button asChild variant={"link"}>
-        <Link
-          href={`/admin/products/${row.original.id}`}
-          className="flex  justify-start items-center gap-2 cursor-pointer"
-        >
-          {row.original.image ? (
-            <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
-              <Image
-                src={row.original.image}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
-                className="object-cover rounded-sm"
-              />
-            </span>
-          ) : null}
-          <span>{row.getValue("name")}</span>
-        </Link>
-      </Button>
+      <NameWithImageCell
+        name={row.original.name}
+        id={row.original.id}
+        imageUrl={row.original.image}
+        type="products"
+      />
     ),
   },
   {
     accessorKey: "isArchived",
     header: "Archivé",
+    cell: ({ row }) => (
+      <CheckboxCell
+        isCheckbox={row.original.isArchived}
+        onChange={(e: boolean | "indeterminate") =>
+          changeArchived({ id: row.original.id, isArchived: e })
+        }
+      />
+    ),
+    filterFn: FilterFn,
   },
   {
     accessorKey: "isFeatured",
     header: "Mise en avant",
+    cell: ({ row }) => (
+      <CheckboxCell
+        isCheckbox={row.original.isFeatured}
+        onChange={(e: boolean | "indeterminate") =>
+          changeFeatured({ id: row.original.id, isFeatured: e })
+        }
+      />
+    ),
+    filterFn: FilterFn,
   },
   {
     accessorKey: "priceHT",
     header: "Prix",
   },
   {
-    accessorKey: "category",
+    accessorKey: "categoryLabel",
     header: "Categorie",
+    cell: ({ row }) => (
+      <NameCell
+        name={row.original.categoryLabel}
+        id={row.original.categoryId}
+        type="categories"
+      />
+    ),
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(row.getValue("createdAt"), "d MMMM yyyy", { locale: fr })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
+  },
+];
+
+export const searchableColumns: DataTableSearchableColumn<ProductColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
+];
+
+export const filterableColumns: DataTableFilterableColumn<ProductColumn>[] = [
+  {
+    id: "isArchived",
+    title: "Archivé",
+    options: [
+      { label: "Archivé", value: "true" },
+      { label: "Non archivé", value: "false" },
+    ],
+  },
+  {
+    id: "isFeatured",
+    title: "Mise en avant",
+    options: [
+      { label: "Mise en avant", value: "true" },
+      { label: "Non mise en avant", value: "false" },
+    ],
+  },
+];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<ProductColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
+
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+  {
+    id: "actions" as keyof ProductColumn,
+    title: "Actions",
   },
 ];

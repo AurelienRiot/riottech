@@ -6,6 +6,7 @@ import { AuthProviders } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { ToasterProvider } from "@/providers/toast-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,11 +37,12 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} min-h-screen bg-background font-Inter antialiased   relative `}
+        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} relative min-h-screen bg-background font-Inter   antialiased `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToasterProvider />
+            <Toaster />
             <TooltipProvider delayDuration={100} skipDelayDuration={0}>
               {children}
             </TooltipProvider>

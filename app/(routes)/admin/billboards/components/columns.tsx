@@ -1,17 +1,17 @@
 "use client";
 
+import {
+  CreatedAtCell,
+  NameWithImageCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { ArrowUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { fr } from "date-fns/locale";
-import { format } from "date-fns";
-import Link from "next/link";
-import Image from "next/image";
+import { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 
 export type BillboardColumn = {
   id: string;
-  image: string;
+  imageUrl: string;
   name: string;
   createdAt: Date;
 };
@@ -19,51 +19,47 @@ export type BillboardColumn = {
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "name",
-    header: "Nom du panneau d'affichage",
+    header: "Nom",
     cell: ({ row }) => (
-      <Button asChild variant={"link"}>
-        <Link
-          href={`/admin/billboards/${row.original.id}`}
-          className="flex justify-start items-center gap-2"
-        >
-          {row.original.image ? (
-            <span className=" rounded-sm relative aspect-square h-[30px] bg-transparent">
-              <Image
-                src={row.original.image}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 30px, (max-width: 1200px) 30px, 30px"
-                className="object-cover rounded-sm"
-              />
-            </span>
-          ) : null}
-          <span>{row.getValue("name")}</span>
-        </Link>
-      </Button>
+      <NameWithImageCell
+        name={row.original.name}
+        id={row.original.id}
+        imageUrl={row.original.imageUrl}
+        type="billboards"
+      />
     ),
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(row.getValue("createdAt"), "d MMMM yyyy", { locale: fr })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];
+
+export const searchableColumns: DataTableSearchableColumn<BillboardColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
+];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<BillboardColumn>[] =
+  [
+    {
+      id: "name",
+      title: "Nom",
+    },
+
+    {
+      id: "createdAt",
+      title: "Date de création",
+    },
+    {
+      id: "actions" as keyof BillboardColumn,
+      title: "Actions",
+    },
+  ];

@@ -15,13 +15,14 @@ const CategoriesPage = async () => {
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
     name: item.name,
+    billboard: item.billboard,
     billboardLabel: item.billboard.label,
     createdAt: item.createdAt,
   }));
 
   return (
     <div className="flex-col">
-      <div className="flex-1 p-8 pt-6 space-y-4">
+      <div className="flex-1 space-y-4 p-8 pt-6">
         <CategoryClient data={formattedCategories} />
       </div>
     </div>

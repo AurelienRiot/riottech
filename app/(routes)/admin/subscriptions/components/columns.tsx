@@ -28,8 +28,6 @@ export type SubscriptionColumn = {
   name: string;
   priceHT: string;
   recurrence: keyof typeof Recurrences;
-  isFeatured: string;
-  isArchived: string;
   dataCap: string;
   createdAt: Date;
 };
@@ -48,14 +46,6 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
         </Button>
       </div>
     ),
-  },
-  {
-    accessorKey: "isArchived",
-    header: "Archivé",
-  },
-  {
-    accessorKey: "isFeatured",
-    header: "Mise en avant",
   },
   {
     accessorKey: "priceHT",

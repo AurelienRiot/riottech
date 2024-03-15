@@ -22,16 +22,17 @@ const ProductPage = async () => {
     id: item.id,
     name: item.name,
     image: item.images[0].url,
-    isFeatured: item.isFeatured ? "oui" : "non",
-    isArchived: item.isArchived ? "oui" : "non",
+    isFeatured: item.isFeatured,
+    isArchived: item.isArchived,
     priceHT: formatter.format(item.priceHT),
-    category: item.category.name,
+    categoryLabel: item.category.name,
+    categoryId: item.category.id,
     createdAt: item.createdAt,
   }));
 
   return (
     <div className="flex-col">
-      <div className="flex-1 p-8 pt-6 space-y-4">
+      <div className="flex-1 space-y-4 p-8 pt-6">
         <ProductClient data={formattedProducts} />
       </div>
     </div>
