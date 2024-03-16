@@ -1,6 +1,5 @@
 "use client";
 
-import { Recurrences } from "@/app/(routes)/admin/subscriptions/components/columns";
 import { RecurrenceCell } from "@/components/table-custom-fuction/cell-subscription";
 import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
@@ -45,7 +44,7 @@ export const SubscriptionOrderColumn: ColumnDef<SubscriptionOrderColumnType>[] =
     },
     {
       accessorKey: "recurrence",
-      header: "Recurrence",
+      header: "Renouvellement",
       cell: RecurrenceCell,
     },
     {

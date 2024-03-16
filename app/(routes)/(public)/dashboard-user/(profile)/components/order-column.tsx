@@ -1,21 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
+import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
   DataTableViewOptionsColumn,
 } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import { ArrowUpDown } from "lucide-react";
 import { DisplayPdf } from "./display-pdf";
-import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
-import { Checkbox } from "@/components/ui/checkbox";
-import { FilterFn } from "@/components/table-custom-fuction/common-filter";
-import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
 
 export type OrderColumnType = {
   id: string;

@@ -1,34 +1,38 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import {
+  CreatedAtCell,
+  NameCell,
+  StatusCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import {
+  DataTableFilterableColumn,
+  DataTableSearchableColumn,
+  DataTableViewOptionsColumn,
+} from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import { ArrowUpDown } from "lucide-react";
-import Link from "next/link";
 
 export type SubscriptionHistoryColumn = {
   userId: string;
-  type: string;
-  status: string;
+  type: "Création" | "Renouvellement";
+  status: "Paiement validé" | "En cours de validation" | "Non payé";
   price: string;
-  user: string;
+  userName: string;
   name: string;
   createdAt: Date;
 };
 export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
-    accessorKey: "user",
+    accessorKey: "userName",
     header: "Client",
     cell: ({ row }) => (
-      <div className="flex capitalize md:pl-10 ">
-        {" "}
-        <Button asChild variant={"linkHover2"}>
-          <Link href={`/admin/users/${row.original.userId}`}>
-            {row.getValue("user")}
-          </Link>
-        </Button>
-      </div>
+      <NameCell
+        name={row.original.userName}
+        id={row.original.userId}
+        type="users"
+      />
     ),
   },
   {
@@ -39,6 +43,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "type",
     header: "Type",
+    filterFn: FilterFn,
   },
   {
     accessorKey: "price",
@@ -47,42 +52,68 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "status",
     header: "État du paiement",
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        <span
-          style={{
-            color:
-              row.getValue("status") === "payé"
-                ? "green"
-                : row.getValue("status") === "erreur"
-                  ? "red"
-                  : "orange",
-          }}
-        >
-          {row.getValue("status")}
-        </span>
-      </div>
-    ),
+    cell: StatusCell,
+    filterFn: FilterFn,
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(row.getValue("createdAt"), "d MMMM yyyy", { locale: fr })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
 ];
+
+export const searchableColumns: DataTableSearchableColumn<SubscriptionHistoryColumn>[] =
+  [
+    {
+      id: "name",
+      title: "Abonnement",
+    },
+    { id: "userName", title: "Client" },
+  ];
+
+export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] =
+  [
+    {
+      id: "type",
+      title: "Type",
+      options: [
+        { label: "Création", value: "Création" },
+        { label: "Renouvellement", value: "Renouvellement" },
+      ],
+    },
+    {
+      id: "status",
+      title: "État du paiement",
+      options: [
+        { label: "Paiement validé", value: "Paiement validé" },
+        { label: "En cours de validation", value: "En cours de validation" },
+        { label: "Non payé", value: "Non payé" },
+      ],
+    },
+  ];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] =
+  [
+    {
+      id: "userName",
+      title: "Client",
+    },
+    {
+      id: "type",
+      title: "Type",
+    },
+
+    {
+      id: "price",
+      title: "Prix",
+    },
+    {
+      id: "status",
+      title: "État du paiement",
+    },
+
+    {
+      id: "createdAt",
+      title: "Date de création",
+    },
+  ];

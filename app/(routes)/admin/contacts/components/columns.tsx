@@ -1,19 +1,22 @@
 "use client";
 
+import {
+  CreatedAtCell,
+  PhoneCell,
+  TextCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { fr } from "date-fns/locale";
-import { format } from "date-fns";
 
 export type ContactColumn = {
   id: string;
   name: string;
-  phone?: string;
+  phone: string;
   mail: string;
   subject: string;
-  message: string;
+  text: string;
   createdAt: Date;
 };
 
@@ -25,6 +28,7 @@ export const columns: ColumnDef<ContactColumn>[] = [
   {
     accessorKey: "phone",
     header: "Téléphone",
+    cell: PhoneCell,
   },
   {
     accessorKey: "mail",
@@ -35,31 +39,67 @@ export const columns: ColumnDef<ContactColumn>[] = [
     header: "Sujet",
   },
   {
-    accessorKey: "message",
+    accessorKey: "text",
     header: "Message",
+    cell: TextCell,
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(row.getValue("createdAt"), "d MMMM yyyy", { locale: fr })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
+  },
+];
+
+export const searchableColumns: DataTableSearchableColumn<ContactColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
+  {
+    id: "phone",
+    title: "Téléphone",
+  },
+  {
+    id: "mail",
+    title: "Email",
+  },
+  {
+    id: "subject",
+    title: "Sujet",
+  },
+  {
+    id: "text",
+    title: "Message",
+  },
+];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<ContactColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
+  {
+    id: "phone",
+    title: "Téléphone",
+  },
+  {
+    id: "mail",
+    title: "Email",
+  },
+  {
+    id: "subject",
+    title: "Sujet",
+  },
+  {
+    id: "text",
+    title: "Message",
+  },
+  {
+    id: "createdAt",
+    title: "Date de création",
   },
 ];

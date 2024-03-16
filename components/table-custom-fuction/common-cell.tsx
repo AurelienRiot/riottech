@@ -41,7 +41,7 @@ function CreatedAtCell<T>({ row }: { row: Row<CreatedAtCellProps<T>> }) {
 
 type NameCellProp = {
   name: string;
-  type: "products" | "billboards" | "users" | "categories";
+  type: "products" | "subscriptions" | "users" | "categories";
   id: string | null;
 };
 

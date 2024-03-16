@@ -2,8 +2,14 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
-import { SubscriptionOrderColumn, columns } from "./subscription-order-column";
+import {
+  SubscriptionOrderColumn,
+  columns,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./subscription-order-column";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface SubscriptionOrderTableProps {
   data: SubscriptionOrderColumn[];
@@ -18,11 +24,13 @@ export const SubscriptionOrderTable: React.FC<SubscriptionOrderTableProps> = ({
         title={`Abonnements (${data.length})`}
         description="Gérez les abonnements"
       />
-      <Separator />
+      <Separator className="my-4" />
       <DataTable
-        searchKey="subscription"
         columns={columns}
-        initialData={data}
+        data={data}
+        searchableColumns={searchableColumns}
+        filterableColumns={filterableColumns}
+        viewOptionsColumns={viewOptionsColumns}
       />
     </>
   );

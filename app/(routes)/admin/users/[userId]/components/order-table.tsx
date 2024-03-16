@@ -2,8 +2,14 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table";
-import { OrderColumn, columns } from "./order-column";
+import {
+  OrderColumn,
+  columns,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./order-column";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface OrderTableProps {
   data: OrderColumn[];
@@ -16,8 +22,14 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
         title={`Commandes (${data.length})`}
         description="Gérez les commandes"
       />
-      <Separator />
-      <DataTable searchKey="products" columns={columns} initialData={data} />
+      <Separator className="my-4" />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchableColumns={searchableColumns}
+        viewOptionsColumns={viewOptionsColumns}
+        filterableColumns={filterableColumns}
+      />
     </>
   );
 };

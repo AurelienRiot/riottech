@@ -1,22 +1,29 @@
 "use client";
 
+import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
+import {
+  CreatedAtCell,
+  NameCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { fr } from "date-fns/locale";
-import { format } from "date-fns";
-import Link from "next/link";
+import {
+  DataTableFilterableColumn,
+  DataTableSearchableColumn,
+  DataTableViewOptionsColumn,
+} from "@/types";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 
 export type OrderColumn = {
   id: string;
   userId: string;
   name: string;
-  phone: string;
-  address: string;
-  isPaid: string;
+  isPaid: boolean;
   totalPrice: string;
   products: string;
+  productsList: { name: string; quantity?: string }[];
   createdAt: Date;
 };
 
@@ -24,28 +31,20 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "products",
     header: "Produits",
+    cell: ProductCell,
   },
   {
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <div className="flex md:pl-10 capitalize ">
-        <Button asChild variant={"link"}>
-          <Link href={`/admin/users/${row.original.userId}`}>
-            {row.getValue("name")}
-          </Link>
-        </Button>
-      </div>
+      <NameCell
+        type="users"
+        name={row.getValue("name")}
+        id={row.original.userId}
+      />
     ),
   },
-  {
-    accessorKey: "phone",
-    header: "Téléphone",
-  },
-  {
-    accessorKey: "address",
-    header: "Adresse",
-  },
+
   {
     accessorKey: "totalPrice",
     header: "Prix Total",
@@ -53,30 +52,71 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "isPaid",
     header: "Payé",
+    cell: ({ row }) => (
+      <Checkbox
+        className="cursor-default self-center"
+        checked={row.original.isPaid}
+      />
+    ),
+    filterFn: FilterFn,
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(row.getValue("createdAt"), "d MMMM yyyy", { locale: fr })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
 
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
+  },
+];
+
+export const searchableColumns: DataTableSearchableColumn<OrderColumn>[] = [
+  {
+    id: "products",
+    title: "Produits",
+  },
+  {
+    id: "name",
+    title: "Nom",
+  },
+];
+
+export const filterableColumns: DataTableFilterableColumn<OrderColumn>[] = [
+  {
+    id: "isPaid",
+    title: "Payé",
+    options: [
+      { label: "Payé", value: "true" },
+      { label: "Non Payé", value: "false" },
+    ],
+  },
+];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<OrderColumn>[] = [
+  {
+    id: "products",
+    title: "Produits",
+  },
+  {
+    id: "name",
+    title: "Nom",
+  },
+  {
+    id: "totalPrice",
+    title: "Prix total",
+  },
+  {
+    id: "isPaid",
+    title: "Payé",
+  },
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+  {
+    id: "actions" as keyof OrderColumn,
+    title: "Actions",
   },
 ];

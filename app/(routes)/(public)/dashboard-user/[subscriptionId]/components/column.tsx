@@ -85,7 +85,7 @@ export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryC
       title: "Prix",
     },
     {
-      id: "mailSend",
+      id: "status",
       title: "État du paiement",
     },
     {

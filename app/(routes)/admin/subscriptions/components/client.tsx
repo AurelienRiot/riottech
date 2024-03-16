@@ -2,12 +2,18 @@
 
 import { ApiList } from "@/components/ui/api-list";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { SubscriptionColumn, columns } from "./columns";
+import {
+  SubscriptionColumn,
+  columns,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./columns";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface SubscriptionClientProps {
   data: SubscriptionColumn[];
@@ -34,7 +40,13 @@ export const SubscriptionClient: React.FC<SubscriptionClientProps> = ({
         </Button>
       </div>
       <Separator />
-      <DataTable searchKey="name" columns={columns} initialData={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchableColumns={searchableColumns}
+        viewOptionsColumns={viewOptionsColumns}
+        filterableColumns={filterableColumns}
+      />
       <Heading title="API" description="Requete API pour les abonnements" />
       <Separator />
 

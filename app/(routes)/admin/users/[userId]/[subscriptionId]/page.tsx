@@ -23,13 +23,10 @@ const UserSubscriptionPage = async ({
       id: history.id,
       type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
       price: currencyFormatter.format(Number(history.price)),
-      status:
-        history.status === "Paid"
-          ? "payé"
-          : history.status === "Error"
-            ? "erreur"
-            : "en cours",
       pdfUrl: history.pdfUrl,
+      isPaid: true,
+      status: history.mailSend ? "Paiement validé" : "En cours de validation",
+      mailSend: history.mailSend,
       createdAt: history.createdAt,
     }));
 

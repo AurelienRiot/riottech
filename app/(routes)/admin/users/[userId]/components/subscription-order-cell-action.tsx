@@ -53,7 +53,7 @@ export const SubscriptionOrderCellAction: React.FC<
     try {
       setLoading(true);
       await axios.patch(`/api/subscription-orders/${data.id}`, {
-        isActive: data.isActive === "oui" ? false : true,
+        isActive: data.isActive,
       });
       router.refresh();
       toast.success("Abonnement mis à jour.");

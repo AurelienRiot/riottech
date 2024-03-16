@@ -17,8 +17,14 @@ const OrdersPage = async () => {
     id: order.id,
     userId: order.userId,
     name: order.name,
-    phone: order.phone,
-    address: order.address,
+    productsList: order.orderItems.map((item) => {
+      let name = item.name;
+      if (Number(item.quantity) > 1) {
+        const quantity = ` x${item.quantity}`;
+        return { name, quantity: quantity };
+      }
+      return { name, quantity: "" };
+    }),
     products: order.orderItems
       .map((item) => {
         let name = item.name;
@@ -29,7 +35,7 @@ const OrdersPage = async () => {
       })
       .join(", "),
     totalPrice: currencyFormatter.format(Number(order.totalPrice)),
-    isPaid: order.isPaid ? "oui" : "non",
+    isPaid: order.isPaid,
     createdAt: order.createdAt,
   }));
 

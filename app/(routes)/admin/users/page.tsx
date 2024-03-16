@@ -20,7 +20,10 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
-import { columns } from "./components/histories-column";
+import {
+  SubscriptionHistoryColumn,
+  columns,
+} from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
 
 const UserPage = async () => {
@@ -93,21 +96,18 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
     },
   });
 
-  const histories = usersHistories.map((history) => ({
-    userId: history.subscriptionOrder.userId,
-    type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
+  const histories: SubscriptionHistoryColumn[] = usersHistories.map(
+    (history) => ({
+      userId: history.subscriptionOrder.userId,
+      type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
 
-    status:
-      history.status === "Paid"
-        ? "payé"
-        : history.status === "Error"
-          ? "erreur"
-          : "en cours",
-    price: currencyFormatter.format(Number(history.price)),
-    user: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
-    name: history.subscriptionOrder.subscriptionItem?.name || "",
-    createdAt: new Date(history.createdAt),
-  }));
+      status: history.mailSend ? "Paiement validé" : "En cours de validation",
+      price: currencyFormatter.format(Number(history.price)),
+      userName: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
+      name: history.subscriptionOrder.subscriptionItem?.name || "",
+      createdAt: new Date(history.createdAt),
+    }),
+  );
 
   return <HistoryTable initialData={histories} initialDateRange={dateRange} />;
 };

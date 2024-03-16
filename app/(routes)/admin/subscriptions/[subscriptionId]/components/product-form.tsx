@@ -230,7 +230,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
               name="recurrence"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Récurrence</FormLabel>
+                  <FormLabel>Renouvellement</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -241,7 +241,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Récurence"
+                          placeholder="Renouvellement"
                         />
                       </SelectTrigger>
                     </FormControl>

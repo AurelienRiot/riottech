@@ -51,6 +51,14 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
 
   const formattedOrders: OrderColumn[] = (user?.orders || []).map((order) => ({
     id: order.id,
+    productsList: order.orderItems.map((item) => {
+      let name = item.name;
+      if (Number(item.quantity) > 1) {
+        const quantity = ` x${item.quantity}`;
+        return { name, quantity: quantity };
+      }
+      return { name, quantity: "" };
+    }),
     products: order.orderItems
       .map((item) => {
         let name = item.name;
@@ -61,7 +69,9 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
       })
       .join(", "),
     totalPrice: currencyFormatter.format(Number(order.totalPrice)),
-    isPaid: order.isPaid ? "oui" : "non",
+    isPaid: order.isPaid,
+    mailSend: order.mailSend,
+    pdfUrl: order.pdfUrl,
     createdAt: order.createdAt,
   }));
 
@@ -70,16 +80,11 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
   ).map((order) => ({
     userId: user.id,
     id: order.id,
-    subscription: (() => {
-      if (!order.subscriptionItem) {
-        return "";
-      } else {
-        return order.subscriptionItem.name;
-      }
-    })(),
+    subscription: order.subscriptionItem?.name,
+    recurrence: order.subscriptionItem?.recurrence,
     totalPrice: currencyFormatter.format(Number(order.totalPrice)),
-    isPaid: order.isPaid ? "oui" : "non",
-    isActive: order.isActive ? "oui" : "non",
+    isPaid: order.isPaid,
+    isActive: order.isActive,
     sim: order.sim,
     createdAt: order.createdAt,
   }));
@@ -90,10 +95,10 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
         <UserForm initialData={formatedUser} />
       </div>
       <div>
-        <OrderTable data={formattedOrders} />
+        <SubscriptionOrderTable data={formattedSubscriptionOrders} />
       </div>
       <div>
-        <SubscriptionOrderTable data={formattedSubscriptionOrders} />
+        <OrderTable data={formattedOrders} />
       </div>
     </div>
   );

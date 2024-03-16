@@ -1,6 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { SubscriptionClient } from "./components/client";
-import { Recurrences, SubscriptionColumn } from "./components/columns";
+import { SubscriptionColumn } from "./components/columns";
+import { currencyFormatter } from "@/lib/utils";
 
 const SubscriptionPage = async () => {
   const subscriptions = await prismadb.subscription.findMany({
@@ -13,15 +14,9 @@ const SubscriptionPage = async () => {
     (item) => ({
       id: item.id,
       name: item.name,
-      priceHT: String(item.priceHT),
-      dataCap: String(item.dataCap),
-      recurrence: (item.recurrence === "month"
-        ? "Mensuel"
-        : item.recurrence === "year"
-          ? "Annuel"
-          : item.recurrence === "week"
-            ? "Hebdomadaire"
-            : "Journalier") as keyof typeof Recurrences,
+      priceHT: currencyFormatter.format(item.priceHT),
+      dataCap: item.dataCap,
+      recurrence: item.recurrence,
       createdAt: item.createdAt,
     }),
   );

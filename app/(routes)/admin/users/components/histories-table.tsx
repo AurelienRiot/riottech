@@ -9,9 +9,15 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
-import { DataTable } from "./data-table";
-import { SubscriptionHistoryColumn, columns } from "./histories-column";
+import {
+  SubscriptionHistoryColumn,
+  columns,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./histories-column";
 import { fetchUsersHistories } from "./server-action";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -42,12 +48,12 @@ export const HistoryTable = ({
 
   return (
     <>
-      <div className="m-4">
+      <div className="m-4 flex flex-col gap-4">
         <Heading
           title={`Historiques (${data?.length ? data.length : 0})`}
           description="Gérez les historiques"
         />
-        <Separator className="mb-4" />
+        <Separator />
         <div className="flex flex-col gap-4 sm:flex-row">
           <DatePickerWithRange date={dateRange} setDate={setDateRange} />
           <Button
@@ -59,7 +65,13 @@ export const HistoryTable = ({
           </Button>
         </div>
         {!loading ? (
-          <DataTable searchKey="user" columns={columns} initialData={data} />
+          <DataTable
+            columns={columns}
+            data={data}
+            searchableColumns={searchableColumns}
+            filterableColumns={filterableColumns}
+            viewOptionsColumns={viewOptionsColumns}
+          />
         ) : (
           <DataTableSkeleton columns={columns} />
         )}
