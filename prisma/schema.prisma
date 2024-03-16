@@ -52,13 +52,23 @@ model Subscription {
   priceHT       Float    
   priceTTC      Float    
   fraisActivation Float    
-  recurrence       String 
+  recurrence       Recurrence 
   dataCap       Float @default(0)
   isFeatured   Boolean @default(false)
   isArchived   Boolean @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+}
+
+
+
+
+enum Recurrence {
+  year
+  month
+  day
+  week
 }
 
 model Image {
@@ -138,7 +148,7 @@ model SubscriptionItem {
    description  String? @db.VarChar(1000)
    priceHT       Float
    fraisActivation Float
-   recurrence       String
+   recurrence       Recurrence
    dataCap       Float @default(0)
   
   subscriptionOrderId String @unique

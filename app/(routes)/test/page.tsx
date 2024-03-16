@@ -1,16 +1,8 @@
 import { IsProProvider } from "@/hooks/use-is-pro";
 import { CategoriesProvider } from "@/providers/categories-provider";
-import { CursorProvider } from "@/providers/cursor-provider";
 import Image from "next/image";
-import CursorDifference from "./components/cursor-difference";
-import MouseHover from "./components/mouse-hover";
-import MouseSticky2 from "./components/mouse-sticky2";
-import MouseSticky3, { Carousel } from "./components/mouse-sticky3";
+import { Carousel } from "./components/mouse-sticky3";
 import Navigations from "./components/navigations";
-import ParticleRing from "./components/particle-ring";
-import CSSCarousel from "./components/css-carousel";
-import BlopSVG from "./components/blop";
-import SubscriptionEmail from "@/components/email/subscription";
 
 const HomePage = async () => {
   // const categories = await GetCategories();
