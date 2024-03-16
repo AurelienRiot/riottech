@@ -1,19 +1,18 @@
+import { checkUser } from "@/components/auth/checkAuth";
 import { stripe } from "@/lib/strip";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user || !session.user.id) {
+    const user = await checkUser();
+    if (!user) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
       });
     }
 
     const stripeSession = await stripe.billingPortal.sessions.create({
-      customer: session.user.stripeCustomerId,
+      customer: user.stripeCustomerId as string,
       return_url: `${process.env.NEXT_PUBLIC_URL}/dashboard-user`,
     });
 

@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 
 export async function GET(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { categoryId: string } },
 ) {
   try {
     if (!params.categoryId) {
@@ -17,9 +17,6 @@ export async function GET(
     const category = await prismadb.category.findUnique({
       where: {
         id: params.categoryId,
-      },
-      include: {
-        billboard: true,
       },
     });
 
@@ -36,11 +33,11 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { categoryId: string } },
 ) {
   try {
     const body = await req.json();
-    const { name, billboardId } = body;
+    const { name, imageUrl } = body;
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {
@@ -53,8 +50,8 @@ export async function PATCH(
       });
     }
 
-    if (!billboardId) {
-      return new NextResponse("L'id de la categorie est nécessaire", {
+    if (!imageUrl) {
+      return new NextResponse("L'image est nécessaire", {
         status: 400,
       });
     }
@@ -71,7 +68,7 @@ export async function PATCH(
       },
       data: {
         name,
-        billboardId,
+        imageUrl,
       },
     });
 
@@ -84,7 +81,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { categoryId: string } }
+  { params }: { params: { categoryId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);

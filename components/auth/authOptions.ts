@@ -2,9 +2,12 @@ import prismadb from "@/lib/prismadb";
 import { compare } from "bcrypt";
 import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
+  adapter: PrismaAdapter(prismadb),
   pages: {
     signIn: "/login",
   },
@@ -13,6 +16,19 @@ export const authOptions: NextAuthOptions = {
     maxAge: 30 * 24 * 60 * 60,
   },
   providers: [
+    GoogleProvider({
+      profile(profile: GoogleProfile) {
+        return {
+          id: profile.sub.toString(),
+          surname: profile.family_name,
+          name: profile.given_name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "Sign in",
       credentials: {
@@ -37,7 +53,7 @@ export const authOptions: NextAuthOptions = {
             email: credentials.email,
           },
         });
-        if (!user) {
+        if (!user || !user.password) {
           return null;
         }
 
@@ -55,8 +71,6 @@ export const authOptions: NextAuthOptions = {
           role: user.role,
           email: user.email,
           name: user.raisonSocial || user.name + " " + user.surname,
-          isPro: user.isPro,
-          stripeCustomerId: user.stripeCustomerId,
         };
       },
     }),
@@ -69,8 +83,6 @@ export const authOptions: NextAuthOptions = {
           ...session.user,
           id: token.id,
           role: token.role,
-          isPro: token.isPro,
-          stripeCustomerId: token.stripeCustomerId,
         },
       };
     },
@@ -81,8 +93,6 @@ export const authOptions: NextAuthOptions = {
           ...token,
           id: u.id,
           role: u.role,
-          isPro: u.isPro,
-          stripeCustomerId: u.stripeCustomerId,
         };
       }
       return token;

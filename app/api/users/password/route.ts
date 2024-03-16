@@ -16,12 +16,6 @@ export async function PATCH(req: NextRequest) {
       });
     }
 
-    if (!oldPassword) {
-      return new NextResponse("L'ancien mot de passe est nécessaire", {
-        status: 400,
-      });
-    }
-
     if (!newPassword) {
       return new NextResponse("Le nouveau mot de passe est nécessaire", {
         status: 400,
@@ -38,21 +32,27 @@ export async function PATCH(req: NextRequest) {
       return new NextResponse("L'utilisateur n'existe pas", { status: 400 });
     }
 
-    const compareOldPassword = await compare(oldPassword, user.password);
+    if (user.password) {
+      if (!oldPassword) {
+        return new NextResponse("Veuillez entrer votre mot de passe", {
+          status: 400,
+        });
+      }
+      const compareOldPassword = await compare(oldPassword, user.password);
 
-    if (!compareOldPassword) {
-      return new NextResponse("L'ancien mot de passe est incorrect", {
-        status: 400,
-      });
-    }
+      if (!compareOldPassword) {
+        return new NextResponse("L'ancien mot de passe est incorrect", {
+          status: 400,
+        });
+      }
 
-    const compareNewPassword = await compare(newPassword, user.password);
-
-    if (compareNewPassword) {
-      return new NextResponse(
-        "Le nouveau mot de passe est identique à l'ancien",
-        { status: 400 }
-      );
+      const compareNewPassword = await compare(newPassword, user.password);
+      if (compareNewPassword) {
+        return new NextResponse(
+          "Le nouveau mot de passe est identique à l'ancien",
+          { status: 400 },
+        );
+      }
     }
 
     const hashpassword = await hash(newPassword, 12);

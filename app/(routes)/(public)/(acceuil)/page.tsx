@@ -4,7 +4,6 @@ import GetProducts from "@/server-actions/get-products";
 import ImageAccueil from "./components/image-accueil";
 import Reseau4GPage from "./components/reseau-4G";
 import ServicePage from "./components/services";
-import { PlateEditor } from "./components/plate-editor";
 
 const HomePage = async () => {
   return (

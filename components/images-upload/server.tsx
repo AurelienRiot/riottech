@@ -204,16 +204,14 @@ async function deleteObject({
     };
   }
 
-  const imagesBillboard = await prismadb.billboard.findMany({
+  const categories = await prismadb.category.findMany({
     where: {
       imageUrl: `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
     },
   });
 
-  if (imagesBillboard.length > 0) {
-    const productNames = imagesBillboard
-      .map((billboard) => billboard.label)
-      .join(", ");
+  if (categories.length > 0) {
+    const productNames = categories.map((category) => category.name).join(", ");
     return {
       success: false,
       error: `L'image est utilisée par le(s) pannneau(s) : ${productNames}`,

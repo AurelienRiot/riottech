@@ -28,7 +28,7 @@ const DashboardUser = async () => {
       id: order.id,
       products: order.orderItems
         .map((item) => {
-          let name = item.product.name;
+          let name = item.name;
           if (Number(item.quantity) > 1) {
             name += ` x${item.quantity}`;
           }
@@ -47,9 +47,13 @@ const DashboardUser = async () => {
     user.subscriptionOrder || []
   ).map((order) => ({
     id: order.id,
-    subscription: order.subscriptionItem
-      .map((orderItem) => orderItem.subscription.name)
-      .join(","),
+    subscription: (() => {
+      if (!order.subscriptionItem) {
+        return null;
+      } else {
+        return order.subscriptionItem.name;
+      }
+    })(),
     totalPrice: formatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
     isActive: order.isActive ? "oui" : "non",

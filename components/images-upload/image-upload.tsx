@@ -262,6 +262,7 @@ const DisplaySelectedImages = ({
                     className="pointer-events-none rounded-xl object-cover"
                   />
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.preventDefault();
                       setSelectedFiles((prev) =>
@@ -382,6 +383,7 @@ const DisplayImages = ({
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={async (e) => {
                       e.preventDefault();
                       setLoading(true);
@@ -393,6 +395,7 @@ const DisplayImages = ({
                     <Trash size={15} />
                   </button>
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.preventDefault();
                       if (multipleImages) {
@@ -413,6 +416,7 @@ const DisplayImages = ({
         </div>
         <div className="flex items-center justify-start space-x-2 ">
           <Button
+            type="button"
             variant="outline"
             size="sm"
             onClick={(e) => {
@@ -426,6 +430,7 @@ const DisplayImages = ({
           <Button
             variant="outline"
             size="sm"
+            type="button"
             onClick={(e) => {
               e.preventDefault();
               setCurrentPage((prev) => prev + 1);

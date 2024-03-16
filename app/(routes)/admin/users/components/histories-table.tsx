@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  FetchUsersHistories,
-  GetUsersHistories,
-} from "@/actions/get-users-histories";
 import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
 import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
@@ -15,6 +11,7 @@ import { DateRange } from "react-day-picker";
 import toast from "react-hot-toast";
 import { DataTable } from "./data-table";
 import { SubscriptionHistoryColumn, columns } from "./histories-column";
+import { fetchUsersHistories } from "./server-action";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -27,19 +24,19 @@ export const HistoryTable = ({
 }: HistoryTableProps) => {
   const [data, setData] = useState<SubscriptionHistoryColumn[]>(initialData);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
-    initialDateRange
+    initialDateRange,
   );
   const [loading, setLoading] = useState(false);
 
   const handleChangeDate = async () => {
     setLoading(true);
-    const users = await FetchUsersHistories(dateRange);
-    if (!users) {
-      toast.error("Veuillez choisir une date");
+    const histories = await fetchUsersHistories(dateRange);
+    if (!histories.success) {
+      toast.error(histories.message);
       return;
     }
-    const histories = GetUsersHistories(users);
-    setData(histories);
+
+    setData(histories.data);
     setLoading(false);
   };
 
@@ -51,7 +48,7 @@ export const HistoryTable = ({
           description="Gérez les historiques"
         />
         <Separator className="mb-4" />
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <DatePickerWithRange date={dateRange} setDate={setDateRange} />
           <Button
             className="w-fit"

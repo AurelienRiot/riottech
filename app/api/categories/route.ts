@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { name, billboardId } = body;
+    const { name, imageUrl } = body;
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {
@@ -20,8 +20,8 @@ export async function POST(req: Request) {
       });
     }
 
-    if (!billboardId) {
-      return new NextResponse("Un panneau d'affichage est nécessaire", {
+    if (!imageUrl) {
+      return new NextResponse("Une image est nécessaire", {
         status: 400,
       });
     }
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const category = await prismadb.category.create({
       data: {
         name,
-        billboardId,
+        imageUrl,
       },
     });
 

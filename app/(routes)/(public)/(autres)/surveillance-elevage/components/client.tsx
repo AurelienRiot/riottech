@@ -1,18 +1,12 @@
 "use client";
-import { Billboard } from "@prisma/client";
 import BoutonRedirection from "./bouton-redirection";
-import NotFound from "@/app/not-found";
 
-const Client = ({ billboard }: { billboard: Billboard | null }) => {
-  if (!billboard) {
-    return <NotFound />;
-  }
-
+const Client = ({ imageUrl }: { imageUrl: string }) => {
   return (
     <>
       <div
-        className="rounded-b-xl relative aspect-square md:aspect-[3.3/1] overflow-hidden bg-cover"
-        style={{ backgroundImage: `url(${billboard.imageUrl})` }}
+        className="relative aspect-square overflow-hidden rounded-b-xl bg-cover md:aspect-[3.3/1]"
+        style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
       <BoutonRedirection />
     </>

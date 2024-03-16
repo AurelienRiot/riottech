@@ -13,25 +13,16 @@ datasource db {
 
 
 
-model Billboard {
-  id          String @id @default(uuid())
-  label       String
-  imageUrl    String
-  categories  Category[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
+
 
 model Category {
   id          String @id @default(uuid())
-  billboardId String
-  billboard   Billboard @relation(fields: [billboardId], references: [id])
   products    Product[] @relation("CategoryToProduct")
   name        String
+   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAd   DateTime @updatedAt
 
-  @@index([billboardId])
 }
 
 
@@ -47,7 +38,6 @@ model Product {
   isFeatured   Boolean @default(false)
   isArchived   Boolean @default(false)
   images       Image[]
-  orderItems   OrderItem[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -66,7 +56,6 @@ model Subscription {
   dataCap       Float @default(0)
   isFeatured   Boolean @default(false)
   isArchived   Boolean @default(false)
-  subscriptionItem   SubscriptionItem[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -104,7 +93,7 @@ model Order {
 
 model SubscriptionOrder {
   id         String @id @default(uuid())
-  subscriptionItem SubscriptionItem[]
+  subscriptionItem SubscriptionItem?
   isPaid     Boolean @default(true)
   totalPrice Float @default(1)
   subscriptionPrice Float @default(1)
@@ -145,30 +134,39 @@ model SubscriptionHistory {
 
 model SubscriptionItem {
   id        String @id @default(uuid())
-  subscriptionId   String
-  subscription     Subscription @relation(fields: [subscriptionId], references: [id])
-  subscriptionOrderId String
+   name         String
+   description  String? @db.VarChar(1000)
+   priceHT       Float
+   fraisActivation Float
+   recurrence       String
+   dataCap       Float @default(0)
+  
+  subscriptionOrderId String @unique
   subscriptionOrder   SubscriptionOrder @relation(fields: [subscriptionOrderId], references: [id], onDelete: Cascade)
  
 
-  @@index([subscriptionId])
   @@index([subscriptionOrderId])
 }
 
 
 
+
+
 model OrderItem {
   id        String @id @default(uuid())
+  name         String
+  description  String @db.VarChar(1000)
+  priceHT       Float
   quantity  Int @default(1)
   orderId   String
   order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
+
  
 
   @@index([orderId])
-  @@index([productId])
+
 }
+
 
 model Contact {
   id       String      @id @default(uuid())
@@ -182,23 +180,62 @@ model Contact {
 
 }
 
-model User{
-  id String @id @default(uuid())
-  email String @unique
-  password String
-  role    String @default("user")
-  resetPasswordToken String?
-  name String @default("")
-  surname String @default("")
-  phone String @default("")
-  adresse String @default("") @db.VarChar(1000) 
-  isPro Boolean @default(false)
-  tva String @default("")
-  raisonSocial String @default("")
-  stripeCustomerId String? @unique @map(name: "stripe_customer_id")
-  orders Order[]
-  subscriptionOrder SubscriptionOrder[]
-  createdAt DateTime @default(now()) 
-  updatedAt DateTime @updatedAt 
+model Account {
+  id                 String @unique  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
+model Session {
+  id           String   @unique @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model User {
+  id               String    @unique @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  password String?
+  resetPasswordToken String?
+  phone            String? 
+  image            String?
+  role             Role @default(user)
+  surname String?
+  adresse String? @db.VarChar(1000)
+  tva String?
+  raisonSocial String?
+  stripeCustomerId String? @unique @map(name: "stripe_customer_id")
+  orders           Order[]
+   subscriptionOrder SubscriptionOrder[]
+  accounts         Account[]
+  sessions         Session[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt 
+}
+
+enum Role {
+  user
+  admin
+  pro
+}

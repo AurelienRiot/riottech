@@ -1,5 +1,4 @@
 import {
-  Billboard,
   Category,
   Image,
   Order,
@@ -49,8 +48,4 @@ export type ProductWithCategoryAndImages = Product & {
 export type UserWithOrders = User & {
   orders: Order[];
   subscriptionOrder: SubscriptionOrder[];
-};
-
-export type CategoryWithBillboard = Category & {
-  billboard: Billboard;
 };

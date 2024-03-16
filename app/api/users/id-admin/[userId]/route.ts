@@ -6,7 +6,7 @@ import { stripe } from "@/lib/strip";
 
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -28,11 +28,7 @@ export async function GET(
       include: {
         subscriptionOrder: {
           include: {
-            subscriptionItem: {
-              include: {
-                subscription: true,
-              },
-            },
+            subscriptionItem: true,
           },
           orderBy: {
             createdAt: "desc",
@@ -43,11 +39,7 @@ export async function GET(
             createdAt: "desc",
           },
           include: {
-            orderItems: {
-              include: {
-                product: true,
-              },
-            },
+            orderItems: true,
           },
         },
       },
@@ -62,7 +54,7 @@ export async function GET(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -92,7 +84,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -127,7 +119,7 @@ export async function PATCH(
         adresse,
         tva,
         raisonSocial,
-        isPro,
+        role: isPro ? "pro" : "user",
       },
     });
 

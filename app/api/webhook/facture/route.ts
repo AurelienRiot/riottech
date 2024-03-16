@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
 
         await transporter.sendMail({
           from: "facturation@riottech.fr",
-          to: user?.email,
+          to: user?.email || undefined,
           subject: "Votre facture RIOT TECH",
           html: render(
             BillingEmail({

@@ -1,13 +1,10 @@
 import prismadb from "@/lib/prismadb";
-import { CategoryWithBillboard } from "@/types";
+import { Category } from "@prisma/client";
 
-const GetCategories = async (): Promise<CategoryWithBillboard[]> => {
+const GetCategories = async (): Promise<Category[]> => {
   const categories = await prismadb.category.findMany({
     orderBy: {
       createdAt: "desc",
-    },
-    include: {
-      billboard: true,
     },
   });
 

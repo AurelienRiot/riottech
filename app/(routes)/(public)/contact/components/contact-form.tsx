@@ -2,7 +2,6 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { LoadingButton } from "@/components/ui/button";
-import { FloatingLabelInput } from "@/components/ui/floating-label-input";
 import {
   Form,
   FormControl,
@@ -42,7 +41,7 @@ const formSchema = z.object({
     },
     {
       message: "Le numéro de téléphone n'est pas valide",
-    }
+    },
   ),
   subject: z
     .string()

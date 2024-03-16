@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         "Un compte existe déjà avec cette adresse e-mail, veuillez vous connecter.",
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
         stripeCustomerId: customer.id,
         tva: tva,
         raisonSocial: raisonSocial,
-        isPro: isPro,
+        role: isPro === "true" ? "pro" : "user",
       },
     });
 

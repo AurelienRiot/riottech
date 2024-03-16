@@ -1,4 +1,3 @@
-import { GetUsersHistories } from "@/actions/get-users-histories";
 import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import prismadb from "@/lib/prismadb";
+import { formatter } from "@/lib/utils";
 import { CalendarIcon, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -73,31 +73,41 @@ const ServerHistoryTableLoading = () => {
 };
 
 const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
-  const usersHistories = await prismadb.user.findMany({
+  const usersHistories = await prismadb.subscriptionHistory.findMany({
     orderBy: {
       createdAt: "desc",
+    },
+    where: {
+      createdAt: {
+        gte: dateRange.from,
+        lte: dateRange.to,
+      },
     },
     include: {
       subscriptionOrder: {
         include: {
-          subscriptionHistory: {
-            where: {
-              createdAt: {
-                gte: dateRange.from,
-                lte: dateRange.to,
-              },
-            },
-          },
-          subscriptionItem: {
-            include: { subscription: true },
-          },
+          user: true,
+          subscriptionItem: true,
         },
       },
-      orders: true,
     },
   });
 
-  const histories = GetUsersHistories(usersHistories);
+  const histories = usersHistories.map((history) => ({
+    userId: history.subscriptionOrder.userId,
+    type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
+
+    status:
+      history.status === "Paid"
+        ? "payé"
+        : history.status === "Error"
+          ? "erreur"
+          : "en cours",
+    price: formatter.format(Number(history.price)),
+    user: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
+    name: history.subscriptionOrder.subscriptionItem?.name || "",
+    createdAt: new Date(history.createdAt),
+  }));
 
   return <HistoryTable initialData={histories} initialDateRange={dateRange} />;
 };

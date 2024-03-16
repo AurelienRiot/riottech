@@ -13,8 +13,6 @@ const SubscriptionPage = async () => {
     (item) => ({
       id: item.id,
       name: item.name,
-      isFeatured: item.isFeatured ? "oui" : "non",
-      isArchived: item.isArchived ? "oui" : "non",
       priceHT: String(item.priceHT),
       dataCap: String(item.dataCap),
       recurrence: (item.recurrence === "month"

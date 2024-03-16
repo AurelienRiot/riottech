@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { LoginForm } from "./components/login-form";
 import GetUser from "@/server-actions/get-user";
+import { GoogleButton } from "@/components/auth/auth-button";
 
 export default async function LoginPage() {
   const user = await GetUser();
@@ -15,6 +16,7 @@ export default async function LoginPage() {
         <h1 className="text-2xl font-semibold"> Se connecter</h1>
         <LoginForm />
       </div>
+      <GoogleButton callbackUrl="/dashboard-user" />
     </div>
   );
 }

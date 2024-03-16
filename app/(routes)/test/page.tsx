@@ -17,50 +17,41 @@ const HomePage = async () => {
 
   const categories = [
     {
-      id: "c036ac4f-3bfc-4420-885c-76ec960a563a",
+      id: "a14f5be7-1253-44b5-a151-0ff95a0f5035",
       billboardId: "13ce0a59-43f6-470e-8c6d-14e554b88e31",
       name: "Camera ",
       createdAt: new Date("2023-07-14T13:31:39.756Z"),
       updatedAd: new Date("2023-09-20T07:20:30.349Z"),
-      billboard: {
-        id: "13ce0a59-43f6-470e-8c6d-14e554b88e31",
-        label: "Camera",
-        imageUrl:
-          "https://res.cloudinary.com/dsztqh0k7/image/upload/v1689341458/ho3aywwdq14cieqegc9g.png",
-        createdAt: new Date("2023-07-14T13:31:02.694Z"),
-        updatedAt: new Date("2023-07-22T16:51:30.474Z"),
-      },
+
+      imageUrl:
+        "https://res.cloudinary.com/dsztqh0k7/image/upload/v1689341458/ho3aywwdq14cieqegc9g.png",
     },
     {
-      id: "8b235ea6-1f69-469b-8f0d-703fbd66721d",
+      id: "5595e683-4e0b-43da-8c56-586680353bf5",
       billboardId: "ac9311b9-a2fe-43a5-a27a-10d5d83e40e6",
       name: "Accessoire ",
       createdAt: new Date("2023-07-14T13:31:22.460Z"),
       updatedAd: new Date("2023-07-22T16:53:51.909Z"),
-      billboard: {
-        id: "ac9311b9-a2fe-43a5-a27a-10d5d83e40e6",
-        label: "Acessoire",
-        imageUrl:
-          "https://res.cloudinary.com/dsztqh0k7/image/upload/v1689341413/evsjnfice8irqdpnyrjv.png",
-        createdAt: new Date("2023-07-14T13:30:16.054Z"),
-        updatedAt: new Date("2023-07-22T16:52:15.085Z"),
-      },
+
+      imageUrl:
+        "https://res.cloudinary.com/dsztqh0k7/image/upload/v1689341413/evsjnfice8irqdpnyrjv.png",
     },
   ];
 
   return (
     <IsProProvider>
-      <CursorProvider className="cursor-none  ">
-        <CategoriesProvider categories={categories} />
-        <Image
-          src="/film_guimbert.jpg"
-          alt="image background"
-          width={1920}
-          height={1080}
-          className="fixed left-0 top-0 -z-10 h-screen w-screen object-cover object-center"
-        />
-        {/* 
-        <Navigations />
+      {/* <CursorProvider className="cursor-none  "> */}
+      <CategoriesProvider categories={categories} />
+      <Image
+        src="/film_guimbert.jpg"
+        alt="image background"
+        width={1920}
+        height={1080}
+        className="fixed left-0 top-0 -z-10 h-screen w-screen object-cover object-center"
+      />
+      <Navigations />
+      {/* 
+       
         <div className=" relative flex h-screen w-full bg-primary-foreground/90  ">
           <div
             className={
@@ -101,12 +92,12 @@ const HomePage = async () => {
         <div className="h-screen w-full bg-teal-600/90  ">
           <MouseSticky3 />
         </div> */}
-        <div className="h-screen w-full bg-teal-600/90  "></div>
-        <Carousel />
-        {/* <div className="h-screen  w-full  ">
+      <div className="h-screen w-full bg-teal-600/90  "></div>
+      <Carousel />
+      {/* <div className="h-screen  w-full  ">
           <ParticleRing />
         </div> */}
-      </CursorProvider>
+      {/* </CursorProvider> */}
     </IsProProvider>
   );
 };

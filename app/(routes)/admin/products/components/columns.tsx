@@ -1,27 +1,21 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import { ArrowUpDown } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { CellAction } from "./cell-action";
 import {
   CheckboxCell,
   CreatedAtCell,
   NameCell,
   NameWithImageCell,
 } from "@/components/table-custom-fuction/common-cell";
-import { changeArchived, changeFeatured } from "./server-actions";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
   DataTableViewOptionsColumn,
 } from "@/types";
-import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { ColumnDef } from "@tanstack/react-table";
+import { CellAction } from "./cell-action";
+import { changeArchived, changeFeatured } from "./server-actions";
 
 export type ProductColumn = {
   id: string;

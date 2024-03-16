@@ -11,7 +11,7 @@ export type SubscriptionOrderColumnType = {
   id: string;
   isPaid: string;
   totalPrice: string;
-  subscription: string;
+  subscription: string | null;
   histories: number;
   createdAt: Date;
   isActive: string;
@@ -48,7 +48,7 @@ export const SubscriptionOrderColumn: ColumnDef<SubscriptionOrderColumnType>[] =
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Date de création
-            <ArrowUpDown className="flex-shrink-0 w-4 h-4 ml-2" />
+            <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
           </Button>
         );
       },

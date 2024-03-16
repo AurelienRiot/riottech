@@ -246,7 +246,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
           <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
-              name="name"
+              name="surname"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -271,7 +271,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
           <div className="grid w-full  items-center gap-1.5 p-1">
             <FormField
               control={form.control}
-              name="surname"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>

@@ -16,11 +16,7 @@ const GetUser = async () => {
     include: {
       subscriptionOrder: {
         include: {
-          subscriptionItem: {
-            include: {
-              subscription: true,
-            },
-          },
+          subscriptionItem: true,
           subscriptionHistory: true,
         },
         orderBy: {
@@ -32,11 +28,7 @@ const GetUser = async () => {
           createdAt: "desc",
         },
         include: {
-          orderItems: {
-            include: {
-              product: true,
-            },
-          },
+          orderItems: true,
         },
       },
     },

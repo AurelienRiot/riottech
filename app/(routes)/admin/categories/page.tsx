@@ -4,9 +4,6 @@ import { CategoryColumn } from "./components/columns";
 
 const CategoriesPage = async () => {
   const categories = await prismadb.category.findMany({
-    include: {
-      billboard: true,
-    },
     orderBy: {
       createdAt: "desc",
     },
@@ -15,8 +12,7 @@ const CategoriesPage = async () => {
   const formattedCategories: CategoryColumn[] = categories.map((item) => ({
     id: item.id,
     name: item.name,
-    billboard: item.billboard,
-    billboardLabel: item.billboard.label,
+    imageUrl: item.imageUrl,
     createdAt: item.createdAt,
   }));
 

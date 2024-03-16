@@ -3,17 +3,13 @@ import { FullAdress } from "@/components/adress-form";
 import { Button } from "@/components/ui/button";
 import {
   AddressElement,
-  CardElement,
-  Elements,
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,
   PaymentElement,
-  PaymentRequestButtonElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { StripeElementsOptions } from "@stripe/stripe-js";
 import { FormEvent } from "react";
 import toast from "react-hot-toast";
 
@@ -34,7 +30,7 @@ export const TestStripe = ({
   };
 }) => {
   const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_API_KEY as string
+    process.env.NEXT_PUBLIC_STRIPE_API_KEY as string,
   );
 
   return (
@@ -73,10 +69,10 @@ const CheckoutForm = ({
 
   return (
     <form
-      className="flex  gap-4 justify-center items-center p-8"
+      className="flex  items-center justify-center gap-4 p-8"
       onSubmit={handlePayment}
     >
-      <div className="flex flex-col gap-4 justify-center items-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <AddressElement
           options={{
             display: {

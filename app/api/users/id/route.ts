@@ -34,6 +34,7 @@ export async function PATCH(req: NextRequest) {
     const { name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
     const session = await getServerSession(authOptions);
+    console.log(session);
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
@@ -57,7 +58,7 @@ export async function PATCH(req: NextRequest) {
         adresse,
         tva,
         raisonSocial,
-        isPro,
+        role: isPro ? "pro" : "user",
       },
     });
     const fullAdress = JSON.parse(adresse);
@@ -81,8 +82,34 @@ export async function PATCH(req: NextRequest) {
         },
       });
     } else {
-      return new NextResponse("Erreur, essayer de vous reconnecter", {
-        status: 400,
+      const customer = await stripe.customers.create({
+        name: raisonSocial ? raisonSocial : name + " " + surname,
+        email: user.email || undefined,
+        phone: phone,
+        // tax_exempt: isPro ? "exempt" : "none",
+        tax_exempt: "none",
+        address: {
+          line1: fullAdress.line1,
+          line2: fullAdress.line2,
+          city: fullAdress.city,
+          postal_code: fullAdress.postalCode,
+          state: fullAdress.state,
+          country: fullAdress.country,
+        },
+
+        preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
+        metadata: {
+          tva: tva,
+        },
+      });
+
+      await prismadb.user.update({
+        where: {
+          id: session.user.id,
+        },
+        data: {
+          stripeCustomerId: customer.id,
+        },
       });
     }
 

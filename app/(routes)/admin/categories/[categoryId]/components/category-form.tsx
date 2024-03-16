@@ -1,5 +1,6 @@
 "use client";
 
+import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,16 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard, Category } from "@prisma/client";
+import { Category } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -29,27 +23,29 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
+import { getFileKey } from "../../../products/[productId]/components/product-form";
+
+const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
 interface CategoryFormProps {
   initialData: Category | null;
-  billboards: Billboard[];
 }
 
 const formSchema = z.object({
   name: z.string().min(1),
-  billboardId: z.string().min(1),
+  imageUrl: z.string(),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
 
-export const CategoryForm: React.FC<CategoryFormProps> = ({
-  initialData,
-  billboards,
-}) => {
+export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<string[]>(
+    initialData?.imageUrl ? [getFileKey(initialData?.imageUrl)] : [],
+  );
 
   const title = initialData
     ? "Modifier la categorie"
@@ -66,22 +62,28 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      name: "",
-      billboardId: "",
+    defaultValues: {
+      name: initialData?.name || "",
+      imageUrl: initialData?.imageUrl || "",
     },
   });
 
   const onSubmit = async (data: CategoryFormValues) => {
     try {
       setLoading(true);
+      if (!selectedFiles[0]) {
+        toast.error("Veuillez ajouter une image");
+        return;
+      }
+      data.imageUrl = `https://${bucketName}.s3.fr-par.scw.cloud/${selectedFiles[0]}`;
       if (initialData) {
         await axios.patch(`/api/categories/${params.categoryId}`, data);
       } else {
         await axios.post(`/api/categories`, data);
       }
-      router.refresh();
       router.push(`/admin/categories`);
+      router.refresh();
+
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Erreur");
@@ -94,12 +96,12 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(`/api/categories/${params.categoryId}`);
-      router.refresh();
       router.push(`/admin/categories`);
+      router.refresh();
       toast.success("Categrorie supprimée");
     } catch (error) {
       toast.error(
-        "Assurez vous de bien supprimer tous les produits de la categorie"
+        "Assurez vous de bien supprimer tous les produits de la categorie",
       );
     } finally {
       setLoading(false);
@@ -132,59 +134,43 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full"
+          className="w-full space-y-8"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Nom de la categorie"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="billboardId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{"Panneau d'affichage"}</FormLabel>
-                  <Select
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{"Image du panneau d'affichage"} </FormLabel>
+                <FormControl>
+                  <UploadImage
+                    selectedFiles={selectedFiles}
+                    setSelectedFiles={setSelectedFiles}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-fit
+                  "
                     disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Selectionner un panneau d'affichage"
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {billboards.map((billboard) => (
-                        <SelectItem key={billboard.id} value={billboard.id}>
-                          {billboard.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                    placeholder="Nom de la categorie"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>

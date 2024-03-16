@@ -42,7 +42,7 @@ const formSchema = z.object({
     },
     {
       message: "Le numéro de téléphone n'est pas valide",
-    }
+    },
   ),
   adresse: z.string().min(0),
   tva: z.string().min(0),
@@ -70,7 +70,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           line2: "",
           postalCode: "",
           state: "",
-        }
+        },
   );
 
   const title = "Modifier l'utilisateur";
@@ -81,13 +81,13 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const form = useForm<UserFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: initialData.name,
-      surname: initialData.surname,
-      phone: initialData.phone,
+      name: initialData.name || "",
+      surname: initialData.surname || "",
+      phone: initialData.phone || "",
       adresse: selectedAddress.label,
-      tva: initialData.tva,
-      raisonSocial: initialData.raisonSocial,
-      isPro: initialData.isPro,
+      tva: initialData.tva || "",
+      raisonSocial: initialData.raisonSocial || "",
+      isPro: initialData.role === "pro" ? true : false,
     },
   });
 
@@ -98,7 +98,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       if (isPro) {
         if (!data.raisonSocial) {
           toast.error(
-            "Veuillez renseigner la raison sociale ou passer en particulier."
+            "Veuillez renseigner la raison sociale ou passer en particulier.",
           );
           return;
         }
@@ -106,7 +106,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           const valideVat = await GetValideVat(data.tva);
           if (!valideVat) {
             toast.error(
-              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer."
+              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
             );
             return;
           }
@@ -170,14 +170,14 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
             size="sm"
             onClick={() => setOpen(true)}
           >
-            <Trash className="w-4 h-4" />
+            <Trash className="h-4 w-4" />
           </Button>
         )}
       </div>
       <Separator />
 
       <p>{initialData?.email}</p>
-      <div className="flex mt-6 ">
+      <div className="mt-6 flex ">
         <Button
           onClick={(e) => {
             e.preventDefault();
@@ -186,8 +186,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           }}
           className={
             !isPro
-              ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
-              : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+              ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
+              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
           }
         >
           Particulier
@@ -200,8 +200,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           }}
           className={
             isPro
-              ? "selected bg-green-500 ml-3 hover:bg-green-500 text-black"
-              : " bg-gray-500 ml-3 hover:bg-green-200  hover:text-black"
+              ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
+              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
           }
         >
           Professionnel
@@ -215,7 +215,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             <FormField
               control={form.control}
-              name="name"
+              name="surname"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nom</FormLabel>
@@ -228,7 +228,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name="surname"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Prénom</FormLabel>

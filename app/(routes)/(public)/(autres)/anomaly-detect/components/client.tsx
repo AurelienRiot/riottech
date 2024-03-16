@@ -8,13 +8,8 @@ import { BiSolidThermometer, BiTargetLock } from "react-icons/bi";
 import { MdCo2 } from "react-icons/md";
 import { AiOutlinePicture } from "react-icons/ai";
 import { LucideWrench } from "lucide-react";
-import { Billboard } from "@prisma/client";
 
-type ClienProps = {
-  billboard: Billboard;
-};
-
-const Client: React.FC<ClienProps> = ({ billboard }) => {
+const Client = ({ imageUrl }: { imageUrl: string }) => {
   const keyPoints = [
     "Un outil fiable et efficace",
     "Des économies à la clé",
@@ -100,12 +95,12 @@ const Client: React.FC<ClienProps> = ({ billboard }) => {
 
   return (
     <Container>
-      <div className="flex flex-col p-4 overflow-hidden text-lg sm:p-6 lg:p-8 rounded-xl sm:text-xl md:text-2xl ">
+      <div className="flex flex-col overflow-hidden rounded-xl p-4 text-lg sm:p-6 sm:text-xl md:text-2xl lg:p-8 ">
         <div
-          className="rounded-xl relative aspect-square md:aspect-[3.3/1] overflow-hidden bg-cover"
-          style={{ backgroundImage: `url(${billboard.imageUrl})` }}
+          className="relative aspect-square overflow-hidden rounded-xl bg-cover md:aspect-[3.3/1]"
+          style={{ backgroundImage: `url(${imageUrl})` }}
         ></div>
-        <div className="pb-3 font-bold text-center md:hidden">
+        <div className="pb-3 text-center font-bold md:hidden">
           <h1 className="text-4xl sm:text-5xl">
             <span className="text-blue-900">Anomaly</span>
             <span className="text-red-500">Detect</span>
@@ -116,7 +111,7 @@ const Client: React.FC<ClienProps> = ({ billboard }) => {
             <span className="text-green-500">TECH</span>
           </p>
         </div>
-        <div className="mt-8 mb-8 text-3xl text-center">
+        <div className="mb-8 mt-8 text-center text-3xl">
           <h2>Revolutionnez votre ferme avec AnomalyDetect :</h2>
           <h2 className="font-bold">
             {"La technologie au servide de l'élevage !"}
@@ -124,28 +119,28 @@ const Client: React.FC<ClienProps> = ({ billboard }) => {
         </div>
         {keyPoints.map((key) => (
           <div className="flex items-center pb-2" key={key}>
-            <FaCheck className="flex-shrink-0 w-6 h-6 mr-3 text-green-500" />
+            <FaCheck className="mr-3 h-6 w-6 flex-shrink-0 text-green-500" />
             <p>{key}</p>
           </div>
         ))}
 
-        <h2 className="pt-2 pb-10 text-3xl font-bold text-center text-blue-900">
+        <h2 className="pb-10 pt-2 text-center text-3xl font-bold text-blue-900">
           {"La technologie au service de l'élevage !"}
         </h2>
 
         <div className="flex flex-wrap gap-4 pb-10 ">
           {features.map((feature, index) => (
             <div
-              className="flex flex-col items-start flex-auto w-80 xl:w-1/5"
+              className="flex w-80 flex-auto flex-col items-start xl:w-1/5"
               key={index}
             >
               <VisibleElement variant="fade" className="self-center">
-                {<feature.Icon className="pb-2 mb-4 w-28 h-28" />}
+                {<feature.Icon className="mb-4 h-28 w-28 pb-2" />}
               </VisibleElement>
               <VisibleElement
                 variant="fade"
                 as="h3"
-                className="w-full pb-2 font-bold text-center"
+                className="w-full pb-2 text-center font-bold"
               >
                 {feature.title}
               </VisibleElement>
@@ -155,10 +150,10 @@ const Client: React.FC<ClienProps> = ({ billboard }) => {
                   <VisibleElement
                     variant="fade"
                     as="li"
-                    className="flex items-center mb-2 space-x-2 font-semibold"
+                    className="mb-2 flex items-center space-x-2 font-semibold"
                     key={index}
                   >
-                    <FaCheck className="flex-shrink-0 w-6 h-6 mb-2 mr-2 text-green-500" />
+                    <FaCheck className="mb-2 mr-2 h-6 w-6 flex-shrink-0 text-green-500" />
                     <p>{feature}</p>
                   </VisibleElement>
                 ))}

@@ -136,7 +136,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       select: {
         subscriptionItem: {
           select: {
-            subscription: { select: { name: true } },
+            name: true,
           },
         },
       },
@@ -159,7 +159,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       html: render(
         SubscriptionEmail({
           sim: subscriptionOrder.sim,
-          subscription: sub?.subscriptionItem[0].subscription.name || "",
+          subscription: sub?.subscriptionItem?.name || "",
           baseUrl,
         }),
       ),
@@ -177,11 +177,7 @@ async function customerSubscriptionUpdated(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: session.id,
     },
     include: {
-      subscriptionItem: {
-        include: {
-          subscription: true,
-        },
-      },
+      subscriptionItem: true,
     },
   });
 

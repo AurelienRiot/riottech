@@ -34,7 +34,7 @@ const checkUser = async () => {
     },
   });
 
-  if (!user || user.role !== "admin") {
+  if (!user) {
     return false;
   }
 

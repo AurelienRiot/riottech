@@ -112,7 +112,7 @@ type NameWithImageCellProps = {
   imageUrl: string | null;
   id: string;
   name: string;
-  type: "products" | "billboards";
+  type: "products" | "categories";
 };
 
 function NameWithImageCell({

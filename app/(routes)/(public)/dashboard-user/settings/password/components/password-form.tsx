@@ -23,12 +23,7 @@ import ButtonBackward from "@/components/ui/button-backward";
 
 const formSchema = z
   .object({
-    password: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
+    password: z.string().optional(),
     newPassword: z
       .string()
       .min(1, { message: "Le mot de passe ne peut pas être vide" })

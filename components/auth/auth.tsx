@@ -8,8 +8,6 @@ declare module "next-auth" {
     user?: {
       id: string;
       role: string;
-      isPro: boolean;
-      stripeCustomerId: string;
     } & DefaultSession["user"];
   }
 }

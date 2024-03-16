@@ -17,11 +17,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
     include: {
       subscriptionOrder: {
         include: {
-          subscriptionItem: {
-            include: {
-              subscription: true,
-            },
-          },
+          subscriptionItem: true,
         },
         orderBy: {
           createdAt: "desc",
@@ -32,11 +28,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
           createdAt: "desc",
         },
         include: {
-          orderItems: {
-            include: {
-              product: true,
-            },
-          },
+          orderItems: true,
         },
       },
     },
@@ -50,8 +42,6 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
       </>
     );
   }
-  const isPro = user?.isPro ? user.isPro : false;
-  const taxRate = isPro ? 1 : 1.2;
 
   const formatedUser = {
     ...user,
@@ -63,7 +53,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
     id: order.id,
     products: order.orderItems
       .map((item) => {
-        let name = item.product.name;
+        let name = item.name;
         if (Number(item.quantity) > 1) {
           name += ` x${item.quantity}`;
         }
@@ -80,9 +70,13 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
   ).map((order) => ({
     userId: user.id,
     id: order.id,
-    subscription: order.subscriptionItem
-      .map((orderItem) => orderItem.subscription.name)
-      .join(","),
+    subscription: (() => {
+      if (!order.subscriptionItem) {
+        return "";
+      } else {
+        return order.subscriptionItem.name;
+      }
+    })(),
     totalPrice: formatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
     isActive: order.isActive ? "oui" : "non",
@@ -92,7 +86,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
 
   return (
     <div className="flex-col p-8 pt-6">
-      <div className="flex-1 mb-8 space-y-4 ">
+      <div className="mb-8 flex-1 space-y-4 ">
         <UserForm initialData={formatedUser} />
       </div>
       <div>

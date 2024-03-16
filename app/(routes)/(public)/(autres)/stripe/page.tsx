@@ -73,7 +73,7 @@ const StripePage = async () => {
     },
   });
 
-  const isAdresse = Boolean(JSON.parse(user.adresse).label);
+  const isAdresse = Boolean(JSON.parse(user?.adresse as string)?.label);
   if (!user.stripeCustomerId) {
     console.log("customer not exist");
     return null;
@@ -122,11 +122,11 @@ const StripePage = async () => {
     <TestStripe
       options={options}
       user={{
-        address: user.adresse,
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        phone: user.phone,
+        address: user.adresse || "",
+        name: user.name || "",
+        surname: user.surname || "",
+        email: user.email || "",
+        phone: user.phone || "",
       }}
     />
   );

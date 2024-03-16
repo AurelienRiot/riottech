@@ -49,6 +49,53 @@ export async function POST(req: NextRequest) {
         status: 401,
       });
     }
+
+    const fullAdress = user.adresse
+      ? JSON.parse(user.adresse)
+      : {
+          line1: "",
+          line2: "",
+          city: "",
+          postalCode: "",
+          state: "",
+          country: "fr",
+        };
+    let stripeCustomerId = user.stripeCustomerId;
+    if (!stripeCustomerId) {
+      const customer = await stripe.customers.create({
+        name: user.raisonSocial
+          ? user.raisonSocial
+          : user.name + " " + user.surname,
+        email: user.email || undefined,
+        phone: user.phone || undefined,
+        // tax_exempt: isPro ? "exempt" : "none",
+        tax_exempt: "none",
+        address: {
+          line1: fullAdress.line1,
+          line2: fullAdress.line2,
+          city: fullAdress.city,
+          postal_code: fullAdress.postalCode,
+          state: fullAdress.state,
+          country: fullAdress.country,
+        },
+
+        preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
+        metadata: {
+          tva: user.tva,
+        },
+      });
+      stripeCustomerId = customer.id;
+
+      await prismadb.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          stripeCustomerId,
+        },
+      });
+    }
+
     // const taxe = user.isPro ? 1 : 1.2;0
     const taxe = 1.2;
 
@@ -116,18 +163,17 @@ export async function POST(req: NextRequest) {
         isActive: false,
         subscriptionItem: {
           create: {
-            subscription: {
-              connect: {
-                id: subscriptionId,
-              },
-            },
+            name: subscription.name,
+            priceHT: subscription.priceHT,
+            fraisActivation: subscription.fraisActivation,
+            recurrence: subscription.recurrence,
           },
         },
         userId: user.id,
       },
     });
 
-    const isAdresse = Boolean(JSON.parse(user.adresse).label);
+    const isAdresse = Boolean(JSON.parse(user.adresse as string)?.label);
 
     const sessionStripe = await stripe.checkout.sessions.create({
       line_items,
@@ -135,7 +181,7 @@ export async function POST(req: NextRequest) {
       automatic_tax: {
         enabled: true,
       },
-      customer: session.user.stripeCustomerId,
+      customer: stripeCustomerId || undefined,
       customer_update: {
         name: "never",
         address: isAdresse ? "never" : "auto",

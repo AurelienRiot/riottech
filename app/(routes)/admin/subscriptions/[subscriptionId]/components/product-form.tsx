@@ -2,11 +2,9 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -79,7 +77,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
       : {
           name: "",
           priceHT: 0,
-          description: "",
+          description: "1",
           productSpecs: "",
           fraisActivation: 0,
           dataCap: 0,

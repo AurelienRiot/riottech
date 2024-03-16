@@ -17,15 +17,15 @@ const Billboard: React.FC<BillboardProps> = ({ categoryId }) => {
     setIsMounted(true);
   }, []);
 
-  if (!category || !category.billboard || !isMounted) {
+  if (!category || !category.imageUrl || !isMounted) {
     return null;
   }
   return (
-    <div className="p-4 overflow-hidden sm:p-6 lg:p-8 rounded-xl">
-      <ImageLoaderBillboard src={category.billboard.imageUrl}>
-        <div className="flex flex-col items-center justify-center w-full h-full text-center gap-y-8">
-          <div className="max-w-xs p-2 pb-3 text-3xl font-bold bg-gray-800 rounded-lg sm:text-5xl lg:text-6xl sm:max-w-xl bg-opacity-40 text-gray-50">
-            {category?.billboard.label}
+    <div className="overflow-hidden rounded-xl p-4 sm:p-6 lg:p-8">
+      <ImageLoaderBillboard src={category.imageUrl}>
+        <div className="flex h-full w-full flex-col items-center justify-center gap-y-8 text-center">
+          <div className="max-w-xs rounded-lg bg-gray-800 bg-opacity-40 p-2 pb-3 text-3xl font-bold text-gray-50 sm:max-w-xl sm:text-5xl lg:text-6xl">
+            {category?.name}
           </div>
         </div>
       </ImageLoaderBillboard>
