@@ -1,15 +1,19 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import {
+  CreatedAtCell,
+  StatusCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import { DataTableFilterableColumn, DataTableViewOptionsColumn } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import { ArrowUpDown } from "lucide-react";
 import { DisplayPdf } from "../../(profile)/components/display-pdf";
 
 export type SubscriptionHistoryColumn = {
   id: string;
-  type: string;
+  type: "Création" | "Renouvellement";
+  status: "Paiement validé" | "En cours de validation" | "Non payé";
   pdfUrl: string;
   price: string;
   mailSend: boolean;
@@ -19,6 +23,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "type",
     header: "Type",
+    filterFn: FilterFn,
   },
   {
     accessorKey: "price",
@@ -27,18 +32,8 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "status",
     header: "État du paiement",
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        <span
-          style={{
-            color: row.original.mailSend ? "green" : "orange",
-          }}
-        >
-          {row.original.mailSend ? "Paiement validé" : "En cours de validation"}
-        </span>
-      </div>
-    ),
+    cell: StatusCell,
+    filterFn: FilterFn,
   },
   {
     accessorKey: "pdfUrl",
@@ -52,24 +47,54 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(new Date(row.getValue("createdAt")), "d MMMM yyyy", {
-          locale: fr,
-        })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
 ];
+
+export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] =
+  [
+    {
+      id: "type",
+      title: "Type",
+      options: [
+        { label: "Création", value: "Création" },
+        { label: "Renouvellement", value: "Renouvellement" },
+      ],
+    },
+    {
+      id: "status",
+      title: "État du paiement",
+      options: [
+        { label: "Paiement validé", value: "Paiement validé" },
+        { label: "En cours de validation", value: "En cours de validation" },
+        { label: "Non payé", value: "Non payé" },
+      ],
+    },
+  ];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] =
+  [
+    {
+      id: "type",
+      title: "Type",
+    },
+
+    {
+      id: "price",
+      title: "Prix",
+    },
+    {
+      id: "mailSend",
+      title: "État du paiement",
+    },
+    {
+      id: "pdfUrl",
+      title: "Facture",
+    },
+
+    {
+      id: "createdAt",
+      title: "Date de création",
+    },
+  ];

@@ -21,7 +21,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 

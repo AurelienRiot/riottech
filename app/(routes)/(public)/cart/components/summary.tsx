@@ -6,7 +6,7 @@ import useCart from "@/hooks/use-cart";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 interface SummaryProps {
   userId: string | undefined;
@@ -36,7 +36,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
     if (!userId) {
       const callbackUrl = "/cart";
       router.replace(
-        `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`
+        `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`,
       );
       return;
     }
@@ -61,7 +61,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
   };
 
   return (
-    <div className="px-4 py-6 mt-16 bg-gray-100 border-2 rounded-lg dark:bg-black sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
+    <div className="mt-16 rounded-lg border-2 bg-gray-100 px-4 py-6 dark:bg-black sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-xl font-medium text-gray-500">Votre Commmande</h2>
       <ul className="pt-4">
         {cart.items.map((item) => (
@@ -82,7 +82,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
         ))}
       </ul>
       <div className="mt-6 space-y-4">
-        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
           <div className="text-base font-medium text-gray-500">Total</div>
           <Currency value={totalPrice} displayLogo={false} />
         </div>
@@ -91,7 +91,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
         disabled={cart.items.length === 0 || loading}
         onClick={onCheckout}
         variant="rounded"
-        className="w-full mt-6"
+        className="mt-6 w-full"
       >
         Passer la commande
       </Button>

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import React from "react";
 import { Logout } from "@/components/auth/auth";
-import GetUser from "@/server-actions/get-user";
+import getFullUser from "@/server-actions/get-user";
 
 export const metadata = {
   title: "RIOT TECH - Profil utilisateur",
@@ -13,7 +13,7 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = await GetUser();
+  const user = await getFullUser();
   const callbackUrl = "/dashboard-user";
 
   if (!user) {

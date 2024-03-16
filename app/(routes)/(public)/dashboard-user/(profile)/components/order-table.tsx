@@ -2,12 +2,18 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "./data-table";
-import { OrderColumnType, OrdersColumn } from "./order-column";
+import {
+  OrderColumnType,
+  OrdersColumn,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./order-column";
 import { useRouter, useSearchParams } from "next/navigation";
 import useCart from "@/hooks/use-cart";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useEffect } from "react";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface OrderTableProps {
   data: OrderColumnType[];
@@ -32,11 +38,13 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
         title={`Commandes (${data.length})`}
         description="Résumé des commandes"
       />
-      <Separator />
+      <Separator className="my-4" />
       <DataTable
-        searchKey="products"
         columns={OrdersColumn}
-        initialData={data}
+        data={data}
+        searchableColumns={searchableColumns}
+        viewOptionsColumns={viewOptionsColumns}
+        filterableColumns={filterableColumns}
       />
     </>
   );

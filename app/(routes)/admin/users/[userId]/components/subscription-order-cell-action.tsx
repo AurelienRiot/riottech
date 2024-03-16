@@ -14,7 +14,7 @@ import { ArrowLeftRightIcon, Copy, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { BiBookOpen } from "react-icons/bi";
 import { SubscriptionOrderColumn } from "./subscription-order-column";
 
@@ -75,9 +75,9 @@ export const SubscriptionOrderCellAction: React.FC<
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="w-8 h-8 p-0">
-            <span className="w-0 sr-only">Open Menu</span>
-            <MoreHorizontal className="w-4 h-4" />
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only w-0">Open Menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -86,11 +86,11 @@ export const SubscriptionOrderCellAction: React.FC<
             onClick={() => onCopy(data.id)}
             className="cursor-copy"
           >
-            <Copy className="w-4 h-4 mr-2" />
+            <Copy className="mr-2 h-4 w-4" />
             Copier Id
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onActive()}>
-            <ArrowLeftRightIcon className="w-4 h-4 mr-2" />
+            <ArrowLeftRightIcon className="mr-2 h-4 w-4" />
             Activité
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -98,12 +98,12 @@ export const SubscriptionOrderCellAction: React.FC<
               className="flex items-center justify-center"
               href={`${pathname}/${data.id}`}
             >
-              <BiBookOpen className="w-4 h-4 mr-2" />
+              <BiBookOpen className="mr-2 h-4 w-4" />
               Historique
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="w-4 h-4 mr-2" />
+            <Trash className="mr-2 h-4 w-4" />
             Supprimer
           </DropdownMenuItem>
         </DropdownMenuContent>

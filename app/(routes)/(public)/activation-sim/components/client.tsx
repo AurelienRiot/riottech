@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { Subscription } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { FetchSim } from "./fetch-sim";
 
 const Client = ({
@@ -55,8 +55,8 @@ const Client = ({
         }
         setSelectedSubscriptions(
           subscriptions.filter((subscription) =>
-            res.RTsubIDs.includes(subscription.id)
-          )
+            res.RTsubIDs.includes(subscription.id),
+          ),
         );
         setIsSimInvalid(false);
         if (res.is_third) {
@@ -87,7 +87,7 @@ const Client = ({
               <img
                 src={org.orgImageUrl}
                 alt="Logo"
-                className="max-w-52 mx-auto mb-4"
+                className="mx-auto mb-4 max-w-52"
               />
             ) : null}
             <p>

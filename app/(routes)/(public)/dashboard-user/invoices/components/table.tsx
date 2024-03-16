@@ -2,8 +2,14 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "../../(profile)/components/data-table";
-import { InvoicesColumn, columns } from "./column";
+import {
+  InvoicesColumn,
+  columns,
+  filterableColumns,
+  searchableColumns,
+  viewOptionsColumns,
+} from "./column";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface InvoicesTableProps {
   data: InvoicesColumn[];
@@ -17,7 +23,13 @@ export const InvoicesTable: React.FC<InvoicesTableProps> = ({ data }) => {
         description="Historique des factures"
       />
       <Separator />
-      <DataTable searchKey="products" columns={columns} initialData={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        searchableColumns={searchableColumns}
+        viewOptionsColumns={viewOptionsColumns}
+        filterableColumns={filterableColumns}
+      />
     </>
   );
 };

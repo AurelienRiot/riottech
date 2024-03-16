@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { CalendarIcon, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -103,7 +103,7 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
         : history.status === "Error"
           ? "erreur"
           : "en cours",
-    price: formatter.format(Number(history.price)),
+    price: currencyFormatter.format(Number(history.price)),
     user: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
     name: history.subscriptionOrder.subscriptionItem?.name || "",
     createdAt: new Date(history.createdAt),

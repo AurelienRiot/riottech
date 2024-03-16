@@ -8,7 +8,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { DataTable } from "./data-table";
 import { SubscriptionHistoryColumn, columns } from "./histories-column";
 import { fetchUsersHistories } from "./server-action";

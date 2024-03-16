@@ -27,7 +27,7 @@ import {
 } from "react-icons/ai";
 import { GoQuote } from "react-icons/go";
 import { Input } from "@/components/ui/input";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 import {
   Popover,
@@ -52,14 +52,14 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
   function createMarkdownTable(
     field: FieldValues,
     row: number | undefined,
-    col: number | undefined
+    col: number | undefined,
   ) {
     if (row === undefined || col === undefined || row < 1 || col < 1) {
       toast.error("Les lines et colonnes doivent être supérieurs à 0");
       return;
     }
     const textarea = document.getElementById(
-      "productSpecsTextArea"
+      "productSpecsTextArea",
     ) as HTMLTextAreaElement;
 
     const startPos = textarea.selectionStart;
@@ -119,10 +119,10 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
       | "line"
       | "quote"
       | "unorderedList"
-      | "orderedList"
+      | "orderedList",
   ) => {
     const textarea = document.getElementById(
-      "productSpecsTextArea"
+      "productSpecsTextArea",
     ) as HTMLTextAreaElement;
 
     const startPos = textarea.selectionStart;
@@ -427,7 +427,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                       {titres.map((titre, index) => (
                         <div
                           key={index}
-                          className="pb-1 cursor-pointer"
+                          className="cursor-pointer pb-1"
                           onClick={() => {
                             insertMarkdown(field, titre);
                             setOpenTitles(false);
@@ -444,7 +444,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                     </PopoverTrigger>
                     <PopoverContent
                       align="start"
-                      className="flex flex-col w-32"
+                      className="flex w-32 flex-col"
                     >
                       <div className="flex flex-row items-center ">
                         <Input
@@ -476,7 +476,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                         />
                       </div>
                       <Button
-                        className="mt-4 mb-4"
+                        className="mb-4 mt-4"
                         onClick={(e) => {
                           e.preventDefault();
                           createMarkdownTable(field, row, column);
@@ -490,7 +490,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                           createMarkdownTable(
                             field,
                             rowIndex + 1,
-                            colIndex + 1
+                            colIndex + 1,
                           );
                           setOpenTableau(false);
                         }}
@@ -504,7 +504,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                     setOpenTableau(false);
                   }}
                   id="productSpecsTextArea"
-                  className="min-h-[20rem] sm:w-full h-auto sm:h-full mt-2 "
+                  className="mt-2 h-auto min-h-[20rem] sm:h-full sm:w-full "
                   disabled={loading}
                   placeholder="Spécification"
                   {...field}

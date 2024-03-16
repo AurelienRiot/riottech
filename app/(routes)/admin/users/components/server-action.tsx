@@ -1,7 +1,7 @@
 "use server";
 
 import prismadb from "@/lib/prismadb";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
 import { SubscriptionHistoryColumn } from "./histories-column";
 import { checkAdmin } from "@/components/auth/checkAuth";
@@ -65,7 +65,7 @@ export const fetchUsersHistories = async (
         : history.status === "Error"
           ? "erreur"
           : "en cours",
-    price: formatter.format(Number(history.price)),
+    price: currencyFormatter.format(Number(history.price)),
     user: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
     name: history.subscriptionOrder.subscriptionItem?.name || "",
     createdAt: new Date(history.createdAt),

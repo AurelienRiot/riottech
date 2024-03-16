@@ -2,7 +2,20 @@ import { authOptions } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 
-const GetUser = async () => {
+export const getBasicUser = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
+    return null;
+  }
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+  return user;
+};
+
+const getFullUser = async () => {
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user || !session.user.id) {
@@ -36,4 +49,4 @@ const GetUser = async () => {
   return user;
 };
 
-export default GetUser;
+export default getFullUser;

@@ -4,7 +4,6 @@ import { Pacifico, Source_Code_Pro, Inter } from "next/font/google";
 
 import { AuthProviders } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { ToasterProvider } from "@/providers/toast-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -41,7 +40,6 @@ export default function RootLayout({
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ToasterProvider />
             <Toaster />
             <TooltipProvider delayDuration={100} skipDelayDuration={0}>
               {children}

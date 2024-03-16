@@ -10,7 +10,7 @@ import {
 import { OrderColumn } from "./order-column";
 import { Button } from "@/components/ui/button";
 import { Copy, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
@@ -54,9 +54,9 @@ export const OrderCellAction: React.FC<OrderCellActionProps> = ({ data }) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="w-8 h-8 p-0">
-            <span className="w-0 sr-only">Open Menu</span>
-            <MoreHorizontal className="w-4 h-4" />
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only w-0">Open Menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -65,11 +65,11 @@ export const OrderCellAction: React.FC<OrderCellActionProps> = ({ data }) => {
             onClick={() => onCopy(data.id)}
             className="cursor-copy"
           >
-            <Copy className="w-4 h-4 mr-2" />
+            <Copy className="mr-2 h-4 w-4" />
             Copier Id
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="w-4 h-4 mr-2" />
+            <Trash className="mr-2 h-4 w-4" />
             Supprimer
           </DropdownMenuItem>
         </DropdownMenuContent>

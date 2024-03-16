@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { OrderClient } from "./components/client";
 import { OrderColumn } from "./components/columns";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 
 const OrdersPage = async () => {
   const orders = await prismadb.order.findMany({
@@ -28,7 +28,7 @@ const OrdersPage = async () => {
         return name;
       })
       .join(", "),
-    totalPrice: formatter.format(Number(order.totalPrice)),
+    totalPrice: currencyFormatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
     createdAt: order.createdAt,
   }));

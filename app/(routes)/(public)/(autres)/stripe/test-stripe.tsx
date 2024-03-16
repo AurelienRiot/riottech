@@ -11,7 +11,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { FormEvent } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export const TestStripe = ({
   options,

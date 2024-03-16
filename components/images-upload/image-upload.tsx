@@ -5,7 +5,7 @@ import { AnimatePresence, Reorder } from "framer-motion";
 import { Loader2, Plus, Trash, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { AnimateHeight } from "../animations/animate-size";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";

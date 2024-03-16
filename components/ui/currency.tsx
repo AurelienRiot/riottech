@@ -1,7 +1,7 @@
 "use client";
 
 import { useIsProContext } from "@/hooks/use-is-pro";
-import { cn, formatter } from "@/lib/utils";
+import { cn, currencyFormatter } from "@/lib/utils";
 import { ArrowUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -39,11 +39,11 @@ const Currency: React.FC<CurrencyProps> = ({
     <span
       onClick={() => setIsPro(!isPro)}
       className={cn(
-        `font-semibold  text-primary cursor-pointer inline items-center tabular-nums `,
-        className
+        `inline  cursor-pointer items-center font-semibold tabular-nums text-primary `,
+        className,
       )}
     >
-      {`${formatter.format(price)} `} {displayText ? taxeText : ""}
+      {`${currencyFormatter.format(price)} `} {displayText ? taxeText : ""}
       {displayLogo ? (
         <ArrowUpDown className={cn("ml-1 inline h-4 w-4", classNameLogo)} />
       ) : (

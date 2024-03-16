@@ -1,7 +1,7 @@
 import BillingEmail from "@/components/email/billing";
 import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
-import { dateFormatter, formatter } from "@/lib/utils";
+import { dateFormatter, currencyFormatter } from "@/lib/utils";
 import { render } from "@react-email/render";
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         });
       } else {
         const email = user?.email ? user?.email : "";
-        const price = formatter.format(Number(order[0].totalPrice));
+        const price = currencyFormatter.format(Number(order[0].totalPrice));
         const date = dateFormatter(new Date());
 
         await transporter.sendMail({
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
         });
       } else {
         const email = user?.email ? user?.email : "";
-        const price = formatter.format(Number(histories[0].price));
+        const price = currencyFormatter.format(Number(histories[0].price));
         const date = dateFormatter(new Date());
 
         await transporter.sendMail({

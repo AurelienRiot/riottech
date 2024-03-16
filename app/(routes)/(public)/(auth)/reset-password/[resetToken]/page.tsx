@@ -16,7 +16,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import * as z from "zod";
 
 interface ResetPasswordProps {
@@ -81,13 +81,13 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
   });
 
   return (
-    <div className="flex items-center justify-center w-screen h-sccreen bg-slate-100 dark:bg-slate-900">
-      <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl">
+    <div className="h-sccreen flex w-screen items-center justify-center bg-slate-100 dark:bg-slate-900">
+      <div className="space-y-12 rounded-xl px-8 pb-8 pt-12 sm:bg-white sm:shadow-xl sm:dark:bg-black">
         <h1 className="text-2xl font-semibold"> Changer votre mot de passe</h1>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-            className="space-y-12 w-full sm:w-[400px]"
+            className="w-full space-y-12 sm:w-[400px]"
           >
             <div className="grid w-full  items-center gap-1.5">
               <FormField

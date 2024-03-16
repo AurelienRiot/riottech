@@ -11,6 +11,22 @@ import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
+type StatusCellProps<T = {}> = T & {
+  status: "Paiement validé" | "En cours de validation" | "Non payé";
+};
+
+function StatusCell<T>({ row }: { row: Row<StatusCellProps<T>> }) {
+  switch (row.original.status) {
+    case "Paiement validé":
+      return <span className="text-green-500">Paiement validé</span>;
+    case "En cours de validation":
+      return <span className="text-orange-500">En cours de validation</span>;
+
+    case "Non payé":
+      return <span className="text-red-500">Non payé</span>;
+  }
+}
+
 type CreatedAtCellProps<T = {}> = T & {
   createdAt: Date;
 };
@@ -151,4 +167,5 @@ export {
   NameWithImageCell,
   PhoneCell,
   TextCell,
+  StatusCell,
 };

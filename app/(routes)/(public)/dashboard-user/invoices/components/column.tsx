@@ -6,12 +6,26 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { ArrowUpDown } from "lucide-react";
 import { DisplayPdf } from "../../(profile)/components/display-pdf";
+import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
+import {
+  CreatedAtCell,
+  StatusCell,
+} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import {
+  DataTableFilterableColumn,
+  DataTableSearchableColumn,
+  DataTableViewOptionsColumn,
+} from "@/types";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 
 export type InvoicesColumn = {
-  type: string;
+  type: "Commande" | "Abonnement";
   products: string;
+  productsList: { name: string; quantity?: string }[];
   pdfUrl: string;
   isPaid: boolean;
+  status: "Paiement validé" | "En cours de validation" | "Non payé";
   price: string;
   mailSend: boolean;
   createdAt: Date;
@@ -20,10 +34,12 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   {
     accessorKey: "type",
     header: "Type",
+    filterFn: FilterFn,
   },
   {
     accessorKey: "products",
     header: "Produits",
+    cell: ProductCell,
   },
   {
     accessorKey: "price",
@@ -32,25 +48,8 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   {
     accessorKey: "status",
     header: "État du paiement",
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        <span
-          className={`${
-            row.original.isPaid
-              ? row.original.mailSend
-                ? "text-green-500"
-                : "text-orange-500"
-              : "text-red-500"
-          }`}
-        >
-          {row.original.isPaid
-            ? row.original.mailSend
-              ? "Paiement validé"
-              : "En cours de validation"
-            : "Non payé"}
-        </span>
-      </div>
-    ),
+    cell: StatusCell,
+    filterFn: FilterFn,
   },
   {
     accessorKey: "pdfUrl",
@@ -64,24 +63,64 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Date de création
-          <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => (
-      <div className="flex md:pl-10">
-        {" "}
-        {format(new Date(row.getValue("createdAt")), "d MMMM yyyy", {
-          locale: fr,
-        })}
-      </div>
-    ),
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
 ];
+
+export const searchableColumns: DataTableSearchableColumn<InvoicesColumn>[] = [
+  {
+    id: "products",
+    title: "Produits",
+  },
+];
+
+export const filterableColumns: DataTableFilterableColumn<InvoicesColumn>[] = [
+  {
+    id: "type",
+    title: "Type",
+    options: [
+      { label: "Commande", value: "Commande" },
+      { label: "Abonnement", value: "Abonnement" },
+    ],
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+    options: [
+      { label: "Paiement validé", value: "Paiement validé" },
+      { label: "En cours de validation", value: "En cours de validation" },
+      { label: "Non payé", value: "Non payé" },
+    ],
+  },
+];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] =
+  [
+    {
+      id: "type",
+      title: "Type",
+    },
+
+    {
+      id: "products",
+      title: "Produits",
+    },
+    {
+      id: "price",
+      title: "Prix",
+    },
+    {
+      id: "status",
+      title: "État du paiement",
+    },
+    {
+      id: "pdfUrl",
+      title: "Facture",
+    },
+
+    {
+      id: "createdAt",
+      title: "Date de création",
+    },
+  ];

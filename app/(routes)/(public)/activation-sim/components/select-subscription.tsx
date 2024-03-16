@@ -17,7 +17,7 @@ import { addDays, addMonths, addWeeks, addYears } from "date-fns";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 
 interface SelectSubscriptionProps {

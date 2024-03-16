@@ -1,20 +1,32 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { SubscriptionOrderCellAction } from "./subscription-order-cell-action";
+import { Recurrences } from "@/app/(routes)/admin/subscriptions/components/columns";
+import { RecurrenceCell } from "@/components/table-custom-fuction/cell-subscription";
+import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
+import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { fr } from "date-fns/locale";
-import { format } from "date-fns";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DataTableFilterableColumn,
+  DataTableSearchableColumn,
+  DataTableViewOptionsColumn,
+} from "@/types";
+import { Subscription } from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+
+const baseUrl = process.env.NEXT_PUBLIC_URL as string;
 
 export type SubscriptionOrderColumnType = {
   id: string;
-  isPaid: string;
+  isPaid: boolean;
+  recurrence: Subscription["recurrence"] | undefined;
   totalPrice: string;
-  subscription: string | null;
+  subscription: string | undefined;
   histories: number;
   createdAt: Date;
-  isActive: string;
+  isActive: boolean;
   sim: string;
 };
 export const SubscriptionOrderColumn: ColumnDef<SubscriptionOrderColumnType>[] =
@@ -32,38 +44,113 @@ export const SubscriptionOrderColumn: ColumnDef<SubscriptionOrderColumnType>[] =
       header: "Prix total",
     },
     {
+      accessorKey: "recurrence",
+      header: "Recurrence",
+      cell: RecurrenceCell,
+    },
+    {
       accessorKey: "isPaid",
       header: "Payé",
+      cell: ({ row }) => (
+        <Checkbox
+          className="cursor-default self-center"
+          checked={row.original.isPaid}
+        />
+      ),
+      filterFn: FilterFn,
     },
     {
       accessorKey: "isActive",
       header: "Actif",
+      cell: ({ row }) => (
+        <Checkbox
+          className="cursor-default self-center"
+          checked={row.original.isPaid}
+        />
+      ),
+      filterFn: FilterFn,
     },
     {
       accessorKey: "createdAt",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Date de création
-            <ArrowUpDown className="ml-2 h-4 w-4 flex-shrink-0" />
-          </Button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="flex md:pl-10">
-          {" "}
-          {format(new Date(row.getValue("createdAt")), "d MMMM yyyy", {
-            locale: fr,
-          })}
-        </div>
-      ),
+      header: CreatedAtHeader,
+      cell: CreatedAtCell,
     },
     {
-      id: "actions",
+      id: "histories",
       header: "Historique",
-      cell: ({ row }) => <SubscriptionOrderCellAction data={row.original} />,
+      cell: ({ row }) =>
+        row.original.histories > 0 ? (
+          <Button asChild variant={"link"} className="p-0">
+            <Link href={`${baseUrl}/dashboard-user/${row.original.id}`}>
+              Voir mes paiements
+            </Link>
+          </Button>
+        ) : null,
+    },
+  ];
+
+export const searchableColumns: DataTableSearchableColumn<SubscriptionOrderColumnType>[] =
+  [
+    {
+      id: "subscription",
+      title: "Abonnement",
+    },
+    {
+      id: "sim",
+      title: "Sim",
+    },
+  ];
+
+export const filterableColumns: DataTableFilterableColumn<SubscriptionOrderColumnType>[] =
+  [
+    {
+      id: "isPaid",
+      title: "Payé",
+      options: [
+        { label: "Payé", value: "true" },
+        { label: "Non Payé", value: "false" },
+      ],
+    },
+    {
+      id: "isActive",
+      title: "Actif",
+      options: [
+        { label: "Actif", value: "true" },
+        { label: "Non Actif", value: "false" },
+      ],
+    },
+  ];
+
+export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionOrderColumnType>[] =
+  [
+    {
+      id: "subscription",
+      title: "Abonnement",
+    },
+
+    {
+      id: "sim",
+      title: "Sim",
+    },
+    {
+      id: "totalPrice",
+      title: "Prix total",
+    },
+    {
+      id: "isPaid",
+      title: "Payé",
+    },
+    {
+      id: "isActive",
+      title: "Actif",
+    },
+
+    {
+      id: "createdAt",
+      title: "Date de création",
+    },
+    {
+      id: "histories",
+      title: "Historique",
     },
   ];

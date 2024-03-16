@@ -13,17 +13,13 @@ export const DisplayPdf = ({
       {" "}
       {avalaible ? (
         <>
-          <Button asChild>
-            <Link href={pdfUrl} target="_blank" className="hover:underline">
+          <Button asChild className="hover:underline">
+            <Link href={pdfUrl} target="_blank">
               Ouvrir
             </Link>
           </Button>
-          <Button asChild>
-            <Link
-              href={pdfUrl.replace(/mode=inline&/, "")}
-              target="_blank"
-              className="hover:underline"
-            >
+          <Button asChild className="hover:underline">
+            <Link href={pdfUrl.replace(/mode=inline&/, "")} target="_blank">
               Télécharger
             </Link>
           </Button>

@@ -16,7 +16,7 @@ import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import * as z from "zod";
 import { Eye, EyeOff } from "lucide-react";
 import ButtonBackward from "@/components/ui/button-backward";

@@ -15,7 +15,7 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 interface CardUserProps {
   user: User;
@@ -63,8 +63,8 @@ const CardUser: React.FC<CardUserProps> = ({
 
       <Card
         className={cn(
-          "min-w-[300px] w-full h-full flex flex-col justify-between",
-          className
+          "flex h-full w-full min-w-[300px] flex-col justify-between",
+          className,
         )}
       >
         <CardHeader>
@@ -100,7 +100,7 @@ const CardUser: React.FC<CardUserProps> = ({
           <p className="p-2">{`Nombre de commandes : ${orderLength}`}</p>
           <p className="p-2">{`Nombre d'abonnements : ${subscriptionOrderLength}`}</p>
         </CardContent>
-        <CardFooter className="flex flex-row gap-2 justify-between  items-end">
+        <CardFooter className="flex flex-row items-end justify-between  gap-2">
           <Button
             variant="destructive"
             onClick={() => setOpen(true)}

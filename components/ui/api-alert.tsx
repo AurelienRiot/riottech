@@ -3,7 +3,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge, BadgeProps } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Copy, Server } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 interface ApiAlertProps {
   title: string;
@@ -33,20 +33,20 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
 
   return (
     <Alert>
-      <Server className="w-4 h-4" />
+      <Server className="h-4 w-4" />
       <AlertTitle className="flex items-center gap-x-2">
         {title}
 
         <Badge variant={VariantMap[variant]}>{textMap[variant]}</Badge>
       </AlertTitle>
-      <AlertDescription className="flex flex-row items-center mt-4 overflow-x-auto gap-x-4">
+      <AlertDescription className="mt-4 flex flex-row items-center gap-x-4 overflow-x-auto">
         <Button
           variant="outline"
           size="icon"
           onClick={onCopy}
-          className="px-2 ml-1 cursor-copy"
+          className="ml-1 cursor-copy px-2"
         >
-          <Copy className="flex-shrink-0 w-4 h-4 " />
+          <Copy className="h-4 w-4 flex-shrink-0 " />
         </Button>
         <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold ">
           {description}

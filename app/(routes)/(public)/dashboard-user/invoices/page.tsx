@@ -1,9 +1,9 @@
 import ButtonBackward from "@/components/ui/button-backward";
-import GetUser from "@/server-actions/get-user";
+import getFullUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import { InvoicesTable } from "./components/table";
 import { InvoicesColumn, columns } from "./components/column";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { Suspense } from "react";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -27,12 +27,20 @@ const InvoicesPage = async () => {
 export default InvoicesPage;
 
 const Facture = async () => {
-  const user = await GetUser();
+  const user = await getFullUser();
   if (!user) redirect("/login");
 
   const formattedInvoicesOrders: InvoicesColumn[] = (user.orders || []).map(
     (order) => ({
       type: "Commande",
+      productsList: order.orderItems.map((item) => {
+        let name = item.name;
+        if (Number(item.quantity) > 1) {
+          const quantity = ` x${item.quantity}`;
+          return { name, quantity: quantity };
+        }
+        return { name, quantity: "" };
+      }),
       products: order.orderItems
         .map((item) => {
           let name = item.name;
@@ -42,7 +50,12 @@ const Facture = async () => {
           return name;
         })
         .join(", "),
-      price: formatter.format(Number(order.totalPrice)),
+      price: currencyFormatter.format(Number(order.totalPrice)),
+      status: order.isPaid
+        ? order.mailSend
+          ? "Paiement validé"
+          : "En cours de validation"
+        : "Non payé",
       isPaid: order.isPaid,
       mailSend: order.mailSend,
       pdfUrl: order.pdfUrl,
@@ -56,8 +69,12 @@ const Facture = async () => {
     subscriptionOrder.subscriptionHistory.map((history) => ({
       type: "Abonnement",
       products: subscriptionOrder.subscriptionItem?.name || "",
-      price: formatter.format(Number(history.price)),
+      productsList: [
+        { name: subscriptionOrder.subscriptionItem?.name || "", quantity: "" },
+      ],
+      price: currencyFormatter.format(Number(history.price)),
       isPaid: true,
+      status: history.mailSend ? "Paiement validé" : "En cours de validation",
       mailSend: history.mailSend,
       pdfUrl: history.pdfUrl,
       createdAt: history.createdAt,

@@ -1,4 +1,4 @@
-import GetUser from "@/server-actions/get-user";
+import getFullUser from "@/server-actions/get-user";
 import { TestStripe } from "./test-stripe";
 import { stripe } from "@/lib/strip";
 import { redirect } from "next/navigation";
@@ -6,7 +6,7 @@ import { StripeElementsOptions } from "@stripe/stripe-js";
 import Stripe from "stripe";
 
 const StripePage = async () => {
-  const user = await GetUser();
+  const user = await getFullUser();
 
   if (!user) {
     redirect("/login");

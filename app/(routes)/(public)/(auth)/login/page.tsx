@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { LoginForm } from "./components/login-form";
-import GetUser from "@/server-actions/get-user";
+import getFullUser from "@/server-actions/get-user";
 import { GoogleButton } from "@/components/auth/auth-button";
 
 export default async function LoginPage() {
-  const user = await GetUser();
+  const user = await getFullUser();
 
   if (user) {
     redirect("/dashboard-user");

@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({
   stripeCustomerId,

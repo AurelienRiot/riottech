@@ -2,8 +2,13 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "../../(profile)/components/data-table";
-import { SubscriptionHistoryColumn, columns } from "./column";
+import {
+  SubscriptionHistoryColumn,
+  columns,
+  filterableColumns,
+  viewOptionsColumns,
+} from "./column";
+import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface SubscriptionHistoryTableProps {
   data: SubscriptionHistoryColumn[];
@@ -19,7 +24,12 @@ export const SubscriptionHistoryTable: React.FC<
         description="Historique des paiements"
       />
       <Separator />
-      <DataTable searchKey="status" columns={columns} initialData={data} />
+      <DataTable
+        columns={columns}
+        data={data}
+        viewOptionsColumns={viewOptionsColumns}
+        filterableColumns={filterableColumns}
+      />
     </>
   );
 };

@@ -3,7 +3,7 @@
 import { OrderColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useState } from "react";
 import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal-form";
@@ -47,7 +47,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         size="sm"
         onClick={() => setOpen(true)}
       >
-        <Trash className="w-4 h-4" />
+        <Trash className="h-4 w-4" />
       </Button>
     </>
   );

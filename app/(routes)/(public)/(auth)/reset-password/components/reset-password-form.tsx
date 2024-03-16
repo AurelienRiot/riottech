@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import * as z from "zod";
 import { motion } from "framer-motion";
 
@@ -64,7 +64,7 @@ const ResetPasswordForm = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-            className="space-y-12 w-full sm:w-[400px]"
+            className="w-full space-y-12 sm:w-[400px]"
           >
             <div className="grid w-full  items-center gap-1.5">
               <FormField
@@ -108,8 +108,8 @@ const ResetPasswordForm = () => {
         transition={{ duration: 0.3 }}
         ref={messageRef}
       >
-        <p className="text-xl text-center">E-mail envoyé ! </p>
-        <p className="text-xl text-center">
+        <p className="text-center text-xl">E-mail envoyé ! </p>
+        <p className="text-center text-xl">
           Veuillez vérifier votre boîte mail.
         </p>
       </motion.div>

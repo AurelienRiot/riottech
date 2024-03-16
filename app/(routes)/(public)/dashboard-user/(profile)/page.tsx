@@ -1,5 +1,5 @@
-import { formatter } from "@/lib/utils";
-import GetUser from "@/server-actions/get-user";
+import { currencyFormatter } from "@/lib/utils";
+import getFullUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import { OrderColumnType } from "./components/order-column";
 import { OrderTable } from "./components/order-table";
@@ -20,12 +20,20 @@ type FullAdress = {
 };
 
 const DashboardUser = async () => {
-  const user = await GetUser();
+  const user = await getFullUser();
   if (!user) redirect("/login");
 
   const formattedOrders: OrderColumnType[] = (user.orders || []).map(
     (order) => ({
       id: order.id,
+      productsList: order.orderItems.map((item) => {
+        let name = item.name;
+        if (Number(item.quantity) > 1) {
+          const quantity = ` x${item.quantity}`;
+          return { name, quantity: quantity };
+        }
+        return { name, quantity: "" };
+      }),
       products: order.orderItems
         .map((item) => {
           let name = item.name;
@@ -35,8 +43,8 @@ const DashboardUser = async () => {
           return name;
         })
         .join(", "),
-      totalPrice: formatter.format(Number(order.totalPrice)),
-      isPaid: order.isPaid ? "oui" : "non",
+      totalPrice: currencyFormatter.format(Number(order.totalPrice)),
+      isPaid: order.isPaid,
       mailSend: order.mailSend,
       pdfUrl: order.pdfUrl,
       createdAt: order.createdAt,
@@ -47,16 +55,11 @@ const DashboardUser = async () => {
     user.subscriptionOrder || []
   ).map((order) => ({
     id: order.id,
-    subscription: (() => {
-      if (!order.subscriptionItem) {
-        return null;
-      } else {
-        return order.subscriptionItem.name;
-      }
-    })(),
-    totalPrice: formatter.format(Number(order.totalPrice)),
-    isPaid: order.isPaid ? "oui" : "non",
-    isActive: order.isActive ? "oui" : "non",
+    subscription: order.subscriptionItem?.name,
+    recurrence: order.subscriptionItem?.recurrence,
+    totalPrice: currencyFormatter.format(Number(order.totalPrice)),
+    isPaid: order.isPaid,
+    isActive: order.isActive,
     sim: order.sim,
     histories: order.subscriptionHistory.length,
     createdAt: order.createdAt,

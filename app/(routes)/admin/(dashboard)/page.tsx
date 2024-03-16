@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { GetGraphRevenue } from "@/server-actions/get-graph-revenue";
 import { GetSalesCount } from "@/server-actions/get-sales-count";
 import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
@@ -23,7 +23,7 @@ const DynamicOverview = dynamic(() => import("@/components/overview"), {
 const DashboardPage: React.FC = () => {
   return (
     <div className="flex-col">
-      <div className="flex-1 p-8 pt-6 space-y-4">
+      <div className="flex-1 space-y-4 p-8 pt-6">
         <Heading
           title="Dashboard"
           description="Présentation de votre magasin"
@@ -31,16 +31,16 @@ const DashboardPage: React.FC = () => {
         <Separator />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Revenue Totaux
               </CardTitle>
-              <EuroIcon className="w-4 h-4 text-muted-foreground" />
+              <EuroIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 <Suspense
-                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                  fallback={<Skeleton className="h-6 w-40 rounded-full" />}
                 >
                   <TotalRevenue />
                 </Suspense>
@@ -48,14 +48,14 @@ const DashboardPage: React.FC = () => {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Ventes</CardTitle>
-              <CreditCardIcon className="w-4 h-4 text-muted-foreground" />
+              <CreditCardIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 <Suspense
-                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                  fallback={<Skeleton className="h-6 w-40 rounded-full" />}
                 >
                   + <SalesCount />
                 </Suspense>
@@ -63,17 +63,17 @@ const DashboardPage: React.FC = () => {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Produits en stock
               </CardTitle>
-              <Package className="w-4 h-4 text-muted-foreground" />
+              <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 {" "}
                 <Suspense
-                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                  fallback={<Skeleton className="h-6 w-40 rounded-full" />}
                 >
                   <StockOrderCount />
                 </Suspense>
@@ -81,16 +81,16 @@ const DashboardPage: React.FC = () => {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
                 Abonnements en stock
               </CardTitle>
-              <CalendarSearch className="w-4 h-4 text-muted-foreground" />
+              <CalendarSearch className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 <Suspense
-                  fallback={<Skeleton className="w-40 h-6 rounded-full" />}
+                  fallback={<Skeleton className="h-6 w-40 rounded-full" />}
                 >
                   <StockSubscriptionCount />
                 </Suspense>
@@ -115,7 +115,7 @@ export default DashboardPage;
 
 const TotalRevenue = async () => {
   const totalRevenue = await GetTotalRevenue();
-  return formatter.format(totalRevenue);
+  return currencyFormatter.format(totalRevenue);
 };
 
 const SalesCount = async () => {

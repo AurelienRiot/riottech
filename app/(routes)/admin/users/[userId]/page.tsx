@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { UserForm } from "./components/user-form";
 import { OrderColumn } from "./components/order-column";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { OrderTable } from "./components/order-table";
 import { SubscriptionOrderColumn } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
@@ -60,7 +60,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
         return name;
       })
       .join(", "),
-    totalPrice: formatter.format(Number(order.totalPrice)),
+    totalPrice: currencyFormatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
     createdAt: order.createdAt,
   }));
@@ -77,7 +77,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
         return order.subscriptionItem.name;
       }
     })(),
-    totalPrice: formatter.format(Number(order.totalPrice)),
+    totalPrice: currencyFormatter.format(Number(order.totalPrice)),
     isPaid: order.isPaid ? "oui" : "non",
     isActive: order.isActive ? "oui" : "non",
     sim: order.sim,

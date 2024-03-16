@@ -21,7 +21,7 @@ import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import * as z from "zod";
 import { getFileKey } from "../../../products/[productId]/components/product-form";
 

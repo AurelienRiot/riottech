@@ -31,7 +31,7 @@ import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import * as z from "zod";
 import { FormattedProduct } from "../page";
 import { PlateEditor } from "./plate-editor";
@@ -89,7 +89,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<string[]>(
-    initialData?.images.map((image) => getFileKey(image.url)) || []
+    initialData?.images.map((image) => getFileKey(image.url)) || [],
   );
 
   const title = initialData ? "Modifier le produit" : "Crée un nouveau produit";
@@ -177,7 +177,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             size="sm"
             onClick={() => setOpen(true)}
           >
-            <Trash className="w-4 h-4" />
+            <Trash className="h-4 w-4" />
           </Button>
         )}
       </div>
@@ -293,8 +293,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               control={form.control}
               name="isFeatured"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md cursor-pointer">
-                  <label className="flex flex-row items-start space-x-3 space-y-0 cursor-pointer">
+                <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -315,8 +315,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               control={form.control}
               name="isArchived"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start p-4 space-x-3 space-y-0 border rounded-md cursor-pointer">
-                  <label className="flex flex-row items-start space-x-3 space-y-0 cursor-pointer">
+                <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox
                         checked={field.value}

@@ -10,7 +10,7 @@ import {
 import { SubscriptionColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import axios from "axios";
@@ -54,9 +54,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="w-8 h-8 p-0">
-            <span className="w-0 sr-only">Ouvrir le menu</span>
-            <MoreHorizontal className="w-4 h-4" />
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only w-0">Ouvrir le menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -65,17 +65,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             onClick={() => onCopy(data.id)}
             className="cursor-copy"
           >
-            <Copy className="w-4 h-4 mr-2" />
+            <Copy className="mr-2 h-4 w-4" />
             Copier Id
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => router.push(`/admin/subscriptions/${data.id}`)}
           >
-            <Edit className="w-4 h-4 mr-2" />
+            <Edit className="mr-2 h-4 w-4" />
             Modifier
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="w-4 h-4 mr-2" />
+            <Trash className="mr-2 h-4 w-4" />
             Supprimer
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { formatter } from "@/lib/utils";
+import { currencyFormatter } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -61,7 +61,9 @@ export const columns: ColumnDef<SubscriptionColumn>[] = [
       );
     },
     cell: ({ row }) => (
-      <div className="px-4">{formatter.format(row.getValue("priceHT"))}</div>
+      <div className="px-4">
+        {currencyFormatter.format(row.getValue("priceHT"))}
+      </div>
     ),
   },
   {
