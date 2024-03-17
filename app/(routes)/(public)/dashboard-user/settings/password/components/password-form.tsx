@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/button";
+import ButtonBackward from "@/components/ui/button-backward";
 import {
   Form,
   FormControl,
@@ -13,13 +14,12 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { Eye, EyeOff } from "lucide-react";
-import ButtonBackward from "@/components/ui/button-backward";
 
 const formSchema = z
   .object({
@@ -181,9 +181,9 @@ export const PasswordForm = () => {
               )}
             />
           </div>
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
       <ButtonBackward url="/dashboard-user/settings" />

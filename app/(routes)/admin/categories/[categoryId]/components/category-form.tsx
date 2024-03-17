@@ -2,7 +2,7 @@
 
 import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -171,9 +171,9 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               </FormItem>
             )}
           />
-          <Button disabled={loading} className="ml-auto" type="submit">
+          <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}
-          </Button>
+          </LoadingButton>
         </form>
       </Form>
     </>

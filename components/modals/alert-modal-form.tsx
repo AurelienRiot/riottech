@@ -1,9 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, LoadingButton } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { useEffect, useState } from "react";
-import Spinner from "../animations/spinner";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -35,13 +34,17 @@ export const AlertModal: React.FC<AlertModalProps> = ({
       onClose={onClose}
       className="left-[50%] top-[30%]"
     >
-      <div className="flex items-center justify-end w-full pt-6 space-x-2">
+      <div className="flex w-full items-center justify-end space-x-2 pt-6">
         <Button disabled={loading} variant="outline" onClick={onClose}>
           {"Annuler"}
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
-          {!loading ? "Continuer" : <Spinner size={20} />}
-        </Button>
+        <LoadingButton
+          disabled={loading}
+          variant="destructive"
+          onClick={onConfirm}
+        >
+          Continuer
+        </LoadingButton>
       </div>
     </Modal>
   );

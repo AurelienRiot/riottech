@@ -82,7 +82,9 @@ export const columns: ColumnDef<ProductColumn>[] = [
         type="categories"
       />
     ),
+    filterFn: FilterFn,
   },
+
   {
     accessorKey: "createdAt",
     header: CreatedAtHeader,
@@ -101,24 +103,39 @@ export const searchableColumns: DataTableSearchableColumn<ProductColumn>[] = [
   },
 ];
 
-export const filterableColumns: DataTableFilterableColumn<ProductColumn>[] = [
-  {
-    id: "isArchived",
-    title: "Archivé",
-    options: [
-      { label: "Archivé", value: "true" },
-      { label: "Non archivé", value: "false" },
-    ],
-  },
-  {
-    id: "isFeatured",
-    title: "Mise en avant",
-    options: [
-      { label: "Mise en avant", value: "true" },
-      { label: "Non mise en avant", value: "false" },
-    ],
-  },
-];
+export const filterableColumns = (
+  categories: string[],
+): DataTableFilterableColumn<ProductColumn>[] => {
+  const catArray = categories.map((item) => ({
+    label: item,
+    value: item,
+  }));
+
+  return [
+    {
+      id: "isArchived",
+      title: "Archivé",
+      options: [
+        { label: "Archivé", value: "true" },
+        { label: "Non archivé", value: "false" },
+      ],
+    },
+    {
+      id: "isFeatured",
+      title: "Mise en avant",
+      options: [
+        { label: "Mise en avant", value: "true" },
+        { label: "Non mise en avant", value: "false" },
+      ],
+    },
+
+    {
+      id: "categoryLabel",
+      title: "Catégorie",
+      options: catArray,
+    },
+  ];
+};
 
 export const viewOptionsColumns: DataTableViewOptionsColumn<ProductColumn>[] = [
   {

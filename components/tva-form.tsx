@@ -89,6 +89,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
                 />
               </FormControl>
               <Button
+                type="button"
                 disabled={loading || !field.value}
                 onClick={async (e) => {
                   e.preventDefault();

@@ -56,10 +56,10 @@ export const AdressForm = <T extends { adresse: string }>({
   const [suggestions, setSuggestions] = useState([] as Suggestion[]);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState(
-    selectedAddress.country.toUpperCase() === "FR" ? true : false
+    selectedAddress.country.toUpperCase() === "FR" ? true : false,
   );
   const [country, setCountry] = useState<RPNInput.Country>(
-    isCountry(selectedAddress.country) ? selectedAddress.country : "FR"
+    isCountry(selectedAddress.country) ? selectedAddress.country : "FR",
   );
 
   const setSearchTerm = async (value: string) => {
@@ -69,7 +69,7 @@ export const AdressForm = <T extends { adresse: string }>({
   };
 
   return (
-    <div className={cn("space-y-4 -mb-8", className)}>
+    <div className={cn("-mb-8 space-y-4", className)}>
       <FormField
         control={form.control}
         name={"adresse" as Path<T>}
@@ -97,13 +97,14 @@ export const AdressForm = <T extends { adresse: string }>({
                   <AnimateHeight display={filter} className="p-1">
                     <PopoverTrigger asChild>
                       <Button
+                        type="button"
                         variant="outline"
                         role="combobox"
                         onClick={() => setOpen((open) => !open)}
                         disabled={!filter}
                         className={cn(
                           " justify-between active:scale-100 ",
-                          field.value && "text-muted-foreground font-normal "
+                          field.value && "font-normal text-muted-foreground ",
                         )}
                       >
                         Rechercher votre adresse
@@ -124,7 +125,7 @@ export const AdressForm = <T extends { adresse: string }>({
                       if (query.length < 3) {
                         form.setValue(
                           "adresse" as Path<T>,
-                          "" as PathValue<T, Path<T>>
+                          "" as PathValue<T, Path<T>>,
                         );
                       }
                       setOpen(true);
@@ -143,7 +144,7 @@ export const AdressForm = <T extends { adresse: string }>({
                         onSelect={() => {
                           form.setValue(
                             "adresse" as Path<T>,
-                            address.label as PathValue<T, Path<T>>
+                            address.label as PathValue<T, Path<T>>,
                           );
                           setSelectedAddress((prev) => ({
                             ...prev,
@@ -214,7 +215,7 @@ export const AdressForm = <T extends { adresse: string }>({
             disabled={filter}
             options={CountriesList}
             phoneCode={false}
-            className="w-fit rounded-lg mx-1  "
+            className="mx-1 w-fit rounded-lg  "
           />
         </AnimateHeight>
       </div>
@@ -283,16 +284,16 @@ const AddressInputCountry = ({
           data-state={filter}
           className=" group 
             absolute start-2 top-2 z-10 origin-[0] 
-             -translate-y-4 scale-75 transform bg-background px-2 text-sm text-primary duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 font-medium"
+             -translate-y-4 scale-75 transform bg-background px-2 text-sm font-medium text-primary duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
         >
           <label htmlFor="country">
             Pays
             <sup
-              className="text-xs text-blue-500 cursor-pointer "
+              className="cursor-pointer text-xs text-blue-500 "
               onClick={() =>
                 window.open(
                   "https://fr.wikipedia.org/wiki/ISO_3166-1_alpha-2",
-                  "_blank"
+                  "_blank",
                 )
               }
             >
@@ -309,11 +310,11 @@ const AddressInputCountry = ({
 };
 const SkeletonAdressInput = ({ label }: { label: string }) => {
   return (
-    <div className="flex  gap-1 items-center justify-left w-full">
-      <span className="inline text-sm min-w-max">{label + " :"}</span>
+    <div className="justify-left  flex w-full items-center gap-1">
+      <span className="inline min-w-max text-sm">{label + " :"}</span>
 
-      <div className="border h-6 px-2 py-1 rounded-md text-sm flex justify-center items-center">
-        <Skeleton className="w-20 h-4 rounded-full" />
+      <div className="flex h-6 items-center justify-center rounded-md border px-2 py-1 text-sm">
+        <Skeleton className="h-4 w-20 rounded-full" />
       </div>
     </div>
   );
@@ -325,7 +326,7 @@ export const SkeletonAdressForm = () => {
       <div className="flex flex-col gap-2">
         <div>Adresse</div>
         <div>
-          <Skeleton className="w-40 h-6 rounded-full" />
+          <Skeleton className="h-6 w-40 rounded-full" />
         </div>
       </div>
 
