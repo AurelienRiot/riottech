@@ -1,14 +1,17 @@
 import Container from "@/components/ui/container";
-import Summary from "./components/summary";
-import CartItems from "./components/cart-items";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/components/auth/authOptions";
 import { ToastSearchParams } from "@/lib/toast-search-params";
+import { getDbUser } from "@/server-actions/get-user";
+import { redirect } from "next/navigation";
+import CartItems from "./components/cart-items";
+import Summary from "./components/summary";
 
 const CartPage = async () => {
-  const session = await getServerSession(authOptions);
-
-  const userId = session?.user?.id;
+  const user = await getDbUser();
+  if (user && !user.stripeCustomerId) {
+    redirect(
+      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/cart`)}`,
+    );
+  }
 
   return (
     <>
@@ -23,7 +26,7 @@ const CartPage = async () => {
           <h1 className="text-3xl font-bold ">Panier</h1>
           <div className="mt-12 gap-x-12 lg:grid lg:grid-cols-12 lg:items-start ">
             <CartItems />
-            <Summary userId={userId} />
+            <Summary userId={user?.id} />
           </div>
         </div>
       </Container>

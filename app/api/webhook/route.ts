@@ -1,13 +1,12 @@
-import { Subscription } from "@prisma/client";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
+import SubscriptionEmail from "@/components/email/subscription";
+import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/strip";
-import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
-import SubscriptionEmail from "@/components/email/subscription";
 
 const PDF_URL = process.env.PDF_URL;
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;

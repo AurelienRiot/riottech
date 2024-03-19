@@ -22,7 +22,7 @@ import { User } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { Trash } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -57,7 +57,8 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPro, setIsPro] = useState(!!initialData?.raisonSocial);
-
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard-user";
   const [selectedAddress, setSelectedAddress] = useState<FullAdress>(
     initialData.adresse
       ? JSON.parse(initialData.adresse)
@@ -72,7 +73,9 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         },
   );
 
-  const title = "Modifier le profil";
+  const title = initialData.stripeCustomerId
+    ? "Modifier le profil"
+    : "Finaliser votre profil";
   const toastMessage = "Profil mise à jour";
   const action = "Enregistrer les modifications";
 
@@ -121,7 +124,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
       await axios.patch("/api/users/id", data);
-      router.replace("/dashboard-user");
+      router.replace(callbackUrl);
       router.refresh();
 
       toast.success(toastMessage);

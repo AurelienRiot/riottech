@@ -9,6 +9,8 @@ import { Suspense } from "react";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
+import { getDbUser } from "@/server-actions/get-user";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",
@@ -31,10 +33,7 @@ const activationSIMPage = async (context: {
       <Container className="bg-background pt-10">
         <div className="flex flex-col items-center justify-center p-2 text-primary sm:p-10">
           <Suspense fallback={<SuspenceForm sim={context.searchParams.sim} />}>
-            <ServerSim
-              sim={context.searchParams.sim}
-              subId={context.searchParams.subId}
-            />
+            <ServerSim searchParams={context.searchParams} />
           </Suspense>
         </div>
       </Container>
@@ -44,14 +43,26 @@ const activationSIMPage = async (context: {
 
 export default activationSIMPage;
 
-const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
-  const res = await FetchSim(sim);
+const ServerSim = async ({
+  searchParams,
+}: {
+  searchParams: { sim: string; subId: string };
+}) => {
+  const res = await FetchSim(searchParams.sim);
   const subscriptions = await GetSubscriptions();
+  const user = await getDbUser();
+  const queryString = new URLSearchParams(searchParams).toString();
+
+  if (user && !user.stripeCustomerId) {
+    redirect(
+      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/activation-sim?${queryString}`)}`,
+    );
+  }
 
   const selectedSubscriptions = subscriptions.filter((subscription) =>
     res.RTsubIDs.includes(subscription.id),
   );
-  const availableSim = sim ? res.available : true;
+  const availableSim = searchParams.sim ? res.available : true;
   const org = res.is_third
     ? {
         orgImageUrl: res.org_image_url ?? "",
@@ -105,13 +116,13 @@ const ServerSim = async ({ sim, subId }: { sim: string; subId: string }) => {
 
       <Separator />
 
-      <SimForm sim={sim} availableSim={availableSim} />
+      <SimForm sim={searchParams.sim} availableSim={availableSim} />
 
       {selectedSubscriptions.length > 0 ? (
         <SelectSubscription
           subscriptions={selectedSubscriptions}
-          sim={sim}
-          initSubId={subId}
+          sim={searchParams.sim}
+          initSubId={searchParams.subId}
         />
       ) : null}
     </>
