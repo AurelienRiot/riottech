@@ -9,12 +9,6 @@ const SettingsPage = async () => {
     redirect("/login");
   }
 
-  if (!user.stripeCustomerId) {
-    redirect(
-      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/dashboard-user`)}`,
-    );
-  }
-
   return (
     <div className="flex-col p-8 pt-6">
       <div className="mb-8 flex-1 space-y-4 ">

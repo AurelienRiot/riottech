@@ -22,6 +22,11 @@ type FullAdress = {
 const DashboardUser = async () => {
   const user = await getFullUser();
   if (!user) redirect("/login");
+  if (!user.stripeCustomerId) {
+    redirect(
+      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/dashboard-user`)}`,
+    );
+  }
 
   const formattedOrders: OrderColumnType[] = (user.orders || []).map(
     (order) => ({
