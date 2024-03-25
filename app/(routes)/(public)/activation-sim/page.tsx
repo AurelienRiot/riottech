@@ -53,7 +53,7 @@ const ServerSim = async ({
   const user = await getDbUser();
   const queryString = new URLSearchParams(searchParams).toString();
 
-  if (user && !user.stripeCustomerId) {
+  if (user && !user.stripeCustomerId && user.role !== "admin") {
     redirect(
       `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/activation-sim?${queryString}`)}`,
     );

@@ -7,7 +7,7 @@ import Summary from "./components/summary";
 
 const CartPage = async () => {
   const user = await getDbUser();
-  if (user && !user.stripeCustomerId) {
+  if (user && !user.stripeCustomerId && user.role !== "admin") {
     redirect(
       `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/cart`)}`,
     );
