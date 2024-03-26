@@ -42,12 +42,6 @@ export async function POST(req: Request) {
       });
     }
 
-    if (!fraisActivation) {
-      return new NextResponse("Les frais d'activation sont nécessaire", {
-        status: 400,
-      });
-    }
-
     if (!recurrence) {
       return new NextResponse("La récurrence est nécessaire", { status: 400 });
     }
@@ -66,7 +60,7 @@ export async function POST(req: Request) {
         dataCap,
         description,
         productSpecs,
-        fraisActivation,
+        fraisActivation: fraisActivation ? fraisActivation : 0,
         recurrence,
         isFeatured,
         isArchived,

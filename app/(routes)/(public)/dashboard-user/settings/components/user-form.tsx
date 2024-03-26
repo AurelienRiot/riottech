@@ -256,7 +256,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                   <FormControl>
                     <PhoneInput
                       defaultCountry="FR"
-                      placeholder="Entrer un numéro de téléphone"
+                      placeholder="Entrez votre numéro de téléphone"
                       autoComplete="tel"
                       className="w-full"
                       {...field}

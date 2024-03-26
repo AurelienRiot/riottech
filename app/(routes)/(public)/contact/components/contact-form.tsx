@@ -159,7 +159,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
                     <PhoneInput
-                      placeholder="Entrer un numéro de téléphone"
+                      placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"
                       autoComplete="tel"
                       className="w-full"

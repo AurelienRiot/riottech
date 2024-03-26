@@ -5,7 +5,7 @@ import { authOptions } from "@/components/auth/authOptions";
 
 export async function GET(
   req: Request,
-  { params }: { params: { subscriptionId: string } }
+  { params }: { params: { subscriptionId: string } },
 ) {
   try {
     if (!params.subscriptionId) {
@@ -29,7 +29,7 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { subscriptionId: string } }
+  { params }: { params: { subscriptionId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -52,12 +52,6 @@ export async function PATCH(
 
     if (!name) {
       return new NextResponse("Le nom de l'abonnement est nécessaire", {
-        status: 400,
-      });
-    }
-
-    if (!fraisActivation) {
-      return new NextResponse("Les frais d'activation sont nécessaire", {
         status: 400,
       });
     }
@@ -93,7 +87,7 @@ export async function PATCH(
         description,
         productSpecs,
         dataCap,
-        fraisActivation,
+        fraisActivation: fraisActivation ? fraisActivation : 0,
         recurrence,
         isFeatured,
         isArchived,
@@ -109,7 +103,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { subscriptionId: string } }
+  { params }: { params: { subscriptionId: string } },
 ) {
   try {
     const session = await getServerSession(authOptions);

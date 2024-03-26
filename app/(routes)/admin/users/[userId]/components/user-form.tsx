@@ -247,7 +247,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
                     <PhoneInput
-                      placeholder="Entrer un numéro de téléphone"
+                      placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"
                       className="w-full"
                       {...field}

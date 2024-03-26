@@ -40,7 +40,7 @@ const formSchema = z.object({
   priceHT: z.coerce.number().min(1),
   productSpecs: z.string().default(""),
   description: z.string().min(1),
-  fraisActivation: z.coerce.number().min(1),
+  fraisActivation: z.coerce.number().min(0),
   dataCap: z.coerce.number().min(0),
   recurrence: z.string().min(1),
   isFeatured: z.boolean().default(false).optional(),

@@ -330,7 +330,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   <FormControl>
                     <div className="flex items-start gap-x-4">
                       <PhoneInput
-                        placeholder="Entrer un numéro de téléphone"
+                        placeholder="Entrez votre numéro de téléphone"
                         defaultCountry="FR"
                         autoComplete="tel"
                         className="w-full"
