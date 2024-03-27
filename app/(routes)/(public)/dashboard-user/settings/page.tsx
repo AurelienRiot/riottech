@@ -8,7 +8,6 @@ const SettingsPage = async () => {
   if (!user) {
     redirect("/login");
   }
-  console.log(user);
 
   return (
     <div className="flex-col p-8 pt-6">
