@@ -75,7 +75,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
   const title = initialData.stripeCustomerId
     ? "Modifier le profil"
-    : "Finaliser votre profil";
+    : "Finalisez la création de votre compte";
   const toastMessage = "Profil mise à jour";
   const action = "Enregistrer les modifications";
 
@@ -88,7 +88,10 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       adresse: selectedAddress.label,
       tva: initialData.tva || "",
       raisonSocial: initialData.raisonSocial || "",
-      isPro: initialData.role === "pro" ? true : false,
+      isPro:
+        initialData.role === "pro" || !initialData.stripeCustomerId
+          ? true
+          : false,
     },
   });
 
