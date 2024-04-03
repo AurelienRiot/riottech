@@ -10,6 +10,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command"
 import {
   Popover,
@@ -56,7 +57,7 @@ export function SearchNav() {
   onChange={e => setSearchValue(e.target.value)}
   className="focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent"
 />
-
+<CommandList>
           {filteredSearchItems.length > 0 ? (
             <CommandGroup>
               {filteredSearchItems.map((searchItem) => (
@@ -82,6 +83,9 @@ export function SearchNav() {
           ) : (
             <CommandEmpty></CommandEmpty>
           )}
+
+</CommandList>
+
         </Command>
       </PopoverContent>
     </Popover>

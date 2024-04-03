@@ -132,7 +132,7 @@ export const AdressForm = <T extends { adresse: string }>({
                     }}
                   />
                   <CommandList>
-                    {query.length > 2 && (
+                    {query.length > 3 && (
                       <CommandEmpty>Adresse introuvable</CommandEmpty>
                     )}
                     {suggestions.map((address, index) => (
