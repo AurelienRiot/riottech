@@ -34,7 +34,6 @@ export async function PATCH(req: NextRequest) {
     const { name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
     const session = await getServerSession(authOptions);
-    console.log(session);
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
