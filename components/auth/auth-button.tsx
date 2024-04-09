@@ -59,7 +59,7 @@ export const GoogleButton = ({ callback }: { callback?: string }) => {
   const searchParams = useSearchParams();
   const callbackUrl = callback
     ? callback
-    : searchParams.get("callbackUrl") || "/dashboard-user";
+    : decodeURI(searchParams.get("callbackUrl") || "/dashboard-user");
   return (
     <button
       onClick={async () => {

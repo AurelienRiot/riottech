@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL;
+
 interface SummaryProps {
   userId: string | undefined;
 }
@@ -36,7 +38,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
     if (!userId) {
       const callbackUrl = "/cart";
       router.replace(
-        `/register?callbackUrl=${encodeURIComponent(callbackUrl)}`,
+        `/register?callbackUrl=${encodeURIComponent(baseUrl + callbackUrl)}`,
       );
       return;
     }

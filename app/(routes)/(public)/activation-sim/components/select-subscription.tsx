@@ -20,6 +20,8 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL;
+
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
   sim: string | undefined;
@@ -240,7 +242,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   </h1>
 
                   <RegisterForm
-                    callback={`/activation-sim?sim=${sim}&subId=${subId}`}
+                    callback={`${baseUrl}/activation-sim?sim=${sim}&subId=${subId}`}
                   />
                 </div>
               </div>

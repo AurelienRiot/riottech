@@ -17,8 +17,10 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import{ toast } from "sonner";
+import { toast } from "sonner";
 import * as z from "zod";
+
+const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 const formSchema = z.object({
   email: z
@@ -40,7 +42,9 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard-user";
+  const callbackUrl = decodeURI(
+    searchParams.get("callbackUrl") || "/dashboard-user",
+  );
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
@@ -150,7 +154,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
         {"Vous n'avez pas de compte ?"}{" "}
         <Link
           className="text-indigo-500 hover:underline"
-          href={`/register?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+          href={`/register?callbackUrl=${encodeURIComponent(baseUrl + callbackUrl)}`}
         >
           {" "}
           Crée un compte ici{" "}

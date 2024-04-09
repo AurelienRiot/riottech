@@ -28,6 +28,8 @@ import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import * as z from "zod";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL;
+
 const formSchema = z
   .object({
     email: z
@@ -87,7 +89,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
   const [isPro, setIsPro] = useState(true);
   const callbackUrl = callback
     ? callback
-    : searchParams.get("callbackUrl") || "/";
+    : decodeURI(searchParams.get("callbackUrl") ?? `${baseUrl}/dashboard-user`);
   const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState({
     label: "",

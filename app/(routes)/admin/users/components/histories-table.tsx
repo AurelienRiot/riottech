@@ -3,10 +3,12 @@
 import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
 import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { DataTable } from "@/components/ui/data-table/data-table";
 import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 import {
@@ -16,8 +18,6 @@ import {
   searchableColumns,
   viewOptionsColumns,
 } from "./histories-column";
-import { fetchUsersHistories } from "./server-action";
-import { DataTable } from "@/components/ui/data-table/data-table";
 
 type HistoryTableProps = {
   initialDateRange: DateRange;
@@ -33,18 +33,28 @@ export const HistoryTable = ({
     initialDateRange,
   );
   const [loading, setLoading] = useState(false);
+  const pathName = usePathname();
+  const router = useRouter();
 
   const handleChangeDate = async () => {
     setLoading(true);
-    const histories = await fetchUsersHistories(dateRange);
-    if (!histories.success) {
-      toast.error(histories.message);
+    if (!dateRange?.from || !dateRange?.to) {
+      setLoading(false);
+      toast.error("Veuillez choisir une date");
       return;
     }
+    const queryParams = new URLSearchParams({
+      from: dateRange.from.toISOString(),
+      to: dateRange.to.toISOString(),
+    }).toString();
+    router.push(`${pathName}?${queryParams}`);
 
-    setData(histories.data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   return (
     <>

@@ -8,6 +8,8 @@ export const metadata = {
   description: "Profil utilisateur RIOT TECH",
 };
 
+const baseUrl = process.env.NEXT_PUBLIC_URL;
+
 export default async function Layout({
   children,
 }: {
@@ -17,7 +19,7 @@ export default async function Layout({
   const callbackUrl = "/dashboard-user";
 
   if (!user) {
-    return <Logout callbackUrl={callbackUrl} />;
+    return <Logout callbackUrl={baseUrl + callbackUrl} />;
   }
 
   if (user.role === "admin") {

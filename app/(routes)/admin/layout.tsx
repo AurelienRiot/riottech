@@ -3,6 +3,8 @@ import { checkAdmin } from "@/components/auth/checkAuth";
 import Navbar from "@/components/navbar-admin/navbar";
 import React from "react";
 
+const baseUrl = process.env.NEXT_PUBLIC_URL;
+
 export default async function AdminLayout({
   children,
 }: {
@@ -14,7 +16,7 @@ export default async function AdminLayout({
   if (!isAuth) {
     return (
       <Logout
-        callbackUrl={`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`}
+        callbackUrl={`/login?callbackUrl=${encodeURIComponent(baseUrl + callbackUrl)}`}
       />
     );
   }

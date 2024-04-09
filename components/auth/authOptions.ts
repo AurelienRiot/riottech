@@ -61,7 +61,6 @@ export const authOptions: NextAuthOptions = {
           credentials.password,
           user.password,
         );
-        console.log(verifyPassword);
         if (!verifyPassword) {
           return null;
         }
