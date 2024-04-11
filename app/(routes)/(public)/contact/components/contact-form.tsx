@@ -30,7 +30,7 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Le nom ne peut pas être vide" })
     .max(50, { message: "Le nom ne peut pas dépasser 50 caractères" }),
-  mail: z
+  email: z
     .string()
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "L'email ne peut pas être vide" })
@@ -66,7 +66,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: session?.user?.name || "",
-      mail: session?.user?.email || "",
+      email: session?.user?.email || "",
       phone: "",
       subject: "",
       message: "",
@@ -133,7 +133,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
             />
             <FormField
               control={form.control}
-              name="mail"
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
