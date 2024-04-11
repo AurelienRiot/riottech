@@ -14,7 +14,8 @@ export type ContactColumn = {
   id: string;
   name: string;
   phone: string;
-  mail: string;
+  email: string;
+  postalCode: string;
   subject: string;
   text: string;
   createdAt: Date;
@@ -31,8 +32,12 @@ export const columns: ColumnDef<ContactColumn>[] = [
     cell: PhoneCell,
   },
   {
-    accessorKey: "mail",
+    accessorKey: "email",
     header: "Email",
+  },
+  {
+    accessorKey: "postalCode",
+    header: "Code Postal",
   },
   {
     accessorKey: "subject",
@@ -64,7 +69,7 @@ export const searchableColumns: DataTableSearchableColumn<ContactColumn>[] = [
     title: "Téléphone",
   },
   {
-    id: "mail",
+    id: "email",
     title: "Email",
   },
   {
@@ -87,7 +92,7 @@ export const viewOptionsColumns: DataTableViewOptionsColumn<ContactColumn>[] = [
     title: "Téléphone",
   },
   {
-    id: "mail",
+    id: "email",
     title: "Email",
   },
   {

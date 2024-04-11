@@ -1,8 +1,17 @@
-import React from "react";
-import Client from "./components/client";
+import ButtonSurveillance from "./components/button-surveillance";
+import { ContactForm } from "./components/form";
+import ImageV2 from "./components/image-v2";
+import RiotTechFeatures from "./components/riot-tech-features";
 
 const SurveillanceElevage = async () => {
-  return <Client imageUrl={"./camera_batiment.jpeg"} />;
+  return (
+    <>
+      <ImageV2 />
+      <ButtonSurveillance />
+      <RiotTechFeatures />
+      <ContactForm />
+    </>
+  );
 };
 
 export default SurveillanceElevage;
