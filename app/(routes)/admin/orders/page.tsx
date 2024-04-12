@@ -4,6 +4,8 @@ import { OrderColumn } from "./components/columns";
 import { currencyFormatter } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
 
+export const dynamic = "force-dynamic";
+
 const OrdersPage = async (context: {
   searchParams: { from: string | undefined; to: string | undefined };
 }) => {
