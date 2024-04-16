@@ -26,6 +26,7 @@ async function createContact({
         subject: "Demande de contact",
       },
     });
+
     return {
       success: true,
       message: "Message envoyé",

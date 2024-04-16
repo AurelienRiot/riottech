@@ -21,9 +21,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { Toaster as Sonner, toast } from "sonner";
 import * as z from "zod";
+
+type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const formSchema = z.object({
   name: z
@@ -110,6 +112,24 @@ export const ContactForm: React.FC = (): React.ReactNode => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(() => setOpen(true))}
+          // onSubmit={form.handleSubmit(() => {
+          //   const promise = () =>
+          //     new Promise((resolve) =>
+          //       setTimeout(() => resolve({ name: "Sonner" }), 2000),
+          //     );
+
+          //   toast.promise(promise, {
+          //     loading: "Loading...",
+          //     success: () => {
+          //       return ` toast has been added`;
+          //     },
+          //     action: {
+          //       label: "Undo",
+          //       onClick: () => console.log("Undo"),
+          //     },
+          //     error: "Error",
+          //   });
+          // })}
           className="w-full space-y-8"
         >
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -209,7 +229,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
               )}
             />
           </div>
-          <LoadingButton disabled={loading} variant={"shadow"}>
+          <LoadingButton disabled={loading} type="submit">
             {action}
           </LoadingButton>
         </form>

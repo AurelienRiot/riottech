@@ -49,7 +49,6 @@ const ServerSim = async ({
   searchParams: { sim: string; subId: string };
 }) => {
   const res = await FetchSim(searchParams.sim);
-  console.log(res);
   const subscriptions = await GetSubscriptions();
   const user = await getDbUser();
   const queryString = new URLSearchParams(searchParams).toString();
