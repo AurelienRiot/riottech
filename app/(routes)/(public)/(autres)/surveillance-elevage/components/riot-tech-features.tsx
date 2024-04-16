@@ -1,5 +1,3 @@
-import { MdCheckCircle } from "react-icons/md";
-
 const RiotTechFeatures = () => {
   const features = [
     "Visionnez vos cameras en direct et en différé sur votre smartphone ou tablette de n’importe où, sans limite de distance !",
@@ -10,16 +8,13 @@ const RiotTechFeatures = () => {
   ];
 
   return (
-    <div className="mx-auto mb-10 max-w-4xl rounded-lg bg-white p-6 shadow-md">
+    <div className=" mx-auto mb-10 max-w-4xl  rounded-lg bg-white p-6 shadow-md">
       <h2 className="mb-4 text-2xl font-semibold text-gray-800">
         Les plus RIOT TECH:
       </h2>
-      <ul className="list-none space-y-3">
+      <ul className="list-image-check-circle-green-500 space-y-3">
         {features.map((feature, index) => (
           <li key={index} className="flex items-start">
-            <div className="mr-3 mt-1 text-green-500">
-              <MdCheckCircle size="24" />
-            </div>
             <p className="text-md text-gray-700">{feature}</p>
           </li>
         ))}

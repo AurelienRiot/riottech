@@ -77,16 +77,6 @@
   }
 }
 
-@layer components {
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-}
-
 /* Disable password hide and show button */
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {

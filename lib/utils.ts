@@ -72,3 +72,7 @@ export const checkIfUrlAccessible = async (url: string): Promise<boolean> => {
     });
   return response;
 };
+
+export function svgToDataUri(svg: string) {
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
