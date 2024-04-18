@@ -8,14 +8,12 @@ const RiotTechFeatures = () => {
   ];
 
   return (
-    <div className=" mx-auto mb-10 max-w-4xl  rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-        Les plus RIOT TECH:
-      </h2>
-      <ul className="list-image-check-circle-green-500 space-y-3">
+    <div className=" mx-auto mb-10 max-w-4xl  rounded-lg  p-6 shadow-md">
+      <h2 className="mb-4 text-2xl font-semibold ">Les plus RIOT TECH:</h2>
+      <ul className="space-y-3 list-image-check-circle-green-500">
         {features.map((feature, index) => (
           <li key={index} className=" flex items-start before:self-center">
-            <p className="text-md text-gray-700">{feature}</p>
+            <p className="text-md ">{feature}</p>
           </li>
         ))}
       </ul>

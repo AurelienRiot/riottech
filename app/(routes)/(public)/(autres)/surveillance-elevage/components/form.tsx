@@ -98,7 +98,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
   };
 
   return (
-    <div className="space-y-6 p-8">
+    <div className="mx-auto max-w-4xl space-y-6 p-8">
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -117,7 +117,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
           onSubmit={form.handleSubmit(() => setOpen(true))}
           className="w-full space-y-8"
         >
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 ">
             <FormField
               control={form.control}
               name="name"
