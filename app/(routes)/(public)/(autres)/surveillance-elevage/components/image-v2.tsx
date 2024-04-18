@@ -18,8 +18,13 @@ const ImageV2 = () => {
           Installation de systèmes de surveillance Video{" "}
         </h1>
         <p className="max-w-[500px] text-xs sm:text-sm md:text-base">
-          RIOT TECH installe sur toute la Bretagne des systèmes de cameras de
-          surveillances spécialisé en agricole, intérieur et extérieur.
+          {
+            " Vous avez toujours rêvé de pouvoir surveiller vos animaux à tout moment et de n'importe où ?"
+          }
+          <br />
+          {
+            "Vous souhaitez détecter rapidement toute activité suspecte autour de votre ferme ?"
+          }
         </p>
       </div>
     </div>

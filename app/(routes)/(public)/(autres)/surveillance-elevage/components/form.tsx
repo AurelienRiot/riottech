@@ -106,10 +106,10 @@ export const ContactForm: React.FC = (): React.ReactNode => {
         loading={loading}
       />
       <div id="form" className="flex items-center justify-between ">
-        <Heading
-          title="Parlez nous de votre projet"
-          description="Demande d'information"
-        />
+        <h2 className="text-3xl font-bold tracking-tight">
+          {" "}
+          Parlez nous de votre projet :
+        </h2>
       </div>
       <Separator />
       <Form {...form}>
