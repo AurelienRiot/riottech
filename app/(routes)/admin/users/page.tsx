@@ -26,8 +26,6 @@ import {
 } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
 
-export const dynamic = "force-dynamic";
-
 const UserPage = async (context: {
   searchParams: { from: string | undefined; to: string | undefined };
 }) => {

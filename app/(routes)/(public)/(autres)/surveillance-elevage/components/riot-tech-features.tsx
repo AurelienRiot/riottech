@@ -14,7 +14,7 @@ const RiotTechFeatures = () => {
       </h2>
       <ul className="list-image-check-circle-green-500 space-y-3">
         {features.map((feature, index) => (
-          <li key={index} className="flex items-start">
+          <li key={index} className=" flex items-start before:self-center">
             <p className="text-md text-gray-700">{feature}</p>
           </li>
         ))}

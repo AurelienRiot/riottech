@@ -264,11 +264,14 @@ function ListStyleCheck({ matchUtilities, theme }: any) {
       "list-image": ([color, svg]: any) => ({
         listStyle: "none",
         paddingLeft: "0",
+
         "& li::before": {
           content: `url("${svgToDataUri(svg)}")`,
-          display: "inline-block",
           marginRight: "8px",
-          verticalAlign: "middle",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
         },
       }),
     },

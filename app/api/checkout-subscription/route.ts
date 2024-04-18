@@ -186,13 +186,11 @@ export async function POST(req: NextRequest) {
         name: "never",
         address: isAdresse ? "never" : "auto",
       },
-      // payment_intent_data: {
-      //   statement_descriptor: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
-      // },
       subscription_data: {
         description: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
       },
-      billing_address_collection: isAdresse ? "auto" : "required",
+      // billing_address_collection: isAdresse ? "auto" : "required",
+      billing_address_collection: "auto",
       payment_method_types: ["sepa_debit", "card"],
       phone_number_collection: {
         enabled: false,

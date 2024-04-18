@@ -9,7 +9,6 @@ export interface WelcomeEmailProps {
 export const WelcomeEmail = ({ fullName, baseUrl }: WelcomeEmailProps) => (
   <MainBody baseUrl={baseUrl} previewText="Bienvenue sur RIOT TECH">
     <WelcomeBody baseUrl={baseUrl} />
-    <Footer />
   </MainBody>
 );
 

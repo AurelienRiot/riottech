@@ -19,6 +19,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/components/register-form";
+import { Loader2 } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
@@ -253,7 +254,8 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 onClick={onClick}
                 className="mt-4"
               >
-                {loading ? <Spinner size={20} /> : "Souscrire"}
+                {loading && <Loader2 className={"mr-2 h-4 w-4 animate-spin"} />}
+                Souscrire
               </Button>
             </div>
           </div>
