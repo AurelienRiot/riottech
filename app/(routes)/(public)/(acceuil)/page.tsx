@@ -1,20 +1,24 @@
 import Container from "@/components/ui/container";
-import ImageAccueil from "./components/image-accueil";
-import ServicePage from "./components/services";
+import ImageAccueil from "./_components/image-accueil";
+import ServicePage from "./_components/services";
+import QuiSommesNous from "./_components/qui-sommes-nous";
 
 const HomePage = async () => {
   return (
     <>
       <ImageAccueil />
       <Container>
-        <>
-          <div className=" mt-12 flex h-full w-full flex-col items-center rounded-t-xl bg-transparent  pt-6 font-bold text-white">
-            <h1 className="text-5xl md:text-7xl ">Bienvenue </h1>
-            <p className="text-2xl sm:text-3xl md:text-5xl  ">sur RIOT TECH</p>
+        <div className=" mt-12 flex h-full w-full flex-col items-center rounded-t-xl bg-transparent  pt-6  ">
+          <h1 className="text-5xl font-bold text-white md:text-7xl">
+            Bienvenue{" "}
+          </h1>
+          <p className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
+            sur RIOT TECH
+          </p>
 
-            <ServicePage />
-          </div>
-        </>
+          <ServicePage />
+          <QuiSommesNous />
+        </div>
       </Container>
     </>
   );

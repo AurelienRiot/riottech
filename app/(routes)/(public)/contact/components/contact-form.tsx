@@ -102,12 +102,11 @@ export const ContactForm: React.FC = (): React.ReactNode => {
         onConfirm={handleModalConfirm}
         loading={loading}
       />
-      <div className="flex items-center justify-between">
-        <Heading
-          title="Formulaire de Contact"
-          description="Demande d'information"
-        />
-      </div>
+
+      <h2 className="mr-auto text-3xl font-bold tracking-tight">
+        {" "}
+        Formulaire de Contact
+      </h2>
       <Separator />
       <Form {...form}>
         <form

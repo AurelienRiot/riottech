@@ -23,23 +23,24 @@ const DemoCamPage = () => {
 
   return (
     <>
-      <header className="container p-4 mx-auto">
-        <h1 className="mb-8 text-4xl font-bold text-center">
+      <header className="container mx-auto p-4">
+        <h1 className="mb-8 text-center text-4xl font-bold">
           Utilisation de caméra RIOT TECH en élevage
         </h1>
       </header>
 
-      <section className="container p-4 mx-auto">
-        <article className="flex flex-wrap items-center justify-center p-4 border-4 border-gray-700 rounded-xl">
-          <div className="flex flex-col items-center justify-center w-full p-6 lg:w-1/2">
-            <h2 className="mb-4 text-2xl font-semibold text-left">
+      <section className="container mx-auto p-4">
+        <article className="flex flex-wrap items-center justify-center rounded-xl border-4 border-gray-700 p-4">
+          <div className="flex w-full flex-col items-center justify-center p-6 lg:w-1/2">
+            <h2 className="mb-4 text-left text-2xl font-semibold">
               Caractéristiques et installation
             </h2>
-            <p className="mb-4 text-lg text-center">
-              La caméra RIOT TECH est une caméra de surveillance intelligente
-              conçue pour les élevages. Elle offre les avantages suivants :
+            <p className="mb-4 text-center text-lg">
+              La caméra RIOT TECH est une caméra de surveillance intelligente,
+              résistante et adaptée pour les élevages. Elle offre les avantages
+              suivants :
             </p>
-            <ul className="pl-8 mb-4 list-disc list-inside">
+            <ul className="mb-4 list-inside list-disc pl-8">
               <li>Pivot à 360 degrés pour une vision panoramique</li>
               <li>Vision nocturne pour une surveillance 24h/24</li>
               <li>Haute définition pour une image claire et nette</li>
@@ -47,7 +48,7 @@ const DemoCamPage = () => {
                 Contrôle à distance via ordinateur, smartphone ou tablette
               </li>
             </ul>
-            <p className="mb-4 text-lg text-justify">
+            <p className="mb-4 text-justify text-lg">
               Voici un exemple de caméra RIOT TECH installée dans un élevage :
             </p>
           </div>
@@ -55,7 +56,7 @@ const DemoCamPage = () => {
             <Image
               src="/camera_batiment.jpeg"
               alt="Exemple de caméra RIOT TECH installée dans un élevage"
-              className="transition-all rounded-lg shadow-lg hover:scale-110 duration-500"
+              className="rounded-lg shadow-lg transition-all duration-500 hover:scale-110"
               width={512}
               height={384}
             />
@@ -67,9 +68,9 @@ const DemoCamPage = () => {
         {videos.map((video) => (
           <div
             key={video.id}
-            className="relative grid items-center justify-center grid-cols-1 w-[480px]"
+            className="relative grid w-[480px] grid-cols-1 items-center justify-center"
           >
-            <h2 className="flex justify-center mt-2 text-2xl font-semibold text-center">
+            <h2 className="mt-2 flex justify-center text-center text-2xl font-semibold">
               {video.nom}
             </h2>
             <div className="h-[270px]">
@@ -77,7 +78,7 @@ const DemoCamPage = () => {
                 src={`https://www.youtube.com/embed/${video.id}`}
                 title={video.nom}
                 allowFullScreen
-                className="w-full h-full"
+                className="h-full w-full"
               />
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 const ButtonSurveillance = () => {
   return (
@@ -55,17 +56,20 @@ const CardSurveillance = ({
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="relative grid grid-cols-2 text-center">
-        <p>{content}</p>{" "}
-        <div className="relative ">
-          <Image
-            src={image}
-            alt="image"
-            fill
-            className="object-contain opacity-100"
-          />
-        </div>
+      <CardContent className="relative  text-center">
+        <p>{content}</p>
+        <Button asChild variant={"link"} className="text-lg font-bold">
+          <Link href="/demo-cam">Voir en LIVE</Link>
+        </Button>
       </CardContent>
+      <div className="relative  mx-auto size-20">
+        <Image
+          src={image}
+          alt="image"
+          fill
+          className=" object-contain opacity-100"
+        />
+      </div>
       <CardFooter className="relative flex items-center justify-center">
         {" "}
         <Button className="hover:underline" onClick={scrollToForm}>
