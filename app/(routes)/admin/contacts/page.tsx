@@ -13,7 +13,7 @@ const ContactsPage = async () => {
     id: item.id,
     name: item.name,
     phone: item.phone ?? "",
-    mail: item.mail,
+    email: item.email,
     subject: item.subject,
     text: item.message,
     createdAt: item.createdAt,
