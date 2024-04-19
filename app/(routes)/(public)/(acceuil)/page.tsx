@@ -1,8 +1,5 @@
-import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
-import GetProducts from "@/server-actions/get-products";
 import ImageAccueil from "./components/image-accueil";
-import Reseau4GPage from "../(autres)/solution-internet/_components/reseau-4G";
 import ServicePage from "./components/services";
 
 const HomePage = async () => {

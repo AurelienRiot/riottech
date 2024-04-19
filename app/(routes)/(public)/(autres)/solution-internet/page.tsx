@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Reseau4GPage from "./_components/reseau-4G";
 import CombienCoute from "./_components/combien-ca-coute";
+import Reseau4GPage from "./_components/reseau-4G";
 
 const SolutionInternetPage = () => {
   return (

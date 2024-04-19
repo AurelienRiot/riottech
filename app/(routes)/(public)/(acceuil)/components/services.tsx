@@ -1,10 +1,7 @@
 "use client";
 
 import CardHover from "@/components/animations/card-hover";
-import { VisibleElement } from "@/components/animations/visible-element";
-import Currency from "@/components/ui/currency";
 import { Separator } from "@/components/ui/separator";
-import { scrollToTarget } from "../../(autres)/solution-internet/_components/reseau-4G";
 
 const ServicePage = () => {
   return (
@@ -22,9 +19,7 @@ const ServicePage = () => {
             link="/solution-internet"
             image="/levels-of-connection.png"
             title="Solutions de connexion à internet"
-            text={`Bénéficiez d'une connexion en toutes circonstances, partout et à moindre coût !
-          Grâce aux Box 4G RIOT TECH, vous profitez d'une connexion fiable grâce à l'abonnement multi opérateurs, d'un équipement granit à vie et d'un SAV prioritaire et compétant en cas de problème.
-          Visionnage par internet sur smartphone, ordinateur, tablette...
+            text={`Profitez d'une connexion Internet continue, économique et disponible partout avec la connexion internet RIOT TECH. Vous assurant une connexion stable grâce à la couverture multi-opérateurs. Incluent un équipement garanti à vie ainsi qu'un service après-vente prioritaire et compétent en cas de besoin.
           `}
           />
           <CardHover
