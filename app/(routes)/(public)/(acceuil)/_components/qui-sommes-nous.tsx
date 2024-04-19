@@ -49,7 +49,11 @@ const QuiSommesNous = () => {
             link: "/surveillance-elevage",
           },
         ].map((feature, index) => (
-          <Button asChild key={index} className="h-fit text-lg font-semibold">
+          <Button
+            asChild
+            key={index}
+            className="h-fit text-center text-lg font-semibold"
+          >
             <Link href={feature.link}>{feature.text}</Link>
           </Button>
         ))}
