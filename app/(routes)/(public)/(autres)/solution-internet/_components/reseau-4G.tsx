@@ -15,9 +15,9 @@ type Feature = {
 const Reseau4GPage = () => {
   const features: Feature[] = [
     {
-      image: "signal.svg",
+      image: "signal2.svg",
       altImage: "signal",
-      title: "3 Opérateurs en 1 !",
+      title: "4 Opérateurs en 1 !",
       description: (
         <p>
           Grâce à cette collaboration, nous pouvons vous proposer des cartes SIM
@@ -30,14 +30,12 @@ const Reseau4GPage = () => {
       image: "antenna.svg",
       altImage: "antenna",
       title: "Fonctionnement",
+
       description: (
         <p>
           {
-            "Une fois activée dans votre routeur 4G ou autre appareil compatible, la carte SIM RIOT TECH vas scanner les réseaux 4G,3G et 2G de 3 opérateurs en France (Orange, SFR et Free) de manière à se connecter sur l’antenne relais la plus proche et avec la meilleure vitesse de connexion possible. En suivant cet ordre de préférence de connexion 4G>3G>2G."
+            " Une fois activée dans votre routeur ou autre appareil compatible, la carte SIM RIOT TECH vas scanner les réseaux 5G,4G et 3G des 4 opérateurs en France (Orange, Bouygues, SFR et Free) de manière à se connecter sur l’antenne relais la plus proche et avec la meilleure vitesse de connexion possible."
           }
-          <br />
-          Ce scan est effectué automatiquement, à intervalle réguliers ou en cas
-          de baisse de qualité de la connexion.{" "}
         </p>
       ),
     },
@@ -54,7 +52,7 @@ const Reseau4GPage = () => {
           <br />
           Une garantie à vie sur le matériel (
           <a
-            className="text-blue-500 cursor-pointer"
+            className="cursor-pointer text-blue-500"
             onClick={() =>
               scrollToTarget("La garantie à vie, ça signifie quoi ?")
             }
@@ -120,15 +118,15 @@ const Reseau4GPage = () => {
     <>
       <VisibleElement
         as="h2"
-        className="mb-4 text-2xl text-center text-primary"
+        className="mb-4 text-center text-2xl text-primary"
       >
-        Le réseau 4G RIOT TECH
+        Le réseau RIOT TECH
       </VisibleElement>
-      <section className="flex flex-wrap justify-between gap-4 m-6">
+      <section className="m-6 flex flex-wrap justify-between gap-4">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="flex flex-col flex-auto p-4 group w-80 "
+            className="group flex w-80 flex-auto flex-col p-4 "
             id={String(feature.title)}
           >
             <Image
@@ -136,11 +134,11 @@ const Reseau4GPage = () => {
               height={100}
               src={feature.image}
               alt={feature.altImage}
-              className="w-1/4 mx-auto mb-2"
+              className="mx-auto mb-2 w-1/4"
             />
             <VisibleElement
               as="h2"
-              className="relative justify-center mb-4 text-xl text-center text-primary"
+              className="relative mb-4 justify-center text-center text-xl text-primary"
             >
               <HoverWord word={feature.title} />
             </VisibleElement>
