@@ -39,16 +39,20 @@ const QuiSommesNous = () => {
         ))}
       </ul>
       <div className="flex flex-wrap justify-center gap-4">
-        <Button asChild className="text-lg font-semibold">
-          <Link href="/solution-internet">
-            En savoir plus sur la connexion internet RIOT TECH
-          </Link>
-        </Button>
-        <Button asChild className="text-lg font-semibold">
-          <Link href="/surveillance-elevage">
-            En savoir sur la video surveillance RIOT TECH
-          </Link>
-        </Button>
+        {[
+          {
+            text: "En savoir plus sur la connexion internet RIOT TECH",
+            link: "/solution-internet",
+          },
+          {
+            text: "En savoir sur la video surveillance RIOT TECH",
+            link: "/surveillance-elevage",
+          },
+        ].map((feature, index) => (
+          <Button asChild key={index} className="h-fit text-lg font-semibold">
+            <Link href={feature.link}>{feature.text}</Link>
+          </Button>
+        ))}
       </div>
       <ContactForm />
     </div>

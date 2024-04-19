@@ -16,15 +16,33 @@ const ButtonSurveillance = () => {
       <div className="grid max-w-4xl grid-cols-1  items-center justify-center gap-10 p-6 md:grid-cols-2">
         <CardSurveillance
           title="Surveillance de stabulation, robots de traite, vêlages, poulinages, poulaillers…"
-          content="Avec notre caméra 360°, zoom X25 et vision nocturne 100m ! Pilotez à distance la camera 360° aux 4 coins de votre bâtiment, avec cette camera, vous ne raterez aucuns détails !"
+          content={
+            <>
+              {" "}
+              <p>
+                {
+                  "Avec notre caméra 360°, zoom X25 et vision nocturne 100m ! Pilotez à distance la camera 360° aux 4 coins de votre bâtiment, avec cette camera, vous ne raterez aucuns détails !"
+                }
+              </p>
+              <Button asChild variant={"link"} className="text-lg font-bold">
+                <Link href="/demo-cam">Voir en LIVE</Link>
+              </Button>
+            </>
+          }
           image="/surveillance-elevage/camera_surveillance2.webp"
         />
         <CardSurveillance
           title="Surveillance sécurité aux abords et à l’intérieur des bâtiments"
-          content=" En optant pour nos caméras fix grand angle, couplé avec un
-          enregistreur, vous ne raterez aucunes intrusions ou mouvement suspect,
-          vous pouvez même choisir d’être alerté en direct sur votre smartphone
-          en cas d’intrusion ou d’anomalie."
+          content={
+            <>
+              {" "}
+              <p>
+                {
+                  " En optant pour nos caméras fix grand angle, couplé avec un enregistreur, vous ne raterez aucunes intrusions ou mouvement suspect, vous pouvez même choisir d’être alerté en direct sur votre smartphone          en cas d’intrusion ou d’anomalie."
+                }
+              </p>
+            </>
+          }
           image="/surveillance-elevage/camera_surveillance1.webp"
         />
       </div>
@@ -40,7 +58,7 @@ const CardSurveillance = ({
   image,
 }: {
   title: string;
-  content: string;
+  content: React.ReactNode;
   image: string;
 }) => {
   const scrollToForm = () => {
@@ -56,18 +74,14 @@ const CardSurveillance = ({
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="relative  text-center">
-        <p>{content}</p>
-        <Button asChild variant={"link"} className="text-lg font-bold">
-          <Link href="/demo-cam">Voir en LIVE</Link>
-        </Button>
-      </CardContent>
-      <div className="relative  mx-auto size-20">
+      <CardContent className="relative  text-center">{content}</CardContent>
+      <div className="group  relative mx-auto size-20">
         <Image
           src={image}
           alt="image"
           fill
-          className=" object-contain opacity-100"
+          sizes="160px"
+          className=" pointer-events-none z-10 object-contain opacity-100 transition-transform group-hover:scale-[2]"
         />
       </div>
       <CardFooter className="relative flex items-center justify-center">

@@ -23,7 +23,7 @@ const ServicePage = () => {
           `}
           />
           <CardHover
-            link="/demo-cam"
+            link="/surveillance-elevage"
             title="Surveillance vidéo de vos bâtiments"
             image="/surveillance-camera.png"
             text={`Surveillance vidéo de vos bâtiments et stabulation tout types de caméras, pour tout types d'usages.

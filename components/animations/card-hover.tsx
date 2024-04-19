@@ -46,18 +46,20 @@ const CardHover = ({
                 <p className="">En savoir plus</p>
               </div>
             </div>
-            <div className="relative box-border flex min-h-[300px]   max-w-[400px] flex-col  justify-between bg-primary-foreground p-5 opacity-50   shadow-[0_20px_50px_rgba(0,0,0,0.8)]  transition-all  duration-500 group-hover:translate-y-[300px]  group-hover:opacity-100 ">
+            <Link
+              href={link}
+              className="relative box-border flex min-h-[300px]   max-w-[400px] flex-col  justify-between bg-primary-foreground p-5 opacity-50   shadow-[0_20px_50px_rgba(0,0,0,0.8)]  transition-all  duration-500 group-hover:translate-y-[300px]  group-hover:opacity-100 "
+            >
               <p className="relative m-0 p-0 px-2 text-center text-primary-foreground  transition-all duration-500 group-hover:text-primary">
                 {text}
               </p>
-              <Link
-                href={link}
+              <div
                 className="mx-0 mb-0 mt-[15px] w-fit self-center border border-solid border-[#333] p-[5px] font-black text-[#333] transition-all duration-500 group-hover:bg-[#333] group-hover:text-white
 "
               >
                 En savoir plus
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
