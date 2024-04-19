@@ -2,7 +2,7 @@ import ProductList from "@/components/products-list";
 import Container from "@/components/ui/container";
 import GetProducts from "@/server-actions/get-products";
 import ImageAccueil from "./components/image-accueil";
-import Reseau4GPage from "./components/reseau-4G";
+import Reseau4GPage from "../(autres)/solution-internet/_components/reseau-4G";
 import ServicePage from "./components/services";
 
 const HomePage = async () => {
@@ -17,21 +17,6 @@ const HomePage = async () => {
 
             <ServicePage />
           </div>
-          <div className="relative space-y-10 bg-primary-foreground/95 pb-10 pt-6  ">
-            {/* <Suspense fallback={<Loading />}>
-              <FeaturedProducts />
-            </Suspense> */}
-            {/*
-                            <VisibleElement
-                                variant="fade"
-                                className="w-auto break-after-column overflow-auto"
-                            >{`L'utilisateur est ${JSON.stringify(
-                                session,
-                            )}`}</VisibleElement> */}
-
-            <Reseau4GPage />
-          </div>
-          {/* <PlateEditor /> */}
         </>
       </Container>
     </>
@@ -39,13 +24,3 @@ const HomePage = async () => {
 };
 
 export default HomePage;
-
-async function FeaturedProducts() {
-  const products = await GetProducts({ isFeatured: true });
-
-  return (
-    <div className="mb-16 flex flex-col gap-y-8 px-4 sm:px-6 lg:px-8">
-      <ProductList title="Produits mise en avant" items={products} />
-    </div>
-  );
-}

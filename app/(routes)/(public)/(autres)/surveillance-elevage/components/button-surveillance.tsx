@@ -50,18 +50,22 @@ const CardSurveillance = ({
   };
   return (
     <Card className="relative flex h-full max-w-md flex-col justify-between">
-      <Image
-        src={image}
-        alt="image"
-        fill
-        className="absolute inset-0 object-cover opacity-30"
-      />
       <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-center text-xl font-medium">
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="relative text-center">{content}</CardContent>
+      <CardContent className="relative grid grid-cols-2 text-center">
+        <p>{content}</p>{" "}
+        <div className="relative ">
+          <Image
+            src={image}
+            alt="image"
+            fill
+            className="object-contain opacity-100"
+          />
+        </div>
+      </CardContent>
       <CardFooter className="relative flex items-center justify-center">
         {" "}
         <Button className="hover:underline" onClick={scrollToForm}>
