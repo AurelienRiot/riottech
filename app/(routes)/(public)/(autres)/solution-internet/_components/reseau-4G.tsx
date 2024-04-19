@@ -70,20 +70,12 @@ const Reseau4GPage = () => {
       description: (
         <p>
           {
-            " La Box 4G fournit par RIOT TECH est spécialement conçue pour répondre à des problématiques de milieu auquel peut être confronté une exploitation agricole par exemple, tel que l'humidité ou les températures extrêmes."
+            "  Les équipements RIOT TECH sont spécialement conçus pour répondre aux problématiques de milieu auquel peut être confronté une exploitation agricole par exemple, tel que l'humidité ou les températures extrêmes."
           }
           <br />
-          La Box 4G est faite pour être placée en extérieur, positionnée de
-          manière à recevoir le meilleur signal possible, sur une charpente ou
-          un mât par exemple, mais elle peut malgré tout être positionnée en
-          intérieur si le signal y est suffisant.
-          <br />
+
           {
-            "De par ses particularités robustes et de conception industrielle, cette Box 4G ne possède pas d'émetteur WIFI de ce fait, veillez bien à sélectionner l'option dans votre processus d'achat si vous souhaitez bénéficier d'une connexion WIFI sans fils via cette Box 4G."
-          }
-          <br />
-          {
-            "Un Switch 5 ports est également disponible afin d'étendre les capacités de votre Box 4G et de passer d'une seule prise Ethernet à quatre prises Ethernet pour y connecter plus de périphériques."
+            "L’équipement est fait pour être placée en extérieur, positionnée de manière à recevoir le meilleur signal possible, sur une charpente ou un mât par exemple, mais peut malgré tout être positionnée en intérieur si le signal y est suffisant."
           }
         </p>
       ),
@@ -94,21 +86,21 @@ const Reseau4GPage = () => {
       title: "La garantie à vie, ça signifie quoi ?",
       description: (
         <p className="relative p-4 ">
-          Box garantie à vie, SAV simplifié
+          Routeur garanti à vie, SAV simplifié
           <br />
-          En cas de problème sur une box 4G et après diagnostique par le SAV
-          RIOT TECH , si il avéré que le problème vient bien de la box 4G,
-          l’envoi d’une nouvelle Box 4G (déjà activée) sera effectué et le
-          client sera tenu de renvoyer la Box 4G défectueuse dans le colis qui
-          contenait la nouvelle Box et en utilisant le bordereau de{" "}
+          En cas de problème sur routeur et après diagnostique par le SAV RIOT
+          TECH, l’envoi d’un équipement de remplacement sera effectué et le
+          client sera tenu de renvoyer son équipement défectueux dans le même
+          colis et en utilisant le bordereau de
           <HoverWord
             word="retour
           gratuit."
           />{" "}
           <br />
-          La garantie à vie est valable uniquement sur les routeurs avec cartes
-          SIM préinstallées vendus par RIOT TECH ou ses partenaires et sous
-          condition de maintien de la souscription à un abonnement RIOT TECH 4G.
+          La garantie à vie est valable uniquement sur les équipements RIOT TECH
+          avec cartes SIM préinstallées vendus par RIOT TECH ou ses partenaires
+          et sous condition de maintien de la souscription à un abonnement RIOT
+          TECH 4G.
         </p>
       ),
     },
@@ -118,15 +110,15 @@ const Reseau4GPage = () => {
     <>
       <VisibleElement
         as="h2"
-        className="mb-4 text-center text-2xl text-primary"
+        className="space-y-4  text-center text-3xl font-semibold text-primary"
       >
         Le réseau RIOT TECH
       </VisibleElement>
-      <section className="m-6 flex flex-wrap justify-between gap-4">
+      <section className=" flex flex-wrap justify-between gap-6 p-6 ">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="group flex w-80 flex-auto flex-col p-4 "
+            className="group flex w-80 flex-auto flex-col gap-4  "
             id={String(feature.title)}
           >
             <Image
@@ -138,11 +130,13 @@ const Reseau4GPage = () => {
             />
             <VisibleElement
               as="h2"
-              className="relative mb-4 justify-center text-center text-xl text-primary"
+              className="relative mx-auto  max-w-96 justify-center text-center text-xl font-semibold text-primary"
             >
               <HoverWord word={feature.title} />
             </VisibleElement>
-            <VisibleElement>{feature.description}</VisibleElement>
+            <VisibleElement className="mx-auto  max-w-96 ">
+              {feature.description}
+            </VisibleElement>
           </div>
         ))}
       </section>
