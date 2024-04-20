@@ -1,12 +1,12 @@
 import prismadb from "@/lib/prismadb";
-import { ProductForm } from "./components/product-form";
 import { Image, Product } from "@prisma/client";
-import { checkIfUrlAccessible } from "@/lib/utils";
+import { ProductForm } from "./components/product-form";
 
-export type FormattedProduct = Omit<Product, "priceHT" | "priceTTC"> & {
+export interface FormattedProduct
+  extends Omit<Product, "priceHT" | "priceTTC"> {
   priceHT: number;
   priceTTC: number;
-};
+}
 
 const ProductPage = async ({ params }: { params: { productId: string } }) => {
   const product = await prismadb.product.findUnique({

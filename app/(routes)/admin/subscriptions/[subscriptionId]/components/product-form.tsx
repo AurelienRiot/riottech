@@ -29,10 +29,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { FormattedSubscription } from "../page";
+import { Subscription } from "@prisma/client";
 
 interface SubscriptionFormProps {
-  initialData: FormattedSubscription | null;
+  initialData: Subscription | null;
 }
 
 const formSchema = z.object({

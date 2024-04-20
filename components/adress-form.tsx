@@ -223,12 +223,12 @@ export const AdressForm = <T extends { adresse: string }>({
   );
 };
 
-type AddressInputProps = InputHTMLAttributes<HTMLInputElement> & {
+interface AddressInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   addressKey: keyof FullAdress;
   selectedAddress: FullAdress;
   setSelectedAddress: Dispatch<SetStateAction<FullAdress>>;
-};
+}
 
 const AddressInput = ({
   label,

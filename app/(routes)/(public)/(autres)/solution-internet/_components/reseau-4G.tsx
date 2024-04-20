@@ -1,14 +1,16 @@
-"use client";
-
 import { VisibleElement } from "@/components/animations/visible-element";
 import Image from "next/image";
 import "@/components/animations/hover-text/style.css";
 import HoverWord from "@/components/animations/hover-word";
+import { Antenna, Signal } from "lucide-react";
+import { ImConnection } from "react-icons/im";
+import { MdDesignServices, MdWarningAmber } from "react-icons/md";
+import { ScrollToTargetSpan } from "./scroll-to-target";
 
 type Feature = {
   image: string;
   altImage: string;
-  title: string;
+  title: { text: string; Icon: JSX.ElementType };
   description: React.ReactNode;
 };
 
@@ -17,7 +19,7 @@ const Reseau4GPage = () => {
     {
       image: "signal2.svg",
       altImage: "signal",
-      title: "4 Opérateurs en 1 !",
+      title: { text: "4 Opérateurs en 1 !", Icon: Signal },
       description: (
         <p>
           Grâce à cette collaboration, nous pouvons vous proposer des cartes SIM
@@ -29,7 +31,7 @@ const Reseau4GPage = () => {
     {
       image: "antenna.svg",
       altImage: "antenna",
-      title: "Fonctionnement",
+      title: { text: "Fonctionnement", Icon: Antenna },
 
       description: (
         <p>
@@ -42,7 +44,7 @@ const Reseau4GPage = () => {
     {
       image: "internet-connection.svg",
       altImage: "internet connection",
-      title: "Les avantages",
+      title: { text: "Les avantages", Icon: ImConnection },
       description: (
         <p>
           Une connexion plus fiable et avec une couverture du territoire plus
@@ -51,14 +53,10 @@ const Reseau4GPage = () => {
           Un SAV professionnel, sans plateforme téléphonique
           <br />
           Une garantie à vie sur le matériel (
-          <a
-            className="cursor-pointer text-blue-500"
-            onClick={() =>
-              scrollToTarget("La garantie à vie, ça signifie quoi ?")
-            }
-          >
-            En savoir plus
-          </a>
+          <ScrollToTargetSpan
+            target="La garantie à vie, ça signifie quoi ?"
+            text="certificat de garantie"
+          />
           )
         </p>
       ),
@@ -66,7 +64,10 @@ const Reseau4GPage = () => {
     {
       image: "design-thinking.svg",
       altImage: "design thinking",
-      title: "Robuste et Polyvalente pour Milieux Exigeants",
+      title: {
+        text: "Robuste et Polyvalente pour Milieux Exigeants",
+        Icon: MdDesignServices,
+      },
       description: (
         <p>
           {
@@ -83,7 +84,10 @@ const Reseau4GPage = () => {
     {
       image: "guarantee-certificate.svg",
       altImage: "certifica de garantie",
-      title: "La garantie à vie, ça signifie quoi ?",
+      title: {
+        text: "La garantie à vie, ça signifie quoi ?",
+        Icon: MdWarningAmber,
+      },
       description: (
         <p className="relative p-4 ">
           Routeur garanti à vie, SAV simplifié
@@ -92,10 +96,7 @@ const Reseau4GPage = () => {
           TECH, l’envoi d’un équipement de remplacement sera effectué et le
           client sera tenu de renvoyer son équipement défectueux dans le même
           colis et en utilisant le bordereau de
-          <HoverWord
-            word="retour
-          gratuit."
-          />{" "}
+          <HoverWord>retour gratuit.</HoverWord>
           <br />
           La garantie à vie est valable uniquement sur les équipements RIOT TECH
           avec cartes SIM préinstallées vendus par RIOT TECH ou ses partenaires
@@ -119,7 +120,7 @@ const Reseau4GPage = () => {
           <div
             key={index}
             className="group flex w-80 flex-auto flex-col gap-4  "
-            id={String(feature.title)}
+            id={feature.title.text}
           >
             <Image
               width={100}
@@ -130,11 +131,14 @@ const Reseau4GPage = () => {
             />
             <VisibleElement
               as="h2"
-              className="relative mx-auto  max-w-96 justify-center text-center text-xl font-semibold text-primary"
+              className="relative   text-xl font-semibold text-primary"
             >
-              <HoverWord word={feature.title} />
+              <HoverWord className="inline-flex items-center p-2">
+                <feature.title.Icon className="mr-2  size-6 shrink-0 " />
+                {feature.title.text}
+              </HoverWord>
             </VisibleElement>
-            <VisibleElement className="mx-auto  max-w-96 ">
+            <VisibleElement className="mx-auto max-w-96  text-left ">
               {feature.description}
             </VisibleElement>
           </div>
@@ -145,25 +149,3 @@ const Reseau4GPage = () => {
 };
 
 export default Reseau4GPage;
-
-export function scrollToTarget(id: string) {
-  const target = document.getElementById(id);
-  const navbarHeight = 74;
-
-  if (target) {
-    const offset = target.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: offset - navbarHeight, behavior: "smooth" });
-
-    setTimeout(() => {
-      target.classList.add("ring-2");
-      target.classList.add("dark:bg-slate-900");
-      target.classList.add("bg-slate-200");
-
-      setTimeout(() => {
-        target.classList.remove("ring-2");
-        target.classList.remove("dark:bg-slate-900");
-        target.classList.remove("bg-slate-200");
-      }, 500);
-    }, 1000);
-  }
-}

@@ -13,7 +13,7 @@ const Footer = () => {
         </div>
         <div className="mx-auto">
           <p className="text-center text-xs text-primary">
-            Ligne directe:{" "}
+            Ligne directe :{" "}
             <a className="hover:underline" href="tel:+33644839083">
               06.44.83.90.83
             </a>{" "}

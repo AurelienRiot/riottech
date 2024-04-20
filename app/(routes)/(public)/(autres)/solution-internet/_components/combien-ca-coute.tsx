@@ -1,7 +1,6 @@
-"use client";
 import { VisibleElement } from "@/components/animations/visible-element";
 import Currency from "@/components/ui/currency";
-import { scrollToTarget } from "./reseau-4G";
+import { ScrollToTargetSpan } from "./scroll-to-target";
 
 const CombienCoute = () => {
   return (
@@ -12,14 +11,10 @@ const CombienCoute = () => {
       <p className="mb-4">
         {"Prix de la Box 4G : à partir de "}
         <Currency displayLogo={false} value={195} className="inline" />
-        <a
-          className="cursor-pointer text-blue-500"
-          onClick={() =>
-            scrollToTarget("La garantie à vie, ça signifie quoi ?")
-          }
-        >
-          - Garantie à vie
-        </a>
+        <ScrollToTargetSpan
+          target="La garantie à vie, ça signifie quoi ?"
+          text="- Garantie à vie"
+        />
         <br />
         {"Prix de l'abonnement 4G : à partir de "}
         <Currency displayLogo={false} value={24.99} className="inline" />

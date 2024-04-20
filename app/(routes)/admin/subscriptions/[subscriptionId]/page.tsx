@@ -2,16 +2,6 @@ import prismadb from "@/lib/prismadb";
 import { SubscriptionForm } from "./components/product-form";
 import { Subscription } from "@prisma/client";
 
-export type FormattedSubscription = Omit<
-  Subscription,
-  "priceHT" | "priceTTC" | "fraisActivation" | "dataCap"
-> & {
-  priceHT: number;
-  priceTTC: number;
-  fraisActivation: number;
-  dataCap: number;
-};
-
 const SubscriptionPage = async ({
   params,
 }: {
@@ -23,7 +13,7 @@ const SubscriptionPage = async ({
     },
   });
 
-  const formattedSubscription: FormattedSubscription | null = subscription
+  const formattedSubscription: Subscription | null = subscription
     ? {
         ...subscription,
         priceHT: parseFloat(String(subscription.priceHT)),
