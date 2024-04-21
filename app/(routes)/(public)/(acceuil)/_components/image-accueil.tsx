@@ -1,5 +1,6 @@
 "use client";
 import ImageFerme from "@/public/dairy_cows.webp";
+import ImageFermePlaceholder from "@/public/dairy_cows_placeholder.webp";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
@@ -32,6 +33,8 @@ const ImageAccueil = () => {
       <Image
         priority
         src={ImageFerme}
+        placeholder="blur"
+        blurDataURL={ImageFermePlaceholder.src}
         alt="image background"
         width={3859}
         height={2500}
