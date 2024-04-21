@@ -57,7 +57,7 @@ const ButtonRedirectionV2 = () => {
       <h2 className="mb-8 text-3xl font-bold">
         Vous avez besoin d’internet pour :
       </h2>
-      <Accordion type="single" collapsible className="w-full max-w-4xl px-6">
+      <Accordion type="multiple" className="w-full max-w-4xl px-6">
         {button.map((item) => (
           <AccordionItem key={item.name} value={item.name}>
             <AccordionTrigger

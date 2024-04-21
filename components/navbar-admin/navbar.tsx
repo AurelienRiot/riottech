@@ -5,16 +5,16 @@ import { LogoutButton } from "@/components/auth/auth-button";
 
 const Navbar = async () => {
   return (
-    <div className="border-b ">
+    <header className="border-b ">
       <div className="flex h-16 items-center px-4">
-        <MainNav className=" hidden lg:block pl-8" />
+        <MainNav className=" hidden pl-8 lg:block" />
         <MobileNav className="mx-6 lg:hidden" />
         <div className="ml-auto flex items-center space-x-4">
           <ThemeToggle />
           <LogoutButton />
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
