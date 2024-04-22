@@ -1,4 +1,3 @@
-import { VisibleElement } from "@/components/animations/visible-element";
 import Image from "next/image";
 import "@/components/animations/hover-text/style.css";
 import HoverWord from "@/components/animations/hover-word";
@@ -6,20 +5,21 @@ import { Antenna, Signal } from "lucide-react";
 import { ImConnection } from "react-icons/im";
 import { MdDesignServices, MdWarningAmber } from "react-icons/md";
 import { ScrollToTargetSpan } from "./scroll-to-target";
+import { AnimateHeight } from "@/components/animations/animate-size";
 
 type Feature = {
   image: string;
   altImage: string;
-  title: { text: string; Icon: JSX.ElementType };
+  title: string;
   description: React.ReactNode;
 };
 
-const Reseau4GPage = () => {
+const Reseau4GPage = ({ display }: { display: boolean }) => {
   const features: Feature[] = [
     {
       image: "signal2.svg",
       altImage: "signal",
-      title: { text: "4 Opérateurs en 1 !", Icon: Signal },
+      title: "4 Opérateurs en 1 !",
       description: (
         <p>
           Grâce à cette collaboration, nous pouvons vous proposer des cartes SIM
@@ -31,7 +31,7 @@ const Reseau4GPage = () => {
     {
       image: "antenna.svg",
       altImage: "antenna",
-      title: { text: "Fonctionnement", Icon: Antenna },
+      title: "Fonctionnement",
 
       description: (
         <p>
@@ -44,7 +44,7 @@ const Reseau4GPage = () => {
     {
       image: "internet-connection.svg",
       altImage: "internet connection",
-      title: { text: "Les avantages", Icon: ImConnection },
+      title: "Les avantages",
       description: (
         <p>
           Une connexion plus fiable et avec une couverture du territoire plus
@@ -55,7 +55,7 @@ const Reseau4GPage = () => {
           Une garantie à vie sur le matériel (
           <ScrollToTargetSpan
             target="La garantie à vie, ça signifie quoi ?"
-            text="certificat de garantie"
+            text="Cf. Garantie"
           />
           )
         </p>
@@ -64,10 +64,7 @@ const Reseau4GPage = () => {
     {
       image: "design-thinking.svg",
       altImage: "design thinking",
-      title: {
-        text: "Robuste et Polyvalente pour Milieux Exigeants",
-        Icon: MdDesignServices,
-      },
+      title: "Robuste et Polyvalent pour Milieux Exigeants",
       description: (
         <p>
           {
@@ -84,10 +81,7 @@ const Reseau4GPage = () => {
     {
       image: "guarantee-certificate.svg",
       altImage: "certifica de garantie",
-      title: {
-        text: "La garantie à vie, ça signifie quoi ?",
-        Icon: MdWarningAmber,
-      },
+      title: "La garantie à vie, ça signifie quoi ?",
       description: (
         <p className="relative p-4 ">
           Routeur garanti à vie, SAV simplifié
@@ -108,43 +102,38 @@ const Reseau4GPage = () => {
   ];
 
   return (
-    <>
-      <VisibleElement
-        as="h2"
-        className="space-y-4  text-center text-3xl font-semibold text-primary"
-      >
-        Le réseau RIOT TECH
-      </VisibleElement>
-      <section className=" flex flex-wrap justify-between gap-6 p-6 ">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="group flex w-80 flex-auto flex-col gap-4  "
-            id={feature.title.text}
-          >
-            <Image
-              width={100}
-              height={100}
-              src={feature.image}
-              alt={feature.altImage}
-              className="mx-auto mb-2 w-1/4"
-            />
-            <VisibleElement
-              as="h2"
-              className="relative   text-xl font-semibold text-primary"
+    <AnimateHeight display={display}>
+      <div className="relative space-y-10 bg-primary-foreground/95 pb-10 pt-6  ">
+        <h2 className="space-y-4  text-center text-3xl font-semibold text-primary">
+          Le réseau RIOT TECH
+        </h2>
+        <section className=" flex flex-wrap justify-between gap-6 p-6 ">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="group flex w-80 flex-auto flex-col gap-4  "
+              id={feature.title}
             >
-              <HoverWord className="inline-flex items-center p-2">
-                <feature.title.Icon className="mr-2  size-6 shrink-0 " />
-                {feature.title.text}
-              </HoverWord>
-            </VisibleElement>
-            <VisibleElement className="mx-auto max-w-96  text-left ">
-              {feature.description}
-            </VisibleElement>
-          </div>
-        ))}
-      </section>
-    </>
+              <Image
+                width={100}
+                height={100}
+                src={feature.image}
+                alt={feature.altImage}
+                className="mx-auto mb-2 w-1/4"
+              />
+              <h2 className="relative   text-xl font-semibold text-primary">
+                <HoverWord className="inline-flex items-center p-2">
+                  {feature.title}
+                </HoverWord>
+              </h2>
+              <div className="mx-auto max-w-96  text-left ">
+                {feature.description}
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+    </AnimateHeight>
   );
 };
 

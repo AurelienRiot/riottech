@@ -18,9 +18,9 @@ export default async function PublicLayout({
   return (
     <>
       <IsProProvider>
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <ServerCategories />
-        </Suspense>
+        </Suspense> */}
         <ModalProvider />
         <NavBar />
         <div className="pt-16 ">{children}</div>

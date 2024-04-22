@@ -1,3 +1,4 @@
+"use client";
 import {
   Accordion,
   AccordionContent,
@@ -6,50 +7,24 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-const ButtonRedirection = () => {
-  const button = [
-    {
-      name: "Vous/votre entreprise ?",
-      url: "#",
-    },
-    {
-      name: "Vos clients afin qu’ils puissent utiliser vos produits ?",
-      url: "#",
-    },
-  ];
-
-  return (
-    <>
-      <h2 className="mb-8 text-3xl font-bold">
-        Vous avez besoin d’internet pour :
-      </h2>
-      <div className="flex w-full flex-wrap items-center justify-center gap-4 pb-10 pl-6 pr-6 ">
-        {button.map((item) => (
-          <Button
-            key={item.name}
-            asChild
-            className="h-fit w-full max-w-[500px] py-5 text-lg font-bold"
-          >
-            <Link href={item.url}>{item.name}</Link>
-          </Button>
-        ))}
-      </div>
-      <ButtonRedirectionV2 />
-    </>
-  );
-};
+import Reseau4GPage from "./reseau-4G";
+import { useState } from "react";
+import { FcHome } from "react-icons/fc";
+import { TbBusinessplan } from "react-icons/tb";
 
 const ButtonRedirectionV2 = () => {
+  const [display, setDisplay] = useState<string | undefined>(undefined);
   const button = [
     {
       name: "Internet pour vous/votre entreprise ?",
       content: " Yes. It adheres to the WAI-ARIA design pattern.",
+      Icone: FcHome,
     },
     {
       name: "Vos clients afin qu’ils puissent utiliser vos produits ?",
       content:
         "  Yes. It comes with default styles that matches the other components' aesthetic.",
+      Icone: TbBusinessplan,
     },
   ];
   return (
@@ -57,19 +32,27 @@ const ButtonRedirectionV2 = () => {
       <h2 className="mb-8 text-3xl font-bold">
         Vous avez besoin d’internet pour :
       </h2>
-      <Accordion type="multiple" className="w-full max-w-4xl px-6">
-        {button.map((item) => (
-          <AccordionItem key={item.name} value={item.name}>
+      <Accordion
+        type="single"
+        className="w-full max-w-4xl space-y-4 px-6"
+        value={display}
+        collapsible
+        onValueChange={setDisplay}
+      >
+        {button.map(({ name, content, Icone }) => (
+          <AccordionItem key={name} value={name}>
             <AccordionTrigger
-              className="justify-center gap-4 text-xl"
+              className="justify-center gap-4 rounded-lg bg-primary text-xl text-primary-foreground"
               classNameIcon=" size-6"
             >
-              {item.name}
+              <Icone className="mr-2  size-6 shrink-0 " />
+              {name}
             </AccordionTrigger>
-            <AccordionContent>{item.content}</AccordionContent>
+            <AccordionContent>{content}</AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
+      <Reseau4GPage display={!!display} />
     </>
   );
 };

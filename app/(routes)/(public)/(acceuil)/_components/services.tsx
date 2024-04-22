@@ -7,11 +7,10 @@ const ServicePage = () => {
   return (
     <>
       <div className="z-10 flex flex-col items-center pt-10 text-center font-bold text-white">
-        <h1 className="text-3xl font-bold ">Nos Services</h1>
         <Separator className="mt-2 w-24 bg-white" />
-        <p className="m-4 text-center ">
+        <p className="m-4 max-w-xl text-center text-base md:text-lg lg:text-xl">
           RIOT TECH commercialise et installe des solutions de surveillance
-          vidéo et de connectivité en milieu rurale et agricole
+          vidéo et de connectivité en milieu rurale et agricole.
         </p>
 
         <div className="mx-6 my-10 flex w-full flex-wrap  justify-evenly  gap-20 font-bold transition-all duration-500  ease-in-out min-[880px]:has-[:hover]:mb-[320px]  ">

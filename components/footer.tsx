@@ -8,7 +8,7 @@ const Footer = () => {
       <footer className="space-y-4 border-t bg-background/90 py-6">
         <div className="mx-auto ">
           <p className="text-center text-xs text-primary">
-            &copy; {currentYear} RIOT TECH, Inc All right reserved.
+            &copy; {currentYear} RIOT TECH. Tous droits réservés.
           </p>
         </div>
         <div className="mx-auto">
