@@ -5,12 +5,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Reseau4GPage from "./reseau-4G";
 import { useState } from "react";
 import { FcHome } from "react-icons/fc";
 import { TbBusinessplan } from "react-icons/tb";
+import Reseau4GPage from "./reseau-4G";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ButtonRedirectionV2 = () => {
   const [display, setDisplay] = useState<string | undefined>(undefined);
@@ -21,7 +20,7 @@ const ButtonRedirectionV2 = () => {
       Icone: FcHome,
     },
     {
-      name: "Vos clients afin qu’ils puissent utiliser vos produits ?",
+      name: "Internet pour vos clients afin qu’ils puissent utiliser vos produits ?",
       content:
         "  Yes. It comes with default styles that matches the other components' aesthetic.",
       Icone: TbBusinessplan,
@@ -42,7 +41,7 @@ const ButtonRedirectionV2 = () => {
         {button.map(({ name, content, Icone }) => (
           <AccordionItem key={name} value={name}>
             <AccordionTrigger
-              className="justify-center gap-4 rounded-lg bg-primary text-xl text-primary-foreground"
+              className="justify-center gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground"
               classNameIcon=" size-6"
             >
               <Icone className="mr-2  size-6 shrink-0 " />

@@ -1,5 +1,4 @@
 import ButtonRedirectionV2 from "./_components/button-redirection";
-import Reseau4GPage from "./_components/reseau-4G";
 
 const SolutionInternetPage = () => {
   return (

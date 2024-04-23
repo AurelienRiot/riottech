@@ -13,7 +13,7 @@ const ServicePage = () => {
           vidéo et de connectivité en milieu rurale et agricole.
         </p>
 
-        <div className="mx-6 my-10 flex w-full flex-wrap  justify-evenly  gap-20 font-bold transition-all duration-500  ease-in-out min-[880px]:has-[:hover]:mb-[320px]  ">
+        <div className="mx-6 my-10 flex w-full flex-wrap  justify-evenly  gap-20 font-bold transition-all duration-500  ease-out min-[880px]:has-[:hover]:mb-[320px]  ">
           <CardHover
             link="/solution-internet"
             image="/levels-of-connection.png"

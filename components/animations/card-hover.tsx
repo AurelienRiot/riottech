@@ -23,7 +23,7 @@ const CardHover = ({
       {...props}
     >
       <div className=" relative flex justify-between ">
-        <div className="group relative   transition-all duration-500  ease-in-out max-[880px]:hover:mb-[300px] ">
+        <div className="group relative   transition-all duration-500  ease-out max-[880px]:hover:mb-[300px] ">
           <div
             className="absolute  inset-0 z-10  min-h-[300px] max-w-[400px]  rounded-2xl bg-gray-600  shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all  duration-500  group-hover:rounded-b-none group-hover:bg-green-600 group-hover:shadow-none
   "

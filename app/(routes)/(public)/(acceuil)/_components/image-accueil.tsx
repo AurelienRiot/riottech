@@ -1,12 +1,14 @@
 "use client";
 import ImageFerme from "@/public/dairy_cows.webp";
 import ImageFermePlaceholder from "@/public/dairy_cows_placeholder.webp";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { easeInOut, motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 const ImageAccueil = () => {
   const { scrollYProgress } = useScroll();
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 2]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.5], {
+    ease: easeInOut,
+  });
   // const y = useTransform(scrollY, [0, 1], [0, 1], { clamp: false });
 
   // const Video = () => {
@@ -36,11 +38,12 @@ const ImageAccueil = () => {
         placeholder="blur"
         blurDataURL={ImageFermePlaceholder.src}
         alt="image background"
+        sizes="100vw"
         width={3859}
         height={2500}
-        className="absolute left-0 top-0 h-full w-full object-cover object-center "
+        className="absolute left-0 top-0 h-full w-full object-cover object-center  "
       />
-      <div className="absolute left-0 top-0 h-full w-full bg-black/40 " />
+      <div className="absolute left-0 top-0 h-full w-full bg-black/50 " />
     </motion.div>
   );
 };

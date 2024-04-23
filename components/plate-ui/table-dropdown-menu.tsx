@@ -34,7 +34,7 @@ import GridCells from "@/app/(routes)/admin/products/[productId]/components/grid
 export function TableDropdownMenu(props: DropdownMenuProps) {
   const tableSelected = useEditorSelector(
     (editor) => someNode(editor, { match: { type: ELEMENT_TABLE } }),
-    []
+    [],
   );
 
   const editor = useEditorRef();
@@ -50,9 +50,9 @@ export function TableDropdownMenu(props: DropdownMenuProps) {
 
       <DropdownMenuContent
         align="center"
-        className="flex w-[180px] min-w-0 flex-col gap-0.5"
+        className="flex w-[190px] min-w-0 flex-col gap-0.5"
       >
-        <DropdownMenuItem className="min-w-[180px] flex flex-col h-full ">
+        <DropdownMenuItem className="flex h-full min-w-[180px] flex-col ">
           <div className="flex">
             <Icons.add className={iconVariants({ variant: "menuItem" })} />
             Inserér un tableau
