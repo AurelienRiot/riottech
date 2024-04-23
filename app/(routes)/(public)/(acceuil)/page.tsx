@@ -9,10 +9,10 @@ const HomePage = async () => {
       <ImageAccueil />
       <Container>
         <div className=" mt-12 flex h-full w-full flex-col items-center rounded-t-xl bg-transparent  pt-6  ">
-          <h1 className="text-5xl font-bold text-white md:text-7xl">
+          <h1 className="text-5xl font-bold tracking-tight text-neutral-50 md:text-7xl">
             Bienvenue{" "}
           </h1>
-          <p className="text-2xl font-bold text-white sm:text-3xl md:text-5xl">
+          <p className="text-2xl font-bold tracking-tight text-neutral-50 sm:text-3xl md:text-5xl">
             sur RIOT TECH
           </p>
 

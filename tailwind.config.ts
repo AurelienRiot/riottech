@@ -24,6 +24,11 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xs: "400px",
+        "2xl": "1400px",
+        "3xl": "1700px",
+      },
       fontFamily: {
         Inter: ["var(--font-inter)"],
         Pacifico: ["var(--font-pacifico)"],
