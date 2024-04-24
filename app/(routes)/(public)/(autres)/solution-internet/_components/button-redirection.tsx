@@ -23,7 +23,7 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <div className="mx-auto max-w-5xl space-y-6 text-lg ">
+        <>
           <p>
             {
               "Nous sommes spécialisés dans le raccordement à internet tout terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises."
@@ -96,7 +96,7 @@ const ButtonRedirectionV2 = () => {
             </li>
             <li className="text-base"> Un contact SAV privilégié</li>
           </ul>{" "}
-        </div>
+        </>
       ),
       Icone: TbBusinessplan,
     },
@@ -112,7 +112,7 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <div className="mx-auto max-w-5xl space-y-6 text-center ">
+        <>
           <p>
             <strong>
               Nous sommes spécialisés dans le raccordement à internet
@@ -130,7 +130,7 @@ const ButtonRedirectionV2 = () => {
             <em>Expliquez-nous vos besoins</em>, nous reviendrons vers vous avec
             une solution adaptée et à un prix abordable.
           </p>
-        </div>
+        </>
       ),
       Icone: FcHome,
     },
@@ -146,17 +146,19 @@ const ButtonRedirectionV2 = () => {
         collapsible
       >
         {button.map(({ name, content, Icone }, idx) => (
-          <AccordionItem key={idx} value={String(idx)} className="border-0">
+          <AccordionItem key={idx} value={String(idx)} className="border-0 ">
             <AccordionTrigger
-              className="mx-auto max-w-4xl justify-center  gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground"
+              className="mx-auto max-w-4xl justify-center  gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground  data-[state=open]:rounded-b-none data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground"
               classNameIcon=" size-6"
               // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <Icone className="mr-2  size-6 shrink-0 " />
               {name}
             </AccordionTrigger>
-            <AccordionContent className="mx-auto space-y-4 p-4 text-left text-base">
-              {content}
+            <AccordionContent className="mx-auto space-y-4  text-left text-base ">
+              <div className="mx-auto max-w-5xl space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
+                {content}
+              </div>
               <Reseau4GPage />
               <ContactForm
                 title="Parlez nous de votre problématique"

@@ -102,7 +102,7 @@ const Reseau4GPage = () => {
   ];
 
   return (
-    <div className="relative space-y-10 bg-gradient-to-b  from-background via-primary-foreground/95 to-background pb-10 pt-6  ">
+    <div className="relative space-y-10  pb-10 pt-6  ">
       <h2 className="space-y-4  text-center text-3xl font-semibold text-primary">
         Le réseau RIOT TECH
       </h2>
