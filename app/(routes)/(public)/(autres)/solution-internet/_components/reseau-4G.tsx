@@ -1,11 +1,8 @@
-import Image from "next/image";
+import { AnimateHeight } from "@/components/animations/animate-size";
 import "@/components/animations/hover-text/style.css";
 import HoverWord from "@/components/animations/hover-word";
-import { Antenna, Signal } from "lucide-react";
-import { ImConnection } from "react-icons/im";
-import { MdDesignServices, MdWarningAmber } from "react-icons/md";
+import Image from "next/image";
 import { ScrollToTargetSpan } from "./scroll-to-target";
-import { AnimateHeight } from "@/components/animations/animate-size";
 
 type Feature = {
   image: string;
@@ -22,6 +19,10 @@ const Reseau4GPage = ({ display }: { display: boolean }) => {
       title: "4 Opérateurs en 1 !",
       description: (
         <p>
+          {
+            " RIOT TECH s'est allié avec les 4 opérateurs Français (Orange, Bouygues, SFR et Free) pour vous fournir un service inédit !"
+          }
+          <br />
           Grâce à cette collaboration, nous pouvons vous proposer des cartes SIM
           intelligentes, multi opérateurs, qui choisira pour vous le meilleur
           opérateur à capter selon votre emplacement.
@@ -36,7 +37,7 @@ const Reseau4GPage = ({ display }: { display: boolean }) => {
       description: (
         <p>
           {
-            " Une fois activée dans votre routeur ou autre appareil compatible, la carte SIM RIOT TECH vas scanner les réseaux 5G,4G et 3G des 4 opérateurs en France (Orange, Bouygues, SFR et Free) de manière à se connecter sur l’antenne relais la plus proche et avec la meilleure vitesse de connexion possible."
+            " Une fois activée dans votre routeur ou autre appareil compatible, la carte SIM RIOT TECH va scanner les réseaux 5G,4G et 3G des 4 opérateurs en France (Orange, Bouygues, SFR et Free) de manière à se connecter sur l’antenne relais la plus proche et avec la meilleure vitesse de connexion possible."
           }
         </p>
       ),
@@ -95,7 +96,7 @@ const Reseau4GPage = ({ display }: { display: boolean }) => {
           La garantie à vie est valable uniquement sur les équipements RIOT TECH
           avec cartes SIM préinstallées vendus par RIOT TECH ou ses partenaires
           et sous condition de maintien de la souscription à un abonnement RIOT
-          TECH 4G.
+          TECH.
         </p>
       ),
     },

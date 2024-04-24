@@ -1,12 +1,10 @@
-"use client";
-
 import CardHover from "@/components/animations/card-hover";
 import { Separator } from "@/components/ui/separator";
 
 const ServicePage = () => {
   return (
     <>
-      <div className="z-10 flex flex-col items-center pt-10 text-center font-bold text-neutral-50">
+      <div className="z-10 flex flex-col items-center pt-10  font-bold text-neutral-50">
         <Separator className="mt-2 w-24 bg-white" />
         <p className="m-4 max-w-xl text-center text-base tracking-wide md:text-lg lg:text-xl">
           RIOT TECH commercialise et installe des solutions de surveillance

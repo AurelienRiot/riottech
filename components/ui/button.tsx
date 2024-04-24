@@ -26,7 +26,7 @@ const buttonVariants = cva(
         shadow:
           " bg-green-500 border-2 shadow-[-5px_5px_0_black] dark:shadow-[-5px_5px_0_white] hover:bg-green-500/90 border-black active:shadow-none dark:active:shadow-none",
         expandIcon:
-          "group relative text-primary-foreground bg-primary hover:bg-primary/90",
+          "group/button relative text-primary-foreground bg-primary hover:bg-primary/90",
         ringHover:
           "bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2",
         shine:
@@ -97,13 +97,13 @@ const Button = React.forwardRef<
         {...props}
       >
         {Icon && iconPlacement === "left" && (
-          <div className="group-hover:translate-x-100 w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:pr-2 group-hover:opacity-100 ">
+          <div className="group-hover/button:translate-x-100 w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover/button:w-5 group-hover/button:pr-2 group-hover/button:opacity-100 ">
             <Icon />
           </div>
         )}
         <Slottable>{props.children}</Slottable>
         {Icon && iconPlacement === "right" && (
-          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:ml-2 group-hover:w-5 group-hover:translate-x-0 group-hover:opacity-100 ">
+          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover/button:ml-2 group-hover/button:w-5 group-hover/button:translate-x-0 group-hover/button:opacity-100 ">
             <Icon />
           </div>
         )}
