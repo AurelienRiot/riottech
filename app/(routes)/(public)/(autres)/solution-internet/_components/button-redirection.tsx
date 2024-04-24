@@ -1,17 +1,15 @@
-"use client";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useState } from "react";
 import { FcHome } from "react-icons/fc";
 import { TbBusinessplan } from "react-icons/tb";
 import Reseau4GPage from "./reseau-4G";
+import { ContactForm } from "@/components/contact-form";
 
 const ButtonRedirectionV2 = () => {
-  const [display, setDisplay] = useState<string | undefined>(undefined);
   const button = [
     {
       name: (
@@ -25,70 +23,80 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <>
-          <p className="mb-4 text-lg">
+        <div className="space-y-6 text-lg ">
+          <p>
             {
-              "Nous sommes spécialisés dans le raccordement à internet tout terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises. Nous fournissons au besoin, l'équipement, le service (Carte SIM + abonnement multi-opérateurs) et la plateforme de suivi et diagnostic à distance de vos connexions."
-            }
-            <br />
-            {
-              "Nous pouvons également gérer les abonnements de vos clients, facturation mensuelle et SAV. RIOT TECH propose des solutions sur-mesure afin d'intégrer la connexion internet directement dans vos produits. Pour vous débarrasser de la problématique 'Connexion à internet' pour vendre vos produits, RIOT TECH saura vous satisfaire. "
+              "Nous sommes spécialisés dans le raccordement à internet tout terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises."
             }
           </p>
-          <p className="mt-5 text-lg font-semibold">
-            Exemple de solutions possibles :
+          <p>
+            {" "}
+            {
+              "Nous fournissons au besoin, l'équipement, le service (Carte SIM + abonnement multi-opérateurs) et la plateforme de suivi et diagnostic à distance de vos connexions."
+            }
           </p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
+          <p>
+            {
+              "Nous pouvons également gérer les abonnements de vos clients, facturation mensuelle et SAV.  "
+            }
+          </p>
+          <p>
+            {
+              "RIOT TECH propose des solutions sur-mesure afin d'intégrer la connexion internet directement dans vos produits. Pour vous débarrasser de la problématique 'Connexion à internet' pour vendre vos produits, RIOT TECH saura vous satisfaire."
+            }
+          </p>
+          <p className=" font-semibold">Exemple de solutions possibles :</p>
+          <ul className="list-disc space-y-4 py-2 pl-6">
+            <li className="text-base">
               {
                 "Fourniture de l'équipement (au tarif revendeur) et facturation des consommations globales de la flotte utilisée sur le mois."
               }
             </li>
-            <li>
+            <li className="text-base">
               Vous avez la liberté de refacturer ou non l’abonnement au client
               final.
             </li>
-            <li>
+            <li className="text-base">
               Toute SIM non utilisée dans le mois ne vous est pas facturée.
             </li>
-            <li>
+            <li className="text-base">
               Vous avez la liberté d’utiliser une SIM 1 mois arrêter le mois
               suivant, l’activer à nouveau, etc, sans limite et sans frais.
             </li>
           </ul>
-          <p className="mt-4 text-lg">
+          <p>
             {
               "Fourniture de l’équipement (au tarif revendeur) prêt à être activé et fourniture d'instructions pour que le client final active son abonnement en ligne en 5 minutes. Cette solution inclut également la gestion des abonnements et la facturation directe avec le client final par RIOT TECH."
             }
           </p>
-          <p className="mt-4 text-lg">
+          <p>
             Vous n’avez aucune facturation à gérer, tout en gardant le suivit et
             diagnostic à distance des connexions de vos clients.
           </p>
-          <p className="mt-4 text-lg">
+          <p>
             {
               " Vous avez aussi la possibilité de solliciter spontanément RIOT TECH pour une solution de connectivité sur le terrain (uniquement en Bretagne). RIOT TECH se déplace gratuitement pour établir un devis, évaluer la faisabilité ou directement installer l’équipement et souscrire l'abonnement avec le client. "
             }
           </p>
-          <p className="mt-5 text-lg font-semibold">Rappel des Avantages :</p>
-          <ul className="list-disc space-y-2 pl-5">
-            <li>
+          <p className=" font-semibold">Rappel des Avantages :</p>
+          <ul className="list-disc space-y-4 py-2 pl-6">
+            <li className="text-base">
               Une connexion prête en 5 minutes en toutes les circonstances.
             </li>
-            <li>
+            <li className="text-base">
               Une qualité d’accès garanti grâce à la connectivité multi
               opérateurs (5G, 4G, 3G).
             </li>
-            <li>
+            <li className="text-base">
               {" Garantie à vie de l'équipement (Si fournit par RIOT TECH)."}
             </li>
-            <li>
+            <li className="text-base">
               SAV et diagnostic à distance de toutes vos connexions via notre
               interface en ligne.
             </li>
-            <li> Un contact SAV privilégié</li>
+            <li className="text-base"> Un contact SAV privilégié</li>
           </ul>{" "}
-        </>
+        </div>
       ),
       Icone: TbBusinessplan,
     },
@@ -104,7 +112,7 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <div className="text-left">
+        <div className="space-y-6 text-center">
           <p>
             <strong>
               Nous sommes spécialisés dans le raccordement à internet
@@ -134,28 +142,27 @@ const ButtonRedirectionV2 = () => {
       </h2>
       <Accordion
         type="single"
-        className="my-6 w-full max-w-4xl space-y-4 px-6"
-        value={display}
+        className="my-6 w-full max-w-5xl space-y-4 px-6"
         collapsible
-        onValueChange={setDisplay}
       >
         {button.map(({ name, content, Icone }, idx) => (
           <AccordionItem key={idx} value={String(idx)}>
             <AccordionTrigger
               className="justify-center gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground"
               classNameIcon=" size-6"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <Icone className="mr-2  size-6 shrink-0 " />
               {name}
             </AccordionTrigger>
-            <AccordionContent className="mx-auto p-4 text-left text-base">
+            <AccordionContent className="mx-auto space-y-4 p-4 text-left text-base">
               {content}
+              <Reseau4GPage />
+              <ContactForm title="Parlez nous de votre problématique" />
             </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
-      <Reseau4GPage display={!!display} />
     </>
   );
 };

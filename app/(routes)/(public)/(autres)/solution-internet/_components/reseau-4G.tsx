@@ -1,4 +1,3 @@
-import { AnimateHeight } from "@/components/animations/animate-size";
 import "@/components/animations/hover-text/style.css";
 import HoverWord from "@/components/animations/hover-word";
 import Image from "next/image";
@@ -11,7 +10,7 @@ type Feature = {
   description: React.ReactNode;
 };
 
-const Reseau4GPage = ({ display }: { display: boolean }) => {
+const Reseau4GPage = () => {
   const features: Feature[] = [
     {
       image: "signal2.svg",
@@ -103,38 +102,36 @@ const Reseau4GPage = ({ display }: { display: boolean }) => {
   ];
 
   return (
-    <AnimateHeight display={display}>
-      <div className="relative space-y-10 bg-primary-foreground/95 pb-10 pt-6  ">
-        <h2 className="space-y-4  text-center text-3xl font-semibold text-primary">
-          Le réseau RIOT TECH
-        </h2>
-        <section className=" flex flex-wrap justify-between gap-6 p-6 ">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="group flex w-80 flex-auto flex-col gap-4  "
-              id={feature.title}
-            >
-              <Image
-                width={100}
-                height={100}
-                src={feature.image}
-                alt={feature.altImage}
-                className="mx-auto mb-2 w-1/4"
-              />
-              <h2 className="relative   text-xl font-semibold text-primary">
-                <HoverWord className="inline-flex items-center p-2">
-                  {feature.title}
-                </HoverWord>
-              </h2>
-              <div className="mx-auto max-w-96  text-left ">
-                {feature.description}
-              </div>
+    <div className="relative space-y-10 bg-gradient-to-b  from-background via-primary-foreground/95 to-background pb-10 pt-6  ">
+      <h2 className="space-y-4  text-center text-3xl font-semibold text-primary">
+        Le réseau RIOT TECH
+      </h2>
+      <section className=" flex flex-wrap justify-between gap-6 p-6 ">
+        {features.map((feature, index) => (
+          <div
+            key={index}
+            className="group flex w-80 flex-auto flex-col gap-4  "
+            id={feature.title}
+          >
+            <Image
+              width={100}
+              height={100}
+              src={feature.image}
+              alt={feature.altImage}
+              className="mx-auto mb-2 w-1/4"
+            />
+            <h2 className="relative   text-xl font-semibold text-primary">
+              <HoverWord className="inline-flex items-center p-2">
+                {feature.title}
+              </HoverWord>
+            </h2>
+            <div className="mx-auto max-w-96  text-left ">
+              {feature.description}
             </div>
-          ))}
-        </section>
-      </div>
-    </AnimateHeight>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 };
 
