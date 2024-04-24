@@ -110,7 +110,7 @@ const Reseau4GPage = () => {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="group flex w-80 flex-auto flex-col gap-4  "
+            className="group flex w-96 flex-auto flex-col gap-4  "
             id={feature.title}
           >
             <Image
@@ -118,14 +118,14 @@ const Reseau4GPage = () => {
               height={100}
               src={feature.image}
               alt={feature.altImage}
-              className="mx-auto mb-2 w-1/4"
+              className="mx-auto mb-2 h-20 w-20"
             />
-            <h2 className="relative   text-xl font-semibold text-primary">
+            <h2 className="relative   text-center text-xl font-semibold text-primary">
               <HoverWord className="inline-flex items-center p-2">
                 {feature.title}
               </HoverWord>
             </h2>
-            <div className="mx-auto max-w-96  text-left ">
+            <div className="mx-auto max-w-96  text-center ">
               {feature.description}
             </div>
           </div>

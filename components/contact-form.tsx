@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -59,7 +60,13 @@ const formSchema = z.object({
 
 export type ContactFormValues = z.infer<typeof formSchema>;
 
-export const ContactForm = ({ title }: { title: string }) => {
+export const ContactForm = ({
+  title,
+  className,
+}: {
+  title: string;
+  className?: string;
+}) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -91,7 +98,7 @@ export const ContactForm = ({ title }: { title: string }) => {
   };
 
   return (
-    <div className="mx-auto space-y-6 p-8">
+    <div className={cn("mx-auto space-y-6 p-8", className)}>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}

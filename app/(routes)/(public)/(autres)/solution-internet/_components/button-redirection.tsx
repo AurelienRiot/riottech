@@ -23,7 +23,7 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <div className="space-y-6 text-lg ">
+        <div className="mx-auto max-w-5xl space-y-6 text-lg ">
           <p>
             {
               "Nous sommes spécialisés dans le raccordement à internet tout terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises."
@@ -112,7 +112,7 @@ const ButtonRedirectionV2 = () => {
         </h2>
       ),
       content: (
-        <div className="space-y-6 text-center">
+        <div className="mx-auto max-w-5xl space-y-6 text-center ">
           <p>
             <strong>
               Nous sommes spécialisés dans le raccordement à internet
@@ -142,13 +142,13 @@ const ButtonRedirectionV2 = () => {
       </h2>
       <Accordion
         type="single"
-        className="my-6 w-full max-w-5xl space-y-4 px-6"
+        className="my-6 w-full space-y-4 px-6"
         collapsible
       >
         {button.map(({ name, content, Icone }, idx) => (
-          <AccordionItem key={idx} value={String(idx)}>
+          <AccordionItem key={idx} value={String(idx)} className="border-0">
             <AccordionTrigger
-              className="justify-center gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground"
+              className="mx-auto max-w-4xl justify-center  gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground"
               classNameIcon=" size-6"
               // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
@@ -158,7 +158,10 @@ const ButtonRedirectionV2 = () => {
             <AccordionContent className="mx-auto space-y-4 p-4 text-left text-base">
               {content}
               <Reseau4GPage />
-              <ContactForm title="Parlez nous de votre problématique" />
+              <ContactForm
+                title="Parlez nous de votre problématique"
+                className="max-w-5xl"
+              />
             </AccordionContent>
           </AccordionItem>
         ))}
