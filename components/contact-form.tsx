@@ -25,6 +25,7 @@ import { MdSend } from "react-icons/md";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 import * as z from "zod";
+import { Heading } from "./ui/heading";
 
 const formSchema = z.object({
   name: z
@@ -36,6 +37,7 @@ const formSchema = z.object({
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "Veuillez entrer votre email" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
+  subject: z.string(),
   phone: z.string().refine(
     (value) => {
       return isValidPhoneNumber(value);
@@ -63,8 +65,10 @@ export type ContactFormValues = z.infer<typeof formSchema>;
 export const ContactForm = ({
   title,
   className,
+  subject = "Demande de contact",
 }: {
   title: string;
+  subject?: string;
   className?: string;
 }) => {
   const router = useRouter();
@@ -77,6 +81,7 @@ export const ContactForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       inBretagne: true,
+      subject,
     },
   });
 
@@ -105,9 +110,12 @@ export const ContactForm = ({
         onConfirm={handleModalConfirm}
         loading={loading}
       />
-      <div id="form" className="flex items-center justify-between ">
-        <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
-      </div>
+      <Heading
+        id="form"
+        description="Obtenez un devis adapté"
+        title={title}
+        className="space-y-2"
+      />
       <Separator />
       <Form {...form}>
         <form

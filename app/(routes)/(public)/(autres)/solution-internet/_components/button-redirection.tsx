@@ -98,6 +98,7 @@ const ButtonRedirectionV2 = () => {
           </ul>{" "}
         </>
       ),
+      subject: "Connexion Internet client",
       Icone: TbBusinessplan,
     },
     {
@@ -111,6 +112,7 @@ const ButtonRedirectionV2 = () => {
           </span>
         </h2>
       ),
+      subject: "Connexion Internet personnel",
       content: (
         <>
           <p>
@@ -145,7 +147,7 @@ const ButtonRedirectionV2 = () => {
         className="my-6 w-full space-y-4 px-6"
         collapsible
       >
-        {button.map(({ name, content, Icone }, idx) => (
+        {button.map(({ name, content, Icone, subject }, idx) => (
           <AccordionItem key={idx} value={String(idx)} className="border-0 ">
             <AccordionTrigger
               className="mx-auto max-w-4xl justify-center  gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground  data-[state=open]:rounded-b-none data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground"
@@ -161,8 +163,9 @@ const ButtonRedirectionV2 = () => {
               </div>
               <Reseau4GPage />
               <ContactForm
-                title="Parlez nous de votre problématique"
+                title="Parlez nous de votre problématique :"
                 className="max-w-5xl"
+                subject={subject}
               />
             </AccordionContent>
           </AccordionItem>

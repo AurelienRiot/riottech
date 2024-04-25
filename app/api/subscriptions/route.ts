@@ -36,18 +36,18 @@ export async function POST(req: Request) {
       });
     }
 
-    if (!description) {
-      return new NextResponse("La description de l'abonnement est necessaire", {
-        status: 400,
-      });
-    }
+    // if (!description) {
+    //   return new NextResponse("La description de l'abonnement est necessaire", {
+    //     status: 400,
+    //   });
+    // }
 
     if (!recurrence) {
       return new NextResponse("La récurrence est nécessaire", { status: 400 });
     }
 
     if (!dataCap) {
-      return new NextResponse("La limite de donnée est nécessaire", {
+      return new NextResponse("La limite de donnée est necessaire", {
         status: 400,
       });
     }

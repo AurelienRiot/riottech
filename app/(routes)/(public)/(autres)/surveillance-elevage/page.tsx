@@ -1,5 +1,5 @@
+import { ContactForm } from "@/components/contact-form";
 import ButtonSurveillance from "./components/button-surveillance";
-import { ContactForm } from "./components/form";
 import ImageV2 from "./components/image-v2";
 import RiotTechFeatures from "./components/riot-tech-features";
 
@@ -9,7 +9,11 @@ const SurveillanceElevage = async () => {
       <ImageV2 />
       <ButtonSurveillance />
       <RiotTechFeatures />
-      <ContactForm />
+      <ContactForm
+        title="Parlez nous de votre projet :"
+        className="max-w-5xl"
+        subject={"Surveillance Elevage"}
+      />
     </>
   );
 };

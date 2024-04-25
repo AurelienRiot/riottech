@@ -13,6 +13,7 @@ async function createContact({
   name,
   message,
   phone,
+  subject,
   postalCode,
 }: ContactFormValues): Promise<ContactReturnType> {
   try {
@@ -23,7 +24,7 @@ async function createContact({
         message,
         phone,
         postalCode,
-        subject: "Demande de contact",
+        subject,
       },
     });
 

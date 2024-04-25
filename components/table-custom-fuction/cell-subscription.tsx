@@ -11,7 +11,7 @@ function RecurrenceCell<T>({ row }: { row: Row<RecurrenceCellProps<T>> }) {
     case "month":
       return "Mensuel";
     case "year":
-      return "Anuel";
+      return "Annuel";
     case "day":
       return "Journalier";
     case "week":
