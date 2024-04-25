@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { ScrollToForm } from "./scroll-to-target";
 
 const ButtonSurveillance = () => {
   return (
@@ -61,12 +62,6 @@ const CardSurveillance = ({
   content: React.ReactNode;
   image: string;
 }) => {
-  const scrollToForm = () => {
-    const form = document.getElementById("form");
-    if (form) {
-      form.scrollIntoView({ behavior: "smooth" });
-    }
-  };
   return (
     <Card className="relative flex h-full max-w-md flex-col justify-between">
       <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
@@ -86,9 +81,7 @@ const CardSurveillance = ({
       </div>
       <CardFooter className="relative flex items-center justify-center">
         {" "}
-        <Button className="hover:underline" onClick={scrollToForm}>
-          Parlez nous de votre projet
-        </Button>
+        <ScrollToForm text="Parlez nous de votre projet" />
       </CardFooter>
     </Card>
   );

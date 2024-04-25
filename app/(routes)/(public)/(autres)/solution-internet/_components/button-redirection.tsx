@@ -1,3 +1,4 @@
+import { ContactForm } from "@/components/contact-form";
 import {
   Accordion,
   AccordionContent,
@@ -6,10 +7,14 @@ import {
 } from "@/components/ui/accordion";
 import { FcHome } from "react-icons/fc";
 import { TbBusinessplan } from "react-icons/tb";
+import { ScrollToForm } from "../../surveillance-elevage/components/scroll-to-target";
 import Reseau4GPage from "./reseau-4G";
-import { ContactForm } from "@/components/contact-form";
 
-const ButtonRedirectionV2 = () => {
+const ButtonRedirectionV2 = ({
+  initialButton,
+}: {
+  initialButton: string | undefined;
+}) => {
   const button = [
     {
       name: (
@@ -96,9 +101,10 @@ const ButtonRedirectionV2 = () => {
             </li>
             <li className="text-base"> Un contact SAV privilégié</li>
           </ul>{" "}
+          <ScrollToForm text="Connaitre les prix" />
         </>
       ),
-      subject: "Connexion Internet client",
+      subject: "Revendeur-Intégration",
       Icone: TbBusinessplan,
     },
     {
@@ -146,13 +152,13 @@ const ButtonRedirectionV2 = () => {
         type="single"
         className="my-6 w-full space-y-4 px-6"
         collapsible
+        defaultValue={initialButton}
       >
-        {button.map(({ name, content, Icone, subject }, idx) => (
-          <AccordionItem key={idx} value={String(idx)} className="border-0 ">
+        {button.map(({ name, content, Icone, subject }) => (
+          <AccordionItem key={subject} value={subject} className="border-0 ">
             <AccordionTrigger
               className="mx-auto max-w-4xl justify-center  gap-4 rounded-lg bg-primary px-2 text-xl text-primary-foreground  data-[state=open]:rounded-b-none data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground"
               classNameIcon=" size-6"
-              // onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <Icone className="mr-2  size-6 shrink-0 " />
               {name}
@@ -163,7 +169,8 @@ const ButtonRedirectionV2 = () => {
               </div>
               <Reseau4GPage />
               <ContactForm
-                title="Parlez nous de votre problématique :"
+                title="Parlez nous de vos besoins :"
+                description="Obtenez un devis adapté, aucune obligation ni engagement."
                 className="max-w-5xl"
                 subject={subject}
               />

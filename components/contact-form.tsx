@@ -29,30 +29,39 @@ import { Heading } from "./ui/heading";
 
 const formSchema = z.object({
   name: z
-    .string()
+    .string({
+      required_error: "Veuillez entrer votre nom",
+    })
     .min(1, { message: "Veuillez entrer votre nom" })
     .max(50, { message: "Le nom ne peut pas dépasser 50 caractères" }),
   email: z
-    .string()
+    .string({
+      required_error: "Veuillez entrer votre adresse email",
+    })
     .email({ message: "L'email doit être un email valide" })
-    .min(1, { message: "Veuillez entrer votre email" })
+    .min(1, { message: "Veuillez entrer votre adresse email" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
   subject: z.string(),
-  phone: z.string().refine(
-    (value) => {
-      return isValidPhoneNumber(value);
-    },
-    {
-      message: "Le numéro de téléphone n'est pas valide",
-    },
-  ),
+  phone: z
+    .string({
+      required_error: "Veuillez entrer votre numéro de téléphone",
+    })
+    .refine(
+      (value) => {
+        return isValidPhoneNumber(value);
+      },
+      {
+        message: "Le numéro de téléphone n'est pas valide",
+      },
+    ),
   postalCode: z.coerce
     .number({
       invalid_type_error: "Veuillez entrer un code postal valide",
+      required_error: "Veuillez entrer votre code postal",
     })
     .min(6, { message: "Veuillez entrer un code postal valide" }),
   message: z
-    .string()
+    .string({ required_error: "Veuillez entrer votre message" })
     .min(1, { message: "Veuillez entrer votre message" })
     .max(1000, { message: "Le message ne peut pas dépasser 1000 caractères" }),
   inBretagne: z.boolean().refine((value) => value === true, {
@@ -67,11 +76,11 @@ export const ContactForm = ({
   className,
   subject = "Demande de contact",
   confirmPostalCode,
-  description = "Obtenez un devis adapté",
+  description,
 }: {
   confirmPostalCode?: boolean;
   title: string;
-  description?: string;
+  description: string;
   subject?: string;
   className?: string;
 }) => {
