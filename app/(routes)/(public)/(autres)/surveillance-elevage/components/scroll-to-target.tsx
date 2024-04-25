@@ -17,7 +17,10 @@ export const ScrollToForm = ({
     }
   };
   return (
-    <Button className={cn("cursor-pointer hover:underline", className)} asChild>
+    <Button
+      className={cn("cursor-pointer text-base hover:underline", className)}
+      asChild
+    >
       <a onClick={() => scrollToForm()} aria-label="Scroll to form">
         {" "}
         {text}

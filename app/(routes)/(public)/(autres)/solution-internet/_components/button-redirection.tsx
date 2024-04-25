@@ -101,7 +101,7 @@ const ButtonRedirectionV2 = ({
             </li>
             <li className="text-base"> Un contact SAV privilégié</li>
           </ul>{" "}
-          <ScrollToForm text="Connaitre les prix" />
+          <ScrollToForm text="Connaitre les prix" className="mx-auto" />
         </>
       ),
       subject: "Revendeur-Intégration",
@@ -138,8 +138,10 @@ const ButtonRedirectionV2 = ({
             <em>Expliquez-nous vos besoins</em>, nous reviendrons vers vous avec
             une solution adaptée et à un prix abordable.
           </p>
+          <ScrollToForm text="Connaitre les prix" className="mx-auto " />
         </>
       ),
+
       Icone: FcHome,
     },
   ];
@@ -164,7 +166,7 @@ const ButtonRedirectionV2 = ({
               {name}
             </AccordionTrigger>
             <AccordionContent className="mx-auto space-y-4  text-left text-base data-[state=closed]:animate-[accordion-up_0.5s_ease] data-[state=open]:animate-[accordion-down_1s_ease]">
-              <div className="mx-auto max-w-5xl space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
+              <div className="grid-col-1 mx-auto grid max-w-5xl space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
                 {content}
               </div>
               <Reseau4GPage />
