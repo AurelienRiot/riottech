@@ -66,8 +66,12 @@ export const ContactForm = ({
   title,
   className,
   subject = "Demande de contact",
+  confirmPostalCode,
+  description = "Obtenez un devis adapté",
 }: {
+  confirmPostalCode?: boolean;
   title: string;
+  description?: string;
   subject?: string;
   className?: string;
 }) => {
@@ -112,7 +116,7 @@ export const ContactForm = ({
       />
       <Heading
         id="form"
-        description="Obtenez un devis adapté"
+        description={description}
         title={title}
         className="space-y-2"
       />
@@ -203,24 +207,26 @@ export const ContactForm = ({
                             field.onChange("");
                           }
 
-                          const shouldShowCheckbox =
-                            value.toString().length >= 2 &&
-                            !["35", "22", "29", "56"].some((prefix) =>
-                              value.toString().startsWith(prefix),
-                            );
-                          console.log(value);
-                          setShowCheckbox((prev) => {
-                            if (!prev && shouldShowCheckbox) {
-                              form.setValue("inBretagne", false);
-                              return true;
-                            }
-                            if (prev && !shouldShowCheckbox) {
-                              form.setValue("inBretagne", true);
+                          if (confirmPostalCode) {
+                            const shouldShowCheckbox =
+                              value.toString().length >= 2 &&
+                              !["35", "22", "29", "56"].some((prefix) =>
+                                value.toString().startsWith(prefix),
+                              );
+                            console.log(value);
+                            setShowCheckbox((prev) => {
+                              if (!prev && shouldShowCheckbox) {
+                                form.setValue("inBretagne", false);
+                                return true;
+                              }
+                              if (prev && !shouldShowCheckbox) {
+                                form.setValue("inBretagne", true);
 
-                              return false;
-                            }
-                            return prev;
-                          });
+                                return false;
+                              }
+                              return prev;
+                            });
+                          }
                         }}
                       />
                     </div>

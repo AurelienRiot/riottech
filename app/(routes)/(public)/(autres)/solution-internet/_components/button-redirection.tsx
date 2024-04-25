@@ -157,7 +157,7 @@ const ButtonRedirectionV2 = () => {
               <Icone className="mr-2  size-6 shrink-0 " />
               {name}
             </AccordionTrigger>
-            <AccordionContent className="mx-auto space-y-4  text-left text-base ">
+            <AccordionContent className="mx-auto space-y-4  text-left text-base data-[state=closed]:animate-[accordion-up_0.5s_ease] data-[state=open]:animate-[accordion-down_1s_ease]">
               <div className="mx-auto max-w-5xl space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
                 {content}
               </div>

@@ -12,7 +12,9 @@ const SurveillanceElevage = async () => {
       <ContactForm
         title="Parlez nous de votre projet :"
         className="max-w-5xl"
+        description=""
         subject={"Surveillance Elevage"}
+        confirmPostalCode
       />
     </>
   );
