@@ -1,12 +1,14 @@
 import prismadb from "@/lib/prismadb";
+import { getToken } from "next-auth/jwt";
 import { JWT } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
+const secret = process.env.NEXTAUTH_SECRET;
+
 export async function POST(req: NextRequest) {
   try {
-    const body = (await req.json()) as any;
+    const token = await getToken({ req, secret });
 
-    const token = body.token as JWT;
     if (!token || !token.id) {
       console.log("No token provided");
       return new NextResponse("No token provided", { status: 401 });

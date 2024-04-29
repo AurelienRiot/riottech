@@ -17,14 +17,11 @@ export async function middleware(req: NextRequest) {
   try {
     const apiResponse = await fetch(`${baseUrl}/api/auth`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ token }),
+      headers: new Headers(req.headers),
     });
 
     if (!apiResponse.ok) {
+      console.error("BaseUrl", baseUrl);
       console.error("API call failed:", apiResponse.statusText);
       return NextResponse.redirect(
         new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
@@ -56,7 +53,6 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   } catch (error) {
-    console.error("BaseUrl", baseUrl);
     console.error("API call failed:", error);
     return NextResponse.redirect(
       new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
