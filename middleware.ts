@@ -24,7 +24,9 @@ export async function middleware(req: NextRequest) {
     });
 
     if (!apiResponse.ok) {
-      new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url);
+      return NextResponse.redirect(
+        new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
+      );
     }
 
     // Optional: Handle the data from the response
@@ -34,19 +36,28 @@ export async function middleware(req: NextRequest) {
 
     if (path.startsWith("/admin")) {
       if (role !== "admin") {
-        new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url);
+        return NextResponse.redirect(
+          new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
+        );
       }
     }
 
     if (path.startsWith("/dashboard-user")) {
       if (!["user", "pro", "admin"].includes(role)) {
-        new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url);
+        return NextResponse.redirect(
+          new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
+        );
+      }
+      if (role === "admin") {
+        return NextResponse.redirect(new URL("/admin", req.url));
       }
     }
     return NextResponse.next();
   } catch (error) {
     console.error("API call failed:", error);
-    new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url);
+    return NextResponse.redirect(
+      new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
+    );
   }
 }
 

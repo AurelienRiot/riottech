@@ -125,7 +125,7 @@ const ButtonRedirectionV2 = () => {
         subject: "Connexion Internet personnel",
         content: (
           <>
-            <h3 className="text-2xl">
+            <h3 className="text-2xl font-bold">
               <span>
                 Besoin d’une connexion internet fiable et sans coupures ?
               </span>
@@ -163,9 +163,9 @@ const ButtonRedirectionV2 = () => {
   );
   return (
     <>
-      <h2 className="mb-8 text-3xl font-bold">
+      <h1 className="mb-8 text-5xl font-bold">
         Vous avez besoin d’internet pour :
-      </h2>
+      </h1>
       <Accordion
         type="single"
         className="my-6 w-full space-y-4 px-6"
