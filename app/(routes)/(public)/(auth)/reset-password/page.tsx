@@ -1,16 +1,17 @@
-import ResetPasswordForm from "./components/reset-password-form";
-
+import ResetPasswordForm from "./_components/reset-password-form";
 
 const ResetPasswordPage = () => {
-  return ( 
-
-    <div className="flex items-center justify-center w-screen h-sccreen bg-slate-100 dark:bg-slate-900">
-    <div className="px-8 pt-12 pb-8 space-y-12 sm:shadow-xl sm:bg-white sm:dark:bg-black rounded-xl text">
-    <h1 className="text-2xl font-semibold text-center">  Réinitialiser votre mot de passe</h1>
-    <ResetPasswordForm />
+  return (
+    <div className="h-sccreen flex w-screen items-center justify-center bg-slate-100 dark:bg-slate-900">
+      <div className="text space-y-12 rounded-xl px-8 pb-8 pt-12 sm:bg-white sm:shadow-xl sm:dark:bg-black">
+        <h1 className="text-center text-2xl font-semibold">
+          {" "}
+          Réinitialiser votre mot de passe
+        </h1>
+        <ResetPasswordForm />
+      </div>
     </div>
-  </div>
-   );
-}
- 
-export default ResetPasswordPage
+  );
+};
+
+export default ResetPasswordPage;

@@ -1,7 +1,7 @@
 "use client";
 import ImageFerme from "@/public/dairy_cows.webp";
+import { motion, useScroll, useTransform, easeInOut } from "framer-motion";
 import ImageFermePlaceholder from "@/public/dairy_cows_placeholder.webp";
-import { easeInOut, motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 const ImageAccueil = () => {
@@ -9,7 +9,6 @@ const ImageAccueil = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.5], {
     ease: easeInOut,
   });
-  // const y = useTransform(scrollY, [0, 1], [0, 1], { clamp: false });
 
   // const Video = () => {
   //   return (

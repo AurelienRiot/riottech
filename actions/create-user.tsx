@@ -1,4 +1,4 @@
-import { RegisterFormValues } from "@/app/(routes)/(public)/(auth)/register/components/register-form";
+import { RegisterFormValues } from "@/app/(routes)/(public)/(auth)/register/_components/register-form";
 import { User } from "@prisma/client";
 import axios from "axios";
 

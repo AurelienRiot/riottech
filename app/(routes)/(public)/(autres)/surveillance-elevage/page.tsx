@@ -1,7 +1,7 @@
 import { ContactForm } from "@/components/contact-form";
-import ButtonSurveillance from "./components/button-surveillance";
-import ImageV2 from "./components/image-v2";
-import RiotTechFeatures from "./components/riot-tech-features";
+import ButtonSurveillance from "./_components/button-surveillance";
+import ImageV2 from "./_components/image-v2";
+import RiotTechFeatures from "./_components/riot-tech-features";
 
 const SurveillanceElevage = async () => {
   return (

@@ -41,22 +41,22 @@ const NavbarAction = () => {
         className="bg-primary-foreground text-primary"
       >
         <ShoppingBag size={20} />
-        <span className="w-3 ml-1 text-sm font-medium ">0</span>
+        <span className="ml-1 w-3 text-sm font-medium ">0</span>
       </Button>
     );
   }
 
   return (
-    <div className="flex items-center ml-4 gap-x-2 sm:gap-x-4 ">
+    <div className="flex items-center  gap-x-2 sm:gap-x-4 ">
       <Link
         href={
           !session?.user
             ? "/login"
             : session.user.role === "admin"
-            ? "/admin"
-            : "/dashboard-user"
+              ? "/admin"
+              : "/dashboard-user"
         }
-        className="group flex items-center justify-center rounded-full border  p-2 text-sm sm:text-base shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground"
+        className="group flex items-center justify-center rounded-full border  p-2 text-sm shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground sm:text-base"
       >
         Mon Compte
         {/* <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " /> */}
@@ -68,10 +68,10 @@ const NavbarAction = () => {
         <SheetTrigger asChild>
           <Button
             variant={"rounded"}
-            className="bg-primary-foreground text-primary tabular-nums	"
+            className="bg-primary-foreground tabular-nums text-primary	"
           >
             <ShoppingBag size={20} />
-            <span className="w-3 ml-1 text-sm font-medium ">
+            <span className="ml-1 w-3 text-sm font-medium ">
               {totalQuantity}
             </span>
           </Button>
@@ -82,11 +82,11 @@ const NavbarAction = () => {
               <Link
                 onClick={() => setIsOpen(false)}
                 href="/cart"
-                className="flex items-center justify-center h-10 gap-2 px-4 py-2 mt-6 font-medium transition-colors rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 hover:underline"
+                className="mt-6 flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {" "}
                 Passer commande{" "}
-                <HiOutlineExternalLink className="w-4 h-4 shrink-0" />
+                <HiOutlineExternalLink className="h-4 w-4 shrink-0" />
               </Link>
             </SheetTitle>
             <SheetDescription>Contenue de votre panier</SheetDescription>
@@ -110,7 +110,7 @@ const NavbarAction = () => {
                       layout: { type: "tween" },
                       animate: { duration: 1 },
                     }}
-                    className="flex p-1 mb-4 border rounded-lg sm:border-2 sm:p-2 bg-card border-border"
+                    className="mb-4 flex rounded-lg border border-border bg-card p-1 sm:border-2 sm:p-2"
                   >
                     <CartItem data={item} />
                   </motion.li>

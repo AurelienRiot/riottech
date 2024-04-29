@@ -2,7 +2,6 @@ import GetCategories from "@/server-actions/get-categories";
 import Footer from "@/components/footer";
 import NavBar from "@/components/navbar-public/navbar";
 import ModalProvider from "@/providers/modal-provider";
-import React, { Suspense } from "react";
 import { IsProProvider } from "@/hooks/use-is-pro";
 import { CategoriesProvider } from "@/providers/categories-provider";
 import dynamic from "next/dynamic";
@@ -23,7 +22,7 @@ export default async function PublicLayout({
         </Suspense> */}
         <ModalProvider />
         <NavBar />
-        <div className="pt-16 ">{children}</div>
+        <main className="pt-16 ">{children}</main>
         <CookiesBanner />
         <Footer />
       </IsProProvider>

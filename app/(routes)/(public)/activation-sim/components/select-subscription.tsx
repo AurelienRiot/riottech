@@ -18,7 +18,7 @@ import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { RegisterForm } from "../../(auth)/register/components/register-form";
+import { RegisterForm } from "../../(auth)/register/_components/register-form";
 import { Loader2 } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
