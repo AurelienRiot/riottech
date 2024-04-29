@@ -56,6 +56,7 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   } catch (error) {
+    console.error("BaseUrl", baseUrl);
     console.error("API call failed:", error);
     return NextResponse.redirect(
       new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
