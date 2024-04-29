@@ -2,16 +2,29 @@ import Link from "next/link";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
   return (
     <>
-      <footer className="border-t bg-background/90">
-        <div className="mx-auto pb-2 pt-10">
+      <footer className="space-y-4 border-t bg-background/90 py-6">
+        <div className="mx-auto ">
           <p className="text-center text-xs text-primary">
-            &copy; {currentYear} RIOT TECH, Inc All right reserved.
+            &copy; {currentYear} RIOT TECH. Tous droits réservés.
+          </p>
+        </div>
+        <div className="mx-auto">
+          <p className="text-center text-xs text-primary">
+            Ligne directe :{" "}
+            <a className="hover:underline" href="tel:+33644839083">
+              06.44.83.90.83
+            </a>{" "}
+            ou{" "}
+            <a className="hover:underline" href="mailto:contact@riottech.fr">
+              contact@riottech.fr
+            </a>
           </p>
         </div>
         <nav>
-          <ul className="flex flex-col justify-center gap-6 pb-6 pt-2 text-center text-muted-foreground sm:flex-row ">
+          <ul className="flex flex-col justify-center gap-6  text-center text-muted-foreground sm:flex-row ">
             <li>
               <Link
                 prefetch={false}

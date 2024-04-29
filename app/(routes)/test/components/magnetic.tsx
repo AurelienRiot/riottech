@@ -56,7 +56,7 @@ const Magnetic: React.FC<MagneticProps> = ({
 
   return (
     <MotionComponent
-      className={cn("relative w-fit h-fit", className)}
+      className={cn("relative h-fit w-fit", className)}
       onMouseMove={MouseMove}
       onMouseLeave={MouseLeave}
       style={{

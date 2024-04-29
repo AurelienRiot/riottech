@@ -18,7 +18,6 @@ export const ResetPasswordEmail = ({
       resetToken={resetToken}
       baseUrl={baseUrl}
     />
-    <Footer />
   </MainBody>
 );
 

@@ -25,11 +25,11 @@ const NavBar = () => {
   });
 
   return (
-    <div
+    <header
       data-nav-state={navState}
       className={`fixed top-0 z-30 flex h-16 w-full items-center justify-center overflow-hidden border-b-2 border-border bg-background transition-all duration-300 data-[nav-state=close]:h-0 data-[nav-state=close]:border-0`}
     >
-      <Container className="relative flex h-16 items-center justify-between px-4 sm:px-6 lg:px-4">
+      <Container className="relative flex h-16 items-center justify-between px-4 ">
         <div className="flex items-center">
           <Link
             href="/"
@@ -54,7 +54,7 @@ const NavBar = () => {
 
         <NavbarAction />
       </Container>
-    </div>
+    </header>
   );
 };
 

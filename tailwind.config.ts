@@ -1,4 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+import {
+  ListStyleCheck,
+  addGlobalUtilities,
+  addVariablesForColors,
+} from "./lib/tailwind";
+
 module.exports = {
   darkMode: ["class"],
   mode: "jit",
@@ -18,6 +24,11 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xs: "400px",
+        "2xl": "1400px",
+        "3xl": "1700px",
+      },
       fontFamily: {
         Inter: ["var(--font-inter)"],
         Pacifico: ["var(--font-pacifico)"],
@@ -195,6 +206,10 @@ module.exports = {
           from: { backgroundPosition: "200% 0" },
           to: { backgroundPosition: "-200% 0" },
         },
+
+        scale150: {
+          to: { scale: "1.5 1.5" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -211,7 +226,7 @@ module.exports = {
         "load-bar": "load-bar 1s linear infinite",
 
         blob: "blob 15s linear infinite",
-
+        scale150: "scale150 linear",
         shine: "shine 10s ease-out infinite",
       },
     },
@@ -221,5 +236,8 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
     require("tailwind-clip-path"),
+    addGlobalUtilities,
+    addVariablesForColors,
+    ListStyleCheck,
   ],
 };

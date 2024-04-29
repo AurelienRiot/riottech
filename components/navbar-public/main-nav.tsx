@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { LucidePhoneCall } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiCctv } from "react-icons/bi";
 import { BsSim } from "react-icons/bs";
@@ -17,6 +17,7 @@ import { ImConnection } from "react-icons/im";
 
 const MainNav = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   // const categories = useCategories((s) => s.categories);
 
@@ -113,7 +114,11 @@ const MainNav = () => {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem className="rounded-lg border-2 border-border">
-            <Link href="/contact" legacyBehavior passHref>
+            <Link
+              href={`/solution-internet?btn=${encodeURIComponent("Revendeur-Intégration")}`}
+              legacyBehavior
+              passHref
+            >
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 <LucidePhoneCall className="mr-2 hidden h-4 w-4 xl:flex" />
                 Revendeur/Intégration

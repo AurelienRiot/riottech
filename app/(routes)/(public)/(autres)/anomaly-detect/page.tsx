@@ -1,4 +1,4 @@
-import Client from "./components/client";
+import Client from "./_components/client";
 
 const AnomalyDetecPage: React.FC = async () => {
   return (

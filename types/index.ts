@@ -40,12 +40,12 @@ export interface DataTableViewOptionsColumn<TData> {
   title: string;
 }
 
-export type ProductWithCategoryAndImages = Product & {
+export interface ProductWithCategoryAndImages extends Product {
   images: Image[];
   category: Category;
-};
+}
 
-export type UserWithOrders = User & {
+export interface UserWithOrders extends User {
   orders: Order[];
   subscriptionOrder: SubscriptionOrder[];
-};
+}

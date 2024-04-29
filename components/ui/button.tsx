@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all ring-offset-background  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-95 ",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-all ring-offset-background  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  disabled:opacity-50 disabled:cursor-not-allowed active:scale-95 ",
   {
     variants: {
       variant: {
@@ -22,11 +22,11 @@ const buttonVariants = cva(
         markdown:
           "font-normal bg-primary text-primary-foreground hover:bg-primary/90",
         rounded:
-          "w-auto rounded-full bg-primary text-primary-foreground px-5 py-3 disabled:cursor-not-allowed disabled:opacity-50  font-semibold hover:opacity-75  ",
+          "w-auto rounded-full bg-primary text-primary-foreground px-5 py-3 disabled:cursor-not-allowed disabled:opacity-50  font-semibold hover:opacity-75  will-change-transform",
         shadow:
           " bg-green-500 border-2 shadow-[-5px_5px_0_black] dark:shadow-[-5px_5px_0_white] hover:bg-green-500/90 border-black active:shadow-none dark:active:shadow-none",
         expandIcon:
-          "group relative text-primary-foreground bg-primary hover:bg-primary/90",
+          "group/button relative text-primary-foreground bg-primary hover:bg-primary/90",
         ringHover:
           "bg-primary text-primary-foreground transition-all duration-300 hover:bg-primary/90 hover:ring-2 hover:ring-primary/90 hover:ring-offset-2",
         shine:
@@ -42,6 +42,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
+        xs: "h-8 px-2 rounded-md",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
@@ -51,7 +52,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 interface IconProps {
@@ -86,7 +87,7 @@ const Button = React.forwardRef<
       Icon,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -96,26 +97,26 @@ const Button = React.forwardRef<
         {...props}
       >
         {Icon && iconPlacement === "left" && (
-          <div className="w-0 translate-x-[0%] pr-0 opacity-0 transition-transform duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100 ">
+          <div className="group-hover/button:translate-x-100 w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover/button:w-5 group-hover/button:pr-2 group-hover/button:opacity-100 ">
             <Icon />
           </div>
         )}
         <Slottable>{props.children}</Slottable>
         {Icon && iconPlacement === "right" && (
-          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-transform duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100 ">
+          <div className="w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover/button:ml-2 group-hover/button:w-5 group-hover/button:translate-x-0 group-hover/button:opacity-100 ">
             <Icon />
           </div>
         )}
       </Comp>
     );
-  }
+  },
 );
 Button.displayName = "Button";
 
 const LoadingButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant, size, asChild = false, disabled, children, ...props },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -128,14 +129,14 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <>
           {disabled && (
             <Loader2
-              className={cn("h-4 w-4 animate-spin", children && "mr-2")}
+              className={cn("h-4 w-4 animate-spin", children ? "mr-2" : "")}
             />
           )}
           {children}
         </>
       </Comp>
     );
-  }
+  },
 );
 LoadingButton.displayName = "LoadingButton";
 

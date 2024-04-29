@@ -14,7 +14,6 @@ export const SubscriptionEmail = ({
 }: SubscriptionEmailProps) => (
   <MainBody baseUrl={baseUrl} previewText="Abonnement RIOT TECH">
     <SubscriptionBody subscription={subscription} sim={sim} baseUrl={baseUrl} />
-    <Footer />
   </MainBody>
 );
 

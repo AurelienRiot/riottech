@@ -20,7 +20,6 @@ import { useState } from "react";
 import { BiCctv } from "react-icons/bi";
 import { BsSim } from "react-icons/bs";
 
-import { useCategories } from "@/hooks/use-categories";
 import { ImConnection } from "react-icons/im";
 
 type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
@@ -28,16 +27,16 @@ type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 export default function MobileNav({ className }: MobileNavProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const categories = useCategories((s) => s.categories);
+  // const categories = useCategories((s) => s.categories);
 
   const [open, setOpen] = useState(false);
   const [openProduct, setOpenProduct] = useState(false);
 
-  const routes = categories.map((route) => ({
-    href: `/category/${route.id}`,
-    label: route.name,
-    active: pathname === `/category/${route.id}`,
-  }));
+  // const routes = categories.map((route) => ({
+  //   href: `/category/${route.id}`,
+  //   label: route.name,
+  //   active: pathname === `/category/${route.id}`,
+  // }));
 
   const setPopover = (state: boolean) => {
     if (state) {
@@ -59,7 +58,7 @@ export default function MobileNav({ className }: MobileNavProps) {
           aria-label="Select"
           className={cn(
             "  group relative h-10 w-10 rounded-full transition-colors duration-300   data-[state=open]:bg-destructive  data-[state=open]:text-destructive-foreground ",
-            className
+            className,
           )}
         >
           <svg
@@ -138,7 +137,9 @@ export default function MobileNav({ className }: MobileNavProps) {
                 <Check
                   className={cn(
                     "ml-auto h-4 w-4",
-                    pathname === "/activation-sim" ? "opacity-100" : "opacity-0"
+                    pathname === "/activation-sim"
+                      ? "opacity-100"
+                      : "opacity-0",
                   )}
                 />
               </CommandItem>
@@ -184,7 +185,7 @@ export default function MobileNav({ className }: MobileNavProps) {
                     "ml-auto h-4 w-4",
                     pathname === "/surveillance-elevage"
                       ? "opacity-100"
-                      : "opacity-0"
+                      : "opacity-0",
                   )}
                 />
               </CommandItem>
@@ -203,7 +204,7 @@ export default function MobileNav({ className }: MobileNavProps) {
                     "ml-auto h-4 w-4",
                     pathname === "/solution-internet"
                       ? "opacity-100"
-                      : "opacity-0"
+                      : "opacity-0",
                   )}
                 />
               </CommandItem>
@@ -220,7 +221,7 @@ export default function MobileNav({ className }: MobileNavProps) {
                 <Check
                   className={cn(
                     "ml-auto h-4 w-4",
-                    pathname === "/contact" ? "opacity-100" : "opacity-0"
+                    pathname === "/contact" ? "opacity-100" : "opacity-0",
                   )}
                 />
               </CommandItem>
@@ -271,7 +272,7 @@ const DisplayRoutes = ({
       <ChevronDown
         className={cn(
           "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
-          openProduct ? "" : "-rotate-90"
+          openProduct ? "" : "-rotate-90",
         )}
         aria-hidden="true"
       />
@@ -292,7 +293,7 @@ const DisplayRoutes = ({
                 route.active
                   ? "text-popover-foreground "
                   : "text-muted-foreground ",
-                "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               )}
             >
               {route.label}

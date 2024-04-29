@@ -49,6 +49,7 @@ export const MainBody = ({
             />
           </a>
           {children}
+          <Footer />
         </Container>
       </Body>
     </Tailwind>

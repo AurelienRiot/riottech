@@ -42,7 +42,9 @@ const FloatingLabel = React.forwardRef<
 });
 FloatingLabel.displayName = "FloatingLabel";
 
-type FloatingLabelInputProps = InputProps & { label?: string };
+interface FloatingLabelInputProps extends InputProps {
+  label?: string;
+}
 
 const FloatingLabelInput = React.forwardRef<
   React.ElementRef<typeof FloatingInput>,

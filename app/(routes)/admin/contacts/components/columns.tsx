@@ -15,6 +15,7 @@ export type ContactColumn = {
   name: string;
   phone: string;
   email: string;
+  postalCode: string;
   subject: string;
   text: string;
   createdAt: Date;
@@ -31,8 +32,12 @@ export const columns: ColumnDef<ContactColumn>[] = [
     cell: PhoneCell,
   },
   {
-    accessorKey: "mail",
+    accessorKey: "email",
     header: "Email",
+  },
+  {
+    accessorKey: "postalCode",
+    header: "Code Postal",
   },
   {
     accessorKey: "subject",

@@ -3,6 +3,8 @@ import { SubscriptionClient } from "./components/client";
 import { SubscriptionColumn } from "./components/columns";
 import { currencyFormatter } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 const SubscriptionPage = async () => {
   const subscriptions = await prismadb.subscription.findMany({
     orderBy: {

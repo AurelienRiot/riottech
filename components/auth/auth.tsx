@@ -1,6 +1,7 @@
 "use client";
 
 import { DefaultSession } from "next-auth";
+import { DefaultJWT } from "next-auth/jwt";
 import { signOut } from "next-auth/react";
 
 declare module "next-auth" {
@@ -9,6 +10,12 @@ declare module "next-auth" {
       id: string;
       role: string;
     } & DefaultSession["user"];
+  }
+}
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    id: string;
+    role: string;
   }
 }
 

@@ -1,13 +1,22 @@
-import React from "react";
-import Client from "./components/client";
+import { ContactForm } from "@/components/contact-form";
+import ButtonSurveillance from "./_components/button-surveillance";
+import ImageV2 from "./_components/image-v2";
+import RiotTechFeatures from "./_components/riot-tech-features";
 
 const SurveillanceElevage = async () => {
   return (
-    <Client
-      imageUrl={
-        "https://res.cloudinary.com/dsztqh0k7/image/upload/v1689341146/clwou7gpxkizqe6d9c9u.png"
-      }
-    />
+    <>
+      <ImageV2 />
+      <ButtonSurveillance />
+      <RiotTechFeatures />
+      <ContactForm
+        title="Parlez nous de votre projet :"
+        className="max-w-5xl"
+        description=""
+        subject={"Surveillance Elevage"}
+        confirmPostalCode
+      />
+    </>
   );
 };
 
