@@ -8,6 +8,7 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret });
 
   if (!token) {
+    console.log("No token provided middleware");
     return NextResponse.redirect(
       new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
     );
@@ -24,6 +25,7 @@ export async function middleware(req: NextRequest) {
     });
 
     if (!apiResponse.ok) {
+      console.error("API call failed:", apiResponse.statusText);
       return NextResponse.redirect(
         new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
       );

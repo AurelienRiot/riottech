@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
 
     const token = body.token as JWT;
     if (!token || !token.id) {
+      console.log("No token provided");
       return new NextResponse("No token provided", { status: 401 });
     }
     const user = await prismadb.user.findUnique({
@@ -17,6 +18,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
+      console.log("User not found");
       return new NextResponse("User not found", { status: 401 });
     }
 
