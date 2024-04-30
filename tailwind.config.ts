@@ -31,7 +31,6 @@ module.exports = {
       },
       fontFamily: {
         Inter: ["var(--font-inter)"],
-        Pacifico: ["var(--font-pacifico)"],
         SourceCodePro: ["var(--font-source-code-pro)"],
       },
       boxShadow: {

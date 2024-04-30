@@ -1,6 +1,6 @@
+import { ContactForm } from "@/components/contact-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ContactForm } from "../../contact/components/contact-form";
 
 const QuiSommesNous = () => {
   const features = [
@@ -58,7 +58,7 @@ const QuiSommesNous = () => {
           </Button>
         ))}
       </div>
-      <ContactForm />
+      <ContactForm title="Formulaire de contact" description="" />
     </div>
   );
 };

@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 import { ArrowBigRight } from "lucide-react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../../../../components/ui/button";
 
 type CardHoverProps = React.HTMLAttributes<HTMLDivElement> & {
-  image: string;
+  image: StaticImageData;
   text: string;
   title: string;
   link: string;
@@ -36,6 +36,7 @@ const CardHover = ({
                 width={100}
                 height={100}
                 src={image}
+                placeholder="blur"
                 className="max-w-[100px] "
               />
               <h3
@@ -56,12 +57,7 @@ const CardHover = ({
             <p className="relative m-0  text-pretty p-0 px-2  text-primary-foreground  transition-all duration-500 group-hover:text-primary">
               {text}
             </p>
-            {/* <p
-              className="mx-0 mb-0 mt-[15px] w-fit self-center border border-solid border-[#333] p-[5px] font-black text-[#333] transition-all duration-500 group-hover:bg-[#333] group-hover:text-white
-"
-            >
-              En savoir plus
-            </p> */}
+
             <Button
               variant={"expandIcon"}
               iconPlacement="right"

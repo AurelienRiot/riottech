@@ -119,11 +119,13 @@ type listFilesReturnType =
 async function listFiles(): Promise<listFilesReturnType> {
   const isAuth = await checkAdmin();
   if (!isAuth) {
+    console.log("Vous devez être authentifier");
     return {
       success: false,
       message: "Vous devez être authentifier",
     };
   }
+
   try {
     const files = await s3.send(
       new ListObjectsV2Command({ Bucket: bucketName }),

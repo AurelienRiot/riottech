@@ -1,11 +1,10 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { Pacifico, Source_Code_Pro, Inter } from "next/font/google";
+import { Inter, Source_Code_Pro } from "next/font/google";
+import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
 import { AuthProviders } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,13 +13,6 @@ const inter = Inter({
 const sourceCodePro = Source_Code_Pro({
   subsets: ["latin"],
   variable: "--font-source-code-pro",
-});
-
-const pacifico = Pacifico({
-  weight: "400",
-  display: "swap",
-  subsets: ["latin"],
-  variable: "--font-pacifico",
 });
 
 export const metadata: Metadata = {
@@ -36,15 +28,13 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} ${pacifico.variable} relative min-h-dvh bg-background font-Inter   antialiased `}
+        className={`${inter.variable} ${sourceCodePro.variable} relative min-h-dvh bg-background font-Inter   antialiased `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <Toaster />
-            <TooltipProvider delayDuration={100} skipDelayDuration={0}>
-              <DebugScreens />
-              {children}
-            </TooltipProvider>
+            <DebugScreens />
+            {children}
           </ThemeProvider>
         </AuthProviders>
       </body>

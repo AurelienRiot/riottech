@@ -41,7 +41,7 @@ const formSchema = z.object({
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "Veuillez entrer votre adresse email" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
-  subject: z.string(),
+  subject: z.string().optional(),
   phone: z
     .string({
       required_error: "Veuillez entrer votre numéro de téléphone",
@@ -74,7 +74,7 @@ export type ContactFormValues = z.infer<typeof formSchema>;
 export const ContactForm = ({
   title,
   className,
-  subject = "Demande de contact",
+  subject,
   confirmPostalCode,
   description,
 }: {
@@ -93,8 +93,12 @@ export const ContactForm = ({
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
       inBretagne: true,
-      subject,
+      subject: subject || "",
     },
   });
 
@@ -105,8 +109,11 @@ export const ContactForm = ({
       toast.error(response.message);
       return;
     }
+    form.reset();
+
     router.push(`/`);
     toast.success("Message envoyé");
+
     setLoading(false);
   };
 
@@ -116,7 +123,7 @@ export const ContactForm = ({
   };
 
   return (
-    <div className={cn("mx-auto space-y-6 p-8", className)}>
+    <div className={cn("mx-auto w-full space-y-6 p-8", className)}>
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -159,7 +166,7 @@ export const ContactForm = ({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email :</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
                       <Input
@@ -179,7 +186,7 @@ export const ContactForm = ({
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Numéro de téléphone</FormLabel>
+                  <FormLabel>Numéro de téléphone :</FormLabel>
                   <FormControl>
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
@@ -198,19 +205,20 @@ export const ContactForm = ({
               name="postalCode"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Code Postal</FormLabel>
+                  <FormLabel>Code Postal :</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
                       <Input
-                        type="text"
+                        type="number"
                         disabled={loading}
                         placeholder="35600"
                         {...field}
+                        value={field.value ?? ""}
                         onChange={(e) => {
                           const value = Number(
                             e.target.value.replace(/[^\d]/g, ""),
                           );
-                          if (!isNaN(value)) {
+                          if (!isNaN(value) && value > 0) {
                             field.onChange(value);
                           } else {
                             field.onChange("");
@@ -271,13 +279,31 @@ export const ContactForm = ({
                 )}
               />
             )}
-
+            {!subject && (
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{"Sujet :"}</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="Renseignement"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Message</FormLabel>
+                  <FormLabel>Message :</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
                       <TextArea

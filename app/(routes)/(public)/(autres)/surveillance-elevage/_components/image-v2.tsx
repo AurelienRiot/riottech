@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
+import ImageCalf from "@/public/surveillance-elevage/calf.webp";
 
 const ImageV2 = () => {
   return (
     <div className=" relative flex h-[50vh] w-full items-start   justify-center text-white sm:h-[65vh]">
       <Image
-        src="/surveillance-elevage/calf.webp"
+        src={ImageCalf}
         alt="image"
+        placeholder="blur"
         fill
         priority
         className="h-full w-full object-cover   "
