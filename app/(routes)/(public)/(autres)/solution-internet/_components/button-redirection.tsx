@@ -32,7 +32,7 @@ const ButtonRedirectionV2 = () => {
         ),
         content: (
           <>
-            <h3 className="text-2xl font-bold">
+            <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-bold">
               <span>
                 Besoin d’une connexion internet fiable pour vos produits ?
               </span>
@@ -63,10 +63,13 @@ const ButtonRedirectionV2 = () => {
                 "RIOT TECH propose des solutions sur-mesure afin d'intégrer la connexion internet directement dans vos produits. Pour vous débarrasser de la problématique 'Connexion à internet' pour vendre vos produits, RIOT TECH saura vous satisfaire."
               }
             </p>
-            <p className=" font-semibold">
+            <p className=" text-center font-bold">
+              Exemple de solutions possibles :
+            </p>
+            <p className=" mx-auto max-w-3xl text-center font-semibold">
               {" "}
               {
-                "Fourniture de l'équipement (au tarif revendeur) et facturation des consommations globales de la flotte utilisée sur le mois."
+                "Fourniture de l'équipement (au tarif revendeur) et facturation des consommations globales de la flotte utilisée sur le mois :"
               }
             </p>
             <ul className="list-disc space-y-4 py-2 pl-6 text-base">
@@ -82,10 +85,10 @@ const ButtonRedirectionV2 = () => {
                 suivant, l’activer à nouveau, etc, sans limite et sans frais.
               </li>
             </ul>
-            <p className=" font-semibold">
+            <p className=" mx-auto max-w-3xl text-center font-semibold">
               {" "}
               {
-                "Fourniture de l’équipement (au tarif revendeur) prêt à être activé et fourniture d'instructions pour que le client final active son abonnement en ligne en 5 minutes."
+                "Fourniture de l’équipement (au tarif revendeur) prêt à être activé et fourniture d'instructions pour que le client final active son abonnement en ligne en 5 minutes :"
               }
             </p>
             <ul className="list-disc space-y-4 py-2 pl-6 text-base">
@@ -98,10 +101,10 @@ const ButtonRedirectionV2 = () => {
                 suivit et diagnostic à distance des connexions de vos clients.
               </li>
             </ul>
-            <p className=" font-semibold">
+            <p className=" mx-auto max-w-3xl text-center font-semibold">
               {" "}
               {
-                "Vous avez aussi la possibilité de solliciter spontanément RIOT TECH pour une solution de connectivité sur le terrain (uniquement en Bretagne)."
+                "Vous avez aussi la possibilité de solliciter spontanément RIOT TECH pour une solution de connectivité sur le terrain (uniquement en Bretagne) :"
               }
             </p>
             <ul className="list-disc space-y-4 py-2 pl-6 text-base">
@@ -111,7 +114,7 @@ const ButtonRedirectionV2 = () => {
                 }
               </li>
             </ul>
-            <p className=" font-semibold">Rappel des Avantages :</p>
+            <p className=" text-center font-semibold">Rappel des Avantages :</p>
             <ul className="list-disc space-y-4 py-2 pl-6">
               <li className="text-base">
                 Une connexion prête en 5 minutes en toutes les circonstances.
@@ -140,7 +143,7 @@ const ButtonRedirectionV2 = () => {
         subject: "Connexion Internet personnel",
         content: (
           <>
-            <h3 className="text-2xl font-bold">
+            <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-bold">
               <span>
                 Besoin d’une connexion internet fiable et sans coupures ?
               </span>
