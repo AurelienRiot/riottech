@@ -63,39 +63,54 @@ const ButtonRedirectionV2 = () => {
                 "RIOT TECH propose des solutions sur-mesure afin d'intégrer la connexion internet directement dans vos produits. Pour vous débarrasser de la problématique 'Connexion à internet' pour vendre vos produits, RIOT TECH saura vous satisfaire."
               }
             </p>
-            <p className=" font-semibold">Exemple de solutions possibles :</p>
-            <ul className="list-disc space-y-4 py-2 pl-6">
-              <li className="text-base">
-                {
-                  "Fourniture de l'équipement (au tarif revendeur) et facturation des consommations globales de la flotte utilisée sur le mois."
-                }
-              </li>
-              <li className="text-base">
+            <p className=" font-semibold">
+              {" "}
+              {
+                "Fourniture de l'équipement (au tarif revendeur) et facturation des consommations globales de la flotte utilisée sur le mois."
+              }
+            </p>
+            <ul className="list-disc space-y-4 py-2 pl-6 text-base">
+              <li>
                 Vous avez la liberté de refacturer ou non l’abonnement au client
                 final.
               </li>
-              <li className="text-base">
+              <li>
                 Toute SIM non utilisée dans le mois ne vous est pas facturée.
               </li>
-              <li className="text-base">
+              <li>
                 Vous avez la liberté d’utiliser une SIM 1 mois arrêter le mois
                 suivant, l’activer à nouveau, etc, sans limite et sans frais.
               </li>
             </ul>
-            <p>
+            <p className=" font-semibold">
+              {" "}
               {
-                "Fourniture de l’équipement (au tarif revendeur) prêt à être activé et fourniture d'instructions pour que le client final active son abonnement en ligne en 5 minutes. Cette solution inclut également la gestion des abonnements et la facturation directe avec le client final par RIOT TECH."
+                "Fourniture de l’équipement (au tarif revendeur) prêt à être activé et fourniture d'instructions pour que le client final active son abonnement en ligne en 5 minutes."
               }
             </p>
-            <p>
-              Vous n’avez aucune facturation à gérer, tout en gardant le suivit
-              et diagnostic à distance des connexions de vos clients.
-            </p>
-            <p>
+            <ul className="list-disc space-y-4 py-2 pl-6 text-base">
+              <li>
+                Cette solution inclut également la gestion des abonnements et la
+                facturation directe avec le client final par RIOT TECH.
+              </li>
+              <li>
+                Vous n’avez aucune facturation à gérer, tout en gardant le
+                suivit et diagnostic à distance des connexions de vos clients.
+              </li>
+            </ul>
+            <p className=" font-semibold">
+              {" "}
               {
-                " Vous avez aussi la possibilité de solliciter spontanément RIOT TECH pour une solution de connectivité sur le terrain (uniquement en Bretagne). RIOT TECH se déplace gratuitement pour établir un devis, évaluer la faisabilité ou directement installer l’équipement et souscrire l'abonnement avec le client. "
+                "Vous avez aussi la possibilité de solliciter spontanément RIOT TECH pour une solution de connectivité sur le terrain (uniquement en Bretagne)."
               }
             </p>
+            <ul className="list-disc space-y-4 py-2 pl-6 text-base">
+              <li>
+                {
+                  " RIOT TECH se déplace gratuitement pour établir un devis, évaluer la faisabilité ou directement installer l’équipement et souscrire l'abonnement avec le client."
+                }
+              </li>
+            </ul>
             <p className=" font-semibold">Rappel des Avantages :</p>
             <ul className="list-disc space-y-4 py-2 pl-6">
               <li className="text-base">
