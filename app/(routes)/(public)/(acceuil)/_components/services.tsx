@@ -1,5 +1,7 @@
-import CardHover from "@/components/animations/card-hover";
+import CardHover from "./card-hover";
 import { Separator } from "@/components/ui/separator";
+import LevelsOfConnection from "@/public/levels-of-connection.png";
+import SurveillanceCamera from "@/public/surveillance-camera.png";
 
 const ServicePage = () => {
   return (
@@ -14,7 +16,7 @@ const ServicePage = () => {
         <div className="mx-6 my-10 flex w-full flex-wrap  justify-evenly  gap-20 font-bold transition-all duration-500  ease-out min-[880px]:has-[:hover]:mb-[320px]  ">
           <CardHover
             link="/solution-internet"
-            image="/levels-of-connection.png"
+            image={LevelsOfConnection}
             title="Solutions de connexion à internet"
             text={`Profitez d'une connexion Internet continue, économique et disponible partout avec la connexion internet RIOT TECH. Vous assurant une connexion stable grâce à la couverture multi-opérateurs. Incluent un équipement garanti à vie ainsi qu'un service après-vente prioritaire et compétent en cas de besoin.
           `}
@@ -22,7 +24,7 @@ const ServicePage = () => {
           <CardHover
             link="/surveillance-elevage"
             title="Surveillance vidéo de vos bâtiments"
-            image="/surveillance-camera.png"
+            image={SurveillanceCamera}
             text={`Surveillance vidéo de vos bâtiments et stabulation tout types de caméras, pour tout types d'usages.
           Surveillance vêlage, troupeau, sécurité, détection de mouvement enregistrement.
           Visionnage par internet sur smartphone, ordinateur, tablette...

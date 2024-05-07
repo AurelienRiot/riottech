@@ -191,6 +191,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       disabled={loading}
                       placeholder="9,99"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -209,6 +210,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       disabled={loading}
                       placeholder="10"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -227,6 +229,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                       disabled={loading}
                       placeholder="9,99"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />

@@ -24,7 +24,7 @@ async function createContact({
         message,
         phone,
         postalCode,
-        subject,
+        subject: subject || "",
       },
     });
 

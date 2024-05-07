@@ -110,7 +110,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       : {
           name: "",
           images: [],
-          priceHT: 0,
           categoryId: "",
           description: "",
           productSpecs: "",
@@ -234,6 +233,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       disabled={loading}
                       placeholder="9,99"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -244,7 +244,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               control={form.control}
               name="categoryId"
               render={({ field }) => (
-                <FormItem className="w-48">
+                <FormItem className="min-w-48">
                   <FormLabel>Categorie</FormLabel>
                   <Select
                     disabled={loading}

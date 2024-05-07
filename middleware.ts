@@ -1,4 +1,5 @@
 import { getToken } from "next-auth/jwt";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET;
@@ -16,21 +17,25 @@ export async function middleware(req: NextRequest) {
 
   try {
     const apiResponse = await fetch(`${baseUrl}/api/auth`, {
-      method: "POST",
-      headers: new Headers(req.headers),
+      method: "GET",
+      headers: {
+        Cookie: cookies()
+          .getAll()
+          .map((cookie) => `${cookie.name}=${cookie.value}`)
+          .join("; "),
+      },
     });
 
     if (!apiResponse.ok) {
-      console.error("BaseUrl", baseUrl);
-      console.error("API call failed:", apiResponse.statusText);
+      console.log("BaseUrl", baseUrl);
+      console.log("API call error:", apiResponse.statusText);
       return NextResponse.redirect(
         new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
       );
     }
 
-    // Optional: Handle the data from the response
+    // // Optional: Handle the data from the response
     const { role } = (await apiResponse.json()) as { role: string };
-
     const path = req.nextUrl.pathname;
 
     if (path.startsWith("/admin")) {
@@ -53,7 +58,8 @@ export async function middleware(req: NextRequest) {
     }
     return NextResponse.next();
   } catch (error) {
-    console.error("API call failed:", error);
+    console.log("path", req.nextUrl.pathname);
+    console.log("API call failed:", error);
     return NextResponse.redirect(
       new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
     );

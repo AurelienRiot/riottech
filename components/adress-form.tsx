@@ -28,7 +28,6 @@ import { CountriesList, CountrySelect, isCountry } from "./ui/phone-input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
 import { Switch } from "./ui/switch";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export type FullAdress = {
   label: string;
@@ -256,58 +255,6 @@ const AddressInput = ({
   );
 };
 
-const AddressInputCountry = ({
-  label,
-  addressKey,
-  selectedAddress,
-  setSelectedAddress,
-  filter,
-  ...props
-}: AddressInputProps & { filter: boolean }) => {
-  return (
-    <div className="relative p-2">
-      <FloatingInput
-        {...props}
-        id="country"
-        type="text"
-        value={filter ? "" : selectedAddress["country"]}
-        onChange={(e) => {
-          setSelectedAddress((prev) => ({
-            ...prev,
-            country: e.target.value,
-          }));
-        }}
-      />
-      <Tooltip>
-        <TooltipTrigger
-          asChild
-          data-state={filter}
-          className=" group 
-            absolute start-2 top-2 z-10 origin-[0] 
-             -translate-y-4 scale-75 transform bg-background px-2 text-sm font-medium text-primary duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 dark:bg-background rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
-        >
-          <label htmlFor="country">
-            Pays
-            <sup
-              className="cursor-pointer text-xs text-blue-500 "
-              onClick={() =>
-                window.open(
-                  "https://fr.wikipedia.org/wiki/ISO_3166-1_alpha-2",
-                  "_blank",
-                )
-              }
-            >
-              ?
-            </sup>
-          </label>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Code de pays à deux lettres</p>
-        </TooltipContent>
-      </Tooltip>
-    </div>
-  );
-};
 const SkeletonAdressInput = ({ label }: { label: string }) => {
   return (
     <div className="justify-left  flex w-full items-center gap-1">
