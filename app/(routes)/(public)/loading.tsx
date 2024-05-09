@@ -10,7 +10,7 @@ const Loading = ({ className }: { className?: string }) => {
         className,
       )}
     >
-      <div className=" relative h-2  w-[40vw] overflow-hidden rounded border-2 bg-primary-foreground">
+      <div className=" relative h-2  w-[40vw] overflow-clip rounded border-2 bg-primary-foreground">
         <div className="absolute h-full animate-load-bar rounded bg-primary"></div>
         <div
           style={{ animationDelay: `500ms` }}

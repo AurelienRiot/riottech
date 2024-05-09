@@ -26,7 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html
+      lang="fr"
+      suppressHydrationWarning
+      className=" scroll-p-16 scroll-smooth"
+    >
       <body
         className={`${inter.variable} ${sourceCodePro.variable} relative min-h-dvh bg-background font-Inter   antialiased `}
       >

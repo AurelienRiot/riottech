@@ -1,5 +1,5 @@
 import { Text } from "@react-email/components";
-import { Footer, MainBody } from "./common";
+import MainBody from "./common";
 
 export interface BillingEmailProps {
   baseUrl: string;
@@ -16,7 +16,6 @@ export const BillingEmail = ({
 }: BillingEmailProps) => (
   <MainBody baseUrl={baseUrl} previewText="Votre facture RIOT TECH">
     <BillingBody price={price} email={email} baseUrl={baseUrl} date={date} />
-    <Footer />
   </MainBody>
 );
 
