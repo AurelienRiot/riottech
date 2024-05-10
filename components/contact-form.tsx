@@ -188,6 +188,7 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>Numéro de téléphone :</FormLabel>
                   <FormControl>
+                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"

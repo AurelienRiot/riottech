@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import SubscriptionEmail from "@/components/email/subscription";
 import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { render } from "@react-email/render";
 
 const PDF_URL = process.env.PDF_URL;

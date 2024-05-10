@@ -4,13 +4,13 @@ import Container from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ToastSearchParams } from "@/lib/toast-search-params";
-import GetSubscriptions from "@/server-actions/get-subscriptions";
+import { GetSubscriptions } from "@/server-actions/get-subscriptions";
+import { getDbUser } from "@/server-actions/get-user";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
-import { getDbUser } from "@/server-actions/get-user";
-import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "RIOT TECH - Activation SIM",
@@ -122,7 +122,7 @@ const ServerSim = async ({
         <SelectSubscription
           subscriptions={selectedSubscriptions}
           sim={searchParams.sim}
-          initSubId={searchParams.subId}
+          subId={searchParams.subId}
         />
       ) : null}
     </>

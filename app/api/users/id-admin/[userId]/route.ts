@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 
 export async function GET(
   req: Request,

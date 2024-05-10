@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollToForm } from "./scroll-to-target";
 
 const ButtonSurveillance = () => {
   return (
@@ -81,7 +79,9 @@ const CardSurveillance = ({
       </div>
       <CardFooter className="relative flex items-center justify-center">
         {" "}
-        <ScrollToForm text="Parlez nous de votre projet" />
+        <Button className={"cursor-pointer text-base hover:underline"} asChild>
+          <Link href="#form"> Parlez nous de votre projet</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

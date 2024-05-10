@@ -1,6 +1,7 @@
 import { VisibleElement } from "@/components/animations/visible-element";
 import Currency from "@/components/ui/currency";
-import { ScrollToTargetSpan } from "./scroll-to-target";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CombienCoute = () => {
   return (
@@ -11,10 +12,11 @@ const CombienCoute = () => {
       <p className="mb-4">
         {"Prix de la Box 4G : à partir de "}
         <Currency displayLogo={false} value={195} className="inline" />
-        <ScrollToTargetSpan
-          target="La garantie à vie, ça signifie quoi ?"
-          text="- Garantie à vie"
-        />
+        <Button asChild variant={"link"} className="text-lg font-bold">
+          <Link href="#La garantie à vie, ça signifie quoi ?">
+            - Garantie à vie
+          </Link>
+        </Button>
         <br />
         {"Prix de l'abonnement 4G : à partir de "}
         <Currency displayLogo={false} value={24.99} className="inline" />

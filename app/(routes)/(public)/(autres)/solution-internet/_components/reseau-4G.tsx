@@ -1,7 +1,8 @@
 import "@/components/animations/hover-text/style.css";
 import HoverWord from "@/components/animations/hover-word";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { ScrollToTargetSpan } from "./scroll-to-target";
+import Link from "next/link";
 
 type Feature = {
   image: string;
@@ -53,10 +54,15 @@ const Reseau4GPage = () => {
           Un SAV professionnel, sans plateforme téléphonique
           <br />
           Une garantie à vie sur le matériel (
-          <ScrollToTargetSpan
-            target="La garantie à vie, ça signifie quoi ?"
-            text="Cf. Garantie"
-          />
+          <Button
+            className={"inline px-0 hover:text-blue-500"}
+            variant={"link"}
+            asChild
+          >
+            <Link href={"#La garantie à vie, ça signifie quoi ?"}>
+              Cf. Garantie
+            </Link>
+          </Button>
           )
         </p>
       ),

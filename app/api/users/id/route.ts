@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 

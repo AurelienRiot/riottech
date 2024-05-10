@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";

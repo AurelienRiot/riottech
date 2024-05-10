@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { WelcomeEmail } from "@/components/email/welcome";
 import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
