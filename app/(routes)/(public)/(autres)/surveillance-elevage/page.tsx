@@ -2,6 +2,15 @@ import { ContactForm } from "@/components/contact-form";
 import ButtonSurveillance from "./_components/button-surveillance";
 import ImageV2 from "./_components/image-v2";
 import RiotTechFeatures from "./_components/riot-tech-features";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Surveillance Elevage",
+    description:
+      "Vous avez toujours rêvé de pouvoir surveiller vos animaux à tout moment et de n'importe où ? Vous souhaitez détecter rapidement toute activité suspecte autour de votre ferme ?",
+  };
+}
 
 const SurveillanceElevage = async () => {
   return (

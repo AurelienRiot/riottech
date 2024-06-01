@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
+import { revalidateTag } from "next/cache";
 
 export async function DELETE(req: NextRequest) {
   try {
@@ -111,6 +112,7 @@ export async function PATCH(req: NextRequest) {
         },
       });
     }
+    revalidateTag("getDbUserCache");
 
     return NextResponse.json(user);
   } catch (error) {

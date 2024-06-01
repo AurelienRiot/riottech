@@ -25,8 +25,8 @@ import { signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { toast } from "sonner";
 import * as z from "zod";
 
 interface UserFormProps {
@@ -75,6 +75,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         },
   );
 
+  console.log(initialData);
   const title = initialData.stripeCustomerId
     ? "Modifier le profil"
     : "Finalisez la création de votre compte";
@@ -99,7 +100,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
   const onSubmit = async (data: UserFormValues) => {
     try {
-      console.log(form.formState);
       setLoading(true);
 
       if (isPro) {
@@ -138,6 +138,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
+        console.error(error);
         toast.error("Erreur.");
       }
     } finally {

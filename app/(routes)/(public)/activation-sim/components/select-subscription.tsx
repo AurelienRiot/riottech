@@ -105,14 +105,12 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       return;
     }
     router.push(
-      `/activation-sim?sim=${encodeURIComponent(
+      `?sim=${encodeURIComponent(
         sim,
       )}&subId=${encodeURIComponent(subscriptionId)}`,
       { scroll: false },
     );
   };
-
-  console.log(selectedSubscription?.id);
 
   return (
     <>

@@ -1,7 +1,16 @@
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Mention légales",
+    description: "Mention légales de RIOT TECH",
+  };
+}
+
 const MentionLegalPage = () => {
   return (
-    <section className="flex flex-col max-w-5xl gap-4 pt-12 mx-auto mb-10 text-lg">
-      <h1 className="text-3xl text-center">Mention légales</h1>
+    <section className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 pt-12 text-lg">
+      <h1 className="text-center text-3xl">Mention légales</h1>
       <p className="flex flex-col">
         <span>
           {" "}
@@ -26,7 +35,7 @@ const MentionLegalPage = () => {
           Paris.
         </span>
       </p>
-      <h2 className="text-2xl text-center">PRÉAMBULE</h2>
+      <h2 className="text-center text-2xl">PRÉAMBULE</h2>
       <p>
         Toutes les commandes effectuées sur le site sont soumises aux présentes
         conditions générales de vente. RIOT TECH se réserve le droit d’adapter
@@ -34,7 +43,7 @@ const MentionLegalPage = () => {
         générales de vente applicable à toute transaction étant celle figurant
         en ligne sur le site riottech.fr au moment de la commande.
       </p>
-      <h2 className="text-2xl text-center">Propriété intellectuelle</h2>
+      <h2 className="text-center text-2xl">Propriété intellectuelle</h2>
       <p>
         Le présent site internet ainsi que l’ensemble de ses contenus (notamment
         les données, informations, photos, logos et marques) sont la propriété
@@ -45,7 +54,7 @@ const MentionLegalPage = () => {
         par leur propriétaire. Photos non contractuelles.
       </p>
 
-      <h2 className="text-2xl text-center">Données personnelles</h2>
+      <h2 className="text-center text-2xl">Données personnelles</h2>
       <p>
         Vous pouvez visiter notre site sur Internet sans avoir à décliner votre
         identité ou à fournir des informations personnelles vous concernant.

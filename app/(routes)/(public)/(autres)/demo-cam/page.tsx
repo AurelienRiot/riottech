@@ -1,5 +1,13 @@
-"use client";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Démonstration des caméras",
+    description:
+      "La caméra RIOT TECH est une caméra de surveillance intelligente, résistante et adaptée pour les élevages",
+  };
+}
 
 const DemoCamPage = () => {
   const videos = [

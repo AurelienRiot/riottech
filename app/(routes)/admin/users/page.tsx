@@ -146,6 +146,7 @@ const SeverUserClient = async () => {
   const formatedUsers = allUsers.map((user) => {
     return {
       ...user,
+      password: null,
       subscriptionOrder: [],
       orders: [],
     };

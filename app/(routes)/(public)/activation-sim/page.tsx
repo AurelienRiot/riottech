@@ -5,17 +5,20 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ToastSearchParams } from "@/lib/toast-search-params";
 import { GetSubscriptions } from "@/server-actions/get-subscriptions";
-import { getDbUser } from "@/server-actions/get-user";
+import { getDbUserCache, getSessionUser } from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "RIOT TECH - Activation SIM",
-  description: "J'Active ma SIM RIOT TECH",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Activation SIM",
+    description: "J'Active ma SIM RIOT TECH",
+  };
+}
 
 const activationSIMPage = async (context: {
   searchParams: { sim: string; callbackUrl: string; subId: string };
@@ -50,7 +53,8 @@ const ServerSim = async ({
 }) => {
   const res = await FetchSim(searchParams.sim);
   const subscriptions = await GetSubscriptions();
-  const user = await getDbUser();
+  const sessionUser = await getSessionUser();
+  const user = await getDbUserCache(sessionUser?.id);
   const queryString = new URLSearchParams(searchParams).toString();
 
   if (user && !user.stripeCustomerId && user.role !== "admin") {
