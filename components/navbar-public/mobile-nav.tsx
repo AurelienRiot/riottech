@@ -21,6 +21,7 @@ import { BiCctv } from "react-icons/bi";
 import { BsSim } from "react-icons/bs";
 
 import { ImConnection } from "react-icons/im";
+import { navRoutes } from "./main-nav";
 
 type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -124,25 +125,26 @@ export default function MobileNav({ className }: MobileNavProps) {
             {/* <CommandInput placeholder="recherche"/>
                         <CommandEmpty> Aucun resultat</CommandEmpty> */}
             <CommandGroup>
-              <CommandItem
-                onSelect={() => {
-                  router.push("/activation-sim");
-                  setOpen(false);
-                  setOpenProduct(false);
-                }}
-                className="test-sm cursor-pointer "
-              >
-                <BsSim className="mr-2 h-4 w-4" />
-                {" J'Active ma SIM"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === "/activation-sim"
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
-              </CommandItem>
+              {navRoutes.map((route) => (
+                <CommandItem
+                  key={route.title}
+                  onSelect={() => {
+                    router.push(route.href);
+                    setOpen(false);
+                    setOpenProduct(false);
+                  }}
+                  className="test-sm cursor-pointer gap-2 "
+                >
+                  <route.Icone className="size-4" />
+                  {route.title}
+                  {/* <Check
+                    className={cn(
+                      "ml-auto h-4 w-4",
+                      pathname === route.href ? "opacity-100" : "opacity-0",
+                    )}
+                  /> */}
+                </CommandItem>
+              ))}
 
               {/* <DisplayRoutes
                 routes={routes}
@@ -150,98 +152,6 @@ export default function MobileNav({ className }: MobileNavProps) {
                 setOpenProduct={setOpenProduct}
                 openProduct={openProduct}
               /> */}
-
-              {/* <CommandItem
-                                onSelect={() => {
-                                    router.push("/anomaly-detect");
-                                    setOpen(false);
-                                    setOpenProduct(false);
-                                }}
-                                className="test-sm cursor-pointer "
-                            >
-                                <RiAlarmWarningLine className="mr-2 h-4 w-4" />
-                                {"Détection d'anomalies"}
-                                <Check
-                                    className={cn(
-                                        "ml-auto h-4 w-4",
-                                        pathname === "/anomaly-detect"
-                                            ? "opacity-100"
-                                            : "opacity-0",
-                                    )}
-                                />
-                            </CommandItem> */}
-              <CommandItem
-                onSelect={() => {
-                  router.push("/surveillance-elevage");
-                  setOpen(false);
-                  setOpenProduct(false);
-                }}
-                className="test-sm cursor-pointer"
-              >
-                <BiCctv className="mr-2 h-4 w-4" />
-                {"Surveillance Agricole"}
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === "/surveillance-elevage"
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push("/solution-internet");
-                  setOpen(false);
-                  setOpenProduct(false);
-                }}
-                className="test-sm cursor-pointer "
-              >
-                <ImConnection className="mr-2 h-4 w-4" />
-                La connexion internet RIOT TECH
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === "/solution-internet"
-                      ? "opacity-100"
-                      : "opacity-0",
-                  )}
-                />
-              </CommandItem>
-              <CommandItem
-                onSelect={() => {
-                  router.push("/contact");
-                  setOpen(false);
-                  setOpenProduct(false);
-                }}
-                className="test-sm cursor-pointer "
-              >
-                <LucidePhoneCall className="mr-2 h-4 w-4" />
-                Revendeur/Intégration
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === "/contact" ? "opacity-100" : "opacity-0",
-                  )}
-                />
-              </CommandItem>
-              {/* <CommandItem
-                onSelect={() => {
-                  router.push("/contact");
-                  setOpen(false);
-                  setOpenProduct(false);
-                }}
-                className="test-sm cursor-pointer "
-              >
-                <LucidePhoneCall className="mr-2 h-4 w-4" />
-                Contact
-                <Check
-                  className={cn(
-                    "ml-auto h-4 w-4",
-                    pathname === "/contact" ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </CommandItem> */}
             </CommandGroup>
           </CommandList>
           <CommandSeparator />

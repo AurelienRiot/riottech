@@ -92,6 +92,7 @@ const UploadImage = ({
         headers: {
           "x-amz-acl": "public-read",
         },
+        cache: "no-store",
       });
 
       return uniqueFileName;
@@ -240,7 +241,7 @@ const DisplaySelectedImages = ({
             values={selectedFiles}
             onReorder={setSelectedFiles}
             layoutScroll
-            className="hide-scrollbar flex max-w-[1000px] flex-row gap-4 overflow-x-scroll p-2"
+            className="flex max-w-[1000px] flex-row gap-4 overflow-x-scroll p-2 hide-scrollbar"
             axis="x"
           >
             <AnimatePresence>

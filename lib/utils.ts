@@ -63,6 +63,7 @@ export const randomFromInterval = (min: number, max: number) => {
 export const checkIfUrlAccessible = async (url: string): Promise<boolean> => {
   const response = await fetch(url, {
     method: "HEAD",
+    cache: "no-store",
   })
     .then((response) => {
       return response.ok;
