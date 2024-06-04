@@ -24,6 +24,7 @@ export async function middleware(req: NextRequest) {
           .map((cookie) => `${cookie.name}=${cookie.value}`)
           .join("; "),
       },
+      cache: "no-store",
     });
 
     if (!apiResponse.ok) {

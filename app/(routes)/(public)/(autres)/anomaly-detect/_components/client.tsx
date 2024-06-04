@@ -95,9 +95,9 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
 
   return (
     <Container>
-      <div className="flex flex-col overflow-hidden rounded-xl p-4 text-lg sm:p-6 sm:text-xl md:text-2xl lg:p-8 ">
+      <div className="flex flex-col overflow-clip rounded-xl p-4 text-lg sm:p-6 sm:text-xl md:text-2xl lg:p-8 ">
         <div
-          className="relative aspect-square overflow-hidden rounded-xl bg-cover md:aspect-[3.3/1]"
+          className="relative aspect-square overflow-clip rounded-xl bg-cover md:aspect-[3.3/1]"
           style={{ backgroundImage: `url(${imageUrl})` }}
         ></div>
         <div className="pb-3 text-center font-bold md:hidden">

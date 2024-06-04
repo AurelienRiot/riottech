@@ -1,4 +1,5 @@
 import axios from "axios";
+import { unstable_cache } from "next/cache";
 
 export type FetchSimType = {
   RTsubIDs: string[];
@@ -81,3 +82,11 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
     };
   }
 };
+
+export const FetchSimCache = unstable_cache(
+  async (sim: string) => FetchSim(sim),
+  ["sim"],
+  {
+    revalidate: 60 * 10,
+  },
+);

@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,9 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { ScrollToForm } from "./scroll-to-target";
+import ImageSurveillance1 from "@/public/surveillance-elevage/camera_surveillance1.webp";
+import ImageSurveillance2 from "@/public/surveillance-elevage/camera_surveillance2.webp";
 
 const ButtonSurveillance = () => {
   return (
@@ -30,7 +30,7 @@ const ButtonSurveillance = () => {
               </Button>
             </>
           }
-          image="/surveillance-elevage/camera_surveillance2.webp"
+          image={ImageSurveillance2}
         />
         <CardSurveillance
           title="Surveillance sécurité aux abords et à l’intérieur des bâtiments"
@@ -44,7 +44,7 @@ const ButtonSurveillance = () => {
               </p>
             </>
           }
-          image="/surveillance-elevage/camera_surveillance1.webp"
+          image={ImageSurveillance1}
         />
       </div>
     </div>
@@ -60,7 +60,7 @@ const CardSurveillance = ({
 }: {
   title: string;
   content: React.ReactNode;
-  image: string;
+  image: StaticImageData;
 }) => {
   return (
     <Card className="relative flex h-full max-w-md flex-col justify-between">
@@ -70,18 +70,21 @@ const CardSurveillance = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="relative  text-center">{content}</CardContent>
-      <div className="group  relative mx-auto size-20">
+      <div className="group relative z-10 mx-auto size-20">
         <Image
           src={image}
           alt="image"
-          fill
-          sizes="160px"
-          className=" pointer-events-none z-10 object-contain opacity-100 transition-transform group-hover:scale-[2]"
+          width={160}
+          height={160}
+          placeholder="blur"
+          className=" pointer-events-none  object-contain opacity-100 transition-transform group-hover:scale-[2]"
         />
       </div>
       <CardFooter className="relative flex items-center justify-center">
         {" "}
-        <ScrollToForm text="Parlez nous de votre projet" />
+        <Button className={"cursor-pointer text-base hover:underline"} asChild>
+          <Link href="#form"> Parlez nous de votre projet</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

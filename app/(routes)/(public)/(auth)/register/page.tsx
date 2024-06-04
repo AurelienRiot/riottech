@@ -1,4 +1,12 @@
+import { Metadata } from "next";
 import { RegisterForm } from "./_components/register-form";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Créer votre compte",
+    description: "Créer votre compte RIOT TECH",
+  };
+}
 
 export default function RegisterPage() {
   return (

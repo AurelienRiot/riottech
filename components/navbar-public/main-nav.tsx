@@ -35,14 +35,20 @@ const MainNav = () => {
     <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 ">
       <NavigationMenu>
         <NavigationMenuList>
-          <NavigationMenuItem className="rounded-lg border-2 border-border">
-            <Link href="/activation-sim" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <BsSim className="mr-2 hidden h-4 w-4 xl:flex" />
-                {" J'Active ma SIM"}
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
+          {navRoutes.map((route) => (
+            <NavigationMenuItem
+              key={route.title}
+              className="rounded-lg border-2 border-border"
+            >
+              <Link href={route.href} legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <route.Icone className="mr-2 hidden h-4 w-4 xl:flex" />
+                  {route.title}
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+          ))}
+
           {/* <NavigationMenuItem className="relative rounded-lg border-2 border-border">
                         <button
                             type="button"
@@ -89,52 +95,6 @@ const MainNav = () => {
                             </AnimatePresence>
                         </Suspense>
                     </NavigationMenuItem> */}
-          {/* <NavigationMenuItem className="border-2 rounded-lg border-border">
-                            <Link href="/anomaly-detect" legacyBehavior passHref>
-                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                    <RiAlarmWarningLine className="hidden w-4 h-4 mr-2 xl:flex" />
-                                    Anomaly Detect
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem> */}
-          <NavigationMenuItem className="rounded-lg border-2 border-border ">
-            <Link href="/surveillance-elevage" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <BiCctv className="mr-2 hidden h-4 w-4 xl:flex" />
-                Surveillance Agricole
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem className="rounded-lg border-2 border-border">
-            <Link href="/solution-internet" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <ImConnection className="mr-2 hidden h-4 w-4 xl:flex" />
-                La connexion internet RIOT TECH
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem className="rounded-lg border-2 border-border">
-            <Link
-              href={`/solution-internet?btn=${encodeURIComponent("Revendeur-Intégration")}`}
-              legacyBehavior
-              passHref
-            >
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                <LucidePhoneCall className="mr-2 hidden h-4 w-4 xl:flex" />
-                Revendeur/Intégration
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          {/* <NavigationMenuItem className="rounded-lg border-2 border-border">
-                        <Link href="/contact" legacyBehavior passHref>
-                            <NavigationMenuLink
-                                className={navigationMenuTriggerStyle()}
-                            >
-                                <LucidePhoneCall className="mr-2 hidden h-4 w-4 xl:flex" />
-                                Contact
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenu>
       {/* <SearchNav /> */}
@@ -143,3 +103,26 @@ const MainNav = () => {
 };
 
 export default MainNav;
+
+export const navRoutes = [
+  {
+    href: "/activation-sim",
+    title: "J'Active ma SIM",
+    Icone: BsSim,
+  },
+  {
+    href: "/surveillance-elevage",
+    title: "Surveillance Agricole",
+    Icone: BiCctv,
+  },
+  {
+    href: "/solution-internet",
+    title: "La connexion internet RIOT TECH",
+    Icone: ImConnection,
+  },
+  {
+    href: `/solution-internet?btn=${encodeURIComponent("Revendeur-Intégration")}`,
+    title: "Revendeur/Intégration",
+    Icone: LucidePhoneCall,
+  },
+];

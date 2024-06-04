@@ -1,5 +1,13 @@
 import { GoogleButton } from "@/components/auth/auth-button";
 import { LoginForm } from "./components/login-form";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Page de connection",
+    description: "Connectez-vous à RIOT TECH",
+  };
+}
 
 export default async function LoginPage() {
   return (

@@ -1,5 +1,4 @@
 "use client";
-import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import {
@@ -14,32 +13,41 @@ import { dateFormatter } from "@/lib/utils";
 import { Subscription } from "@prisma/client";
 import axios from "axios";
 import { addDays, addMonths, addWeeks, addYears } from "date-fns";
+import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/_components/register-form";
-import { Loader2 } from "lucide-react";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 interface SelectSubscriptionProps {
   subscriptions: Subscription[];
   sim: string | undefined;
-  initSubId: string | undefined;
+  subId: string | undefined;
 }
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
   subscriptions,
   sim,
-  initSubId,
+  subId,
 }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
-  const [subId, setSubId] = useState(initSubId);
-  const [selectedSubscription, setSelectedSubscription] =
-    useState<Subscription | null>(null);
-  const searchParams = useSearchParams();
+  const [selectedSubscription, setSelectedSubscription] = useState<
+    Subscription | undefined
+  >(subscriptions.find((sub) => sub.id === subId) ?? undefined);
+
+  useEffect(() => {
+    function setSub() {
+      setSelectedSubscription(
+        subscriptions.find((sub) => sub.id === subId) ?? undefined,
+      );
+    }
+
+    setSub();
+  }, [subscriptions, subId]);
 
   const map = new Map<string, Subscription[]>();
   subscriptions.forEach((subscription) => {
@@ -49,14 +57,6 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
     }
     map.get(groupName)?.push(subscription);
   });
-
-  useEffect(() => {
-    setSubId(searchParams.get("subId") ?? undefined);
-    console.log(searchParams.get("subId"));
-    setSelectedSubscription(
-      subscriptions.find((sub) => sub.id === subId) ?? null,
-    );
-  }, [searchParams, subscriptions, subId, setSubId, setSelectedSubscription]);
 
   const groupedSubscriptions = Array.from(map.values());
 
@@ -105,7 +105,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       return;
     }
     router.push(
-      `/activation-sim?sim=${encodeURIComponent(
+      `?sim=${encodeURIComponent(
         sim,
       )}&subId=${encodeURIComponent(subscriptionId)}`,
       { scroll: false },
@@ -117,6 +117,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
       <div className="mt-4 flex flex-col justify-center gap-2 text-center">
         <h2 className="text-center text-lg">Choisissez votre abonnement : </h2>
         <Select
+          key={selectedSubscription?.id}
           value={
             selectedSubscription
               ? groupedSubscriptions.find((group) =>
@@ -124,12 +125,10 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                 )?.[0].id
               : undefined
           }
-          onValueChange={(value) => {
-            redirectSub(value);
-          }}
+          onValueChange={(value) => redirectSub(value)}
         >
-          <SelectTrigger className="w-[280px]">
-            <SelectValue placeholder="Abonnement" />
+          <SelectTrigger className={"w-[280px]"}>
+            <SelectValue placeholder="Abonnements" />
           </SelectTrigger>
           <SelectContent position="popper">
             {groupedSubscriptions.map((obj) => (
@@ -243,7 +242,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({
                   </h1>
 
                   <RegisterForm
-                    callback={`${baseUrl}/activation-sim?sim=${sim}&subId=${subId}`}
+                    callback={`${baseUrl}/activation-sim?sim=${sim}&subId=${selectedSubscription.id}`}
                   />
                 </div>
               </div>

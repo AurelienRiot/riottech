@@ -1,5 +1,5 @@
 import { Button, Section, Text } from "@react-email/components";
-import { Footer, MainBody } from "./common";
+import MainBody from "./common";
 
 export interface SubscriptionEmailProps {
   baseUrl: string;

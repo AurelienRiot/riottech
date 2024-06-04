@@ -14,7 +14,7 @@ const main = {
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
 };
-export const MainBody = ({
+const MainBody = ({
   children,
   previewText,
   baseUrl,
@@ -56,7 +56,7 @@ export const MainBody = ({
   </Html>
 );
 
-export const Footer = () => (
+const Footer = () => (
   <>
     <Text className="text-center text-base ">
       Cordialement,
@@ -69,3 +69,5 @@ export const Footer = () => (
     </Text>
   </>
 );
+
+export default MainBody;

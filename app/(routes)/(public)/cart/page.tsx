@@ -4,6 +4,14 @@ import { getDbUser } from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import CartItems from "./components/cart-items";
 import Summary from "./components/summary";
+import { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Panier",
+    description: "Consultez votre panier RIOT TECH",
+  };
+}
 
 const CartPage = async () => {
   const user = await getDbUser();

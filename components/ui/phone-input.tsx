@@ -29,7 +29,7 @@ type PhoneInputProps = Omit<
   "onChange" | "value"
 > &
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
-    onChange: (value: RPNInput.Value) => void;
+    onChange: (value: RPNInput.Value | "") => void;
     value: RPNInput.Value;
   };
 

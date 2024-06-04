@@ -26,6 +26,7 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Heading } from "./ui/heading";
+import { AutosizeTextarea } from "./ui/autosize-textarea";
 
 const formSchema = z.object({
   name: z
@@ -188,6 +189,7 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>Numéro de téléphone :</FormLabel>
                   <FormControl>
+                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"
@@ -306,7 +308,7 @@ export const ContactForm = ({
                   <FormLabel>Message :</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <TextArea
+                      <AutosizeTextarea
                         disabled={loading}
                         placeholder="..."
                         {...field}

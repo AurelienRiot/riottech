@@ -1,6 +1,6 @@
 import getFullUser from "@/server-actions/get-user";
 import { TestStripe } from "./test-stripe";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import { StripeElementsOptions } from "@stripe/stripe-js";
 import Stripe from "stripe";

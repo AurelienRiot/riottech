@@ -331,6 +331,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
+                      {/* @ts-ignore */}
                       <PhoneInput
                         placeholder="Entrez votre numéro de téléphone"
                         defaultCountry="FR"

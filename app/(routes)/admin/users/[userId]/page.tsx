@@ -45,6 +45,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
 
   const formatedUser = {
     ...user,
+    password: null,
     subscriptionOrder: [],
     orders: [],
   };

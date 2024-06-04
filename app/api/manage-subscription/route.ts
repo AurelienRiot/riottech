@@ -1,5 +1,5 @@
 import { checkUser } from "@/components/auth/checkAuth";
-import { stripe } from "@/lib/strip";
+import { stripe } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

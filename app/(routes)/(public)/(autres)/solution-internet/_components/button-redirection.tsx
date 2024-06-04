@@ -6,12 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { FcHome } from "react-icons/fc";
 import { TbBusinessplan } from "react-icons/tb";
-import { ScrollToForm } from "../../surveillance-elevage/_components/scroll-to-target";
 import Reseau4GPage from "./reseau-4G";
-import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 const ButtonRedirectionV2 = () => {
   const [btn, setBtn] = useState<string | undefined>(undefined);
@@ -132,7 +133,12 @@ const ButtonRedirectionV2 = () => {
               </li>
               <li className="text-base"> Un contact SAV privilégié</li>
             </ul>{" "}
-            <ScrollToForm text="Connaitre les prix" className="mx-auto" />
+            <Button
+              className={"mx-auto cursor-pointer text-base hover:underline"}
+              asChild
+            >
+              <Link href={"#form"}>Connaitre les prix</Link>
+            </Button>
           </>
         ),
         subject: "Revendeur-Intégration",
@@ -170,7 +176,12 @@ const ButtonRedirectionV2 = () => {
               <em>Expliquez-nous vos besoins</em>, nous reviendrons vers vous
               avec une solution adaptée et à un prix abordable.
             </p>
-            <ScrollToForm text="Connaitre les prix" className="mx-auto " />
+            <Button
+              className={"mx-auto cursor-pointer text-base hover:underline"}
+              asChild
+            >
+              <Link href={"#form"}>Connaitre les prix</Link>
+            </Button>
           </>
         ),
 

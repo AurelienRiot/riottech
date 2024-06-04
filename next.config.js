@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "object-storage-dev.s3.fr-par.scw.cloud",
+        hostname: "*.s3.fr-par.scw.cloud",
         port: "",
         pathname: "/**",
       },
