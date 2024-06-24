@@ -1,9 +1,9 @@
 import prismadb from "@/lib/prismadb";
 import { UserForm } from "./components/user-form";
-import { OrderColumn } from "./components/order-column";
+import type { OrderColumn } from "./components/order-column";
 import { currencyFormatter } from "@/lib/utils";
 import { OrderTable } from "./components/order-table";
-import { SubscriptionOrderColumn } from "./components/subscription-order-column";
+import type { SubscriptionOrderColumn } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import ButtonBackward from "@/components/ui/button-backward";
 
@@ -53,7 +53,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
   const formattedOrders: OrderColumn[] = (user?.orders || []).map((order) => ({
     id: order.id,
     productsList: order.orderItems.map((item) => {
-      let name = item.name;
+      const name = item.name;
       if (Number(item.quantity) > 1) {
         const quantity = ` x${item.quantity}`;
         return { name, quantity: quantity };

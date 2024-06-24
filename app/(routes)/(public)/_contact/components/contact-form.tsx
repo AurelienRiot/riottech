@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
@@ -22,10 +21,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
-import { Toaster as Sonner, toast } from "sonner";
+import { toast } from "sonner";
 import * as z from "zod";
-
-type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const formSchema = z.object({
   name: z
@@ -177,7 +174,6 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                 <FormItem>
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
-                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"

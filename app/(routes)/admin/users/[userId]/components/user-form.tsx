@@ -177,7 +177,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       <Separator />
 
       <p>{initialData?.email}</p>
-      <div className="mt-6 flex ">
+      <div className="mt-6 flex">
         <Button
           onClick={(e) => {
             e.preventDefault();
@@ -187,7 +187,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             !isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Particulier
@@ -201,7 +201,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Professionnel
@@ -246,7 +246,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
-                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"

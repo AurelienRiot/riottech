@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import ResetPasswordForm from "./_components/reset-password-form";
 
+export const dynamic = "force-static";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Reinitialiser votre mot de passe",

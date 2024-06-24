@@ -19,6 +19,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
+export const dynamic = "force-static";
+
 interface ResetPasswordProps {
   params: {
     resetToken: string;
@@ -89,7 +91,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
             className="w-full space-y-12 sm:w-[400px]"
           >
-            <div className="grid w-full  items-center gap-1.5">
+            <div className="grid w-full items-center gap-1.5">
               <FormField
                 control={form.control}
                 name="password"
@@ -119,7 +121,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                 )}
               />
             </div>
-            <div className="grid w-full  items-center gap-1.5">
+            <div className="grid w-full items-center gap-1.5">
               <FormField
                 control={form.control}
                 name="confirmPassword"

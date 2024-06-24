@@ -29,6 +29,7 @@ export const getDbUserCache = unstable_cache(
   ["getDbUserCache"],
   {
     revalidate: 60 * 10,
+    tags: ["getDbUserCache"],
   },
 );
 

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Client from "./_components/client";
 
+export const dynamic = "force-static";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Anomaly detect",

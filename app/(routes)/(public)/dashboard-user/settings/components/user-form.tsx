@@ -193,7 +193,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         </Button>
       </div>
       <Separator />
-      <p className="p-6  font-bold">{initialData.email}</p>
+      <p className="p-6 font-bold">{initialData.email}</p>
       <div className="flex">
         <Button
           onClick={(e) => {
@@ -204,7 +204,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             !isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Particulier
@@ -218,7 +218,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Professionnel
@@ -263,7 +263,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
-                    {/* @ts-ignore */}
                     <PhoneInput
                       defaultCountry="FR"
                       placeholder="Entrez votre numéro de téléphone"
@@ -310,7 +309,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
               setSelectedAddress={setSelectedAddress}
             />
           </div>
-          <LoadingButton disabled={loading} className="ml-auto " type="submit">
+          <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}
           </LoadingButton>
         </form>

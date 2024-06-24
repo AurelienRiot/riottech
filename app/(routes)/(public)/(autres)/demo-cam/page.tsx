@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Image from "next/image";
 
+export const dynamic = "force-static";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Démonstration des caméras",

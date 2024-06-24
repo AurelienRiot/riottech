@@ -197,7 +197,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               className={
                 !isPro
                   ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-                  : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+                  : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
               }
             >
               Particulier
@@ -211,7 +211,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               className={
                 isPro
                   ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-                  : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+                  : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
               }
             >
               Professionnel
@@ -245,7 +245,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </AnimateHeight>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="surname"
@@ -270,7 +270,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="name"
@@ -295,7 +295,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="email"
@@ -322,7 +322,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="phone"
@@ -331,7 +331,6 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      {/* @ts-ignore */}
                       <PhoneInput
                         placeholder="Entrez votre numéro de téléphone"
                         defaultCountry="FR"
@@ -346,13 +345,13 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <AdressForm
               selectedAddress={selectedAddress}
               setSelectedAddress={setSelectedAddress}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="password"
@@ -385,7 +384,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="confirmPassword"

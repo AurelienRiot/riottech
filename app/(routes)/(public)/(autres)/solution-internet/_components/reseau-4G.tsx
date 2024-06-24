@@ -6,36 +6,31 @@ import Link from "next/link";
 
 const Reseau4GPage = () => {
   return (
-    <div className="relative space-y-10  pb-10 pt-6  ">
-      <h2 className="space-y-4  text-center text-3xl font-semibold text-primary">
-        Le réseau RIOT TECH
-      </h2>
-      <section className=" flex flex-wrap  justify-between gap-6 p-6 ">
-        {features.map((feature, index) => (
-          <div
-            key={index}
-            className="group flex w-96 flex-auto flex-col gap-4  "
-            id={feature.title}
-          >
-            <Image
-              width={100}
-              height={100}
-              src={feature.image}
-              alt={feature.altImage}
-              className="mx-auto mb-2 h-20 w-20"
-            />
-            <h2 className="relative   text-center text-xl font-semibold text-primary">
-              <HoverWord className="inline-flex items-center p-2">
-                {feature.title}
-              </HoverWord>
-            </h2>
-            <div className="mx-auto max-w-96  text-center ">
-              {feature.description}
-            </div>
+    <section className="flex flex-wrap justify-between gap-6 p-6">
+      {features.map((feature, index) => (
+        <div
+          key={index}
+          className="group flex w-96 flex-auto flex-col gap-4"
+          id={feature.title}
+        >
+          <Image
+            width={100}
+            height={100}
+            src={feature.image}
+            alt={feature.altImage}
+            className="mx-auto mb-2 h-20 w-20"
+          />
+          <h2 className="relative text-center text-xl font-semibold text-primary">
+            <HoverWord className="inline-flex items-center p-2">
+              {feature.title}
+            </HoverWord>
+          </h2>
+          <div className="mx-auto max-w-96 text-center">
+            {feature.description}
           </div>
-        ))}
-      </section>
-    </div>
+        </div>
+      ))}
+    </section>
   );
 };
 
@@ -125,7 +120,7 @@ const features: Feature[] = [
     altImage: "certifica de garantie",
     title: "La garantie à vie, ça signifie quoi ?",
     description: (
-      <p className="relative p-4 ">
+      <p className="relative p-4">
         Routeur garanti à vie, SAV simplifié
         <br />
         En cas de problème sur routeur et après diagnostique par le SAV RIOT

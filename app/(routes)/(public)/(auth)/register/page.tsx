@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { RegisterForm } from "./_components/register-form";
 
+export const dynamic = "force-static";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Créer votre compte",

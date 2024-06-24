@@ -14,28 +14,12 @@ export type FetchSimType = {
 export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   if (!sim) {
     console.log("no sim");
-    return {
-      RTsubIDs: [],
-      available: false,
-      group: "",
-      is_third: false,
-      org_image_url: "",
-      org_name: "",
-      sim_serial: "",
-    };
+    return emptySIM;
   }
 
   if (!/^\d{19}$/.test(sim)) {
     console.log("regex error");
-    return {
-      RTsubIDs: [],
-      available: false,
-      group: "",
-      is_third: false,
-      org_image_url: "",
-      org_name: "",
-      sim_serial: "",
-    };
+    return emptySIM;
   }
   try {
     const response = await axios.get(
@@ -60,26 +44,10 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
       //     sim_serial: "8988247000014274683",
       //   };
     }
-    return {
-      RTsubIDs: [],
-      available: false,
-      group: "",
-      is_third: false,
-      org_image_url: "",
-      org_name: "",
-      sim_serial: "",
-    };
+    return emptySIM;
   } catch (error) {
     console.log("error");
-    return {
-      RTsubIDs: [],
-      available: false,
-      group: "",
-      is_third: false,
-      org_image_url: "",
-      org_name: "",
-      sim_serial: "",
-    };
+    return emptySIM;
   }
 };
 
@@ -90,3 +58,13 @@ export const FetchSimCache = unstable_cache(
     revalidate: 60 * 10,
   },
 );
+
+const emptySIM = {
+  RTsubIDs: [],
+  available: false,
+  group: "",
+  is_third: false,
+  org_image_url: "",
+  org_name: "",
+  sim_serial: "",
+};

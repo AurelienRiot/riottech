@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
-import { TextArea } from "@/components/ui/text-area";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -25,8 +24,8 @@ import { MdSend } from "react-icons/md";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 import * as z from "zod";
-import { Heading } from "./ui/heading";
 import { AutosizeTextarea } from "./ui/autosize-textarea";
+import { Heading } from "./ui/heading";
 
 const formSchema = z.object({
   name: z
@@ -143,7 +142,7 @@ export const ContactForm = ({
           onSubmit={form.handleSubmit(() => setOpen(true))}
           className="w-full space-y-8"
         >
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 ">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FormField
               control={form.control}
               name="name"
@@ -169,14 +168,12 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>Email :</FormLabel>
                   <FormControl>
-                    <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading}
-                        placeholder="exemple@mail.com"
-                        {...field}
-                        autoComplete="email"
-                      />
-                    </div>
+                    <Input
+                      disabled={loading}
+                      placeholder="exemple@mail.com"
+                      {...field}
+                      autoComplete="email"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -189,7 +186,6 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>Numéro de téléphone :</FormLabel>
                   <FormControl>
-                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"
