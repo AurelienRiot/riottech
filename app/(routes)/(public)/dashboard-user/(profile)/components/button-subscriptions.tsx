@@ -1,12 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({
-  stripeCustomerId,
-}) => {
+const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({ stripeCustomerId }) => {
   const [loading, setLoading] = useState(false);
 
   const onClick = async () => {

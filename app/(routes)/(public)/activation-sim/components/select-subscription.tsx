@@ -33,7 +33,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscrip
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | undefined>(
     subscriptions.find((sub) => sub.id === subId) ?? undefined,
   );
-  const [trialEnd, setTrialEnd] = useState<Date>(addDays(new Date(), 2));
+  const [trialEnd, setTrialEnd] = useState<Date>(addDays(new Date(), 3));
 
   useEffect(() => {
     function setSub() {

@@ -2,18 +2,11 @@
 
 import { LoadingButton } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -24,18 +17,12 @@ import * as z from "zod";
 const formSchema = z
   .object({
     password: z.string().optional(),
-    newPassword: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
+    newPassword: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
+    confirmPassword: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Les mots de passe doivent correspondrent",
@@ -74,7 +61,7 @@ export const PasswordForm = () => {
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Erreur.");
@@ -91,10 +78,7 @@ export const PasswordForm = () => {
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             <FormField
               control={form.control}
@@ -111,11 +95,7 @@ export const PasswordForm = () => {
                         type={showPassword ? "text" : "password"}
                         autoComplete="current-password"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        tabIndex={-1}
-                      >
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                         {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
@@ -139,11 +119,7 @@ export const PasswordForm = () => {
                         type={showNewPassword ? "text" : "password"}
                         autoComplete="new-password"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                        tabIndex={-1}
-                      >
+                      <button type="button" onClick={() => setShowNewPassword(!showNewPassword)} tabIndex={-1}>
                         {showNewPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
@@ -167,11 +143,7 @@ export const PasswordForm = () => {
                         type={showNewPassword ? "text" : "password"}
                         autoComplete="new-password"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowNewPassword(!showNewPassword)}
-                        tabIndex={-1}
-                      >
+                      <button type="button" onClick={() => setShowNewPassword(!showNewPassword)} tabIndex={-1}>
                         {showNewPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>

@@ -2,7 +2,7 @@ import ButtonBackward from "@/components/ui/button-backward";
 import getFullUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
 import { InvoicesTable } from "./components/table";
-import { InvoicesColumn, columns } from "./components/column";
+import { type InvoicesColumn, columns } from "./components/column";
 import { currencyFormatter } from "@/lib/utils";
 import { Suspense } from "react";
 import { Heading } from "@/components/ui/heading";
@@ -30,48 +30,38 @@ const Facture = async () => {
   const user = await getFullUser();
   if (!user) redirect("/login");
 
-  const formattedInvoicesOrders: InvoicesColumn[] = (user.orders || []).map(
-    (order) => ({
-      type: "Commande",
-      productsList: order.orderItems.map((item) => {
+  const formattedInvoicesOrders: InvoicesColumn[] = (user.orders || []).map((order) => ({
+    type: "Commande",
+    productsList: order.orderItems.map((item) => {
+      const name = item.name;
+      if (Number(item.quantity) > 1) {
+        const quantity = ` x${item.quantity}`;
+        return { name, quantity: quantity };
+      }
+      return { name, quantity: "" };
+    }),
+    products: order.orderItems
+      .map((item) => {
         let name = item.name;
         if (Number(item.quantity) > 1) {
-          const quantity = ` x${item.quantity}`;
-          return { name, quantity: quantity };
+          name += ` x${item.quantity}`;
         }
-        return { name, quantity: "" };
-      }),
-      products: order.orderItems
-        .map((item) => {
-          let name = item.name;
-          if (Number(item.quantity) > 1) {
-            name += ` x${item.quantity}`;
-          }
-          return name;
-        })
-        .join(", "),
-      price: currencyFormatter.format(Number(order.totalPrice)),
-      status: order.isPaid
-        ? order.mailSend
-          ? "Paiement validé"
-          : "En cours de validation"
-        : "Non payé",
-      isPaid: order.isPaid,
-      mailSend: order.mailSend,
-      pdfUrl: order.pdfUrl,
-      createdAt: order.createdAt,
-    }),
-  );
+        return name;
+      })
+      .join(", "),
+    price: currencyFormatter.format(Number(order.totalPrice)),
+    status: order.isPaid ? (order.mailSend ? "Paiement validé" : "En cours de validation") : "Non payé",
+    isPaid: order.isPaid,
+    mailSend: order.mailSend,
+    pdfUrl: order.pdfUrl,
+    createdAt: order.createdAt,
+  }));
 
-  const formattedInvoicesSubscriptions: InvoicesColumn[] = (
-    user.subscriptionOrder || []
-  ).flatMap((subscriptionOrder) =>
+  const formattedInvoicesSubscriptions: InvoicesColumn[] = (user.subscriptionOrder || []).flatMap((subscriptionOrder) =>
     subscriptionOrder.subscriptionHistory.map((history) => ({
       type: "Abonnement",
       products: subscriptionOrder.subscriptionItem?.name || "",
-      productsList: [
-        { name: subscriptionOrder.subscriptionItem?.name || "", quantity: "" },
-      ],
+      productsList: [{ name: subscriptionOrder.subscriptionItem?.name || "", quantity: "" }],
       price: currencyFormatter.format(Number(history.price)),
       isPaid: true,
       status: history.mailSend ? "Paiement validé" : "En cours de validation",
@@ -81,10 +71,7 @@ const Facture = async () => {
     })),
   );
 
-  const formattedInvoices = [
-    ...formattedInvoicesOrders,
-    ...formattedInvoicesSubscriptions,
-  ].sort(
+  const formattedInvoices = [...formattedInvoicesOrders, ...formattedInvoicesSubscriptions].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
   );
 

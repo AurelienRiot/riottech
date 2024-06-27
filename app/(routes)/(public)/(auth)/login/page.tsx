@@ -1,6 +1,6 @@
 import { GoogleButton } from "@/components/auth/auth-button";
 import { LoginForm } from "./components/login-form";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const dynamic = "force-static";
 

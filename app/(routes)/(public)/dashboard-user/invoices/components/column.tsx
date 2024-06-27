@@ -1,23 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
-import { ArrowUpDown } from "lucide-react";
-import { DisplayPdf } from "../../(profile)/components/display-pdf";
 import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
-import {
-  CreatedAtCell,
-  StatusCell,
-} from "@/components/table-custom-fuction/common-cell";
-import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
+import { CreatedAtCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
+import { DisplayPdf } from "../../(profile)/components/display-pdf";
 
 export type InvoicesColumn = {
   type: "Commande" | "Abonnement";
@@ -54,12 +43,7 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   {
     accessorKey: "pdfUrl",
     header: "Facture",
-    cell: ({ row }) => (
-      <DisplayPdf
-        avalaible={row.original.mailSend}
-        pdfUrl={row.original.pdfUrl}
-      />
-    ),
+    cell: ({ row }) => <DisplayPdf avalaible={row.original.mailSend} pdfUrl={row.original.pdfUrl} />,
   },
   {
     accessorKey: "createdAt",
@@ -95,32 +79,31 @@ export const filterableColumns: DataTableFilterableColumn<InvoicesColumn>[] = [
   },
 ];
 
-export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] =
-  [
-    {
-      id: "type",
-      title: "Type",
-    },
+export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = [
+  {
+    id: "type",
+    title: "Type",
+  },
 
-    {
-      id: "products",
-      title: "Produits",
-    },
-    {
-      id: "price",
-      title: "Prix",
-    },
-    {
-      id: "status",
-      title: "État du paiement",
-    },
-    {
-      id: "pdfUrl",
-      title: "Facture",
-    },
+  {
+    id: "products",
+    title: "Produits",
+  },
+  {
+    id: "price",
+    title: "Prix",
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+  },
+  {
+    id: "pdfUrl",
+    title: "Facture",
+  },
 
-    {
-      id: "createdAt",
-      title: "Date de création",
-    },
-  ];
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+];

@@ -1,25 +1,18 @@
 "use client";
 
 import GetValideVat from "@/actions/get-valide-vat";
-import { AdressForm, FullAdress } from "@/components/adress-form";
+import { AdressForm, type FullAdress } from "@/components/adress-form";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { TVAForm } from "@/components/tva-form";
 import { Button, LoadingButton } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
-import axios, { AxiosError } from "axios";
+import type { User } from "@prisma/client";
+import axios, { type AxiosError } from "axios";
 import { Trash } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -56,9 +49,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isPro, setIsPro] = useState(
-    !!initialData?.raisonSocial || !initialData?.stripeCustomerId,
-  );
+  const [isPro, setIsPro] = useState(!!initialData?.raisonSocial || !initialData?.stripeCustomerId);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard-user";
   const [selectedAddress, setSelectedAddress] = useState<FullAdress>(
@@ -76,9 +67,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   );
 
   console.log(initialData);
-  const title = initialData.stripeCustomerId
-    ? "Modifier le profil"
-    : "Finalisez la création de votre compte";
+  const title = initialData.stripeCustomerId ? "Modifier le profil" : "Finalisez la création de votre compte";
   const toastMessage = "Profil mise à jour";
   const action = "Enregistrer les modifications";
 
@@ -91,10 +80,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       adresse: selectedAddress.label,
       tva: initialData.tva || "",
       raisonSocial: initialData.raisonSocial || "",
-      isPro:
-        initialData.role === "pro" || !initialData.stripeCustomerId
-          ? true
-          : false,
+      isPro: initialData.role === "pro" || !initialData.stripeCustomerId,
     },
   });
 
@@ -104,17 +90,13 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
       if (isPro) {
         if (!data.raisonSocial) {
-          toast.error(
-            "Veuillez renseigner la raison sociale ou passer en particulier.",
-          );
+          toast.error("Veuillez renseigner la raison sociale ou passer en particulier.");
           return;
         }
         if (data.tva) {
           const valideVat = await GetValideVat(data.tva);
           if (!valideVat) {
-            toast.error(
-              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
-            );
+            toast.error("Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.");
             return;
           }
           data.isPro = Boolean(valideVat);
@@ -167,28 +149,14 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
   return (
     <div>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="mb-4 flex flex-col items-center justify-between gap-4 md:flex-row">
-        <h2 className="text-center text-3xl font-bold tracking-tight">
-          {" "}
-          {title}{" "}
-        </h2>
+        <h2 className="text-center text-3xl font-bold tracking-tight"> {title} </h2>
         <Button onClick={passwordModify} variant="outline" className="ml-3">
           {" "}
           Changer de mot de passe{" "}
         </Button>
-        <Button
-          disabled={loading}
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-          className="ml-3"
-        >
+        <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)} className="ml-3">
           Supprimer le compte <Trash className="ml-2 h-4 w-4" />
         </Button>
       </div>
@@ -225,10 +193,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         </Button>
       </div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             <FormField
               control={form.control}
@@ -291,12 +256,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                     <FormItem>
                       <FormLabel>Raison sociale</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          disabled={loading}
-                          placeholder="Raison sociale"
-                          {...field}
-                        />
+                        <Input type="text" disabled={loading} placeholder="Raison sociale" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -304,10 +264,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 />
               </>
             )}
-            <AdressForm
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
+            <AdressForm selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
           </div>
           <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}

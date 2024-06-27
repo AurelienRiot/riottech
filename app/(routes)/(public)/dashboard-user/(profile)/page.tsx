@@ -1,9 +1,9 @@
 import { currencyFormatter } from "@/lib/utils";
 import getFullUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
-import { OrderColumnType } from "./components/order-column";
+import type { OrderColumnType } from "./components/order-column";
 import { OrderTable } from "./components/order-table";
-import { SubscriptionOrderColumnType } from "./components/subscription-order-column";
+import type { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import { UserButtons } from "./components/user-buttons";
 import { ToastSearchParams } from "@/lib/toast-search-params";
@@ -23,42 +23,36 @@ const DashboardUser = async () => {
   const user = await getFullUser();
   if (!user) redirect("/login");
   if (!user.stripeCustomerId) {
-    redirect(
-      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/dashboard-user`)}`,
-    );
+    redirect(`/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/dashboard-user`)}`);
   }
 
-  const formattedOrders: OrderColumnType[] = (user.orders || []).map(
-    (order) => ({
-      id: order.id,
-      productsList: order.orderItems.map((item) => {
+  const formattedOrders: OrderColumnType[] = (user.orders || []).map((order) => ({
+    id: order.id,
+    productsList: order.orderItems.map((item) => {
+      const name = item.name;
+      if (Number(item.quantity) > 1) {
+        const quantity = ` x${item.quantity}`;
+        return { name, quantity: quantity };
+      }
+      return { name, quantity: "" };
+    }),
+    products: order.orderItems
+      .map((item) => {
         let name = item.name;
         if (Number(item.quantity) > 1) {
-          const quantity = ` x${item.quantity}`;
-          return { name, quantity: quantity };
+          name += ` x${item.quantity}`;
         }
-        return { name, quantity: "" };
-      }),
-      products: order.orderItems
-        .map((item) => {
-          let name = item.name;
-          if (Number(item.quantity) > 1) {
-            name += ` x${item.quantity}`;
-          }
-          return name;
-        })
-        .join(", "),
-      totalPrice: currencyFormatter.format(Number(order.totalPrice)),
-      isPaid: order.isPaid,
-      mailSend: order.mailSend,
-      pdfUrl: order.pdfUrl,
-      createdAt: order.createdAt,
-    }),
-  );
+        return name;
+      })
+      .join(", "),
+    totalPrice: currencyFormatter.format(Number(order.totalPrice)),
+    isPaid: order.isPaid,
+    mailSend: order.mailSend,
+    pdfUrl: order.pdfUrl,
+    createdAt: order.createdAt,
+  }));
 
-  const formattedSubscriptionOrders: SubscriptionOrderColumnType[] = (
-    user.subscriptionOrder || []
-  ).map((order) => ({
+  const formattedSubscriptionOrders: SubscriptionOrderColumnType[] = (user.subscriptionOrder || []).map((order) => ({
     id: order.id,
     subscription: order.subscriptionItem?.name,
     recurrence: order.subscriptionItem?.recurrence,
@@ -87,8 +81,7 @@ const DashboardUser = async () => {
               <span className="capitalize">{user.raisonSocial}</span>
               <br />
               {"("}
-              <span className="capitalize">{user.name}</span>{" "}
-              <span className="capitalize">{user.surname}</span>
+              <span className="capitalize">{user.name}</span> <span className="capitalize">{user.surname}</span>
               {")"}
             </h1>
             <p className="text-xl ">Professionnel</p>
@@ -131,12 +124,8 @@ const DashboardUser = async () => {
       </div>
 
       <div className="p-4">
-        {formattedSubscriptionOrders.length > 0 ? (
-          <SubscriptionOrderTable data={formattedSubscriptionOrders} />
-        ) : null}
-        {formattedOrders.length > 0 ? (
-          <OrderTable data={formattedOrders} />
-        ) : null}
+        {formattedSubscriptionOrders.length > 0 ? <SubscriptionOrderTable data={formattedSubscriptionOrders} /> : null}
+        {formattedOrders.length > 0 ? <OrderTable data={formattedOrders} /> : null}
 
         {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}
       </div>

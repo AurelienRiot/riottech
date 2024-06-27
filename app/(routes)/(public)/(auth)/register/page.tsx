@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { RegisterForm } from "./_components/register-form";
 
 export const dynamic = "force-static";

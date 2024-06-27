@@ -3,7 +3,7 @@
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import {
-  OrderColumnType,
+  type OrderColumnType,
   OrdersColumn,
   filterableColumns,
   searchableColumns,
@@ -34,10 +34,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({ data }) => {
 
   return (
     <>
-      <Heading
-        title={`Commandes (${data.length})`}
-        description="Résumé des commandes"
-      />
+      <Heading title={`Commandes (${data.length})`} description="Résumé des commandes" />
       <Separator className="my-4" />
       <DataTable
         columns={OrdersColumn}

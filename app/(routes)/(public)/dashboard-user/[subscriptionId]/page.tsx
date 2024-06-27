@@ -1,5 +1,5 @@
 import ButtonBackward from "@/components/ui/button-backward";
-import { SubscriptionHistoryColumn } from "./components/column";
+import type { SubscriptionHistoryColumn } from "./components/column";
 import { currencyFormatter } from "@/lib/utils";
 import { SubscriptionHistoryTable } from "./components/table";
 import GetSubscriptionHistory from "@/server-actions/get-subscription-history";
@@ -9,21 +9,18 @@ const UserSubscriptionPage = async ({
 }: {
   params: { subscriptionId: string };
 }) => {
-  const subscriptionHistory = await GetSubscriptionHistory(
-    params.subscriptionId,
-  );
+  const subscriptionHistory = await GetSubscriptionHistory(params.subscriptionId);
 
-  const formattedSubscriptionHistory: SubscriptionHistoryColumn[] =
-    subscriptionHistory.map((history) => ({
-      id: history.id,
-      type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
-      price: currencyFormatter.format(Number(history.price)),
-      pdfUrl: history.pdfUrl,
-      isPaid: true,
-      status: history.mailSend ? "Paiement validé" : "En cours de validation",
-      mailSend: history.mailSend,
-      createdAt: history.createdAt,
-    }));
+  const formattedSubscriptionHistory: SubscriptionHistoryColumn[] = subscriptionHistory.map((history) => ({
+    id: history.id,
+    type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
+    price: currencyFormatter.format(Number(history.price)),
+    pdfUrl: history.pdfUrl,
+    isPaid: true,
+    status: history.mailSend ? "Paiement validé" : "En cours de validation",
+    mailSend: history.mailSend,
+    createdAt: history.createdAt,
+  }));
 
   return (
     <>
