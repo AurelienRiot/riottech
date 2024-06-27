@@ -33,9 +33,7 @@ export const GetGraphRevenue = async () => {
     const month = order.createdAt.getMonth();
     const revenueForOrder = Number(order.totalPrice);
     monthlyRevenue[month] = {
-      totalOrder: parseFloat(
-        ((monthlyRevenue[month]?.totalOrder || 0) + revenueForOrder).toFixed(2)
-      ),
+      totalOrder: Number.parseFloat(((monthlyRevenue[month]?.totalOrder || 0) + revenueForOrder).toFixed(2)),
       totalSubscription: monthlyRevenue[month]?.totalSubscription || 0,
     };
   }
@@ -48,10 +46,8 @@ export const GetGraphRevenue = async () => {
 
       monthlyRevenue[month] = {
         totalOrder: monthlyRevenue[month]?.totalOrder || 0,
-        totalSubscription: parseFloat(
-          (
-            (monthlyRevenue[month]?.totalSubscription || 0) + revenueForHistory
-          ).toFixed(2)
+        totalSubscription: Number.parseFloat(
+          ((monthlyRevenue[month]?.totalSubscription || 0) + revenueForHistory).toFixed(2),
         ),
       };
     }
@@ -73,10 +69,8 @@ export const GetGraphRevenue = async () => {
   ];
 
   for (const month in monthlyRevenue) {
-    graphData[parseInt(month)].totalOrder =
-      monthlyRevenue[parseInt(month)].totalOrder;
-    graphData[parseInt(month)].totalSubscription =
-      monthlyRevenue[parseInt(month)].totalSubscription;
+    graphData[Number.parseFloat(month)].totalOrder = monthlyRevenue[Number.parseFloat(month)].totalOrder;
+    graphData[Number.parseFloat(month)].totalSubscription = monthlyRevenue[Number.parseFloat(month)].totalSubscription;
   }
   return graphData;
 };

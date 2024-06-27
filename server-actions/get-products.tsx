@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { ProductWithCategoryAndImages } from "@/types";
+import type { ProductWithCategoryAndImages } from "@/types";
 
 interface Query {
   categoryId?: string;
@@ -7,9 +7,7 @@ interface Query {
   categoryName?: string;
 }
 
-const GetProducts = async (
-  query: Query,
-): Promise<ProductWithCategoryAndImages[]> => {
+const GetProducts = async (query: Query): Promise<ProductWithCategoryAndImages[]> => {
   const categoryId = query.categoryId || undefined;
   const categoryName = query.categoryName || undefined;
   const isFeatured = query.isFeatured || undefined;
