@@ -21,10 +21,17 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
     console.log("regex error");
     return emptySIM;
   }
+  return {
+    RTsubIDs: ["3fdbe87f-0d24-4a4b-8412-2390131a2dc8", "70ba8046-d4b4-4a95-9a4e-2155a3d181bd"],
+    available: true,
+    group: "",
+    is_third: false,
+    org_image_url: "",
+    org_name: "",
+    sim_serial: "",
+  };
   try {
-    const response = await axios.get(
-      `https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`,
-    );
+    const response = await axios.get(`https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`);
 
     if (response.data.available) {
       return response.data as FetchSimType;
@@ -51,13 +58,9 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   }
 };
 
-export const FetchSimCache = unstable_cache(
-  async (sim: string) => FetchSim(sim),
-  ["sim"],
-  {
-    revalidate: 60 * 10,
-  },
-);
+export const FetchSimCache = unstable_cache(async (sim: string) => FetchSim(sim), ["sim"], {
+  revalidate: 60 * 10,
+});
 
 const emptySIM = {
   RTsubIDs: [],

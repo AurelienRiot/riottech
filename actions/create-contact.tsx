@@ -1,6 +1,6 @@
 "use server";
 
-import { ContactFormValues } from "@/components/contact-form";
+import type { ContactFormValues } from "@/components/contact-form";
 import prismadb from "@/lib/prismadb";
 
 export type ContactReturnType = {

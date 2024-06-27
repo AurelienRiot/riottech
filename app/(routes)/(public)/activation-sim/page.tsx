@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { ToastSearchParams } from "@/lib/toast-search-params";
 import { GetSubscriptions } from "@/server-actions/get-subscriptions";
 import { getDbUserCache, getSessionUser } from "@/server-actions/get-user";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
@@ -54,14 +54,10 @@ const ServerSim = async ({
   const queryString = new URLSearchParams(searchParams).toString();
 
   if (user && !user.stripeCustomerId && user.role !== "admin") {
-    redirect(
-      `/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/activation-sim?${queryString}`)}`,
-    );
+    redirect(`/dashboard-user/settings?callbackUrl=${encodeURIComponent(`/activation-sim?${queryString}`)}`);
   }
 
-  const selectedSubscriptions = subscriptions.filter((subscription) =>
-    res.RTsubIDs.includes(subscription.id),
-  );
+  const selectedSubscriptions = subscriptions.filter((subscription) => res.RTsubIDs.includes(subscription.id));
   const availableSim = searchParams.sim ? res.available : true;
   const org = res.is_third
     ? {
@@ -80,17 +76,11 @@ const ServerSim = async ({
           <div className="mb-6 text-center text-secondary-foreground/80">
             {org.orgImageUrl ? (
               //  eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={org.orgImageUrl}
-                alt="Logo"
-                className="mx-auto mb-4 max-w-52"
-              />
+              <img src={org.orgImageUrl} alt="Logo" className="mx-auto mb-4 max-w-52" />
             ) : null}
             <p>
-              Utilisez cette page pour activer votre abonnement Carte SIM
-              multi-opérateurs {org.orgName}, Via RIOT TECH. Avec l’abonnement
-              RIOT TECH, profitez d’une connexion internet en toutes
-              circonstances !
+              Utilisez cette page pour activer votre abonnement Carte SIM multi-opérateurs {org.orgName}, Via RIOT TECH.
+              Avec l’abonnement RIOT TECH, profitez d’une connexion internet en toutes circonstances !
             </p>
           </div>
         </>
@@ -102,14 +92,10 @@ const ServerSim = async ({
           </h1>
           <div className="mb-6 text-center text-secondary-foreground/80">
             <p>
-              Utilisez cette page pour activer votre abonnement Carte SIM
-              multi-opérateurs RIOT TECH, saisissez le code complet de la carte
-              SIM et laissez-vous guider !
+              Utilisez cette page pour activer votre abonnement Carte SIM multi-opérateurs RIOT TECH, saisissez le code
+              complet de la carte SIM et laissez-vous guider !
             </p>
-            <p>
-              Avec l’abonnement RIOT TECH, profitez d’une connexion internet en
-              toutes circonstances !
-            </p>
+            <p>Avec l’abonnement RIOT TECH, profitez d’une connexion internet en toutes circonstances !</p>
           </div>{" "}
         </>
       )}
@@ -119,11 +105,7 @@ const ServerSim = async ({
       <SimForm sim={searchParams.sim} availableSim={availableSim} />
 
       {selectedSubscriptions.length > 0 ? (
-        <SelectSubscription
-          subscriptions={selectedSubscriptions}
-          sim={searchParams.sim}
-          subId={searchParams.subId}
-        />
+        <SelectSubscription subscriptions={selectedSubscriptions} sim={searchParams.sim} subId={searchParams.subId} />
       ) : null}
     </>
   );
