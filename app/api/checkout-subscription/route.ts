@@ -181,7 +181,7 @@ export async function POST(req: NextRequest) {
       },
       // billing_address_collection: isAdresse ? "auto" : "required",
       billing_address_collection: "auto",
-      payment_method_types: ["sepa_debit", "card"],
+      payment_method_types: ["sepa_debit"],
       phone_number_collection: {
         enabled: false,
       },

@@ -21,7 +21,7 @@ export function MentionCombobox({
     <div onMouseDown={(e) => e.preventDefault()}>
       <Combobox
         id={id}
-        trigger={trigger}
+        trigger={trigger as string}
         controlled
         onSelectItem={getMentionOnSelectItem({
           key: pluginKey,
