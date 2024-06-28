@@ -2,13 +2,13 @@
 
 import React from "react";
 import { cn, withRef } from "@udecode/cn";
-import { ClassNames, PlateElementProps, TEditor } from "@udecode/plate-common";
+import type { ClassNames, PlateElementProps, TEditor } from "@udecode/plate-common";
 import {
-  DragItemNode,
+  type DragItemNode,
   useDraggable,
   useDraggableState,
 } from "@udecode/plate-dnd";
-import { DropTargetMonitor } from "react-dnd";
+import type { DropTargetMonitor } from "react-dnd";
 
 import { Icons } from "@/components/icons";
 

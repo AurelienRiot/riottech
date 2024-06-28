@@ -1,39 +1,20 @@
 "use client";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { FieldValues, UseFormReturn } from "react-hook-form";
-import { ProductFormValues } from "./product-form";
-import { TextArea } from "@/components/ui/text-area";
 import { Markdown } from "@/components/markdown";
 import { Button } from "@/components/ui/button";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { TextArea } from "@/components/ui/text-area";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import type { FieldValues, UseFormReturn } from "react-hook-form";
+import { AiOutlineHighlight, AiOutlineLine, AiOutlineOrderedList, AiOutlineUnorderedList } from "react-icons/ai";
 import { BiImageAdd } from "react-icons/bi";
 import { FiExternalLink } from "react-icons/fi";
-import {
-  AiOutlineHighlight,
-  AiOutlineLine,
-  AiOutlineOrderedList,
-  AiOutlineUnorderedList,
-} from "react-icons/ai";
 import { GoQuote } from "react-icons/go";
-import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import type { ProductFormValues } from "./product-form";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import GridCells from "./grid-cells";
 
 type RenderMarkdownProps = {
@@ -49,18 +30,12 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
 
   const titres = ["h1", "h2", "h3", "h4", "h5"] as const;
 
-  function createMarkdownTable(
-    field: FieldValues,
-    row: number | undefined,
-    col: number | undefined,
-  ) {
+  function createMarkdownTable(field: FieldValues, row: number | undefined, col: number | undefined) {
     if (row === undefined || col === undefined || row < 1 || col < 1) {
       toast.error("Les lines et colonnes doivent être supérieurs à 0");
       return;
     }
-    const textarea = document.getElementById(
-      "productSpecsTextArea",
-    ) as HTMLTextAreaElement;
+    const textarea = document.getElementById("productSpecsTextArea") as HTMLTextAreaElement;
 
     const startPos = textarea.selectionStart;
 
@@ -94,10 +69,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
       table += "\n";
     }
 
-    const newValue =
-      productSpecswatch.substring(0, lineStart) +
-      table +
-      productSpecswatch.substring(lineStart);
+    const newValue = productSpecswatch.substring(0, lineStart) + table + productSpecswatch.substring(lineStart);
 
     field.onChange(newValue);
   }
@@ -121,9 +93,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
       | "unorderedList"
       | "orderedList",
   ) => {
-    const textarea = document.getElementById(
-      "productSpecsTextArea",
-    ) as HTMLTextAreaElement;
+    const textarea = document.getElementById("productSpecsTextArea") as HTMLTextAreaElement;
 
     const startPos = textarea.selectionStart;
     const endPos = textarea.selectionEnd;
@@ -133,10 +103,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
     while (lineStart > 0 && textarea.value.charAt(lineStart - 1) !== "\n") {
       lineStart--;
     }
-    while (
-      endLine < textarea.value.length &&
-      textarea.value.charAt(endLine) !== "\n"
-    ) {
+    while (endLine < textarea.value.length && textarea.value.charAt(endLine) !== "\n") {
       endLine++;
     }
 
@@ -151,23 +118,15 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
     }
 
     function insertCharacterAtStartOfLine(character: string) {
-      return (
-        productSpecswatch.substring(0, lineStart) +
-        character +
-        productSpecswatch.substring(lineStart)
-      );
+      return productSpecswatch.substring(0, lineStart) + character + productSpecswatch.substring(lineStart);
     }
     function insertText(text: string) {
-      return (
-        productSpecswatch.substring(0, startPos) +
-        text +
-        productSpecswatch.substring(startPos)
-      );
+      return productSpecswatch.substring(0, startPos) + text + productSpecswatch.substring(startPos);
     }
 
     let prefix = "";
     let suffix = "";
-    let newValue;
+    let newValue: string;
 
     switch (variant) {
       case "h1":
@@ -425,7 +384,8 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                     </PopoverTrigger>
                     <PopoverContent align="start" className="w-16">
                       {titres.map((titre, index) => (
-                        <div
+                        <button
+                          type="button"
                           key={index}
                           className="cursor-pointer pb-1"
                           onClick={() => {
@@ -434,7 +394,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                           }}
                         >
                           {titre}
-                        </div>
+                        </button>
                       ))}
                     </PopoverContent>
                   </Popover>
@@ -442,10 +402,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                     <PopoverTrigger asChild className="w-32">
                       <Button variant="markdown">Tableau</Button>
                     </PopoverTrigger>
-                    <PopoverContent
-                      align="start"
-                      className="flex w-32 flex-col"
-                    >
+                    <PopoverContent align="start" className="flex w-32 flex-col">
                       <div className="flex flex-row items-center ">
                         <Input
                           type="number"
@@ -487,11 +444,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                       </Button>
                       <GridCells
                         handleCellClick={(rowIndex, colIndex) => {
-                          createMarkdownTable(
-                            field,
-                            rowIndex + 1,
-                            colIndex + 1,
-                          );
+                          createMarkdownTable(field, rowIndex + 1, colIndex + 1);
                           setOpenTableau(false);
                         }}
                       />

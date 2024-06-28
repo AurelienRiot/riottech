@@ -1,5 +1,5 @@
 "use client";
-import { FullAdress } from "@/components/adress-form";
+import type { FullAdress } from "@/components/adress-form";
 import { Button } from "@/components/ui/button";
 import {
   AddressElement,
@@ -10,7 +10,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import { toast } from "sonner";
 
 export const TestStripe = ({

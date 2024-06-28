@@ -1,4 +1,4 @@
-import { ProductWithCategoryAndImages } from "@/types";
+import type { ProductWithCategoryAndImages } from "@/types";
 import { toast } from "sonner";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";

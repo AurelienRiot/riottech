@@ -1,9 +1,9 @@
 import React from 'react';
-import { ComboboxItemProps } from '@udecode/plate-combobox';
+import type { ComboboxItemProps } from '@udecode/plate-combobox';
 import {
-  EmojiItemData,
+  type EmojiItemData,
   KEY_EMOJI,
-  TEmojiCombobox,
+  type TEmojiCombobox,
   useEmojiComboboxState,
 } from '@udecode/plate-emoji';
 

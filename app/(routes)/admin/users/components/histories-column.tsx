@@ -1,18 +1,10 @@
 "use client";
 
-import {
-  CreatedAtCell,
-  NameCell,
-  StatusCell,
-} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, NameCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
 
 export type SubscriptionHistoryColumn = {
   userId: string;
@@ -27,13 +19,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "userName",
     header: "Client",
-    cell: ({ row }) => (
-      <NameCell
-        name={row.original.userName}
-        id={row.original.userId}
-        type="users"
-      />
-    ),
+    cell: ({ row }) => <NameCell name={row.original.userName} id={row.original.userId} type="users" />,
   },
   {
     accessorKey: "name",
@@ -62,58 +48,55 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   },
 ];
 
-export const searchableColumns: DataTableSearchableColumn<SubscriptionHistoryColumn>[] =
-  [
-    {
-      id: "name",
-      title: "Abonnement",
-    },
-    { id: "userName", title: "Client" },
-  ];
+export const searchableColumns: DataTableSearchableColumn<SubscriptionHistoryColumn>[] = [
+  {
+    id: "name",
+    title: "Abonnement",
+  },
+  { id: "userName", title: "Client" },
+];
 
-export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] =
-  [
-    {
-      id: "type",
-      title: "Type",
-      options: [
-        { label: "Création", value: "Création" },
-        { label: "Renouvellement", value: "Renouvellement" },
-      ],
-    },
-    {
-      id: "status",
-      title: "État du paiement",
-      options: [
-        { label: "Paiement validé", value: "Paiement validé" },
-        { label: "En cours de validation", value: "En cours de validation" },
-        { label: "Non payé", value: "Non payé" },
-      ],
-    },
-  ];
+export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] = [
+  {
+    id: "type",
+    title: "Type",
+    options: [
+      { label: "Création", value: "Création" },
+      { label: "Renouvellement", value: "Renouvellement" },
+    ],
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+    options: [
+      { label: "Paiement validé", value: "Paiement validé" },
+      { label: "En cours de validation", value: "En cours de validation" },
+      { label: "Non payé", value: "Non payé" },
+    ],
+  },
+];
 
-export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] =
-  [
-    {
-      id: "userName",
-      title: "Client",
-    },
-    {
-      id: "type",
-      title: "Type",
-    },
+export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] = [
+  {
+    id: "userName",
+    title: "Client",
+  },
+  {
+    id: "type",
+    title: "Type",
+  },
 
-    {
-      id: "price",
-      title: "Prix",
-    },
-    {
-      id: "status",
-      title: "État du paiement",
-    },
+  {
+    id: "price",
+    title: "Prix",
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+  },
 
-    {
-      id: "createdAt",
-      title: "Date de création",
-    },
-  ];
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+];

@@ -1,12 +1,9 @@
 "use client";
 
-import {
-  CreatedAtCell,
-  NameWithImageCell,
-} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, NameWithImageCell } from "@/components/table-custom-fuction/common-cell";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type CategoryColumn = {
@@ -48,19 +45,18 @@ export const searchableColumns: DataTableSearchableColumn<CategoryColumn>[] = [
   },
 ];
 
-export const viewOptionsColumns: DataTableViewOptionsColumn<CategoryColumn>[] =
-  [
-    {
-      id: "name",
-      title: "Nom",
-    },
+export const viewOptionsColumns: DataTableViewOptionsColumn<CategoryColumn>[] = [
+  {
+    id: "name",
+    title: "Nom",
+  },
 
-    {
-      id: "createdAt",
-      title: "Date de création",
-    },
-    {
-      id: "actions" as keyof CategoryColumn,
-      title: "Actions",
-    },
-  ];
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+  {
+    id: "actions" as keyof CategoryColumn,
+    title: "Actions",
+  },
+];

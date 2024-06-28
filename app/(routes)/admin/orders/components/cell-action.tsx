@@ -1,13 +1,13 @@
 "use client";
 
-import { OrderColumn } from "./columns";
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
-import { toast } from "sonner";
-import { useState } from "react";
-import axios from "axios";
 import { AlertModal } from "@/components/modals/alert-modal-form";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import type { OrderColumn } from "./columns";
 
 interface CellActionProps {
   data: OrderColumn;
@@ -34,19 +34,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 
-      <Button
-        disabled={loading}
-        variant="destructive"
-        size="sm"
-        onClick={() => setOpen(true)}
-      >
+      <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
         <Trash className="h-4 w-4" />
       </Button>
     </>

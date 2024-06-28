@@ -1,13 +1,6 @@
 import Spinner from "@/components/animations/spinner";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
@@ -18,12 +11,9 @@ import { currencyFormatter } from "@/lib/utils";
 import { CalendarIcon, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { DateRange } from "react-day-picker";
+import type { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
-import {
-  SubscriptionHistoryColumn,
-  columns,
-} from "./components/histories-column";
+import { type SubscriptionHistoryColumn, columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
 
 const UserPage = async (context: {
@@ -66,9 +56,7 @@ const ServerHistoryTableLoading = () => {
         <Button
           variant={"outline"}
           disabled={true}
-          className={
-            "w-[300px] justify-start text-left font-normal text-muted-foreground"
-          }
+          className={"w-[300px] justify-start text-left font-normal text-muted-foreground"}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
 
@@ -105,18 +93,16 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
     },
   });
 
-  const histories: SubscriptionHistoryColumn[] = usersHistories.map(
-    (history) => ({
-      userId: history.subscriptionOrder.userId,
-      type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
+  const histories: SubscriptionHistoryColumn[] = usersHistories.map((history) => ({
+    userId: history.subscriptionOrder.userId,
+    type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
 
-      status: history.mailSend ? "Paiement validé" : "En cours de validation",
-      price: currencyFormatter.format(Number(history.price)),
-      userName: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
-      name: history.subscriptionOrder.subscriptionItem?.name || "",
-      createdAt: new Date(history.createdAt),
-    }),
-  );
+    status: history.mailSend ? "Paiement validé" : "En cours de validation",
+    price: currencyFormatter.format(Number(history.price)),
+    userName: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
+    name: history.subscriptionOrder.subscriptionItem?.name || "",
+    createdAt: new Date(history.createdAt),
+  }));
 
   return <HistoryTable initialData={histories} initialDateRange={dateRange} />;
 };
@@ -153,11 +139,7 @@ const SeverUserClient = async () => {
   });
 
   return (
-    <UserClient
-      users={formatedUsers}
-      orderLengths={orderLengths}
-      subscriptionOrderLengths={subscriptionOrderLengths}
-    />
+    <UserClient users={formatedUsers} orderLengths={orderLengths} subscriptionOrderLengths={subscriptionOrderLengths} />
   );
 };
 
@@ -198,8 +180,7 @@ const SeverUserClientLoading = () => {
                   <Skeleton className="h-4 w-24 rounded-full" />
                 </div>
                 <div className="flex items-center justify-center p-2">
-                  {`Nombre de commandes : `}{" "}
-                  <Skeleton className="ml-2 h-4 w-5 rounded-full" />
+                  {`Nombre de commandes : `} <Skeleton className="ml-2 h-4 w-5 rounded-full" />
                 </div>
                 <div className="flex items-center justify-center p-2">
                   {`Nombre d'abonnements : `}

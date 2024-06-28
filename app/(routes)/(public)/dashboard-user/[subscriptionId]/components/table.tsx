@@ -3,7 +3,7 @@
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import {
-  SubscriptionHistoryColumn,
+  type SubscriptionHistoryColumn,
   columns,
   filterableColumns,
   viewOptionsColumns,

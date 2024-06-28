@@ -1,7 +1,7 @@
 import NoResults from "./ui/no-results";
 import ProductCart from "./ui/product-cart";
 import { VisibleElement } from "./animations/visible-element";
-import { ProductWithCategoryAndImages } from "@/types";
+import type { ProductWithCategoryAndImages } from "@/types";
 
 interface ProductListProps {
   title: string;

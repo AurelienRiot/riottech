@@ -9,10 +9,10 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
+import type { DateRange } from "react-day-picker";
 import { toast } from "sonner";
 import {
-  SubscriptionHistoryColumn,
+  type SubscriptionHistoryColumn,
   columns,
   filterableColumns,
   searchableColumns,
@@ -24,14 +24,9 @@ type HistoryTableProps = {
   initialData: SubscriptionHistoryColumn[];
 };
 
-export const HistoryTable = ({
-  initialDateRange,
-  initialData,
-}: HistoryTableProps) => {
+export const HistoryTable = ({ initialDateRange, initialData }: HistoryTableProps) => {
   const [data, setData] = useState<SubscriptionHistoryColumn[]>(initialData);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(
-    initialDateRange,
-  );
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(initialDateRange);
   const [loading, setLoading] = useState(false);
   const pathName = usePathname();
   const router = useRouter();
@@ -59,18 +54,11 @@ export const HistoryTable = ({
   return (
     <>
       <div className="m-4 flex flex-col gap-4">
-        <Heading
-          title={`Historiques (${data?.length ? data.length : 0})`}
-          description="Gérez les historiques"
-        />
+        <Heading title={`Historiques (${data?.length ? data.length : 0})`} description="Gérez les historiques" />
         <Separator />
         <div className="flex flex-col gap-4 sm:flex-row">
           <DatePickerWithRange date={dateRange} setDate={setDateRange} />
-          <Button
-            className="w-fit"
-            disabled={loading}
-            onClick={() => handleChangeDate()}
-          >
+          <Button className="w-fit" disabled={loading} onClick={() => handleChangeDate()}>
             {loading ? <Spinner size={20} /> : "Valider"}
           </Button>
         </div>

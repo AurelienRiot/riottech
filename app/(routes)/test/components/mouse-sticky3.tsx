@@ -1,26 +1,19 @@
 "use client";
-import { TurbCursor } from "@/components/cursor/turb-cursor";
 import { StickyCursor } from "@/components/cursor/sticky-cursor";
+import { TurbCursor } from "@/components/cursor/turb-cursor";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Menu, MenuSquare } from "lucide-react";
-import Image from "next/image";
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 const MouseSticky3 = () => {
   return (
     <div className="w-full h-full  flex flex-col items-center justify-center">
       <div className="flex flex-wrap gap-40 items-center justify-center py-20">
-        <StickyCursor
-          as="button"
-          className="  rounded-md text-primary hover:text-primary-foreground"
-        >
+        <StickyCursor as="button" className="  rounded-md text-primary hover:text-primary-foreground">
           <Menu className="h-10 w-10 " />
         </StickyCursor>
         <ExtraDiv />
-        <TurbCursor
-          as="div"
-          className=" bg-red-600 rounded-md text-primary hover:text-primary-foreground"
-        >
+        <TurbCursor as="div" className=" bg-red-600 rounded-md text-primary hover:text-primary-foreground">
           <MenuSquare className="h-10 w-20  " />
         </TurbCursor>
       </div>
@@ -38,10 +31,7 @@ function ExtraDiv() {
     >
       <div className="w-[250px] h-[200px] overflow-hidden flex flex-col gap-4  ">
         <h1 className="text-3xl font-bold">{"Secteur d'intervention"}</h1>
-        <p>
-          RIOT TECH est basé dans le Morbihan (56) et intervient pour les
-          installations et SAV sur toute la région.
-        </p>
+        <p>RIOT TECH est basé dans le Morbihan (56) et intervient pour les installations et SAV sur toute la région.</p>
       </div>
     </TurbCursor>
   );
@@ -51,15 +41,11 @@ export const Carousel = () => {
   return (
     <div className="bg-neutral-800">
       <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-neutral-500">
-          Scroll down
-        </span>
+        <span className="font-semibold uppercase text-neutral-500">Scroll down</span>
       </div>
       <HorizontalScrollCarousel />
       <div className="flex h-48 items-center justify-center">
-        <span className="font-semibold uppercase text-neutral-500">
-          Scroll up
-        </span>
+        <span className="font-semibold uppercase text-neutral-500">Scroll up</span>
       </div>
     </div>
   );
@@ -88,10 +74,7 @@ const HorizontalScrollCarousel = () => {
 
 const Card = ({ card }: { card: CardType }) => {
   return (
-    <div
-      key={card.id}
-      className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200"
-    >
+    <div key={card.id} className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-200">
       <div
         style={{
           backgroundImage: `url(${card.url})`,

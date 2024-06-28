@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Sphere } from "@react-three/drei";
-import { Group } from "three/src/Three.js";
+import type { Group } from "three/src/Three.js";
 import { randomFromInterval } from "@/lib/utils";
 
 const MIN_RADIUS = 7.5;
@@ -67,65 +67,55 @@ const Point = ({
 }) => {
   return (
     <Sphere position={position} args={[0.1, 10, 10]}>
-      <meshStandardMaterial
-        emissive={color}
-        emissiveIntensity={0.5}
-        roughness={0.5}
-        color={color}
-      />
+      <meshStandardMaterial emissive={color} emissiveIntensity={0.5} roughness={0.5} color={color} />
     </Sphere>
   );
 };
 
-const pointsInner = Array.from({ length: NUM_POINTS }, (v, k) => k + 1).map(
-  (num) => {
-    const randomRadius = randomFromInterval(MIN_RADIUS, MAX_RADIUS);
-    const randomAngle = Math.random() * Math.PI * 2;
+const pointsInner = Array.from({ length: NUM_POINTS }, (v, k) => k + 1).map((num) => {
+  const randomRadius = randomFromInterval(MIN_RADIUS, MAX_RADIUS);
+  const randomAngle = Math.random() * Math.PI * 2;
 
-    const x = Math.cos(randomAngle) * randomRadius;
-    const y = Math.sin(randomAngle) * randomRadius;
-    const z = randomFromInterval(-DEPTH, DEPTH);
+  const x = Math.cos(randomAngle) * randomRadius;
+  const y = Math.sin(randomAngle) * randomRadius;
+  const z = randomFromInterval(-DEPTH, DEPTH);
 
-    const color = calculateColor(x);
+  const color = calculateColor(x);
 
-    return {
-      idx: num,
-      position: [x, y, z] as [number, number, number],
-      color,
-    };
-  }
-);
+  return {
+    idx: num,
+    position: [x, y, z] as [number, number, number],
+    color,
+  };
+});
 
-const pointsOuter = Array.from({ length: NUM_POINTS / 4 }, (v, k) => k + 1).map(
-  (num) => {
-    const randomRadius = randomFromInterval(MIN_RADIUS / 2, MAX_RADIUS * 2);
-    const angle = Math.random() * Math.PI * 2;
+const pointsOuter = Array.from({ length: NUM_POINTS / 4 }, (v, k) => k + 1).map((num) => {
+  const randomRadius = randomFromInterval(MIN_RADIUS / 2, MAX_RADIUS * 2);
+  const angle = Math.random() * Math.PI * 2;
 
-    const x = Math.cos(angle) * randomRadius;
-    const y = Math.sin(angle) * randomRadius;
-    const z = randomFromInterval(-DEPTH * 10, DEPTH * 10);
+  const x = Math.cos(angle) * randomRadius;
+  const y = Math.sin(angle) * randomRadius;
+  const z = randomFromInterval(-DEPTH * 10, DEPTH * 10);
 
-    const color = calculateColor(x);
+  const color = calculateColor(x);
 
-    return {
-      idx: num,
-      position: [x, y, z] as [number, number, number],
-      color,
-    };
-  }
-);
+  return {
+    idx: num,
+    position: [x, y, z] as [number, number, number],
+    color,
+  };
+});
 
-function getGradientStop(ratio: number) {
+function getGradientStop(r: number) {
   // For outer ring numbers potentially past max radius,
   // just clamp to 0
-  ratio = ratio > 1 ? 1 : ratio < 0 ? 0 : ratio;
+  const ratio = r > 1 ? 1 : r < 0 ? 0 : r;
 
-  const c0 = LEFT_COLOR.match(/.{1,2}/g)!.map(
-    (oct) => parseInt(oct, 16) * (1 - ratio)
-  );
-  const c1 = RIGHT_COLOR.match(/.{1,2}/g)!.map(
-    (oct) => parseInt(oct, 16) * ratio
-  );
+  const c0 = LEFT_COLOR.match(/.{1,2}/g)?.map((oct) => Number.parseInt(oct, 16) * (1 - ratio));
+  const c1 = RIGHT_COLOR.match(/.{1,2}/g)?.map((oct) => Number.parseInt(oct, 16) * ratio);
+  if (!c0 || !c1) {
+    return "#000000";
+  }
   const ci = [0, 1, 2].map((i) => Math.min(Math.round(c0[i] + c1[i]), 255));
   const color = ci
     .reduce((a, v) => (a << 8) + v, 0)

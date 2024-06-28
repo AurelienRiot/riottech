@@ -1,6 +1,6 @@
 import ButtonBackward from "@/components/ui/button-backward";
 import prismadb from "@/lib/prismadb";
-import { SubscriptionHistoryColumn } from "./components/column";
+import type { SubscriptionHistoryColumn } from "./components/column";
 import { currencyFormatter } from "@/lib/utils";
 import { SubscriptionHistoryTable } from "./components/table";
 
@@ -18,17 +18,16 @@ const UserSubscriptionPage = async ({
     },
   });
 
-  const formattedSubscriptionHistory: SubscriptionHistoryColumn[] =
-    subscriptionHistory.map((history) => ({
-      id: history.id,
-      type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
-      price: currencyFormatter.format(Number(history.price)),
-      pdfUrl: history.pdfUrl,
-      isPaid: true,
-      status: history.mailSend ? "Paiement validé" : "En cours de validation",
-      mailSend: history.mailSend,
-      createdAt: history.createdAt,
-    }));
+  const formattedSubscriptionHistory: SubscriptionHistoryColumn[] = subscriptionHistory.map((history) => ({
+    id: history.id,
+    type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
+    price: currencyFormatter.format(Number(history.price)),
+    pdfUrl: history.pdfUrl,
+    isPaid: true,
+    status: history.mailSend ? "Paiement validé" : "En cours de validation",
+    mailSend: history.mailSend,
+    createdAt: history.createdAt,
+  }));
 
   return (
     <>

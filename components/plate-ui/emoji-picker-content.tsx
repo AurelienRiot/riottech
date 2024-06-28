@@ -1,10 +1,10 @@
 import React, { memo, useCallback } from 'react';
 import { cn } from '@udecode/cn';
 import {
-  Emoji,
+  type Emoji,
   EmojiSettings,
-  GridRow,
-  UseEmojiPickerType,
+  type GridRow,
+  type UseEmojiPickerType,
 } from '@udecode/plate-emoji';
 
 export type EmojiPickerContentProps = Pick<

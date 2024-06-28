@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { ProductClient } from "./components/client";
-import { ProductColumn } from "./components/columns";
+import type { ProductColumn } from "./components/columns";
 import { currencyFormatter } from "@/lib/utils";
 
 const ProductPage = async () => {

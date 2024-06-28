@@ -2,34 +2,21 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button, LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { Subscription } from "@prisma/client";
+import type { Subscription } from "@prisma/client";
 
 interface SubscriptionFormProps {
   initialData: Subscription | null;
@@ -61,24 +48,16 @@ const formSchema = z.object({
 
 type SubscriptionFormValues = z.infer<typeof formSchema>;
 
-export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
-  initialData,
-}) => {
+export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const title = initialData ? "Modifier l'abonnement" : "Créer un abonnement";
-  const description = initialData
-    ? "Modifier l'abonnement"
-    : "Ajouter un nouvelle abonnement";
-  const toastMessage = initialData
-    ? "Abonnement mise à jour"
-    : "Abonnement créé";
-  const action = initialData
-    ? "Sauvegarder les changements"
-    : "Créer l'abonnement";
+  const description = initialData ? "Modifier l'abonnement" : "Ajouter un nouvelle abonnement";
+  const toastMessage = initialData ? "Abonnement mise à jour" : "Abonnement créé";
+  const action = initialData ? "Sauvegarder les changements" : "Créer l'abonnement";
 
   const form = useForm<SubscriptionFormValues>({
     resolver: zodResolver(formSchema),
@@ -108,7 +87,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Erreur");
@@ -136,31 +115,18 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
+          <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
             <Trash className="h-4 w-4" />
           </Button>
         )}
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             <FormField
               control={form.control}
@@ -169,11 +135,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                 <FormItem>
                   <FormLabel>Nom</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Nom de l'abonnement"
-                      {...field}
-                    />
+                    <Input disabled={loading} placeholder="Nom de l'abonnement" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,13 +148,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                 <FormItem>
                   <FormLabel>Prix HT</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      disabled={loading}
-                      placeholder="9,99"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
+                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -205,13 +161,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                 <FormItem>
                   <FormLabel>Limite de donnée (GB)</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      disabled={loading}
-                      placeholder="10"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
+                    <Input type="number" disabled={loading} placeholder="10" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -224,13 +174,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                 <FormItem>
                   <FormLabel>{"Frais d'activation"}</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      disabled={loading}
-                      placeholder="9,99"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
+                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -250,10 +194,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Renouvellement"
-                        />
+                        <SelectValue defaultValue={field.value} placeholder="Renouvellement" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -275,11 +216,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <TextArea
-                      disabled={loading}
-                      placeholder="Description de l'abonnement"
-                      {...field}
-                    />
+                    <TextArea disabled={loading} placeholder="Description de l'abonnement" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

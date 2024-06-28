@@ -1,14 +1,11 @@
 "use client";
 
 import { DisplayPdf } from "@/app/(routes)/(public)/dashboard-user/(profile)/components/display-pdf";
-import {
-  CreatedAtCell,
-  StatusCell,
-} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import { DataTableFilterableColumn, DataTableViewOptionsColumn } from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { DataTableFilterableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
 
 export type SubscriptionHistoryColumn = {
   id: string;
@@ -38,12 +35,7 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "pdfUrl",
     header: "Facture",
-    cell: ({ row }) => (
-      <DisplayPdf
-        avalaible={row.original.mailSend}
-        pdfUrl={row.original.pdfUrl}
-      />
-    ),
+    cell: ({ row }) => <DisplayPdf avalaible={row.original.mailSend} pdfUrl={row.original.pdfUrl} />,
   },
   {
     accessorKey: "createdAt",
@@ -52,49 +44,47 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   },
 ];
 
-export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] =
-  [
-    {
-      id: "type",
-      title: "Type",
-      options: [
-        { label: "Création", value: "Création" },
-        { label: "Renouvellement", value: "Renouvellement" },
-      ],
-    },
-    {
-      id: "status",
-      title: "État du paiement",
-      options: [
-        { label: "Paiement validé", value: "Paiement validé" },
-        { label: "En cours de validation", value: "En cours de validation" },
-        { label: "Non payé", value: "Non payé" },
-      ],
-    },
-  ];
+export const filterableColumns: DataTableFilterableColumn<SubscriptionHistoryColumn>[] = [
+  {
+    id: "type",
+    title: "Type",
+    options: [
+      { label: "Création", value: "Création" },
+      { label: "Renouvellement", value: "Renouvellement" },
+    ],
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+    options: [
+      { label: "Paiement validé", value: "Paiement validé" },
+      { label: "En cours de validation", value: "En cours de validation" },
+      { label: "Non payé", value: "Non payé" },
+    ],
+  },
+];
 
-export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] =
-  [
-    {
-      id: "type",
-      title: "Type",
-    },
+export const viewOptionsColumns: DataTableViewOptionsColumn<SubscriptionHistoryColumn>[] = [
+  {
+    id: "type",
+    title: "Type",
+  },
 
-    {
-      id: "price",
-      title: "Prix",
-    },
-    {
-      id: "status",
-      title: "État du paiement",
-    },
-    {
-      id: "pdfUrl",
-      title: "Facture",
-    },
+  {
+    id: "price",
+    title: "Prix",
+  },
+  {
+    id: "status",
+    title: "État du paiement",
+  },
+  {
+    id: "pdfUrl",
+    title: "Facture",
+  },
 
-    {
-      id: "createdAt",
-      title: "Date de création",
-    },
-  ];
+  {
+    id: "createdAt",
+    title: "Date de création",
+  },
+];

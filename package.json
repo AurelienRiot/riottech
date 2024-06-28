@@ -6,7 +6,7 @@
     "dev": "next dev -p 3002  --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "npx @biomejs/biome lint --write ./app  ./components ./lib ./actions ./server-actions ./hooks ./providers ./types",
     "postinstall": "prisma generate",
     "email": "email dev --dir components/email -p 3001"
   },

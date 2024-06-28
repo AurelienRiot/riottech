@@ -1,6 +1,6 @@
 "use client";
 import { dateFormatter } from "@/lib/utils";
-import { Row } from "@tanstack/react-table";
+import type { Row } from "@tanstack/react-table";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
@@ -23,41 +23,34 @@ import { Button } from "../ui/button";
 //   );
 // }
 
-type DatePickUpCellProps<T = {}> = T & {
+type DatePickUpCellProps = {
   datePickUp: Date;
 };
 
-function DatePickUpCell<T>({ row }: { row: Row<DatePickUpCellProps<T>> }) {
-  return (
-    <div className="flex md:pl-10">
-      {" "}
-      {dateFormatter(row.getValue("datePickUp"))}
-    </div>
-  );
+function DatePickUpCell<T>({ row }: { row: Row<T & DatePickUpCellProps> }) {
+  return <div className="flex md:pl-10"> {dateFormatter(row.getValue("datePickUp"))}</div>;
 }
 
-type ShopNameCellProps<T = {}> = T & {
+type ShopNameCellProps = {
   id: string;
   shopId: string;
   shopName: string;
 };
 
-function ShopNameCell<T>({ row }: { row: Row<ShopNameCellProps<T>> }) {
+function ShopNameCell<T>({ row }: { row: Row<T & ShopNameCellProps> }) {
   return (
     <Button asChild variant={"link"} className="px-0">
-      <Link href={`/admin/shops/${row.original.shopId}`}>
-        {row.getValue("shopName")}
-      </Link>
+      <Link href={`/admin/shops/${row.original.shopId}`}>{row.getValue("shopName")}</Link>
     </Button>
   );
 }
 
-type ProductCellProps<T = {}> = T & {
+type ProductCellProps = {
   products: string;
   productsList: { name: string; quantity?: string }[];
 };
 
-function ProductCell<T>({ row }: { row: Row<ProductCellProps<T>> }) {
+function ProductCell<T>({ row }: { row: Row<T & ProductCellProps> }) {
   return (
     <div className="flex flex-col gap-[1px]">
       {row.original.productsList.map((product) => (

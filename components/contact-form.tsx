@@ -4,14 +4,7 @@ import { createContact } from "@/actions/create-contact";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
@@ -124,24 +117,11 @@ export const ContactForm = ({
 
   return (
     <div className={cn("mx-auto w-full space-y-6 p-8", className)}>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={handleModalConfirm}
-        loading={loading}
-      />
-      <Heading
-        id="form"
-        description={description}
-        title={title}
-        className="space-y-2"
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={handleModalConfirm} loading={loading} />
+      <Heading id="form" description={description} title={title} className="space-y-2" />
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(() => setOpen(true))}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(() => setOpen(true))} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FormField
               control={form.control}
@@ -150,12 +130,7 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>{"Nom/Prénom ou nom d'entreprise :"}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Nom"
-                      {...field}
-                      autoComplete="name"
-                    />
+                    <Input disabled={loading} placeholder="Nom" {...field} autoComplete="name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,12 +143,7 @@ export const ContactForm = ({
                 <FormItem>
                   <FormLabel>Email :</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="exemple@mail.com"
-                      {...field}
-                      autoComplete="email"
-                    />
+                    <Input disabled={loading} placeholder="exemple@mail.com" {...field} autoComplete="email" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -213,10 +183,8 @@ export const ContactForm = ({
                         {...field}
                         value={field.value ?? ""}
                         onChange={(e) => {
-                          const value = Number(
-                            e.target.value.replace(/[^\d]/g, ""),
-                          );
-                          if (!isNaN(value) && value > 0) {
+                          const value = Number(e.target.value.replace(/[^\d]/g, ""));
+                          if (!Number.isNaN(value) && value > 0) {
                             field.onChange(value);
                           } else {
                             field.onChange("");
@@ -225,9 +193,7 @@ export const ContactForm = ({
                           if (confirmPostalCode) {
                             const shouldShowCheckbox =
                               value.toString().length >= 2 &&
-                              !["35", "22", "29", "56"].some((prefix) =>
-                                value.toString().startsWith(prefix),
-                              );
+                              !["35", "22", "29", "56"].some((prefix) => value.toString().startsWith(prefix));
                             console.log(value);
                             setShowCheckbox((prev) => {
                               if (!prev && shouldShowCheckbox) {
@@ -258,10 +224,7 @@ export const ContactForm = ({
                   <FormItem className="relative flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel className="text-foreground">
@@ -285,11 +248,7 @@ export const ContactForm = ({
                   <FormItem>
                     <FormLabel>{"Sujet :"}</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={loading}
-                        placeholder="Renseignement"
-                        {...field}
-                      />
+                      <Input disabled={loading} placeholder="Renseignement" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -304,11 +263,7 @@ export const ContactForm = ({
                   <FormLabel>Message :</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <AutosizeTextarea
-                        disabled={loading}
-                        placeholder="..."
-                        {...field}
-                      />
+                      <AutosizeTextarea disabled={loading} placeholder="..." {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -316,12 +271,7 @@ export const ContactForm = ({
               )}
             />
           </div>
-          <Button
-            iconPlacement="right"
-            Icon={MdSend}
-            disabled={loading}
-            variant={"expandIcon"}
-          >
+          <Button iconPlacement="right" Icon={MdSend} disabled={loading} variant={"expandIcon"}>
             {action}
           </Button>
         </form>

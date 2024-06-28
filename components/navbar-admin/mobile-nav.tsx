@@ -1,26 +1,5 @@
 "use client";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  CalendarSearchIcon,
-  Check,
-  ChevronsUpDown,
-  LayoutDashboardIcon,
-  ListOrderedIcon,
-  Menu,
-  PackageIcon,
-  PhoneCallIcon,
-  PresentationIcon,
-  RowsIcon,
-  Users,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   Command,
   CommandEmpty,
@@ -30,11 +9,14 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Check, ChevronsUpDown, Menu } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { adminRoutes } from "./main-nav";
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<
-  typeof PopoverTrigger
->;
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
 interface MobileNavProps extends PopoverTriggerProps {}
 
@@ -79,12 +61,7 @@ export default function MobileNav({ className }: MobileNavProps) {
                 >
                   <route.Icone className="mr-2 h-4 w-4" />
                   {route.label}
-                  <Check
-                    className={cn(
-                      "ml-auto h-4 w-4",
-                      route.active ? "opacity-100" : "opacity-0"
-                    )}
-                  />
+                  <Check className={cn("ml-auto h-4 w-4", route.active ? "opacity-100" : "opacity-0")} />
                 </CommandItem>
               ))}
             </CommandGroup>

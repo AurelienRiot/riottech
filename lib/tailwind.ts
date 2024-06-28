@@ -1,8 +1,6 @@
 import { svgToDataUri } from "./utils";
 
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
 function addGlobalUtilities({ addUtilities }: any) {
   const newUtilities = {
@@ -22,10 +20,8 @@ function addGlobalUtilities({ addUtilities }: any) {
 }
 
 function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
-  );
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
 
   addBase({
     ":root": newVars,
@@ -51,12 +47,8 @@ function ListStyleCheck({ matchUtilities, theme }: any) {
     },
     {
       values: Object.fromEntries(
-        Object.entries(flattenColorPalette(theme("colors"))).flatMap(
-          ([color, value]) =>
-            SVGs.map((svg) => [
-              `${svg.name}-${color}`,
-              [color, svg.svg(value as string)],
-            ]),
+        Object.entries(flattenColorPalette(theme("colors"))).flatMap(([color, value]) =>
+          SVGs.map((svg) => [`${svg.name}-${color}`, [color, svg.svg(value as string)]]),
         ),
       ),
     },

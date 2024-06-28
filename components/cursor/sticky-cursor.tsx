@@ -1,6 +1,4 @@
-import Magnetic, {
-  MagneticProps,
-} from "@/app/(routes)/test/components/magnetic";
+import Magnetic, { type MagneticProps } from "@/app/(routes)/test/components/magnetic";
 import { useCursor } from "@/hooks/use-cursor";
 import { cn } from "@/lib/utils";
 import { resetCursor } from "@/providers/cursor-provider";
@@ -20,15 +18,13 @@ export function StickyCursor({
   onMouseLeave = () => {},
   ...props
 }: StickyCursorProps) {
-  const { isHover, cursorConfig, initialCursorConfig, elementDimension } =
-    useCursor();
+  const { isHover, cursorConfig, initialCursorConfig, elementDimension } = useCursor();
 
   const offsetAngle = useMotionValue(0);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = e;
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
 
     elementDimension.width.set(width);
     elementDimension.height.set(height);
@@ -38,20 +34,11 @@ export function StickyCursor({
     const center = { x: left + width / 2, y: top + height / 2 };
     const distance = { x: clientX - center.x, y: clientY - center.y };
 
-    const newAngle =
-      (Math.atan2(distance.y, distance.x) * (180 / Math.PI) +
-        180 +
-        initialCursorConfig.angle) %
-      360;
+    const newAngle = (Math.atan2(distance.y, distance.x) * (180 / Math.PI) + 180 + initialCursorConfig.angle) % 360;
 
     const currentAngle = cursorConfig.angle.get();
     const diffAngle = newAngle - currentAngle;
-    const finalAngle =
-      diffAngle > 180
-        ? newAngle - 360
-        : diffAngle < -180
-        ? newAngle + 360
-        : newAngle;
+    const finalAngle = diffAngle > 180 ? newAngle - 360 : diffAngle < -180 ? newAngle + 360 : newAngle;
     cursorConfig.angle.set(finalAngle);
 
     const absDistance = Math.max(Math.abs(distance.x), Math.abs(distance.y));
@@ -72,8 +59,7 @@ export function StickyCursor({
     cursorConfig.angle.set(initialCursorConfig.angle);
 
     offsetAngle.set(
-      (Math.acos(width / Math.sqrt(width ** 2 + height ** 2)) * 180) / Math.PI +
-        initialCursorConfig.angle
+      (Math.acos(width / Math.sqrt(width ** 2 + height ** 2)) * 180) / Math.PI + initialCursorConfig.angle,
     );
 
     isHover.set("sticky");
@@ -93,10 +79,7 @@ export function StickyCursor({
       onMouseEnter={handleOnEnter}
       onMouseLeave={handleOnLeave}
       as={as}
-      className={cn(
-        "items-center group justify-center flex hover:z-[51] hover:bg-transparent   ",
-        className
-      )}
+      className={cn("items-center group justify-center flex hover:z-[51] hover:bg-transparent   ", className)}
       {...props}
     >
       <motion.div className=" w-full h-full absolute top-0 left-0 group-hover:scale-[3]" />

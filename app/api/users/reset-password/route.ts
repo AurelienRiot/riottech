@@ -1,10 +1,10 @@
 import prismadb from "@/lib/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
 import ResetPasswordEmail from "@/components/email/reset-password";
-import { randomBytes } from "crypto";
 import { hash } from "bcrypt";
+import { randomBytes } from "node:crypto";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;
 

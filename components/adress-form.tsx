@@ -1,29 +1,15 @@
 "use client";
-import AddressAutocomplete, {
-  Suggestion,
-} from "@/actions/adress-autocompleteFR";
+import AddressAutocomplete, { type Suggestion } from "@/actions/adress-autocompleteFR";
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
-import { Dispatch, InputHTMLAttributes, SetStateAction, useState } from "react";
-import { Path, PathValue, useFormContext } from "react-hook-form";
-import * as RPNInput from "react-phone-number-input";
+import { type Dispatch, type InputHTMLAttributes, type SetStateAction, useState } from "react";
+import { type Path, type PathValue, useFormContext } from "react-hook-form";
+import type * as RPNInput from "react-phone-number-input";
 import { AnimateHeight } from "./animations/animate-size";
 import { Button } from "./ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "./ui/command";
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "./ui/command";
 import { FloatingInput, FloatingLabel } from "./ui/floating-label-input";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { CountriesList, CountrySelect, isCountry } from "./ui/phone-input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Skeleton } from "./ui/skeleton";
@@ -54,9 +40,7 @@ export const AdressForm = <T extends { adresse: string }>({
   const [open, setOpen] = useState(false);
   const [suggestions, setSuggestions] = useState([] as Suggestion[]);
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState(
-    selectedAddress.country.toUpperCase() === "FR" ? true : false,
-  );
+  const [filter, setFilter] = useState(selectedAddress.country.toUpperCase() === "FR");
   const [country, setCountry] = useState<RPNInput.Country>(
     isCountry(selectedAddress.country) ? selectedAddress.country : "FR",
   );
@@ -122,18 +106,13 @@ export const AdressForm = <T extends { adresse: string }>({
                     onValueChange={(e) => {
                       setSearchTerm(e);
                       if (query.length < 3) {
-                        form.setValue(
-                          "adresse" as Path<T>,
-                          "" as PathValue<T, Path<T>>,
-                        );
+                        form.setValue("adresse" as Path<T>, "" as PathValue<T, Path<T>>);
                       }
                       setOpen(true);
                     }}
                   />
                   <CommandList>
-                    {query.length > 3 && (
-                      <CommandEmpty>Adresse introuvable</CommandEmpty>
-                    )}
+                    {query.length > 3 && <CommandEmpty>Adresse introuvable</CommandEmpty>}
                     {suggestions.map((address, index) => (
                       <CommandItem
                         className="cursor-pointer
@@ -141,10 +120,7 @@ export const AdressForm = <T extends { adresse: string }>({
                         value={query + " " + index.toString()}
                         key={address.label}
                         onSelect={() => {
-                          form.setValue(
-                            "adresse" as Path<T>,
-                            address.label as PathValue<T, Path<T>>,
-                          );
+                          form.setValue("adresse" as Path<T>, address.label as PathValue<T, Path<T>>);
                           setSelectedAddress((prev) => ({
                             ...prev,
                             label: address.label,
@@ -229,13 +205,7 @@ interface AddressInputProps extends InputHTMLAttributes<HTMLInputElement> {
   setSelectedAddress: Dispatch<SetStateAction<FullAdress>>;
 }
 
-const AddressInput = ({
-  label,
-  addressKey,
-  selectedAddress,
-  setSelectedAddress,
-  ...props
-}: AddressInputProps) => {
+const AddressInput = ({ label, addressKey, selectedAddress, setSelectedAddress, ...props }: AddressInputProps) => {
   return (
     <div className="relative p-2">
       <FloatingInput

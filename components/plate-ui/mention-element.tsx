@@ -1,7 +1,7 @@
 import React from 'react';
 import { cn, withRef } from '@udecode/cn';
 import { getHandler, PlateElement, useElement } from '@udecode/plate-common';
-import { TMentionElement } from '@udecode/plate-mention';
+import type { TMentionElement } from '@udecode/plate-mention';
 import { useFocused, useSelected } from 'slate-react';
 
 export const MentionElement = withRef<

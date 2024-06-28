@@ -1,11 +1,5 @@
 "use client";
-import {
-  motion,
-  useSpring,
-  useTransform,
-  transform,
-  SpringOptions,
-} from "framer-motion";
+import { motion, useSpring, useTransform, transform, type SpringOptions } from "framer-motion";
 import { useRef, useState } from "react";
 import Magnetic from "./magnetic";
 
@@ -26,14 +20,8 @@ const MouseSticky = () => {
     y: useSpring(1, springConfig),
   };
 
-  const cursorPositionX = useTransform(
-    mousePositionX,
-    (x) => x - 0.5 * cursorSize.get()
-  );
-  const cursorPositionY = useTransform(
-    mousePositionY,
-    (y) => y - 0.5 * cursorSize.get()
-  );
+  const cursorPositionX = useTransform(mousePositionX, (x) => x - 0.5 * cursorSize.get());
+  const cursorPositionY = useTransform(mousePositionY, (y) => y - 0.5 * cursorSize.get());
 
   const angleCursor = useSpring(0, springConfig);
 
@@ -47,12 +35,7 @@ const MouseSticky = () => {
     const { left, top } = event.currentTarget.getBoundingClientRect();
 
     if (menueRef.current) {
-      const {
-        left: leftRef,
-        top: topRef,
-        width,
-        height,
-      } = menueRef.current.getBoundingClientRect();
+      const { left: leftRef, top: topRef, width, height } = menueRef.current.getBoundingClientRect();
       const center = { x: leftRef + width / 2, y: topRef + height / 2 };
       const distance = { x: clientX - center.x, y: clientY - center.y };
 
@@ -61,10 +44,7 @@ const MouseSticky = () => {
         mousePositionX.set(center.x - left + distance.x * 0.1);
         mousePositionY.set(center.y - top + distance.y * 0.1);
 
-        const absDistance = Math.max(
-          Math.abs(distance.x),
-          Math.abs(distance.y)
-        );
+        const absDistance = Math.max(Math.abs(distance.x), Math.abs(distance.y));
         const newScaleX = transform(absDistance, [0, width / 2], [1, 1.3]);
         const newScaleY = transform(absDistance, [0, height / 2], [1, 0.7]);
         scale.x.set(newScaleX);
@@ -121,10 +101,7 @@ const MouseSticky = () => {
         </div>
       </Magnetic>
       <h1 className="text-3xl font-bold">{"Secteur d'intervention"}</h1>
-      <p>
-        RIOT TECH est basé dans le Morbihan (56) et intervient pour les
-        installations et SAV sur toute la région.
-      </p>
+      <p>RIOT TECH est basé dans le Morbihan (56) et intervient pour les installations et SAV sur toute la région.</p>
       <p>Et sur toute la France métropolitaine pour les Box 4G.</p>
     </div>
   );

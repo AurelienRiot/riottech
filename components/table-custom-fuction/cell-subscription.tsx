@@ -1,12 +1,12 @@
 "use client";
-import { Subscription } from "@prisma/client";
-import { Row } from "@tanstack/react-table";
+import type { Subscription } from "@prisma/client";
+import type { Row } from "@tanstack/react-table";
 
-type RecurrenceCellProps<T = {}> = T & {
+type RecurrenceCellProps = {
   recurrence: Subscription["recurrence"] | undefined;
 };
 
-function RecurrenceCell<T>({ row }: { row: Row<RecurrenceCellProps<T>> }) {
+function RecurrenceCell<T>({ row }: { row: Row<T & RecurrenceCellProps> }) {
   switch (row.original.recurrence) {
     case "month":
       return "Mensuel";

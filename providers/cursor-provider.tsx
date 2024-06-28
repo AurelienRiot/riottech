@@ -1,15 +1,8 @@
 "use client";
-import { CursorContext, CursorContextType } from "@/hooks/use-cursor";
+import { CursorContext, type CursorContextType } from "@/hooks/use-cursor";
 import { Color } from "@/lib/color";
 import { cn } from "@/lib/utils";
-import {
-  SpringOptions,
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { type SpringOptions, motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { useEffect, useMemo } from "react";
 
 export const CursorProvider = ({
@@ -67,12 +60,8 @@ export const CursorProvider = ({
   const gradientConfig = {
     stopColor1: useMotionValue(initialCursorConfig.gradientConfig.stopColor1),
     stopColor2: useMotionValue(initialCursorConfig.gradientConfig.stopColor2),
-    stopOpacity1: useMotionValue(
-      initialCursorConfig.gradientConfig.stopOpacity1,
-    ),
-    stopOpacity2: useMotionValue(
-      initialCursorConfig.gradientConfig.stopOpacity2,
-    ),
+    stopOpacity1: useMotionValue(initialCursorConfig.gradientConfig.stopOpacity1),
+    stopOpacity2: useMotionValue(initialCursorConfig.gradientConfig.stopOpacity2),
     offset1: useMotionValue(initialCursorConfig.gradientConfig.offset1),
     offset2: useMotionValue(initialCursorConfig.gradientConfig.offset2),
   };
@@ -90,9 +79,7 @@ export const CursorProvider = ({
     r: useMotionValue(initialCursorConfig.circleConfig.r),
   };
 
-  const cursorMixBlendMode = useMotionValue(
-    initialCursorConfig.cursorMixBlendMode,
-  );
+  const cursorMixBlendMode = useMotionValue(initialCursorConfig.cursorMixBlendMode);
 
   const cursorOpacity = useSpring(initialCursorConfig.opacity, springConfig);
   const mousePositionX = useSpring(0, springConfig);
@@ -108,14 +95,8 @@ export const CursorProvider = ({
 
   const isHover = useMotionValue(initialCursorConfig.isHover);
 
-  const cursorPositionX = useTransform(
-    mousePositionX,
-    (x) => x - 0.5 * cursorSize.width.get(),
-  );
-  const cursorPositionY = useTransform(
-    mousePositionY,
-    (y) => y - 0.5 * cursorSize.height.get(),
-  );
+  const cursorPositionX = useTransform(mousePositionX, (x) => x - 0.5 * cursorSize.width.get());
+  const cursorPositionY = useTransform(mousePositionY, (y) => y - 0.5 * cursorSize.height.get());
 
   const elementDimension = {
     width: useMotionValue(0),
@@ -198,9 +179,7 @@ export const CursorProvider = ({
         onMouseLeave={() => cursorOpacity.set(0)}
       >
         <motion.svg
-          className={
-            "pointer-events-none absolute inset-0 z-[51] overflow-visible bg-transparent  "
-          }
+          className={"pointer-events-none absolute inset-0 z-[51] overflow-visible bg-transparent  "}
           transformTemplate={template}
           style={{
             height: cursorSize.height,
@@ -216,14 +195,7 @@ export const CursorProvider = ({
         >
           <title>Cursor</title>
           <defs>
-            <motion.radialGradient
-              id="radialGradient"
-              cx="50%"
-              cy="50%"
-              r="50%"
-              fx="50%"
-              fy="50%"
-            >
+            <motion.radialGradient id="radialGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
               <motion.stop
                 offset={gradientConfig.offset1}
                 style={{
@@ -264,12 +236,7 @@ export const CursorProvider = ({
             fill={color}
             filter="url(#ripple)"
           />
-          <motion.circle
-            cx={circleConfig.cx}
-            cy={circleConfig.cy}
-            r={circleConfig.r}
-            fill="url(#radialGradient)"
-          />
+          <motion.circle cx={circleConfig.cx} cy={circleConfig.cy} r={circleConfig.r} fill="url(#radialGradient)" />
         </motion.svg>
 
         {children}
@@ -299,9 +266,7 @@ export function resetCursor({
 
   cursorConfig.turbConfig.scale.set(initialCursorConfig.turbConfig.scale);
   cursorConfig.turbConfig.seed.set(initialCursorConfig.turbConfig.seed);
-  cursorConfig.turbConfig.baseFrequency.set(
-    initialCursorConfig.turbConfig.baseFrequency,
-  );
+  cursorConfig.turbConfig.baseFrequency.set(initialCursorConfig.turbConfig.baseFrequency);
 
   cursorConfig.circleConfig.r.set(initialCursorConfig.circleConfig.r);
 

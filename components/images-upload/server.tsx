@@ -2,14 +2,14 @@
 
 import prismadb from "@/lib/prismadb";
 import {
-  Bucket,
+  type Bucket,
   DeleteObjectCommand,
   GetObjectCommand,
   ListBucketsCommand,
   ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
-  _Object,
+  type _Object,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { checkAdmin } from "../auth/checkAuth";
@@ -87,9 +87,10 @@ async function listBuckets(): Promise<listBucketsReturnType> {
   try {
     const response = await s3.send(new ListBucketsCommand({}));
     console.log("Buckets:");
-    response.Buckets?.forEach((bucket) => {
+    for (const bucket of response.Buckets ?? []) {
       console.log(`- ${bucket.Name}`);
-    });
+    }
+
     if (!response.Buckets) {
       return {
         success: false,
@@ -127,9 +128,7 @@ async function listFiles(): Promise<listFilesReturnType> {
   }
 
   try {
-    const files = await s3.send(
-      new ListObjectsV2Command({ Bucket: bucketName }),
-    );
+    const files = await s3.send(new ListObjectsV2Command({ Bucket: bucketName }));
     if (!files.Contents) {
       return {
         success: false,
@@ -140,9 +139,7 @@ async function listFiles(): Promise<listFilesReturnType> {
     return {
       success: true,
       data: files.Contents?.sort(
-        (a, b) =>
-          new Date(b.LastModified ?? 0).getTime() -
-          new Date(a.LastModified ?? 0).getTime(),
+        (a, b) => new Date(b.LastModified ?? 0).getTime() - new Date(a.LastModified ?? 0).getTime(),
       ),
     };
   } catch (error) {
@@ -157,9 +154,7 @@ async function downloadFile(objectName: string, fileName: string) {
     return;
   }
   try {
-    const file = await s3.send(
-      new GetObjectCommand({ Bucket: bucketName, Key: objectName }),
-    );
+    const file = await s3.send(new GetObjectCommand({ Bucket: bucketName, Key: objectName }));
     // fs.writeFileSync(fileName,  file.Body as Buffer);
     console.log(`File ${objectName} downloaded to ${fileName}`);
   } catch (error) {
@@ -197,9 +192,7 @@ async function deleteObject({
   });
 
   if (imagesProducts.length > 0) {
-    const productNames = imagesProducts
-      .map((image) => image.product.name)
-      .join(", ");
+    const productNames = imagesProducts.map((image) => image.product.name).join(", ");
     return {
       success: false,
       error: `L'image est utilisée par le(s) produit(s) : ${productNames}`,

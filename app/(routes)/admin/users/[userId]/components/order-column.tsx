@@ -6,13 +6,9 @@ import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { OrderCellAction } from "./order-cell-action";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 
 export type OrderColumn = {
   id: string;
@@ -38,23 +34,13 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "isPaid",
     header: "Payé",
-    cell: ({ row }) => (
-      <Checkbox
-        className="cursor-default self-center"
-        checked={row.original.isPaid}
-      />
-    ),
+    cell: ({ row }) => <Checkbox className="cursor-default self-center" checked={row.original.isPaid} />,
     filterFn: FilterFn,
   },
   {
     accessorKey: "pdfUrl",
     header: "Facture",
-    cell: ({ row }) => (
-      <DisplayPdf
-        avalaible={row.original.mailSend}
-        pdfUrl={row.original.pdfUrl}
-      />
-    ),
+    cell: ({ row }) => <DisplayPdf avalaible={row.original.mailSend} pdfUrl={row.original.pdfUrl} />,
   },
   {
     accessorKey: "createdAt",

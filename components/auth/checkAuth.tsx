@@ -1,7 +1,6 @@
+import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./authOptions";
-import prismadb from "@/lib/prismadb";
-import { User } from "@prisma/client";
 
 const checkAdmin = async () => {
   const session = await getServerSession(authOptions);
