@@ -1,23 +1,23 @@
 "use client";
+import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import Currency from "@/components/ui/currency";
+import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn, dateFormatter } from "@/lib/utils";
 import type { Subscription } from "@prisma/client";
-import axios from "axios";
 import { addDays, addMonths, addWeeks, addYears } from "date-fns";
+import { fr } from "date-fns/locale";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/_components/register-form";
-import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Icons } from "@/components/icons";
-import { Calendar } from "@/components/ui/calendar";
-import { fr } from "date-fns/locale";
+import checkoutSubscription from "../_action/checkout-subscription";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
@@ -29,10 +29,12 @@ interface SelectSubscriptionProps {
 export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscriptions, sim, subId }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session } = useSession();
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | undefined>(
     subscriptions.find((sub) => sub.id === subId) ?? undefined,
   );
+  const displayTrial = searchParams.get("trial") === "true";
   const [trialEnd, setTrialEnd] = useState<Date>(addDays(new Date(), 3));
 
   useEffect(() => {
@@ -72,25 +74,35 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscrip
           ? dateFormatter(addWeeks(trialEnd, 1))
           : dateFormatter(addDays(trialEnd, 1));
 
-  const onClick = async () => {
+  const onCheckOut = async () => {
     setLoading(true);
-    if (sim === "" || !selectedSubscription) {
+    if (!selectedSubscription) {
+      toast.error("Veuillez choisir un abonnement.");
+      setLoading(false);
+      return;
+    }
+
+    if (!sim) {
       toast.error("Veuillez renseigner le numéro de la SIM.");
       setLoading(false);
       return;
     }
-    try {
-      const response = await axios.post("/api/checkout-subscription", {
-        subscriptionId: selectedSubscription.id,
-        sim,
-        trialEnd: Math.floor(trialEnd.getTime() / 1000),
+    await checkoutSubscription({
+      sim,
+      subscriptionId: selectedSubscription.id,
+      trialEnd: displayTrial ? Math.floor(trialEnd.getTime() / 1000) : undefined,
+    })
+      .then((res) => {
+        if (!res.success) {
+          toast.error(res.message);
+          return;
+        }
+        window.location.href = res.data;
+      })
+      .catch(() => toast.error("Erreur."))
+      .finally(() => {
+        setLoading(false);
       });
-      window.location = response.data.url;
-    } catch (error) {
-      toast.error("Erreur.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   const redirectSub = (subscriptionId: string) => {
@@ -186,7 +198,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscrip
                 {`  /  ${displayRecurrence}`}
               </div>
             </div>
-            <DatePicker date={trialEnd} onChange={setTrialEnd} />
+            {displayTrial && <DatePicker date={trialEnd} onChange={setTrialEnd} />}
             <p className="mb-4 text-secondary-foreground/80">Premier renouvellement : {nextRecurrence}</p>
           </div>
           <div className="mb-6 mt-8  ">
@@ -203,7 +215,7 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscrip
               </div>
             )}
             <div className="flex justify-center">
-              <Button disabled={loading || !session} onClick={onClick} className="mt-4">
+              <Button disabled={loading || !session} onClick={onCheckOut} className="mt-4">
                 {loading && <Loader2 className={"mr-2 h-4 w-4 animate-spin"} />}
                 Souscrire
               </Button>

@@ -41,3 +41,13 @@ export interface UserWithOrders extends User {
   orders: Order[];
   subscriptionOrder: SubscriptionOrder[];
 }
+
+export type ReturnTypeServerAction<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      message: string;
+    };
