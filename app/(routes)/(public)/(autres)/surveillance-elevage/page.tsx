@@ -2,7 +2,9 @@ import { ContactForm } from "@/components/contact-form";
 import ButtonSurveillance from "./_components/button-surveillance";
 import ImageV2 from "./_components/image-v2";
 import RiotTechFeatures from "./_components/riot-tech-features";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+
+export const dynamic = "force-static";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

@@ -4,7 +4,7 @@ import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import {
   SubscriptionOrderColumn,
-  SubscriptionOrderColumnType,
+  type SubscriptionOrderColumnType,
   filterableColumns,
   searchableColumns,
   viewOptionsColumns,
@@ -15,15 +15,10 @@ interface SubscriptionOrderTableProps {
   data: SubscriptionOrderColumnType[];
 }
 
-export const SubscriptionOrderTable: React.FC<SubscriptionOrderTableProps> = ({
-  data,
-}) => {
+export const SubscriptionOrderTable: React.FC<SubscriptionOrderTableProps> = ({ data }) => {
   return (
     <>
-      <Heading
-        title={`Abonnements (${data.length})`}
-        description="Résumé des abonnements"
-      />
+      <Heading title={`Abonnements (${data.length})`} description="Résumé des abonnements" />
       <Separator className="my-4" />
       <DataTable
         columns={SubscriptionOrderColumn}

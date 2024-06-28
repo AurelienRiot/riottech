@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { ApexOptions } from "apexcharts";
+import React from "react";
+import type { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
 import ReactApexChart from "react-apexcharts";
 import { isWindowSmallerThan } from "@/lib/utils";
@@ -18,7 +18,7 @@ interface OverviewProps {
 
 const Overview: React.FC<OverviewProps> = ({ data }) => {
   const { theme, systemTheme } = useTheme();
-  const [graphState, setGraphState] = useState({
+  const [graphState, setGraphState] = React.useState({
     fontSize: "12px",
     reverse: false,
     reduceMonth: false,
@@ -35,7 +35,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
     },
   ];
 
-  useEffect(() => {
+  React.useEffect(() => {
     const checkMobile = () => {
       if (isWindowSmallerThan(640)) {
         setGraphState({
@@ -94,9 +94,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         offsetX: graphState.reverse ? -5 : 0,
         rotate: graphState.reverse ? -45 : 0,
         rotateAlways: graphState.reverse,
-        formatter: graphState.reverse
-          ? (value: string) => `${value} €`
-          : (value: string) => `${value}`,
+        formatter: graphState.reverse ? (value: string) => `${value} €` : (value: string) => `${value}`,
         style: {
           colors: "#888888",
           fontSize: graphState.fontSize,
@@ -114,8 +112,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
       labels: {
         formatter: graphState.reverse
           ? (value: number) => `${value}`
-          : (value: number) =>
-              Number.isInteger(value) ? `${value} €` : `${value.toFixed(2)} €`,
+          : (value: number) => (Number.isInteger(value) ? `${value} €` : `${value.toFixed(2)} €`),
         style: {
           colors: "#888888",
           fontSize: graphState.fontSize,
@@ -173,13 +170,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
   return (
     <div>
       <span className="sr-only w-0">Graphique</span>
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={350}
-        padding={{ bottom: 40 }}
-      />
+      <ReactApexChart options={options} series={series} type="bar" height={350} padding={{ bottom: 40 }} />
     </div>
   );
 };

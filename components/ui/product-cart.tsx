@@ -5,12 +5,12 @@ import IconButton from "@/components/ui/icon-button";
 import { Expand, ShoppingCart } from "lucide-react";
 import Currency from "@/components/ui/currency";
 import { useRouter } from "next/navigation";
-import { MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 import usePreviewModal from "@/hooks/use-preview-modal";
 import useCart from "@/hooks/use-cart";
 import { VisibleElement } from "../animations/visible-element";
 import { motion } from "framer-motion";
-import { ProductWithCategoryAndImages } from "@/types";
+import type { ProductWithCategoryAndImages } from "@/types";
 
 interface ProductCartProps {
   data: ProductWithCategoryAndImages;
@@ -72,12 +72,10 @@ const ProductCart: React.FC<ProductCartProps> = ({ data }) => {
           </div>
         </div>
       </VisibleElement>
-      <div onClick={handleClick}>
+      <button type="button" onClick={handleClick}>
         <p className="text-lg font-semibold text-primary">{data.name}</p>
-        <p className="text-sm text-secondary-foreground">
-          {data.category?.name}
-        </p>
-      </div>
+        <p className="text-sm text-secondary-foreground">{data.category?.name}</p>
+      </button>
       <div className="flex items-center justify-between text-primary">
         <Currency value={value} />
       </div>

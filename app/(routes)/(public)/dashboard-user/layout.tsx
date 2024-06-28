@@ -1,11 +1,10 @@
-import { Metadata } from "next";
-import React from "react";
+import type { Metadata } from "next";
+import type React from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Profil utilisateur",
-    description:
-      "Consultez votre profil utilisateur et vos informations de paiement RIOT TECH",
+    description: "Consultez votre profil utilisateur et vos informations de paiement RIOT TECH",
   };
 }
 

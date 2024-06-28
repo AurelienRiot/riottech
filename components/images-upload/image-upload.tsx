@@ -1,10 +1,10 @@
 "use client";
 import { addDelay, checkIfUrlAccessible } from "@/lib/utils";
-import { _Object } from "@aws-sdk/client-s3";
+import type { _Object } from "@aws-sdk/client-s3";
 import { AnimatePresence, Reorder } from "framer-motion";
 import { Loader2, Plus, Trash, UploadCloud, X } from "lucide-react";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { AnimateHeight } from "../animations/animate-size";
 import { Button } from "../ui/button";
@@ -20,11 +20,7 @@ type UploadImageProps = {
   multipleImages?: boolean;
 };
 
-const UploadImage = ({
-  selectedFiles,
-  setSelectedFiles,
-  multipleImages = false,
-}: UploadImageProps) => {
+const UploadImage = ({ selectedFiles, setSelectedFiles, multipleImages = false }: UploadImageProps) => {
   const [files, setFiles] = useState<_Object[]>([]);
 
   const [loading, setLoading] = useState(false);
@@ -36,9 +32,9 @@ const UploadImage = ({
     }
 
     const files: File[] = [];
-    Array.from(event.target.files).forEach((file) => {
+    for (const file of event.target.files) {
       files.push(file);
-    });
+    }
 
     await fileChange(files);
   };
@@ -47,7 +43,7 @@ const UploadImage = ({
     event.preventDefault();
     setLoading(true);
     const files: File[] = [];
-    Array.from(event.dataTransfer.files).forEach((file) => {
+    for (const file of event.dataTransfer.files) {
       if (
         file.type !== "image/png" &&
         file.type !== "image/jpeg" &&
@@ -61,7 +57,7 @@ const UploadImage = ({
       } else {
         files.push(file);
       }
-    });
+    }
 
     await fileChange(files);
   };
@@ -71,8 +67,7 @@ const UploadImage = ({
       console.log(file.type);
       const originalFileName = file.name;
       const fileNameWithoutExtension =
-        originalFileName.substring(0, originalFileName.lastIndexOf(".")) ||
-        originalFileName;
+        originalFileName.substring(0, originalFileName.lastIndexOf(".")) || originalFileName;
       const randomString = generateRandomString(10);
       const uniqueFileName = `${randomString}-${fileNameWithoutExtension.replace(/\s/g, "")}`;
       const result = await getSignature({
@@ -100,9 +95,7 @@ const UploadImage = ({
 
     const results = await Promise.all(uploadPromises);
 
-    const validUrls = results.map(
-      (key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`,
-    );
+    const validUrls = results.map((key) => `https://${bucketName}.s3.fr-par.scw.cloud/${key}`);
 
     await checkUrls(validUrls);
 
@@ -114,10 +107,7 @@ const UploadImage = ({
     }
     setFiles(updatedFiles.data);
     if (multipleImages) {
-      setSelectedFiles((prev) => [
-        ...prev,
-        ...results.filter((item): item is string => item !== null),
-      ]);
+      setSelectedFiles((prev) => [...prev, ...results.filter((item): item is string => item !== null)]);
     } else {
       setSelectedFiles([results[0] ?? ""]);
     }
@@ -155,18 +145,13 @@ const UploadImage = ({
             <Loader2 className="animate-spin" />
           </div>
 
-          <div
-            data-state={loading}
-            className=" text-center data-[state=true]:blur-md"
-          >
+          <div data-state={loading} className=" text-center data-[state=true]:blur-md">
             <div className=" mx-auto max-w-min rounded-md border bg-foreground p-2">
               <UploadCloud size={20} className="text-primary-foreground" />
             </div>
 
             <p className="mt-2 text-sm text-primary">
-              <span className="font-semibold">
-                {multipleImages ? "Ajouter des images" : "Ajouter une image"}
-              </span>
+              <span className="font-semibold">{multipleImages ? "Ajouter des images" : "Ajouter une image"}</span>
             </p>
           </div>
           <Input
@@ -223,19 +208,12 @@ type DisplaySelectedImagesProps = {
   multipleImages: boolean;
 };
 
-const DisplaySelectedImages = ({
-  selectedFiles,
-  setSelectedFiles,
-  multipleImages,
-}: DisplaySelectedImagesProps) => {
+const DisplaySelectedImages = ({ selectedFiles, setSelectedFiles, multipleImages }: DisplaySelectedImagesProps) => {
   return (
     <>
       {selectedFiles.length !== 0 && (
         <div>
-          <h1 className="text-primary">
-            {" "}
-            {multipleImages ? "Images selectionnées" : "Image selectionnée"}
-          </h1>
+          <h1 className="text-primary"> {multipleImages ? "Images selectionnées" : "Image selectionnée"}</h1>
           <Reorder.Group
             as="ul"
             values={selectedFiles}
@@ -266,9 +244,7 @@ const DisplaySelectedImages = ({
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
-                      setSelectedFiles((prev) =>
-                        prev.filter((item) => item !== key),
-                      );
+                      setSelectedFiles((prev) => prev.filter((item) => item !== key));
                     }}
                     className="absolute right-0 z-10 hidden items-center justify-center  rounded-tr-md bg-destructive px-2 text-destructive-foreground transition-all hover:bg-destructive/90 group-hover:flex"
                   >
@@ -327,9 +303,7 @@ const DisplayImages = ({
 
   return (
     <div className="space-y-4">
-      <p className="my-2 mt-6 text-sm font-medium text-primary">
-        Images disponibles
-      </p>
+      <p className="my-2 mt-6 text-sm font-medium text-primary">Images disponibles</p>
       <Switch
         onCheckedChange={() => {
           setDisplayFiles(!displayFiles);
@@ -337,11 +311,7 @@ const DisplayImages = ({
         checked={displayFiles}
       />
       <AnimateHeight display={displayFiles} className="space-y-4 p-1">
-        <Input
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Rechercher"
-          className="w-fit "
-        />
+        <Input onChange={(e) => setSearch(e.target.value)} placeholder="Rechercher" className="w-fit " />
         <div
           className="flex max-w-[1000px] flex-row flex-wrap gap-4 whitespace-nowrap
             p-2 "
@@ -350,13 +320,9 @@ const DisplayImages = ({
             files
               .filter(
                 (file) =>
-                  !selectedFiles.includes(file.Key ?? "") &&
-                  file.Key?.toLowerCase().includes(search.toLowerCase()),
+                  !selectedFiles.includes(file.Key ?? "") && file.Key?.toLowerCase().includes(search.toLowerCase()),
               )
-              .slice(
-                (currentPage - 1) * imagesPerPage,
-                currentPage * imagesPerPage,
-              )
+              .slice((currentPage - 1) * imagesPerPage, currentPage * imagesPerPage)
               .map((file) => (
                 <div
                   key={file.Key}
@@ -377,9 +343,7 @@ const DisplayImages = ({
                      w-fit space-y-1"
                     >
                       <div className="flex justify-between text-sm">
-                        <p className="text-muted-foreground ">
-                          {file.Key?.slice(11)}
-                        </p>
+                        <p className="text-muted-foreground ">{file.Key?.slice(11)}</p>
                       </div>
                     </div>
                   </div>
@@ -436,9 +400,7 @@ const DisplayImages = ({
               e.preventDefault();
               setCurrentPage((prev) => prev + 1);
             }}
-            disabled={
-              currentPage * imagesPerPage >= files.length - selectedFiles.length
-            }
+            disabled={currentPage * imagesPerPage >= files.length - selectedFiles.length}
           >
             Suivant
           </Button>
@@ -463,15 +425,12 @@ const checkUrls = async (urls: (string | null)[]): Promise<void> => {
     // If there are still invalid URLs, wait for 250ms and check again
     await addDelay(500);
     return checkUrls(invalidUrls.filter((url) => url !== null));
-  } else {
-    // All URLs are valid
-    return;
   }
+  return;
 };
 
 const generateRandomString = (length: number) => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));

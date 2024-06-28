@@ -3,12 +3,14 @@ import ImageAccueil from "./_components/image-accueil";
 import ServicePage from "./_components/services";
 import QuiSommesNous from "./_components/qui-sommes-nous";
 
+export const dynamic = "force-static";
+
 const HomePage = async () => {
   return (
     <>
       <ImageAccueil />
       <Container>
-        <div className=" mt-12 flex h-full w-full flex-col items-center rounded-t-xl bg-transparent  pt-6  ">
+        <div className="mt-12 flex h-full w-full flex-col items-center rounded-t-xl bg-transparent pt-6">
           <h1 className="text-5xl font-bold tracking-tight text-neutral-50 md:text-7xl">
             Bienvenue{" "}
           </h1>

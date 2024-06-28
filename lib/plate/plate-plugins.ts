@@ -17,14 +17,8 @@ import {
   MARK_SUPERSCRIPT,
   MARK_UNDERLINE,
 } from "@udecode/plate-basic-marks";
-import {
-  createBlockquotePlugin,
-  ELEMENT_BLOCKQUOTE,
-} from "@udecode/plate-block-quote";
-import {
-  createExitBreakPlugin,
-  createSoftBreakPlugin,
-} from "@udecode/plate-break";
+import { createBlockquotePlugin, ELEMENT_BLOCKQUOTE } from "@udecode/plate-block-quote";
+import { createExitBreakPlugin, createSoftBreakPlugin } from "@udecode/plate-break";
 import { createCaptionPlugin } from "@udecode/plate-caption";
 import {
   createCodeBlockPlugin,
@@ -40,19 +34,14 @@ import {
   createPlugins,
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
-  PlateElement,
   PlateLeaf,
-  RenderAfterEditable,
   someNode,
+  PlateElement,
+  type RenderAfterEditable,
 } from "@udecode/plate-common";
-import { createDndPlugin } from "@udecode/plate-dnd";
 import { createEmojiPlugin } from "@udecode/plate-emoji";
 
-import {
-  createFontBackgroundColorPlugin,
-  createFontColorPlugin,
-  createFontSizePlugin,
-} from "@udecode/plate-font";
+import { createFontBackgroundColorPlugin, createFontColorPlugin, createFontSizePlugin } from "@udecode/plate-font";
 import {
   createHeadingPlugin,
   ELEMENT_H1,
@@ -63,59 +52,26 @@ import {
   ELEMENT_H6,
   KEYS_HEADING,
 } from "@udecode/plate-heading";
-import {
-  createHighlightPlugin,
-  MARK_HIGHLIGHT,
-} from "@udecode/plate-highlight";
-import {
-  createHorizontalRulePlugin,
-  ELEMENT_HR,
-} from "@udecode/plate-horizontal-rule";
+import { createHighlightPlugin, MARK_HIGHLIGHT } from "@udecode/plate-highlight";
+import { createHorizontalRulePlugin, ELEMENT_HR } from "@udecode/plate-horizontal-rule";
 import { createIndentPlugin } from "@udecode/plate-indent";
-import {
-  createIndentListPlugin,
-  KEY_LIST_STYLE_TYPE,
-} from "@udecode/plate-indent-list";
+import { createIndentListPlugin, KEY_LIST_STYLE_TYPE } from "@udecode/plate-indent-list";
 import { createJuicePlugin } from "@udecode/plate-juice";
 import { createKbdPlugin, MARK_KBD } from "@udecode/plate-kbd";
 import { createLineHeightPlugin } from "@udecode/plate-line-height";
 import { createLinkPlugin, ELEMENT_LINK } from "@udecode/plate-link";
-import {
-  createTodoListPlugin,
-  ELEMENT_LI,
-  ELEMENT_OL,
-  ELEMENT_TODO_LI,
-  ELEMENT_UL,
-} from "@udecode/plate-list";
-import {
-  createImagePlugin,
-  createMediaEmbedPlugin,
-  ELEMENT_IMAGE,
-  ELEMENT_MEDIA_EMBED,
-} from "@udecode/plate-media";
-import {
-  createMentionPlugin,
-  ELEMENT_MENTION,
-  ELEMENT_MENTION_INPUT,
-} from "@udecode/plate-mention";
+import { createTodoListPlugin, ELEMENT_LI, ELEMENT_OL, ELEMENT_TODO_LI, ELEMENT_UL } from "@udecode/plate-list";
+import { createImagePlugin, createMediaEmbedPlugin, ELEMENT_IMAGE, ELEMENT_MEDIA_EMBED } from "@udecode/plate-media";
+import { createMentionPlugin, ELEMENT_MENTION, ELEMENT_MENTION_INPUT } from "@udecode/plate-mention";
 import { createNodeIdPlugin } from "@udecode/plate-node-id";
-import {
-  createParagraphPlugin,
-  ELEMENT_PARAGRAPH,
-} from "@udecode/plate-paragraph";
+import { createParagraphPlugin, ELEMENT_PARAGRAPH } from "@udecode/plate-paragraph";
 import { createResetNodePlugin } from "@udecode/plate-reset-node";
 import { createSelectOnBackspacePlugin } from "@udecode/plate-select";
 import { createBlockSelectionPlugin } from "@udecode/plate-selection";
 import { createDeserializeDocxPlugin } from "@udecode/plate-serializer-docx";
 import { createDeserializeMdPlugin } from "@udecode/plate-serializer-md";
 import { createTabbablePlugin } from "@udecode/plate-tabbable";
-import {
-  createTablePlugin,
-  ELEMENT_TABLE,
-  ELEMENT_TD,
-  ELEMENT_TH,
-  ELEMENT_TR,
-} from "@udecode/plate-table";
+import { createTablePlugin, ELEMENT_TABLE, ELEMENT_TD, ELEMENT_TH, ELEMENT_TR } from "@udecode/plate-table";
 import { createTrailingBlockPlugin } from "@udecode/plate-trailing-block";
 
 import { BlockquoteElement } from "@/components/plate-ui/blockquote-element";
@@ -138,14 +94,10 @@ import { MentionInputElement } from "@/components/plate-ui/mention-input-element
 import { ParagraphElement } from "@/components/plate-ui/paragraph-element";
 import { withPlaceholders } from "@/components/plate-ui/placeholder";
 import { TabbableElement } from "@/components/plate-ui/tabbable-element";
-import {
-  TableCellElement,
-  TableCellHeaderElement,
-} from "@/components/plate-ui/table-cell-element";
+import { TableCellElement, TableCellHeaderElement } from "@/components/plate-ui/table-cell-element";
 import { TableElement } from "@/components/plate-ui/table-element";
 import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import { TodoListElement } from "@/components/plate-ui/todo-list-element";
-import { withDraggables } from "@/components/plate-ui/with-draggables";
 import { autoformatPlugin } from "@/lib/plate/autoformatPlugin";
 import { dragOverCursorPlugin } from "@/lib/plate/dragOverCursorPlugin";
 
@@ -205,28 +157,14 @@ export const plugins = createPlugins(
     createIndentPlugin({
       inject: {
         props: {
-          validTypes: [
-            ELEMENT_PARAGRAPH,
-            ELEMENT_H1,
-            ELEMENT_H2,
-            ELEMENT_H3,
-            ELEMENT_BLOCKQUOTE,
-            ELEMENT_CODE_BLOCK,
-          ],
+          validTypes: [ELEMENT_PARAGRAPH, ELEMENT_H1, ELEMENT_H2, ELEMENT_H3, ELEMENT_BLOCKQUOTE, ELEMENT_CODE_BLOCK],
         },
       },
     }),
     createIndentListPlugin({
       inject: {
         props: {
-          validTypes: [
-            ELEMENT_PARAGRAPH,
-            ELEMENT_H1,
-            ELEMENT_H2,
-            ELEMENT_H3,
-            ELEMENT_BLOCKQUOTE,
-            ELEMENT_CODE_BLOCK,
-          ],
+          validTypes: [ELEMENT_PARAGRAPH, ELEMENT_H1, ELEMENT_H2, ELEMENT_H3, ELEMENT_BLOCKQUOTE, ELEMENT_CODE_BLOCK],
         },
       },
     }),
@@ -337,10 +275,7 @@ export const plugins = createPlugins(
             match: (n) => {
               return !!(
                 n.type &&
-                ([ELEMENT_TABLE, ELEMENT_LI, ELEMENT_CODE_BLOCK].includes(
-                  n.type as string,
-                ) ||
-                  n[KEY_LIST_STYLE_TYPE])
+                ([ELEMENT_TABLE, ELEMENT_LI, ELEMENT_CODE_BLOCK].includes(n.type as string) || n[KEY_LIST_STYLE_TYPE])
               );
             },
           });

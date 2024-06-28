@@ -3,19 +3,12 @@
 import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button, LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category } from "@prisma/client";
+import type { Category } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -47,18 +40,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
     initialData?.imageUrl ? [getFileKey(initialData?.imageUrl)] : [],
   );
 
-  const title = initialData
-    ? "Modifier la categorie"
-    : "Créer une nouvelle categorie";
-  const description = initialData
-    ? "Modifier la categorie"
-    : "Ajouter une nouvelle categorie";
-  const toastMessage = initialData
-    ? "Categorie mise à jour"
-    : "Categorie créée";
-  const action = initialData
-    ? "Sauvegarder les changements"
-    : "Créer la categorie";
+  const title = initialData ? "Modifier la categorie" : "Créer une nouvelle categorie";
+  const description = initialData ? "Modifier la categorie" : "Ajouter une nouvelle categorie";
+  const toastMessage = initialData ? "Categorie mise à jour" : "Categorie créée";
+  const action = initialData ? "Sauvegarder les changements" : "Créer la categorie";
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
@@ -100,9 +85,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       router.refresh();
       toast.success("Categrorie supprimée");
     } catch (error) {
-      toast.error(
-        "Assurez vous de bien supprimer tous les produits de la categorie",
-      );
+      toast.error("Assurez vous de bien supprimer tous les produits de la categorie");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -111,31 +94,18 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
+          <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
             <Trash className="h-4 w-4" />
           </Button>
         )}
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <FormField
             control={form.control}
             name="imageUrl"
@@ -143,10 +113,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>{"Image du panneau d'affichage"} </FormLabel>
                 <FormControl>
-                  <UploadImage
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles}
-                  />
+                  <UploadImage selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

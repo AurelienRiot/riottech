@@ -1,5 +1,5 @@
-import { RegisterFormValues } from "@/app/(routes)/(public)/(auth)/register/_components/register-form";
-import { User } from "@prisma/client";
+import type { RegisterFormValues } from "@/app/(routes)/(public)/(auth)/register/_components/register-form";
+import type { User } from "@prisma/client";
 import axios from "axios";
 
 const CreatUser = async (data: RegisterFormValues): Promise<User> => {

@@ -1,18 +1,11 @@
 "use client";
 
 import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
-import {
-  CreatedAtCell,
-  NameCell,
-} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, NameCell } from "@/components/table-custom-fuction/common-cell";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 
@@ -36,13 +29,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "name",
     header: "Nom",
-    cell: ({ row }) => (
-      <NameCell
-        type="users"
-        name={row.getValue("name")}
-        id={row.original.userId}
-      />
-    ),
+    cell: ({ row }) => <NameCell type="users" name={row.getValue("name")} id={row.original.userId} />,
   },
 
   {
@@ -52,12 +39,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "isPaid",
     header: "Payé",
-    cell: ({ row }) => (
-      <Checkbox
-        className="cursor-default self-center"
-        checked={row.original.isPaid}
-      />
-    ),
+    cell: ({ row }) => <Checkbox className="cursor-default self-center" checked={row.original.isPaid} />,
     filterFn: FilterFn,
   },
   {

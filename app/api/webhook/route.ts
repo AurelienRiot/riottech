@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 
 import SubscriptionEmail from "@/components/email/subscription";
 import { transporter } from "@/lib/nodemailer";
@@ -18,11 +18,7 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOKS_SECRET!,
-    );
+    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOKS_SECRET as string);
   } catch (error: any) {
     return new NextResponse(`Webhook Eror: ${error.message}`, { status: 400 });
   }
@@ -69,9 +65,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
     address?.postal_code,
     address?.country,
   ];
-  const addressString = addressComponents
-    .filter((c) => c !== null || undefined || "")
-    .join(", ");
+  const addressString = addressComponents.filter((c) => c !== null || undefined || "").join(", ");
 
   const orderId = session?.metadata?.orderId;
   if (!orderId) {
@@ -80,7 +74,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
   const paymentInvoiceId = session.invoice as string;
   const paymentIntentId = session.payment_intent as string;
 
-  let chargeId;
+  let chargeId: string | null | Stripe.Charge;
   if (paymentInvoiceId) {
     const paymentInvoice = await stripe.invoices.retrieve(paymentInvoiceId);
     chargeId = paymentInvoice.charge;
@@ -109,9 +103,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       },
     });
   } else {
-    const subscription = await stripe.subscriptions.retrieve(
-      session?.subscription as string,
-    );
+    const subscription = await stripe.subscriptions.retrieve(session?.subscription as string);
 
     const subscriptionOrder = await prismadb.subscriptionOrder.update({
       where: {
@@ -167,9 +159,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
 }
 
 async function customerSubscriptionUpdated(session: Stripe.Checkout.Session) {
-  const subscription = await stripe.subscriptions.retrieve(
-    session.id as string,
-  );
+  const subscription = await stripe.subscriptions.retrieve(session.id as string);
 
   const subscriptionOrder = await prismadb.subscriptionOrder.findUnique({
     where: {
@@ -181,11 +171,8 @@ async function customerSubscriptionUpdated(session: Stripe.Checkout.Session) {
   });
 
   if (subscriptionOrder) {
-    const isActive =
-      (subscription.cancellation_details?.reason as string) ===
-      "cancellation_requested"
-        ? false
-        : true;
+    const isActive = (subscription.cancellation_details?.reason as string) !== "cancellation_requested";
+
     await prismadb.subscriptionOrder.update({
       where: {
         stripeSubscriptionId: session.id,

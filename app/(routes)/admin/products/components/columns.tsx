@@ -8,12 +8,8 @@ import {
 } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { changeArchived, changeFeatured } from "./server-actions";
 
@@ -34,12 +30,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "name",
     header: "Nom",
     cell: ({ row }) => (
-      <NameWithImageCell
-        name={row.original.name}
-        id={row.original.id}
-        imageUrl={row.original.image}
-        type="products"
-      />
+      <NameWithImageCell name={row.original.name} id={row.original.id} imageUrl={row.original.image} type="products" />
     ),
   },
   {
@@ -48,9 +39,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => (
       <CheckboxCell
         isCheckbox={row.original.isArchived}
-        onChange={(e: boolean | "indeterminate") =>
-          changeArchived({ id: row.original.id, isArchived: e })
-        }
+        onChange={(e: boolean | "indeterminate") => changeArchived({ id: row.original.id, isArchived: e })}
       />
     ),
     filterFn: FilterFn,
@@ -61,9 +50,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
     cell: ({ row }) => (
       <CheckboxCell
         isCheckbox={row.original.isFeatured}
-        onChange={(e: boolean | "indeterminate") =>
-          changeFeatured({ id: row.original.id, isFeatured: e })
-        }
+        onChange={(e: boolean | "indeterminate") => changeFeatured({ id: row.original.id, isFeatured: e })}
       />
     ),
     filterFn: FilterFn,
@@ -75,13 +62,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "categoryLabel",
     header: "Categorie",
-    cell: ({ row }) => (
-      <NameCell
-        name={row.original.categoryLabel}
-        id={row.original.categoryId}
-        type="categories"
-      />
-    ),
+    cell: ({ row }) => <NameCell name={row.original.categoryLabel} id={row.original.categoryId} type="categories" />,
     filterFn: FilterFn,
   },
 
@@ -103,9 +84,7 @@ export const searchableColumns: DataTableSearchableColumn<ProductColumn>[] = [
   },
 ];
 
-export const filterableColumns = (
-  categories: string[],
-): DataTableFilterableColumn<ProductColumn>[] => {
+export const filterableColumns = (categories: string[]): DataTableFilterableColumn<ProductColumn>[] => {
   const catArray = categories.map((item) => ({
     label: item,
     value: item,

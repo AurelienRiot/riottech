@@ -1,23 +1,18 @@
 "use client";
 import ResetPass from "@/actions/reset-pass";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+
+export const dynamic = "force-static";
 
 interface ResetPasswordProps {
   params: {
@@ -27,18 +22,12 @@ interface ResetPasswordProps {
 
 const formSchema = z
   .object({
-    password: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
+    password: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
+    confirmPassword: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Les mots de passe doivent correspondre",
@@ -47,9 +36,7 @@ const formSchema = z
 
 type ResetPasswordFormValues = z.infer<typeof formSchema>;
 
-const ResetPassword: React.FC<ResetPasswordProps> = ({
-  params: { resetToken },
-}) => {
+const ResetPassword: React.FC<ResetPasswordProps> = ({ params: { resetToken } }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
@@ -89,7 +76,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
             onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
             className="w-full space-y-12 sm:w-[400px]"
           >
-            <div className="grid w-full  items-center gap-1.5">
+            <div className="grid w-full items-center gap-1.5">
               <FormField
                 control={form.control}
                 name="password"
@@ -105,11 +92,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           type={showPassword ? "text" : "password"}
                           autoComplete="new-password"
                         />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          tabIndex={-1}
-                        >
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                           {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
@@ -119,7 +102,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                 )}
               />
             </div>
-            <div className="grid w-full  items-center gap-1.5">
+            <div className="grid w-full items-center gap-1.5">
               <FormField
                 control={form.control}
                 name="confirmPassword"
@@ -135,11 +118,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                           type={showPassword ? "text" : "password"}
                           autoComplete="new-password"
                         />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          tabIndex={-1}
-                        >
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                           {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
@@ -149,12 +128,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({
                 )}
               />
             </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full"
-              size="lg"
-            >
+            <Button type="submit" disabled={loading} className="w-full" size="lg">
               Changer le mot de passe
             </Button>
           </form>

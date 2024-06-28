@@ -1,6 +1,6 @@
 "use client";
 import { dateFormatter } from "@/lib/utils";
-import { Row } from "@tanstack/react-table";
+import type { Row } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,11 +11,11 @@ import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
-type StatusCellProps<T = {}> = T & {
+type StatusCellProps = {
   status: "Paiement validé" | "En cours de validation" | "Non payé";
 };
 
-function StatusCell<T>({ row }: { row: Row<StatusCellProps<T>> }) {
+function StatusCell<T>({ row }: { row: Row<T & StatusCellProps> }) {
   switch (row.original.status) {
     case "Paiement validé":
       return <span className="text-green-500">Paiement validé</span>;
@@ -27,16 +27,12 @@ function StatusCell<T>({ row }: { row: Row<StatusCellProps<T>> }) {
   }
 }
 
-type CreatedAtCellProps<T = {}> = T & {
+type CreatedAtCellProps = {
   createdAt: Date;
 };
 
-function CreatedAtCell<T>({ row }: { row: Row<CreatedAtCellProps<T>> }) {
-  return (
-    <div className="flex md:pl-10">
-      {dateFormatter(row.getValue("createdAt"))}
-    </div>
-  );
+function CreatedAtCell<T>({ row }: { row: Row<T & CreatedAtCellProps> }) {
+  return <div className="flex md:pl-10">{dateFormatter(row.getValue("createdAt"))}</div>;
 }
 
 type NameCellProp = {
@@ -48,20 +44,16 @@ type NameCellProp = {
 function NameCell({ name, id, type }: NameCellProp) {
   return (
     <Button asChild variant={"link"} className="px-0">
-      {id ? (
-        <Link href={`/admin/${type}/${id}`}>{name}</Link>
-      ) : (
-        <span>{name}</span>
-      )}
+      {id ? <Link href={`/admin/${type}/${id}`}>{name}</Link> : <span>{name}</span>}
     </Button>
   );
 }
 
-type PhoneCellProps<T = {}> = T & {
+type PhoneCellProps = {
   phone: string;
 };
 
-function PhoneCell<T>({ row }: { row: Row<PhoneCellProps<T>> }) {
+function PhoneCell<T>({ row }: { row: Row<T & PhoneCellProps> }) {
   return (
     <>
       {row.getValue("phone") ? (
@@ -73,11 +65,11 @@ function PhoneCell<T>({ row }: { row: Row<PhoneCellProps<T>> }) {
   );
 }
 
-type TextCellProps<T = {}> = T & {
+type TextCellProps = {
   text: string;
 };
 
-function TextCell<T>({ row }: { row: Row<TextCellProps<T>> }) {
+function TextCell<T>({ row }: { row: Row<T & TextCellProps> }) {
   return (
     <AutosizeTextarea
       className="flex resize-none items-center justify-center border-none bg-transparent pt-4 text-sm outline-none focus-visible:ring-0 disabled:cursor-default disabled:opacity-100"
@@ -131,18 +123,10 @@ type NameWithImageCellProps = {
   type: "products" | "categories";
 };
 
-function NameWithImageCell({
-  imageUrl,
-  id,
-  name,
-  type,
-}: NameWithImageCellProps) {
+function NameWithImageCell({ imageUrl, id, name, type }: NameWithImageCellProps) {
   return (
     <Button asChild variant={"link"}>
-      <Link
-        href={`/admin/${type}/${id}`}
-        className="flex  cursor-pointer items-center justify-start gap-2"
-      >
+      <Link href={`/admin/${type}/${id}`} className="flex  cursor-pointer items-center justify-start gap-2">
         {imageUrl ? (
           <span className=" relative aspect-square h-[30px] rounded-sm bg-transparent">
             <Image
@@ -160,12 +144,4 @@ function NameWithImageCell({
   );
 }
 
-export {
-  CheckboxCell,
-  CreatedAtCell,
-  NameCell,
-  NameWithImageCell,
-  PhoneCell,
-  TextCell,
-  StatusCell,
-};
+export { CheckboxCell, CreatedAtCell, NameCell, NameWithImageCell, PhoneCell, TextCell, StatusCell };

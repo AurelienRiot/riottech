@@ -1,4 +1,4 @@
-import { ProductWithCategoryAndImages } from "@/types";
+import type { ProductWithCategoryAndImages } from "@/types";
 import { create } from "zustand";
 
 interface PreviewModalStore {

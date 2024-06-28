@@ -1,6 +1,6 @@
 "use client";
 
-import { ContactColumn } from "./columns";
+import type { ContactColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { toast } from "sonner";
@@ -34,19 +34,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
 
-      <Button
-        disabled={loading}
-        variant="destructive"
-        size="sm"
-        onClick={() => setOpen(true)}
-      >
+      <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
         <Trash className="h-4 w-4" />
       </Button>
     </>

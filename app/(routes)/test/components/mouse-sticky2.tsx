@@ -2,14 +2,8 @@
 import { useCursor } from "@/hooks/use-cursor";
 import { cn } from "@/lib/utils";
 import { addMinutes } from "date-fns";
-import {
-  AnimatePresence,
-  motion,
-  transform,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { LucideIcon, Menu, User } from "lucide-react";
+import { AnimatePresence, motion, transform, useMotionValue, useSpring } from "framer-motion";
+import { type LucideIcon, Menu, User } from "lucide-react";
 import Link from "next/link";
 import { forwardRef, useEffect, useRef, useState } from "react";
 import { FiLock } from "react-icons/fi";
@@ -79,8 +73,7 @@ function Menu1() {
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = event;
-    const { left, top, width, height } =
-      event.currentTarget.getBoundingClientRect();
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
 
     const center = { x: left + width / 2, y: top + height / 2 };
     const distance = { x: clientX - center.x, y: clientY - center.y };
@@ -162,8 +155,7 @@ function Menu2() {
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = event;
-    const { left, top, width, height } =
-      event.currentTarget.getBoundingClientRect();
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
 
     const center = { x: left + width / 2, y: top + height / 2 };
     const distance = { x: clientX - center.x, y: clientY - center.y };
@@ -311,8 +303,7 @@ const EncryptButton = () => {
      `}
     >
       <div className="relative flex items-center gap-2">
-        <FiLock />{" "}
-        <span className={"relative z-10 pl-4 uppercase "}>{text}</span>
+        <FiLock /> <span className={"relative z-10 pl-4 uppercase "}>{text}</span>
       </div>
     </motion.button>
   );
@@ -338,12 +329,8 @@ const Card = ({ title, subtitle, Icon, href }: CardType) => {
         className="absolute -right-4 -top-4 z-10 text-9xl text-slate-100 transition-transform duration-300 group-hover:rotate-12 group-hover:text-violet-400"
       />
       <Icon className="relative z-10 mb-2 text-2xl text-violet-600 transition-colors duration-300 group-hover:text-white" />
-      <h3 className="relative z-10 text-lg font-medium text-slate-950 duration-300 group-hover:text-white">
-        {title}
-      </h3>
-      <p className="relative z-10 text-slate-400 duration-300 group-hover:text-violet-200">
-        {subtitle}
-      </p>
+      <h3 className="relative z-10 text-lg font-medium text-slate-950 duration-300 group-hover:text-white">{title}</h3>
+      <p className="relative z-10 text-slate-400 duration-300 group-hover:text-violet-200">{subtitle}</p>
     </Link>
   );
 };
@@ -400,12 +387,7 @@ const ShiftingCountdown = ({ className }: { className?: string }) => {
   }, []);
 
   return (
-    <div
-      className={cn(
-        "bg-gradient-to-br from-violet-600 to-indigo-600 p-4",
-        className,
-      )}
-    >
+    <div className={cn("bg-gradient-to-br from-violet-600 to-indigo-600 p-4", className)}>
       <div className="mx-auto flex w-full max-w-5xl items-center bg-white">
         <CountdownItem num={remaining.days} text="jours" />
         <CountdownItem num={remaining.hours} text="heures" />
@@ -433,9 +415,7 @@ const CountdownItem = ({ num, text }: { num: number; text: string }) => {
           </motion.span>
         </AnimatePresence>
       </div>
-      <span className="text-xs font-light text-slate-500 md:text-sm lg:text-base">
-        {text}
-      </span>
+      <span className="text-xs font-light text-slate-500 md:text-sm lg:text-base">{text}</span>
     </div>
   );
 };
@@ -460,47 +440,27 @@ const BubbleText = ({
   const oneOffCharclass = ["text-indigo-600", "font-medium"];
   const twoOffCharclass = ["text-indigo-500", "font-normal"];
 
-  const handleMouseEnter = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    index: number,
-  ) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, index: number) => {
     if (!chars.length) return;
     chars[index].classList.add(...currentCharclass);
-    chars[(index - 1 + chars.length) % chars.length].classList.add(
-      ...oneOffCharclass,
-    );
+    chars[(index - 1 + chars.length) % chars.length].classList.add(...oneOffCharclass);
     chars[(index + 1) % chars.length].classList.add(...oneOffCharclass);
-    chars[(index - 2 + chars.length) % chars.length].classList.add(
-      ...twoOffCharclass,
-    );
+    chars[(index - 2 + chars.length) % chars.length].classList.add(...twoOffCharclass);
     chars[(index + 2) % chars.length].classList.add(...twoOffCharclass);
   };
 
-  const handleMouseLeave = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-    index: number,
-  ) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, index: number) => {
     if (!chars.length) return;
     chars[index].classList.remove(...currentCharclass);
-    chars[(index - 1 + chars.length) % chars.length].classList.remove(
-      ...oneOffCharclass,
-    );
+    chars[(index - 1 + chars.length) % chars.length].classList.remove(...oneOffCharclass);
     chars[(index + 1) % chars.length].classList.remove(...oneOffCharclass);
-    chars[(index - 2 + chars.length) % chars.length].classList.remove(
-      ...twoOffCharclass,
-    );
+    chars[(index - 2 + chars.length) % chars.length].classList.remove(...twoOffCharclass);
     chars[(index + 2) % chars.length].classList.remove(...twoOffCharclass);
   };
 
   return (
     <>
-      <h2
-        ref={ref}
-        className={cn(
-          "text-center font-sans text-5xl font-thin text-indigo-300 ",
-          className,
-        )}
-      >
+      <h2 ref={ref} className={cn("text-center font-sans text-5xl font-thin text-indigo-300 ", className)}>
         {text.split("").map((child, index) => (
           <span
             className={"relative z-10 transition-all duration-300 "}
@@ -516,10 +476,7 @@ const BubbleText = ({
   );
 };
 
-const useCountdown = (
-  endDate: string | Date,
-  refs: { [key: string]: React.RefObject<HTMLDivElement> },
-) => {
+const useCountdown = (endDate: string | Date, refs: { [key: string]: React.RefObject<HTMLDivElement> }) => {
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -571,12 +528,7 @@ const ShiftingCountdown2 = ({ className }: { className?: string }) => {
   useCountdown(COUNTDOWN_FROM, refs);
 
   return (
-    <div
-      className={cn(
-        "bg-gradient-to-br from-violet-600 to-indigo-600 p-4",
-        className,
-      )}
-    >
+    <div className={cn("bg-gradient-to-br from-violet-600 to-indigo-600 p-4", className)}>
       <div className="grid auto-cols-max  grid-flow-col bg-white text-center">
         <CountdownItem2 ref={refs.days} defaultValue={0} text="jours" />
         <CountdownItem2 ref={refs.hours} defaultValue={0} text="heures" />
@@ -587,25 +539,21 @@ const ShiftingCountdown2 = ({ className }: { className?: string }) => {
   );
 };
 
-const CountdownItem2 = forwardRef<
-  HTMLDivElement,
-  { text: string; defaultValue: number }
->(({ text, defaultValue }, ref) => {
-  return (
-    <>
-      <div
-        ref={ref}
-        style={{ "--value": String(defaultValue) } as React.CSSProperties}
-        className="flex flex-col items-center justify-center border-r-[1px] border-slate-200 p-10 last:border-r-0  "
-      >
-        <span className="countdown font-mono ">
-          <span className="text-2xl font-medium text-red-600 md:text-4xl lg:text-6xl xl:text-7xl " />
-        </span>
-        <span className="text-xs font-light text-slate-500 md:text-sm lg:text-base ">
-          {text}
-        </span>
-      </div>
-      <style jsx>{`
+const CountdownItem2 = forwardRef<HTMLDivElement, { text: string; defaultValue: number }>(
+  ({ text, defaultValue }, ref) => {
+    return (
+      <>
+        <div
+          ref={ref}
+          style={{ "--value": String(defaultValue) } as React.CSSProperties}
+          className="flex flex-col items-center justify-center border-r-[1px] border-slate-200 p-10 last:border-r-0  "
+        >
+          <span className="countdown font-mono ">
+            <span className="text-2xl font-medium text-red-600 md:text-4xl lg:text-6xl xl:text-7xl " />
+          </span>
+          <span className="text-xs font-light text-slate-500 md:text-sm lg:text-base ">{text}</span>
+        </div>
+        <style jsx>{`
         .countdown {
           display: inline-flex;
         }
@@ -628,29 +576,8 @@ const CountdownItem2 = forwardRef<
           top: calc(var(--value) * -0.997em);
         }
       `}</style>
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 CountdownItem2.displayName = "CountdownItem2";
-
-{
-  /* <div className="font-mono w-1/4 h-24 md:h-36 flex flex-col gap-1 md:gap-2 items-center justify-center border-r-[1px] border-slate-200">
-  <div className="w-full text-center relative overflow-hidden">
-    <AnimatePresence mode="popLayout">
-      <motion.span
-        key={num}
-        initial={{ y: "100%" }}
-        animate={{ y: "0%" }}
-        exit={{ y: "-100%" }}
-        transition={{ ease: "backIn", duration: 0.75 }}
-        className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium"
-      >
-        {num}
-      </motion.span>
-    </AnimatePresence>
-  </div>
-  <span className="text-xs md:text-sm lg:text-base font-light text-slate-500">
-    {text}
-  </span>
-  </div> */
-}

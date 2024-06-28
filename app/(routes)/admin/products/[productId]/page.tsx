@@ -1,9 +1,8 @@
 import prismadb from "@/lib/prismadb";
-import { Image, Product } from "@prisma/client";
+import type { Image, Product } from "@prisma/client";
 import { ProductForm } from "./components/product-form";
 
-export interface FormattedProduct
-  extends Omit<Product, "priceHT" | "priceTTC"> {
+export interface FormattedProduct extends Omit<Product, "priceHT" | "priceTTC"> {
   priceHT: number;
   priceTTC: number;
 }
@@ -32,17 +31,16 @@ const ProductPage = async ({ params }: { params: { productId: string } }) => {
   //     }
   //   })
   // );
-  const formattedProduct: (FormattedProduct & { images: Image[] }) | null =
-    product
-      ? {
-          ...product,
-          // images: accessibleImages.filter(
-          //   (image) => image !== undefined
-          // ) as Image[],
-          priceHT: parseFloat(String(product.priceHT)),
-          priceTTC: parseFloat(String(product.priceHT)),
-        }
-      : null;
+  const formattedProduct: (FormattedProduct & { images: Image[] }) | null = product
+    ? {
+        ...product,
+        // images: accessibleImages.filter(
+        //   (image) => image !== undefined
+        // ) as Image[],
+        priceHT: Number.parseFloat(String(product.priceHT)),
+        priceTTC: Number.parseFloat(String(product.priceHT)),
+      }
+    : null;
 
   return (
     <div className="flex-col">

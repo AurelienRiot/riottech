@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, LoadingButton } from "@/components/ui/button";
+import { LoadingButton } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -75,7 +75,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
           onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
           className="w-full space-y-12 sm:w-[400px]"
         >
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full items-center gap-1.5">
             <FormField
               control={form.control}
               name="email"
@@ -99,7 +99,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5">
+          <div className="grid w-full items-center gap-1.5">
             <FormField
               control={form.control}
               name="password"

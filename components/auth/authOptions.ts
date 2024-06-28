@@ -1,8 +1,8 @@
 import prismadb from "@/lib/prismadb";
 import { compare } from "bcrypt";
-import { type NextAuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
@@ -27,8 +27,8 @@ export const authOptions: NextAuthOptions = {
           image: profile.picture,
         };
       },
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
       name: "Sign in",
@@ -58,10 +58,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const verifyPassword = await compare(
-          credentials.password,
-          user.password,
-        );
+        const verifyPassword = await compare(credentials.password, user.password);
         if (!verifyPassword) {
           return null;
         }

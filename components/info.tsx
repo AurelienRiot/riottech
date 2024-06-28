@@ -1,13 +1,12 @@
 "use client";
 
-import Currency from "@/components/ui/currency";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
-import { MouseEventHandler } from "react";
+import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
-import { Markdown } from "@/components/markdown";
+import type { ProductWithCategoryAndImages } from "@/types";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { ProductWithCategoryAndImages } from "@/types";
+import type { MouseEventHandler } from "react";
 import { PlateVis } from "./plate-vis";
 
 interface InfoProps {
@@ -27,10 +26,7 @@ const Info: React.FC<InfoProps> = ({ data, scroll }) => {
 
   return (
     <div>
-      <Link
-        href={`/product/${data.id}`}
-        className="text-3xl font-bold text-gray-900 dark:text-white"
-      >
+      <Link href={`/product/${data.id}`} className="text-3xl font-bold text-gray-900 dark:text-white">
         {data.name}
       </Link>
       <div className="items-end justify-between mt-3">
@@ -45,21 +41,14 @@ const Info: React.FC<InfoProps> = ({ data, scroll }) => {
         </div>
       </div>
       <div className="flex items-center mt-10 gap-x-3">
-        <Button
-          variant="rounded"
-          className="flex items-center gap-x-2 hover:scale-105"
-          onClick={onAddToCart}
-        >
+        <Button variant="rounded" className="flex items-center gap-x-2 hover:scale-105" onClick={onAddToCart}>
           Ajouter au panier
           <ShoppingCart />
         </Button>
       </div>
 
       {/* <Markdown className="mt-8 ">{data.productSpecs}</Markdown> */}
-      <PlateVis
-        value={data.productSpecs}
-        className={scroll ? "overflow-scroll h-[500px] hide-scrollbar" : ""}
-      />
+      <PlateVis value={data.productSpecs} className={scroll ? "overflow-scroll h-[500px] hide-scrollbar" : ""} />
     </div>
   );
 };

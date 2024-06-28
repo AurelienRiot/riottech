@@ -1,5 +1,5 @@
 "use client";
-import { motion, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 
 const BlopSVG = () => {
   return (
@@ -14,7 +14,7 @@ const BlopSVG = () => {
         translateY: [0, 50, -50, 0],
       }}
       transition={{
-        repeat: Infinity,
+        repeat: Number.POSITIVE_INFINITY,
         repeatType: "reverse",
         ease: "easeInOut",
         duration: 50,
@@ -36,7 +36,7 @@ const BlopSVG = () => {
             ],
           }}
           transition={{
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             repeatType: "reverse",
             ease: "easeInOut",
             duration: 20,

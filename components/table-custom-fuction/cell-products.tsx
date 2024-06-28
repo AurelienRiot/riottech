@@ -1,6 +1,6 @@
 "use client";
 
-import { Row } from "@tanstack/react-table";
+import type { Row } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
@@ -8,7 +8,7 @@ import { Checkbox } from "../ui/checkbox";
 import { changeFeatured } from "../../app/(routes)/admin/products/components/server-actions";
 import { useRouter } from "next/navigation";
 
-type LinkProductsCellProps<T = {}> = T & {
+type LinkProductsCellProps = {
   linkProducts: {
     id: string;
     name: string;
@@ -16,7 +16,7 @@ type LinkProductsCellProps<T = {}> = T & {
   id: string;
 };
 
-function LinkProductsCell<T>({ row }: { row: Row<LinkProductsCellProps<T>> }) {
+function LinkProductsCell<T>({ row }: { row: Row<T & LinkProductsCellProps> }) {
   return (
     <div className="flex flex-wrap gap-1">
       {row.original.linkProducts.map((product) => {
@@ -26,15 +26,13 @@ function LinkProductsCell<T>({ row }: { row: Row<LinkProductsCellProps<T>> }) {
   );
 }
 
-type FeaturedCellProps<T = {}> = T & {
+type FeaturedCellProps = {
   isFeatured: boolean;
   id: string;
 };
 
-function FeaturedCell<T>({ row }: { row: Row<FeaturedCellProps<T>> }) {
-  const [status, setStatus] = useState<boolean | "indeterminate">(
-    row.original.isFeatured,
-  );
+function FeaturedCell<T>({ row }: { row: Row<T & FeaturedCellProps> }) {
+  const [status, setStatus] = useState<boolean | "indeterminate">(row.original.isFeatured);
   const router = useRouter();
   return (
     <Checkbox

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -37,9 +37,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
     setLoading(true);
     if (!userId) {
       const callbackUrl = "/cart";
-      router.replace(
-        `/register?callbackUrl=${encodeURIComponent(baseUrl + callbackUrl)}`,
-      );
+      router.replace(`/register?callbackUrl=${encodeURIComponent(baseUrl + callbackUrl)}`);
       return;
     }
     const itemsWithQuantities = cart.items.map((item) => {
@@ -69,9 +67,7 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
         {cart.items.map((item) => (
           <li key={item.id} className="flex justify-between tabular-nums	">
             <div>
-              {cart.quantities[item.id] > 1 && (
-                <span> {cart.quantities[item.id]}x </span>
-              )}
+              {cart.quantities[item.id] > 1 && <span> {cart.quantities[item.id]}x </span>}
               <strong>{item.name} </strong>{" "}
             </div>
             <Currency

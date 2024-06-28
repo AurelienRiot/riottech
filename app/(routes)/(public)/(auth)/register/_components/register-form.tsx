@@ -6,18 +6,11 @@ import { AdressForm } from "@/components/adress-form";
 import { AnimateHeight } from "@/components/animations/animate-size";
 import { TVAForm } from "@/components/tva-form";
 import { Button, LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -39,18 +32,12 @@ const formSchema = z
       .max(100, {
         message: "L'email ne peut pas dépasser 100 caractères",
       }),
-    password: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
-    confirmPassword: z
-      .string()
-      .min(1, { message: "Le mot de passe ne peut pas être vide" })
-      .max(100, {
-        message: "Le mot de passe ne peut pas dépasser 100 caractères",
-      }),
+    password: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
+    confirmPassword: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+      message: "Le mot de passe ne peut pas dépasser 100 caractères",
+    }),
     name: z.string().min(1).max(100, {
       message: "Le nom ne peut pas dépasser 100 caractères",
     }),
@@ -87,9 +74,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isPro, setIsPro] = useState(true);
-  const callbackUrl = callback
-    ? callback
-    : decodeURI(searchParams.get("callbackUrl") ?? `${baseUrl}/dashboard-user`);
+  const callbackUrl = callback ? callback : decodeURI(searchParams.get("callbackUrl") ?? `${baseUrl}/dashboard-user`);
   const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState({
     label: "",
@@ -106,17 +91,13 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
     try {
       if (isPro) {
         if (!data.raisonSocial) {
-          toast.error(
-            "Veuillez renseigner la raison sociale ou passer en particulier.",
-          );
+          toast.error("Veuillez renseigner la raison sociale ou passer en particulier.");
           return;
         }
         if (data.tva) {
           const valideVat = await GetValideVat(data.tva);
           if (!valideVat) {
-            toast.error(
-              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
-            );
+            toast.error("Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.");
             return;
           }
           data.isPro = Boolean(valideVat);
@@ -180,10 +161,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
         </Link>{" "}
       </p>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-          className="w-full space-y-12 sm:w-[400px]"
-        >
+        <form onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))} className="w-full space-y-12 sm:w-[400px]">
           <div
             data-state={isPro}
             className="mt-6 flex justify-between transition-all duration-500 data-[state=false]:-mb-12"
@@ -197,7 +175,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               className={
                 !isPro
                   ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-                  : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+                  : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
               }
             >
               Particulier
@@ -211,7 +189,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               className={
                 isPro
                   ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-                  : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+                  : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
               }
             >
               Professionnel
@@ -233,11 +211,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   <FormLabel>Raison Social</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading || !isPro}
-                        placeholder="Entreprise"
-                        {...field}
-                      />
+                      <Input disabled={loading || !isPro} placeholder="Entreprise" {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -245,7 +219,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </AnimateHeight>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="surname"
@@ -257,12 +231,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   </FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading}
-                        placeholder="Nom"
-                        {...field}
-                        autoComplete="family-name"
-                      />
+                      <Input disabled={loading} placeholder="Nom" {...field} autoComplete="family-name" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -270,7 +239,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="name"
@@ -282,12 +251,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   </FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading}
-                        placeholder="prénom"
-                        {...field}
-                        autoComplete="given-name"
-                      />
+                      <Input disabled={loading} placeholder="prénom" {...field} autoComplete="given-name" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -295,7 +259,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="email"
@@ -322,7 +286,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="phone"
@@ -331,7 +295,6 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                   <FormLabel>Téléphone</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      {/* @ts-ignore */}
                       <PhoneInput
                         placeholder="Entrez votre numéro de téléphone"
                         defaultCountry="FR"
@@ -346,13 +309,10 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
-            <AdressForm
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
+          <div className="grid w-full items-center gap-1.5 p-1">
+            <AdressForm selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="password"
@@ -371,11 +331,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                         type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        tabIndex={-1}
-                      >
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                         {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
@@ -385,7 +341,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
               )}
             />
           </div>
-          <div className="grid w-full  items-center gap-1.5 p-1">
+          <div className="grid w-full items-center gap-1.5 p-1">
             <FormField
               control={form.control}
               name="confirmPassword"
@@ -404,11 +360,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
                         type={showPassword ? "text" : "password"}
                         autoComplete="new-password"
                       />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        tabIndex={-1}
-                      >
+                      <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                         {showPassword ? <EyeOff /> : <Eye />}
                       </button>
                     </div>
@@ -419,12 +371,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
             />
           </div>
 
-          <LoadingButton
-            type="submit"
-            disabled={loading}
-            className="w-full p-1"
-            size="lg"
-          >
+          <LoadingButton type="submit" disabled={loading} className="w-full p-1" size="lg">
             {"Créer le compte"}
           </LoadingButton>
         </form>

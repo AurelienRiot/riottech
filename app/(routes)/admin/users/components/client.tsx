@@ -2,14 +2,8 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { User } from "@prisma/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import type { User } from "@prisma/client";
 import { useState } from "react";
 import CardUser from "./card-user";
 
@@ -19,31 +13,11 @@ interface UserClientProps {
   subscriptionOrderLengths: number[];
 }
 
-const UserClient: React.FC<UserClientProps> = ({
-  users,
-  orderLengths,
-  subscriptionOrderLengths,
-}) => {
+const UserClient: React.FC<UserClientProps> = ({ users, orderLengths, subscriptionOrderLengths }) => {
   const [search, setSearch] = useState("");
 
-  const searchKeys = [
-    "email",
-    "name",
-    "surname",
-    "phone",
-    "addresse",
-    "tva",
-    "raisonSocial",
-  ];
-  const displayKeys = [
-    "email",
-    "nom",
-    "prenom",
-    "téléphone",
-    "addresse",
-    "tva",
-    "Raison Social",
-  ];
+  const searchKeys = ["email", "name", "surname", "phone", "addresse", "tva", "raisonSocial"];
+  const displayKeys = ["email", "nom", "prenom", "téléphone", "addresse", "tva", "Raison Social"];
   const [selectValue, setSelectValue] = useState(searchKeys[1]);
 
   const filteredUsers = users.filter((user) => {
@@ -54,16 +28,9 @@ const UserClient: React.FC<UserClientProps> = ({
   return (
     <>
       <div className="m-4">
-        <Heading
-          title={`Clients (${filteredUsers.length})`}
-          description="Liste des clients"
-        />
+        <Heading title={`Clients (${filteredUsers.length})`} description="Liste des clients" />
         <div className="grid grid-cols-1 gap-4 mt-4 justify-content-center md:grid-cols-6">
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Recherche"
-          />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Recherche" />
 
           <Select
             defaultValue={selectValue}

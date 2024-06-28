@@ -3,7 +3,7 @@ import { TestStripe } from "./test-stripe";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import { StripeElementsOptions } from "@stripe/stripe-js";
-import Stripe from "stripe";
+import type Stripe from "stripe";
 
 const StripePage = async () => {
   const user = await getFullUser();

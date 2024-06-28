@@ -1,30 +1,21 @@
 "use client";
 
 import {
-  ColumnDef,
+  type ColumnDef,
   useReactTable,
   getCoreRowModel,
   getPaginationRowModel,
   flexRender,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "./skeleton";
 
 interface DataTableSkeletonProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
 
-export function DataTableSkeleton<TData, TValue>({
-  columns,
-}: DataTableSkeletonProps<TData, TValue>) {
+export function DataTableSkeleton<TData, TValue>({ columns }: DataTableSkeletonProps<TData, TValue>) {
   const data: TData[] = Array(5).fill({});
 
   const table = useReactTable({
@@ -45,16 +36,8 @@ export function DataTableSkeleton<TData, TValue>({
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className="bg-gray-400 text-white dark:bg-black"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                  <TableHead key={header.id} className="bg-gray-400 text-white dark:bg-black">
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -67,10 +50,7 @@ export function DataTableSkeleton<TData, TValue>({
                 className="animate-pulse even:bg-gray-200 odd:dark:bg-blue-950 even:dark:bg-gray-900"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="h-12  items-center justify-center "
-                  >
+                  <TableCell key={cell.id} className="h-12  items-center justify-center ">
                     <Skeleton className="w-24 h-4 rounded-full" />
                   </TableCell>
                 ))}

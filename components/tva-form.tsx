@@ -1,22 +1,11 @@
 "use client";
 import AddressAutocomplete from "@/actions/adress-autocompleteFR";
 import GetValideVat from "@/actions/get-valide-vat";
-import { Dispatch, SetStateAction } from "react";
-import {
-  ControllerRenderProps,
-  Path,
-  PathValue,
-  useFormContext,
-} from "react-hook-form";
+import type { Dispatch, SetStateAction } from "react";
+import { type ControllerRenderProps, type Path, type PathValue, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 
 export type FullAdress = {
@@ -60,10 +49,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
         state: temp[0].state,
       });
 
-      form.setValue(
-        "raisonSocial" as Path<T>,
-        valideVat.name as PathValue<T, Path<T>>,
-      );
+      form.setValue("raisonSocial" as Path<T>, valideVat.name as PathValue<T, Path<T>>);
       toast.success("TVA valide");
     } else {
       toast.error("TVA non valide");
@@ -81,12 +67,7 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
             <FormLabel>Numéro de TVA</FormLabel>
             <div className="flex space-x-2">
               <FormControl>
-                <Input
-                  type="text"
-                  disabled={loading || disabled}
-                  placeholder="FR03132345"
-                  {...field}
-                />
+                <Input type="text" disabled={loading || disabled} placeholder="FR03132345" {...field} />
               </FormControl>
               <Button
                 type="button"

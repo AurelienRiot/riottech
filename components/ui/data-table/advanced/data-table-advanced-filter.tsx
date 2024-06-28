@@ -2,12 +2,7 @@
 
 import * as React from "react";
 import type { DataTableFilterOption } from "@/types";
-import {
-  CaretSortIcon,
-  ChevronDownIcon,
-  PlusIcon,
-  TextIcon,
-} from "@radix-ui/react-icons";
+import { CaretSortIcon, ChevronDownIcon, PlusIcon, TextIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,18 +13,12 @@ import {
   CommandItem,
   CommandSeparator,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface DataTableAdvancedFilterProps<TData> {
   options: DataTableFilterOption<TData>[];
   selectedOptions: DataTableFilterOption<TData>[];
-  setSelectedOptions: React.Dispatch<
-    React.SetStateAction<DataTableFilterOption<TData>[]>
-  >;
+  setSelectedOptions: React.Dispatch<React.SetStateAction<DataTableFilterOption<TData>[]>>;
   children?: React.ReactNode;
 }
 
@@ -41,25 +30,15 @@ export function DataTableAdvancedFilter<TData>({
 }: DataTableAdvancedFilterProps<TData>) {
   const [value, setValue] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState<
-    DataTableFilterOption<TData> | undefined
-  >(options[0]);
+  const [selectedOption, setSelectedOption] = React.useState<DataTableFilterOption<TData> | undefined>(options[0]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         {children ?? (
-          <Button
-            variant="outline"
-            size="sm"
-            role="combobox"
-            className="capitalize"
-          >
+          <Button variant="outline" size="sm" role="combobox" className="capitalize">
             Filter
-            <CaretSortIcon
-              className="ml-2 size-4 shrink-0 opacity-50"
-              aria-hidden="true"
-            />
+            <CaretSortIcon className="ml-2 size-4 shrink-0 opacity-50" aria-hidden="true" />
           </Button>
         )}
       </PopoverTrigger>
@@ -80,9 +59,8 @@ export function DataTableAdvancedFilter<TData>({
                   setSelectedOptions((prev) => {
                     if (currentValue === value) {
                       return prev.filter((item) => item.value !== option.value);
-                    } else {
-                      return [...prev, option];
                     }
+                    return [...prev, option];
                   });
                 }}
               >

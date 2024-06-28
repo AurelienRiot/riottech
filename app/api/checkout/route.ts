@@ -1,8 +1,8 @@
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
+import { type NextRequest, NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { authOptions } from "@/components/auth/authOptions";
 
 export async function POST(req: NextRequest) {
@@ -23,12 +23,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (session.user.role === "admin") {
-      return new NextResponse(
-        "Erreur, un compte admin ne peut passer de commande",
-        {
-          status: 401,
-        },
-      );
+      return new NextResponse("Erreur, un compte admin ne peut passer de commande", {
+        status: 401,
+      });
     }
 
     const user = await prismadb.user.findUnique({
@@ -55,9 +52,7 @@ export async function POST(req: NextRequest) {
     let stripeCustomerId = user.stripeCustomerId;
     if (!stripeCustomerId) {
       const customer = await stripe.customers.create({
-        name: user.raisonSocial
-          ? user.raisonSocial
-          : user.name + " " + user.surname,
+        name: user.raisonSocial ? user.raisonSocial : user.name + " " + user.surname,
         email: user.email || undefined,
         phone: user.phone || undefined,
         // tax_exempt: isPro ? "exempt" : "none",
@@ -89,10 +84,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!itemsWithQuantities || itemsWithQuantities.length === 0) {
-      return new NextResponse(
-        "L'id et la quantité de chaque produit est nécessaire",
-        { status: 400 },
-      );
+      return new NextResponse("L'id et la quantité de chaque produit est nécessaire", { status: 400 });
     }
 
     if (!totalPrice) {
@@ -114,14 +106,12 @@ export async function POST(req: NextRequest) {
     const productsWithQuantity = products.map((product) => {
       return {
         item: product,
-        quantity: itemsWithQuantities.find((item) => item.id === product.id)
-          ?.quantity,
+        quantity: itemsWithQuantities.find((item) => item.id === product.id)?.quantity,
       };
     });
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-    productsWithQuantity.forEach((product) => {
+    for (const product of productsWithQuantity) {
       line_items.push({
         quantity: product.quantity,
 
@@ -136,7 +126,7 @@ export async function POST(req: NextRequest) {
           unit_amount: Math.round(product.item.priceHT * 100),
         },
       });
-    });
+    }
 
     const order = await prismadb.order.create({
       data: {

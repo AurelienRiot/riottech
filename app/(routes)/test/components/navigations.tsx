@@ -3,28 +3,11 @@ import { LoginButton } from "@/components/auth/auth-button";
 import CartItem from "@/components/cart-item";
 import { Icons } from "@/components/icons2";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import useCart from "@/hooks/use-cart";
 import { useCategories } from "@/hooks/use-categories";
-import { useCursor } from "@/hooks/use-cursor";
-import { Color } from "@/lib/color";
 import { GetWindowWidth, cn, isWindowSmallerThan } from "@/lib/utils";
 import { interpolate } from "flubber";
 import {
@@ -34,18 +17,9 @@ import {
   useMotionValue,
   useMotionValueEvent,
   useScroll,
-  useTime,
   useTransform,
 } from "framer-motion";
-import {
-  ChevronDown,
-  LucidePhoneCall,
-  ShoppingBag,
-  Siren,
-  Store,
-  StoreIcon,
-  User2,
-} from "lucide-react";
+import { ChevronDown, LucidePhoneCall, ShoppingBag, Siren, Store, StoreIcon, User2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -60,17 +34,13 @@ type NavigationStateContextType = {
   setNavState: React.Dispatch<React.SetStateAction<"open" | "closed">>;
 };
 
-const NavigationStateContext = createContext<
-  NavigationStateContextType | undefined
->(undefined);
+const NavigationStateContext = createContext<NavigationStateContextType | undefined>(undefined);
 
 export function useNavigationState() {
   const context = useContext(NavigationStateContext);
 
   if (context === undefined) {
-    throw new Error(
-      "useNavigationState must be used within a NavigationStateContext.Provider",
-    );
+    throw new Error("useNavigationState must be used within a NavigationStateContext.Provider");
   }
 
   return context;
@@ -115,24 +85,14 @@ const Navigations = () => {
                 data-nav={navState}
                 className="relative h-14 w-14 transition-all duration-300 data-[nav=closed]:h-8  data-[nav=closed]:w-8"
               >
-                <Image
-                  src="/icone.png"
-                  alt="logo RIOT TECH"
-                  fill
-                  sizes="100%"
-                  className="rounded-md object-contain"
-                />
+                <Image src="/icone.png" alt="logo RIOT TECH" fill sizes="100%" className="rounded-md object-contain" />
               </div>
               <span
                 data-nav={navState}
                 className="relative text-2xl font-bold data-[nav=closed]:text-base [&[data-nav=open]>span.riot]:translate-y-2 [&[data-nav=open]>span.tech]:translate-y-4  "
               >
-                <span className="riot inline-block transition-all duration-300">
-                  Riot{" "}
-                </span>{" "}
-                <span className="tech inline-block transition-all duration-300">
-                  Tech
-                </span>
+                <span className="riot inline-block transition-all duration-300">Riot </span>{" "}
+                <span className="tech inline-block transition-all duration-300">Tech</span>
               </span>
             </Link>
           </Magnetic>
@@ -145,9 +105,7 @@ const Navigations = () => {
             {session?.user ? (
               <Link
                 data-nav={navState}
-                href={
-                  session.user.role === "admin" ? "/admin" : "/dashboard-user"
-                }
+                href={session.user.role === "admin" ? "/admin" : "/dashboard-user"}
                 className="group flex items-center justify-center  rounded-full  text-primary  transition-all hover:scale-150 hover:bg-accent hover:text-accent-foreground data-[nav=open]:translate-y-4"
               >
                 <User2
@@ -218,11 +176,7 @@ const MainNav = () => {
           className="flex h-auto w-[180px] flex-col gap-3 p-2"
         >
           {categoriesRoutes.map((route) => (
-            <Link
-              key={route.href}
-              href={route.href}
-              className="px-1 first:pt-1"
-            >
+            <Link key={route.href} href={route.href} className="px-1 first:pt-1">
               {route.label}
             </Link>
           ))}
@@ -358,32 +312,21 @@ const NavMobile = () => {
           <CollapsibleTrigger className="flex items-center justify-center gap-2 [&[data-state=open]>svg.chevron]:rotate-0">
             {" "}
             <StoreIcon className="h-4 w-4  " /> Produits
-            <ChevronDown
-              className="chevron  relative h-3 w-3 -rotate-90 transition duration-200"
-              aria-hidden="true"
-            />
+            <ChevronDown className="chevron  relative h-3 w-3 -rotate-90 transition duration-200" aria-hidden="true" />
           </CollapsibleTrigger>
           <CollapsibleContent
             className="flex flex-col
           gap-1 overflow-hidden rounded-lg  bg-green-600  data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down"
           >
             {categoriesRoutes.map((route) => (
-              <Link
-                key={route.href}
-                href={route.href}
-                className="px-1 first:pt-1"
-              >
+              <Link key={route.href} href={route.href} className="px-1 first:pt-1">
                 {route.label}
               </Link>
             ))}
           </CollapsibleContent>
         </Collapsible>
         {mainRoutes.map((route) => (
-          <Link
-            key={route.href}
-            href={route.href}
-            className="flex items-center gap-2"
-          >
+          <Link key={route.href} href={route.href} className="flex items-center gap-2">
             <route.icon className="inline h-4 w-4 " /> {route.label}
           </Link>
         ))}
@@ -404,10 +347,7 @@ const Cart = () => {
 
   if (!isMounted) {
     return (
-      <Button
-        variant={"rounded"}
-        className="bg-primary-foreground text-primary "
-      >
+      <Button variant={"rounded"} className="bg-primary-foreground text-primary ">
         <ShoppingBag className="h-10 w-10" />
         <span className="ml-1 w-3  text-2xl font-medium">0</span>
       </Button>
@@ -444,19 +384,14 @@ const Cart = () => {
               className="mt-6 flex h-10 items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {" "}
-              Passer commande{" "}
-              <HiOutlineExternalLink className="h-4 w-4 shrink-0" />
+              Passer commande <HiOutlineExternalLink className="h-4 w-4 shrink-0" />
             </Link>
           </SheetTitle>
           <SheetDescription>Contenue de votre panier</SheetDescription>
         </SheetHeader>
 
         <div className="lg:col-span-7">
-          {cart.items.length === 0 && (
-            <p className="text-secondary-foreground ">
-              Aucun produit dans le panier
-            </p>
-          )}
+          {cart.items.length === 0 && <p className="text-secondary-foreground ">Aucun produit dans le panier</p>}
           <ul>
             <AnimatePresence>
               {cart.items.map((item) => (
@@ -600,11 +535,7 @@ function Curve() {
     });
   }, [animate, progress, navState, windowWidth]);
   return (
-    <motion.svg
-      ref={scope}
-      className={"absolute bottom-0 left-0 h-px w-full overflow-visible "}
-      stroke="none"
-    >
+    <motion.svg ref={scope} className={"absolute bottom-0 left-0 h-px w-full overflow-visible "} stroke="none">
       <motion.path className={"fill-primary-foreground"} d={path}></motion.path>
     </motion.svg>
   );

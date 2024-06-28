@@ -1,14 +1,4 @@
-import {
-  Body,
-  Container,
-  Head,
-  Hr,
-  Html,
-  Img,
-  Preview,
-  Tailwind,
-  Text,
-} from "@react-email/components";
+import { Body, Container, Head, Hr, Html, Img, Preview, Tailwind, Text } from "@react-email/components";
 
 const main = {
   fontFamily:
@@ -39,14 +29,8 @@ const MainBody = ({
     >
       <Body style={main} className="mx-auto my-auto bg-white px-2 font-sans">
         <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
-          <a href={baseUrl} target="_blank">
-            <Img
-              src={`${baseUrl}/icone.png`}
-              width="75"
-              height="75"
-              alt="RIOT TECH Logo"
-              className="m-auto"
-            />
+          <a href={baseUrl} target="_blank" rel="noreferrer">
+            <Img src={`${baseUrl}/icone.png`} width="75" height="75" alt="RIOT TECH Logo" className="m-auto" />
           </a>
           {children}
           <Footer />
@@ -64,9 +48,7 @@ const Footer = () => (
       RIOT TECH
     </Text>
     <Hr className="my-5 border-[#cccccc] " />
-    <Text className="text-xs text-[#8898aa]">
-      © RIOT TECH - Kervihan 56930 Pluméliau-Bieuzy
-    </Text>
+    <Text className="text-xs text-[#8898aa]">© RIOT TECH - Kervihan 56930 Pluméliau-Bieuzy</Text>
   </>
 );
 

@@ -1,11 +1,6 @@
-import { HTMLElements } from "@/components/animations/visible-element";
+import type { HTMLElements } from "@/components/animations/visible-element";
 import { cn } from "@/lib/utils";
-import {
-  MotionProps,
-  motion,
-  useMotionTemplate,
-  useSpring,
-} from "framer-motion";
+import { type MotionProps, motion, useMotionTemplate, useSpring } from "framer-motion";
 
 export type MagneticProps = Pick<
   React.HTMLAttributes<HTMLElement>,
@@ -36,8 +31,7 @@ const Magnetic: React.FC<MagneticProps> = ({
   const MouseMove = (event: React.MouseEvent<HTMLElement>) => {
     const { clientX, clientY } = event;
 
-    const { left, top, width, height } =
-      event.currentTarget.getBoundingClientRect();
+    const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
 
     position.x.set((clientX - (left + width / 2)) * 0.1);
     position.y.set((clientY - (top + height / 2)) * 0.1);

@@ -1,11 +1,4 @@
-import {
-  Category,
-  Image,
-  Order,
-  Product,
-  SubscriptionOrder,
-  User,
-} from "@prisma/client";
+import type { Category, Image, Order, Product, SubscriptionOrder, User } from "@prisma/client";
 
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
@@ -30,8 +23,7 @@ export interface DataTableSearchableColumn<TData> {
   title: string;
 }
 
-export interface DataTableFilterableColumn<TData>
-  extends DataTableSearchableColumn<TData> {
+export interface DataTableFilterableColumn<TData> extends DataTableSearchableColumn<TData> {
   options: Option[];
 }
 
@@ -49,3 +41,13 @@ export interface UserWithOrders extends User {
   orders: Order[];
   subscriptionOrder: SubscriptionOrder[];
 }
+
+export type ReturnTypeServerAction<T> =
+  | {
+      success: true;
+      data: T;
+    }
+  | {
+      success: false;
+      message: string;
+    };

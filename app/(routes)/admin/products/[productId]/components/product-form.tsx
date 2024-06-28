@@ -4,36 +4,22 @@ import UploadImage from "@/components/images-upload/image-upload";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button, LoadingButton } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category, Image } from "@prisma/client";
-import axios, { AxiosError } from "axios";
+import type { Category, Image } from "@prisma/client";
+import axios, { type AxiosError } from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { FormattedProduct } from "../page";
+import type { FormattedProduct } from "../page";
 import { PlateEditor } from "./plate-editor";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
@@ -56,15 +42,11 @@ const formSchema = z.object({
     })
     .array(),
 
-  priceHT: z.coerce
-    .number()
-    .min(1, { message: "Le prix HT doit être supérieur à 0" }),
+  priceHT: z.coerce.number().min(1, { message: "Le prix HT doit être supérieur à 0" }),
 
   categoryId: z.string().min(1, { message: "La catégorie est requise" }),
 
-  productSpecs: z
-    .string()
-    .min(1, { message: "Les spécifications sont requises" }),
+  productSpecs: z.string().min(1, { message: "Les spécifications sont requises" }),
 
   description: z.string().min(1, { message: "La description est requise" }),
 
@@ -80,10 +62,7 @@ export const getFileKey = (url: string): string => {
   return parts[parts.length - 1];
 };
 
-export const ProductForm: React.FC<ProductFormProps> = ({
-  initialData,
-  categories,
-}) => {
+export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categories }) => {
   const params = useParams();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -93,13 +72,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   );
 
   const title = initialData ? "Modifier le produit" : "Crée un nouveau produit";
-  const description = initialData
-    ? "Modifier le produit"
-    : "Ajouter un nouveau produit";
+  const description = initialData ? "Modifier le produit" : "Ajouter un nouveau produit";
   const toastMessage = initialData ? "Produit mise à jour" : "Produit crée";
-  const action = initialData
-    ? "Sauvegarder les changements"
-    : "Crée le produit";
+  const action = initialData ? "Sauvegarder les changements" : "Crée le produit";
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -134,7 +109,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Erreur");
@@ -161,31 +136,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
+          <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
             <Trash className="h-4 w-4" />
           </Button>
         )}
       </div>
       <Separator />
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8 "
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8 ">
           <FormField
             control={form.control}
             name="images"
@@ -193,11 +155,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               <FormItem>
                 <FormLabel>Images</FormLabel>
                 <FormControl>
-                  <UploadImage
-                    selectedFiles={selectedFiles}
-                    setSelectedFiles={setSelectedFiles}
-                    multipleImages
-                  />
+                  <UploadImage selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} multipleImages />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -211,11 +169,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="w-48">
                   <FormLabel>Nom</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Nom du produit"
-                      {...field}
-                    />
+                    <Input disabled={loading} placeholder="Nom du produit" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -228,13 +182,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="w-48">
                   <FormLabel>Prix HT</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      disabled={loading}
-                      placeholder="9,99"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
+                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -254,10 +202,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Selectionner une categorie"
-                        />
+                        <SelectValue defaultValue={field.value} placeholder="Selectionner une categorie" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -279,11 +224,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="w-96">
                   <FormLabel>Drescription</FormLabel>
                   <FormControl>
-                    <TextArea
-                      disabled={loading}
-                      placeholder="Description du produit"
-                      {...field}
-                    />
+                    <TextArea disabled={loading} placeholder="Description du produit" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -296,16 +237,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Mise en avant</FormLabel>
-                      <FormDescription>
-                        {"Ce produit apparaitra sur la page d'accueil."}
-                      </FormDescription>
+                      <FormDescription>{"Ce produit apparaitra sur la page d'accueil."}</FormDescription>
                     </div>
                   </label>
                 </FormItem>
@@ -318,16 +254,11 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                 <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                   <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Archivé</FormLabel>
-                      <FormDescription>
-                        {"Ce produit n'apparaitra pas sur le site."}
-                      </FormDescription>
+                      <FormDescription>{"Ce produit n'apparaitra pas sur le site."}</FormDescription>
                     </div>
                   </label>
                 </FormItem>

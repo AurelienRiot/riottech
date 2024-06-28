@@ -1,17 +1,10 @@
 "use client";
 import ReqResetPass from "@/actions/req-reset-pass";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -48,7 +41,7 @@ const ResetPasswordForm = () => {
       setSuccess(true);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Erreur.");
@@ -90,12 +83,7 @@ const ResetPasswordForm = () => {
                 )}
               />
             </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full"
-              size="lg"
-            >
+            <Button type="submit" disabled={loading} className="w-full" size="lg">
               Réinisialiser votre mot de passe
             </Button>
           </form>
@@ -109,9 +97,7 @@ const ResetPasswordForm = () => {
         ref={messageRef}
       >
         <p className="text-center text-xl">E-mail envoyé ! </p>
-        <p className="text-center text-xl">
-          Veuillez vérifier votre boîte mail.
-        </p>
+        <p className="text-center text-xl">Veuillez vérifier votre boîte mail.</p>
       </motion.div>
     </>
   );

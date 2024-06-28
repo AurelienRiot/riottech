@@ -1,14 +1,14 @@
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
 
-import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
+import { type NextRequest, NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
 
 export async function POST(req: NextRequest) {
   try {
-    const { subscriptionId, sim } = await req.json();
+    const { subscriptionId, sim, trialEnd } = await req.json();
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.id) {
@@ -18,12 +18,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (session.user.role === "admin") {
-      return new NextResponse(
-        "Erreur, un compte admin ne peut passer de commande",
-        {
-          status: 401,
-        },
-      );
+      return new NextResponse("Erreur, un compte admin ne peut passer de commande", {
+        status: 401,
+      });
     }
 
     if (!subscriptionId) {
@@ -63,9 +60,7 @@ export async function POST(req: NextRequest) {
     let stripeCustomerId = user.stripeCustomerId;
     if (!stripeCustomerId) {
       const customer = await stripe.customers.create({
-        name: user.raisonSocial
-          ? user.raisonSocial
-          : user.name + " " + user.surname,
+        name: user.raisonSocial ? user.raisonSocial : user.name + " " + user.surname,
         email: user.email || undefined,
         phone: user.phone || undefined,
         // tax_exempt: isPro ? "exempt" : "none",
@@ -124,8 +119,7 @@ export async function POST(req: NextRequest) {
           },
           unit_amount: Math.round(subscription.priceHT * 100),
           recurring: {
-            interval:
-              subscription.recurrence as Stripe.Price.Recurring.Interval,
+            interval: subscription.recurrence as Stripe.Price.Recurring.Interval,
           },
         },
       });
@@ -134,10 +128,8 @@ export async function POST(req: NextRequest) {
         price_data: {
           currency: "EUR",
           tax_behavior: "exclusive",
-
           product_data: {
             tax_code: "txcd_99999999",
-
             name: "Frais d'activation",
           },
           unit_amount: Math.round(subscription.fraisActivation * 100),
@@ -149,15 +141,12 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const trial_end = trialEnd || Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60; // 7 days from now
+
     const subscriptionOrder = await prismadb.subscriptionOrder.create({
       data: {
         isPaid: false,
-        totalPrice: Number(
-          (
-            (subscription.priceHT + subscription.fraisActivation) *
-            taxe
-          ).toFixed(2),
-        ),
+        totalPrice: Number(((subscription.priceHT + subscription.fraisActivation) * taxe).toFixed(2)),
         subscriptionPrice: Number((subscription.priceHT * taxe).toFixed(2)),
         sim: sim,
         isActive: false,
@@ -188,10 +177,11 @@ export async function POST(req: NextRequest) {
       },
       subscription_data: {
         description: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
+        trial_end,
       },
       // billing_address_collection: isAdresse ? "auto" : "required",
       billing_address_collection: "auto",
-      payment_method_types: ["sepa_debit", "card"],
+      payment_method_types: ["sepa_debit"],
       phone_number_collection: {
         enabled: false,
       },

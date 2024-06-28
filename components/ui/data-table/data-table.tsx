@@ -1,25 +1,14 @@
 "use client";
 
-import { ColumnDef, flexRender } from "@tanstack/react-table";
+import { type ColumnDef, flexRender } from "@tanstack/react-table";
 
 import { DataTableAdvancedToolbar } from "@/components/ui/data-table/advanced/data-table-advanced-toolbar";
 import { DataTableFloatingBar } from "@/components/ui/data-table/data-table-floating-bar";
 import { DataTablePagination } from "@/components/ui/data-table/data-table-pagination";
 import { DataTableToolbar } from "@/components/ui/data-table/data-table-toolbar";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useDataTable } from "@/hooks/use-data-table";
-import {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,12 +64,7 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   );
                 })}
@@ -90,26 +74,15 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
+                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   Aucun resultat
                 </TableCell>
               </TableRow>
@@ -118,15 +91,8 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <div className="space-y-2.5">
-        <DataTablePagination
-          selectedRows={!!floatingBarContent}
-          table={table}
-        />
-        {floatingBarContent ? (
-          <DataTableFloatingBar table={table}>
-            {floatingBarContent}
-          </DataTableFloatingBar>
-        ) : null}
+        <DataTablePagination selectedRows={!!floatingBarContent} table={table} />
+        {floatingBarContent ? <DataTableFloatingBar table={table}>{floatingBarContent}</DataTableFloatingBar> : null}
       </div>
     </div>
   );

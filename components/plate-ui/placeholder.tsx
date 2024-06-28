@@ -3,7 +3,7 @@ import { cn } from "@udecode/cn";
 import {
   createNodeHOC,
   createNodesHOC,
-  PlaceholderProps,
+  type PlaceholderProps,
   usePlaceholderState,
 } from "@udecode/plate-common";
 import { ELEMENT_H1 } from "@udecode/plate-heading";

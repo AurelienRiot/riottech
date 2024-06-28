@@ -1,13 +1,9 @@
 "use client";
 
-import {
-  CreatedAtCell,
-  PhoneCell,
-  TextCell,
-} from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, PhoneCell, TextCell } from "@/components/table-custom-fuction/common-cell";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
+import type { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type ContactColumn = {

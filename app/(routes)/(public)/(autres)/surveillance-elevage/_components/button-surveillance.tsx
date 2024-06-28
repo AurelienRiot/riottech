@@ -1,12 +1,6 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Image, { StaticImageData } from "next/image";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import ImageSurveillance1 from "@/public/surveillance-elevage/camera_surveillance1.webp";
 import ImageSurveillance2 from "@/public/surveillance-elevage/camera_surveillance2.webp";
@@ -65,9 +59,7 @@ const CardSurveillance = ({
   return (
     <Card className="relative flex h-full max-w-md flex-col justify-between">
       <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-center text-xl font-medium">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-center text-xl font-medium">{title}</CardTitle>
       </CardHeader>
       <CardContent className="relative  text-center">{content}</CardContent>
       <div className="group relative z-10 mx-auto size-20">

@@ -16,15 +16,13 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BiBookOpen } from "react-icons/bi";
-import { SubscriptionOrderColumn } from "./subscription-order-column";
+import type { SubscriptionOrderColumn } from "./subscription-order-column";
 
 interface SubscriptionOrderCellActionProps {
   data: SubscriptionOrderColumn;
 }
 
-export const SubscriptionOrderCellAction: React.FC<
-  SubscriptionOrderCellActionProps
-> = ({ data }) => {
+export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionProps> = ({ data }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
@@ -67,12 +65,7 @@ export const SubscriptionOrderCellAction: React.FC<
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -82,10 +75,7 @@ export const SubscriptionOrderCellAction: React.FC<
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Action</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => onCopy(data.id)}
-            className="cursor-copy"
-          >
+          <DropdownMenuItem onClick={() => onCopy(data.id)} className="cursor-copy">
             <Copy className="mr-2 h-4 w-4" />
             Copier Id
           </DropdownMenuItem>
@@ -94,10 +84,7 @@ export const SubscriptionOrderCellAction: React.FC<
             Activité
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link
-              className="flex items-center justify-center"
-              href={`${pathname}/${data.id}`}
-            >
+            <Link className="flex items-center justify-center" href={`${pathname}/${data.id}`}>
               <BiBookOpen className="mr-2 h-4 w-4" />
               Historique
             </Link>

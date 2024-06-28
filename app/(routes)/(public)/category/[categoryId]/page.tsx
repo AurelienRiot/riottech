@@ -4,7 +4,7 @@ import Container from "@/components/ui/container";
 import ProductCart from "@/components/ui/product-cart";
 import GetCategory from "@/server-actions/get-category";
 import GetProducts from "@/server-actions/get-products";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 interface CategoryPageProps {
   params: {
@@ -12,9 +12,7 @@ interface CategoryPageProps {
   };
 }
 
-export async function generateMetadata({
-  params,
-}: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const category = await GetCategory(params.categoryId);
 
   return {

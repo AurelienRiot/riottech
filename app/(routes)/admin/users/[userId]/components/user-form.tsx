@@ -1,32 +1,25 @@
 "use client";
 
 import GetValideVat from "@/actions/get-valide-vat";
-import { AdressForm, FullAdress } from "@/components/adress-form";
+import { AdressForm, type FullAdress } from "@/components/adress-form";
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { TVAForm } from "@/components/tva-form";
 import { Button, LoadingButton } from "@/components/ui/button";
 import ButtonBackward from "@/components/ui/button-backward";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Heading } from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
-import axios, { AxiosError } from "axios";
+import type { User } from "@prisma/client";
+import axios, { type AxiosError } from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { toast } from "sonner";
 import * as z from "zod";
 
 interface UserFormProps {
@@ -87,7 +80,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       adresse: selectedAddress.label,
       tva: initialData.tva || "",
       raisonSocial: initialData.raisonSocial || "",
-      isPro: initialData.role === "pro" ? true : false,
+      isPro: initialData.role === "pro",
     },
   });
 
@@ -97,17 +90,13 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
       if (isPro) {
         if (!data.raisonSocial) {
-          toast.error(
-            "Veuillez renseigner la raison sociale ou passer en particulier.",
-          );
+          toast.error("Veuillez renseigner la raison sociale ou passer en particulier.");
           return;
         }
         if (data.tva) {
           const valideVat = await GetValideVat(data.tva);
           if (!valideVat) {
-            toast.error(
-              "Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.",
-            );
+            toast.error("Numéro de TVA inconnu, vous pouvez le corriger ou le supprimer pour continuer.");
             return;
           }
           data.isPro = Boolean(valideVat);
@@ -128,7 +117,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       toast.success(toastMessage);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response && axiosError.response.data) {
+      if (axiosError?.response?.data) {
         toast.error(axiosError.response.data as string);
       } else {
         toast.error("Something went wrongs.");
@@ -155,21 +144,11 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={onDelete}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
+          <Button disabled={loading} variant="destructive" size="sm" onClick={() => setOpen(true)}>
             <Trash className="h-4 w-4" />
           </Button>
         )}
@@ -177,7 +156,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       <Separator />
 
       <p>{initialData?.email}</p>
-      <div className="mt-6 flex ">
+      <div className="mt-6 flex">
         <Button
           onClick={(e) => {
             e.preventDefault();
@@ -187,7 +166,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             !isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Particulier
@@ -201,17 +180,14 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
           className={
             isPro
               ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : " ml-3 bg-gray-500 hover:bg-green-200  hover:text-black"
+              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Professionnel
         </Button>
       </div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             <FormField
               control={form.control}
@@ -246,7 +222,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 <FormItem>
                   <FormLabel>Numéro de téléphone</FormLabel>
                   <FormControl>
-                    {/* @ts-ignore */}
                     <PhoneInput
                       placeholder="Entrez votre numéro de téléphone"
                       defaultCountry="FR"
@@ -258,10 +233,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
                 </FormItem>
               )}
             />
-            <AdressForm
-              selectedAddress={selectedAddress}
-              setSelectedAddress={setSelectedAddress}
-            />
+            <AdressForm selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
             {isPro && (
               <>
                 <TVAForm

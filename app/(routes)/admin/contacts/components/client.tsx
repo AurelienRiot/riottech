@@ -2,12 +2,7 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import {
-  ContactColumn,
-  columns,
-  searchableColumns,
-  viewOptionsColumns,
-} from "./columns";
+import { type ContactColumn, columns, searchableColumns, viewOptionsColumns } from "./columns";
 import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface ContactClientProps {
@@ -17,10 +12,7 @@ interface ContactClientProps {
 export const ContactClient: React.FC<ContactClientProps> = ({ data }) => {
   return (
     <>
-      <Heading
-        title={`Contacts (${data.length})`}
-        description="Messages reçus"
-      />
+      <Heading title={`Contacts (${data.length})`} description="Messages reçus" />
 
       <Separator />
       <DataTable

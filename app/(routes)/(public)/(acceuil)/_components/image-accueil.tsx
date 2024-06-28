@@ -34,11 +34,9 @@ const ImageAccueil = () => {
         placeholder="blur"
         alt="image background"
         sizes="100vw"
-        width={3859}
-        height={2500}
-        className="absolute left-0 top-0 h-full w-full object-cover object-center  "
+        className="absolute left-0 top-0 h-full w-full object-cover object-center"
       />
-      <div className="absolute left-0 top-0 h-full w-full bg-black/50 " />
+      <div className="absolute left-0 top-0 h-full w-full bg-black/50" />
     </div>
   );
 };

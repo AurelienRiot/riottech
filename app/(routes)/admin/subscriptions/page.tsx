@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import { SubscriptionClient } from "./components/client";
-import { SubscriptionColumn } from "./components/columns";
+import type { SubscriptionColumn } from "./components/columns";
 import { currencyFormatter } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -12,16 +12,14 @@ const SubscriptionPage = async () => {
     },
   });
 
-  const formattedSubscriptions: SubscriptionColumn[] = subscriptions.map(
-    (item) => ({
-      id: item.id,
-      name: item.name,
-      priceHT: currencyFormatter.format(item.priceHT),
-      dataCap: item.dataCap,
-      recurrence: item.recurrence,
-      createdAt: item.createdAt,
-    }),
-  );
+  const formattedSubscriptions: SubscriptionColumn[] = subscriptions.map((item) => ({
+    id: item.id,
+    name: item.name,
+    priceHT: currencyFormatter.format(item.priceHT),
+    dataCap: item.dataCap,
+    recurrence: item.recurrence,
+    createdAt: item.createdAt,
+  }));
 
   return (
     <div className="flex-col">

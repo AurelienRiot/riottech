@@ -1,23 +1,14 @@
 import React from "react";
 import { cn, withRef } from "@udecode/cn";
 import { PlateElement, withHOC } from "@udecode/plate-common";
-import {
-  ELEMENT_MEDIA_EMBED,
-  parseTwitterUrl,
-  parseVideoUrl,
-  useMediaState,
-} from "@udecode/plate-media";
+import { ELEMENT_MEDIA_EMBED, parseTwitterUrl, parseVideoUrl, useMediaState } from "@udecode/plate-media";
 import { ResizableProvider, useResizableStore } from "@udecode/plate-resizable";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import { Tweet } from "react-tweet";
 
 import { Caption, CaptionTextarea } from "./caption";
 import { MediaPopover } from "./media-popover";
-import {
-  mediaResizeHandleVariants,
-  Resizable,
-  ResizeHandle,
-} from "./resizable";
+import { mediaResizeHandleVariants, Resizable, ResizeHandle } from "./resizable";
 
 export const MediaEmbedElement = withHOC(
   ResizableProvider,
@@ -37,13 +28,11 @@ export const MediaEmbedElement = withHOC(
     const width = useResizableStore().get.width();
     const provider = embed?.provider;
 
+    if (!embed?.id) return <>{children}</>;
+
     return (
       <MediaPopover pluginKey={ELEMENT_MEDIA_EMBED}>
-        <PlateElement
-          ref={ref}
-          className={cn("relative py-2.5", className)}
-          {...props}
-        >
+        <PlateElement ref={ref} className={cn("relative py-2.5", className)} {...props}>
           <figure className="group relative m-0 w-full" contentEditable={false}>
             <Resizable
               align={align}
@@ -61,7 +50,7 @@ export const MediaEmbedElement = withHOC(
               {isVideo ? (
                 isYoutube ? (
                   <LiteYouTubeEmbed
-                    id={embed!.id!}
+                    id={embed.id}
                     title="youtube"
                     wrapperClass={cn(
                       "rounded-sm",
@@ -78,7 +67,7 @@ export const MediaEmbedElement = withHOC(
                       "[&_>_.lty-playbtn]:before:absolute [&_>_.lty-playbtn]:before:left-1/2 [&_>_.lty-playbtn]:before:top-1/2 [&_>_.lty-playbtn]:before:[transform:translate3d(-50%,-50%,0)]",
                       "[&.lyt-activated]:cursor-[unset]",
                       "[&.lyt-activated]:before:pointer-events-none [&.lyt-activated]:before:opacity-0",
-                      "[&.lyt-activated_>_.lty-playbtn]:pointer-events-none [&.lyt-activated_>_.lty-playbtn]:!opacity-0"
+                      "[&.lyt-activated_>_.lty-playbtn]:pointer-events-none [&.lyt-activated_>_.lty-playbtn]:!opacity-0",
                     )}
                   />
                 ) : (
@@ -87,16 +76,16 @@ export const MediaEmbedElement = withHOC(
                       provider === "vimeo" && "pb-[75%]",
                       provider === "youku" && "pb-[56.25%]",
                       provider === "dailymotion" && "pb-[56.0417%]",
-                      provider === "coub" && "pb-[51.25%]"
+                      provider === "coub" && "pb-[51.25%]",
                     )}
                   >
                     <iframe
                       className={cn(
                         "absolute left-0 top-0 size-full rounded-sm",
                         isVideo && "border-0",
-                        focused && selected && "ring-2 ring-ring ring-offset-2"
+                        focused && selected && "ring-2 ring-ring ring-offset-2",
                       )}
-                      src={embed!.url}
+                      src={embed.url}
                       title="embed"
                       allowFullScreen
                     />
@@ -110,10 +99,10 @@ export const MediaEmbedElement = withHOC(
                     "[&_.react-tweet-theme]:my-0",
                     !readOnly &&
                       selected &&
-                      "[&_.react-tweet-theme]:ring-2 [&_.react-tweet-theme]:ring-ring [&_.react-tweet-theme]:ring-offset-2"
+                      "[&_.react-tweet-theme]:ring-2 [&_.react-tweet-theme]:ring-ring [&_.react-tweet-theme]:ring-offset-2",
                   )}
                 >
-                  <Tweet id={embed!.id!} />
+                  <Tweet id={embed.id} />
                 </div>
               )}
 
@@ -132,5 +121,5 @@ export const MediaEmbedElement = withHOC(
         </PlateElement>
       </MediaPopover>
     );
-  })
+  }),
 );
