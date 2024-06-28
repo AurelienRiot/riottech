@@ -199,7 +199,10 @@ export const SelectSubscription: React.FC<SelectSubscriptionProps> = ({ subscrip
               </div>
             </div>
             {displayTrial && <DatePicker date={trialEnd} onChange={setTrialEnd} />}
-            <p className="mb-4 text-secondary-foreground/80">Premier renouvellement : {nextRecurrence}</p>
+            <p className="mb-4 text-secondary-foreground/80 flex flex-col sm:flex-row  gap-4 items-center">
+              <span>Premier renouvellement :</span>
+              <span>{nextRecurrence}</span>
+            </p>
           </div>
           <div className="mb-6 mt-8  ">
             {!session && (
@@ -238,8 +241,8 @@ function DatePicker({ date, onChange }: { date: Date; onChange: (value: Date) =>
   }
 
   return (
-    <div className="mb-4 flex gap-4 items-center">
-      <Label className="text-secondary-foreground">Date de la premiere facturation</Label>
+    <div className="mb-4 flex flex-col sm:flex-row  gap-4 items-center">
+      <Label className="text-secondary-foreground/80 text-base font-normal">Date de la premiere facturation :</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
