@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 import * as z from "zod";
+import MailForm from "./mail-form";
 
 interface UserFormProps {
   initialData: User;
@@ -66,7 +67,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         },
   );
 
-  console.log(initialData);
   const title = initialData.stripeCustomerId ? "Modifier le profil" : "Finalisez la création de votre compte";
   const toastMessage = "Profil mise à jour";
   const action = "Enregistrer les modifications";
@@ -161,7 +161,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         </Button>
       </div>
       <Separator />
-      <p className="p-6 font-bold">{initialData.email}</p>
+      {!!initialData.stripeCustomerId && <MailForm email={initialData.email} />}
       <div className="flex">
         <Button
           onClick={(e) => {
@@ -177,7 +177,6 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
         >
           Particulier
         </Button>
-
         <Button
           onClick={(e) => {
             e.preventDefault();
