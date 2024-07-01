@@ -61,7 +61,7 @@ async function checkoutSubscription(data: z.infer<typeof subscriptionSchema>): P
         },
         unit_amount: Math.round(subscription.priceHT * 100),
         recurring: {
-          interval: subscription.recurrence as Stripe.Price.Recurring.Interval,
+          interval: subscription.recurrence,
         },
       },
     });

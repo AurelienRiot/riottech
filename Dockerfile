@@ -6,6 +6,9 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# Copy prisma schema
+COPY prisma ./prisma/
+
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
@@ -15,8 +18,7 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-# Copy prisma schema
-COPY prisma ./prisma/
+
 
 # Install Prisma CLI and generate Prisma Client
 RUN npx prisma generate
