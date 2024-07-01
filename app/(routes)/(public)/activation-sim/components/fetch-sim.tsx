@@ -21,15 +21,15 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
     console.log("regex error");
     return emptySIM;
   }
-  return {
-    RTsubIDs: ["3fdbe87f-0d24-4a4b-8412-2390131a2dc8", "70ba8046-d4b4-4a95-9a4e-2155a3d181bd"],
-    available: true,
-    group: "",
-    is_third: false,
-    org_image_url: "",
-    org_name: "",
-    sim_serial: "",
-  };
+  // return {
+  //   RTsubIDs: ["3fdbe87f-0d24-4a4b-8412-2390131a2dc8", "70ba8046-d4b4-4a95-9a4e-2155a3d181bd"],
+  //   available: true,
+  //   group: "",
+  //   is_third: false,
+  //   org_image_url: "",
+  //   org_name: "",
+  //   sim_serial: "",
+  // };
   try {
     const response = await axios.get(`https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`);
 
