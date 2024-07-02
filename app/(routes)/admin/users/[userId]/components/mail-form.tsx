@@ -2,26 +2,28 @@
 
 import { Button, LoadingButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { type FormEvent, useState } from "react";
-import changeEmail from "../_actions/change-email";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { signOut } from "next-auth/react";
+import changeEmail from "../_actions/change-email";
 
-function MailForm({ email }: { email: string | null }) {
+function MailForm({ email, id }: { email: string | null; id: string }) {
   const [display, setDisplay] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function onSumbit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     const newEmail = new FormData(e.target as HTMLFormElement).get("email");
-    await changeEmail(newEmail as string)
+    await changeEmail({ email: newEmail as string, id })
       .then((result) => {
         if (!result.success) {
           toast.error(result.message, { position: "top-center" });
           return;
         }
-        signOut({ callbackUrl: "/login?error=changedEmail" });
+        toast.success("Email modifie avec succes", { position: "top-center" });
+        router.refresh();
       })
       .catch((error) => {
         toast.error("Une erreur est survenue", { position: "top-center" });
@@ -36,12 +38,7 @@ function MailForm({ email }: { email: string | null }) {
       <Button onClick={() => setDisplay(!display)}>Changer l'email</Button>
       {display && (
         <form className="flex gap-4" onSubmit={onSumbit}>
-          <Input
-            disabled={loading}
-            name="email"
-            className="max-w-xs"
-            placeholder="Entrez votre nouvelle adresse email"
-          />
+          <Input disabled={loading} name="email" className="max-w-xs" placeholder="Entrez la nouvelle adresse email" />
           <LoadingButton type="submit" disabled={loading}>
             Valider
           </LoadingButton>

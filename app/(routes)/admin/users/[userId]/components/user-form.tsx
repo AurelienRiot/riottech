@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toast } from "sonner";
 import * as z from "zod";
+import MailForm from "./mail-form";
 
 interface UserFormProps {
   initialData: User;
@@ -155,7 +156,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       </div>
       <Separator />
 
-      <p>{initialData?.email}</p>
+      {!!initialData.stripeCustomerId && <MailForm email={initialData.email} id={initialData.id} />}
       <div className="mt-6 flex">
         <Button
           onClick={(e) => {

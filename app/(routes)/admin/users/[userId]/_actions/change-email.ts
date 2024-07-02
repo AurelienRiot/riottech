@@ -1,33 +1,47 @@
 "use server";
 
+import { checkAdmin } from "@/components/auth/checkAuth";
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
-import { getDbUser } from "@/server-actions/get-user";
 import type { ReturnTypeServerAction } from "@/types";
 import * as z from "zod";
 
 const formSchema = z.object({
   email: z.string().email(),
+  id: z.string(),
 });
 
-async function changeEmail(email: string): Promise<ReturnTypeServerAction<null>> {
-  const validate = formSchema.safeParse({ email });
+async function changeEmail(data: { email: string; id: string }): Promise<ReturnTypeServerAction<null>> {
+  const validate = formSchema.safeParse(data);
   if (!validate.success) {
     return {
       success: false,
       message: "Le format de l'email n'est pas valide",
     };
   }
-  const user = await getDbUser();
+  const isAuth = await checkAdmin();
+
+  if (!isAuth) {
+    return {
+      success: false,
+      message: "Veuillez vous connecter avec un compte administrateur",
+    };
+  }
+
+  const user = await prismadb.user.findUnique({
+    where: {
+      id: data.id,
+    },
+  });
 
   if (!user?.email || !user.stripeCustomerId) {
     return {
       success: false,
-      message: "Veuillez vous connecter",
+      message: "Utilisateur introuvable",
     };
   }
 
-  if (user.email === email) {
+  if (user.email === data.email) {
     return {
       success: false,
       message: "Le nouvel email est le même que l'ancien",
@@ -36,7 +50,7 @@ async function changeEmail(email: string): Promise<ReturnTypeServerAction<null>>
 
   const existingUser = await prismadb.user.findUnique({
     where: {
-      email: email,
+      email: data.email,
     },
   });
 
@@ -53,7 +67,7 @@ async function changeEmail(email: string): Promise<ReturnTypeServerAction<null>>
         id: user.id,
       },
       data: {
-        email: email,
+        email: data.email,
         accounts: {
           deleteMany: {},
         },
@@ -62,8 +76,9 @@ async function changeEmail(email: string): Promise<ReturnTypeServerAction<null>>
         },
       },
     });
+
     await stripe.customers.update(user.stripeCustomerId, {
-      email: email,
+      email: data.email,
     });
   } catch (error) {
     return {
