@@ -41,7 +41,7 @@ function ErrorDisplay({ error }: { error: string | undefined }) {
   switch (error) {
     case "changedEmail":
       return (
-        <p className=" font-bold text-sm text-destructive">Votre email à bien été modifié, veillez vous reconnecter</p>
+        <p className=" font-bold text-sm text-green-500">Votre email à bien été modifié, veillez vous reconnecter</p>
       );
     default:
       return null;
