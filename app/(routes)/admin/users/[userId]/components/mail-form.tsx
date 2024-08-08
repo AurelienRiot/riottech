@@ -24,6 +24,7 @@ function MailForm({ email, id }: { email: string | null; id: string }) {
         }
         toast.success("Email modifie avec succes", { position: "top-center" });
         router.refresh();
+        setDisplay(false);
       })
       .catch((error) => {
         toast.error("Une erreur est survenue", { position: "top-center" });

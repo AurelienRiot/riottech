@@ -51,12 +51,12 @@ export const GoogleButton = ({ callback }: { callback?: string }) => {
         });
         setLoading(false);
       }}
-      className="relative m-auto flex w-[306px] items-center justify-between  gap-4 rounded-sm bg-[#4285F4] shadow-xl  duration-200 ease-linear  hover:bg-[#4285F4]/90 active:scale-95"
+      className="relative mx-auto flex w-[306px] items-center justify-between gap-4 rounded-sm bg-[#4285F4] shadow-xl duration-200 ease-linear hover:bg-[#4285F4]/90 active:scale-95"
     >
       <Icons.google />
-      <span className="mr-4 self-center font-medium text-white sm:text-lg">
+      <span className="mx-auto self-center font-medium text-white sm:text-lg">
         {loading ? (
-          <Spinner size={40} className=" absolute left-[135px] top-1   text-white" />
+          <Spinner size={40} className="absolute left-[135px] top-1 font-sans text-white" />
         ) : (
           "Se connecter avec Google"
         )}

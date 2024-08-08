@@ -162,30 +162,30 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       </div>
       <Separator />
       {!!initialData.stripeCustomerId && <MailForm email={initialData.email} />}
-      <div className="flex">
+      <div className="flex gap-4">
         <Button
+          type="button"
           onClick={(e) => {
-            e.preventDefault();
             setIsPro(false);
             form.setValue("tva", "");
           }}
           className={
             !isPro
-              ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
+              ? "selected bg-green-500 text-black hover:bg-green-500"
+              : " bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Particulier
         </Button>
         <Button
+          type="button"
           onClick={(e) => {
-            e.preventDefault();
             setIsPro(true);
           }}
           className={
             isPro
-              ? "selected ml-3 bg-green-500 text-black hover:bg-green-500"
-              : "ml-3 bg-gray-500 hover:bg-green-200 hover:text-black"
+              ? "selected bg-green-500 text-black hover:bg-green-500"
+              : " bg-gray-500 hover:bg-green-200 hover:text-black"
           }
         >
           Professionnel

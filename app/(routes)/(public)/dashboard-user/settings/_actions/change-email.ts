@@ -63,8 +63,19 @@ async function changeEmail(email: string): Promise<ReturnTypeServerAction<null>>
       },
     });
     await stripe.customers.update(user.stripeCustomerId, {
-      email: email,
+      email,
     });
+
+    const paymentMethods = await stripe.paymentMethods.list({
+      customer: user.stripeCustomerId,
+    });
+    for (const paymentMethod of paymentMethods.data) {
+      await stripe.paymentMethods.update(paymentMethod.id, {
+        billing_details: {
+          email,
+        },
+      });
+    }
   } catch (error) {
     return {
       success: false,

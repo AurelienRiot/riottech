@@ -4,10 +4,7 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { stripe } from "@/lib/stripe";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { userId: string } },
-) {
+export async function GET(req: Request, { params }: { params: { userId: string } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -52,10 +49,7 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { userId: string } },
-) {
+export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -82,10 +76,7 @@ export async function DELETE(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { userId: string } },
-) {
+export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -126,10 +117,21 @@ export async function PATCH(
     const fullAdress = JSON.parse(adresse);
 
     if (user.stripeCustomerId) {
-      const customer = await stripe.customers.update(user.stripeCustomerId, {
+      await stripe.customers.update(user.stripeCustomerId, {
         name: raisonSocial ? raisonSocial : name + " " + surname,
         // tax_exempt: isPro ? "exempt" : "none",
         tax_exempt: "none",
+        shipping: {
+          name: raisonSocial ? raisonSocial : name + " " + surname,
+          address: {
+            line1: fullAdress.line1,
+            line2: fullAdress.line2,
+            city: fullAdress.city,
+            state: fullAdress.state,
+            postal_code: fullAdress.postal_code,
+            country: fullAdress.country,
+          },
+        },
         address: {
           line1: fullAdress.line1,
           line2: fullAdress.line2,
@@ -143,6 +145,25 @@ export async function PATCH(
           tva: tva,
         },
       });
+
+      const paymentMethods = await stripe.paymentMethods.list({
+        customer: user.stripeCustomerId,
+      });
+      for (const paymentMethod of paymentMethods.data) {
+        await stripe.paymentMethods.update(paymentMethod.id, {
+          billing_details: {
+            name: raisonSocial ? raisonSocial : name + " " + surname,
+            address: {
+              line1: fullAdress.line1,
+              line2: fullAdress.line2,
+              city: fullAdress.city,
+              state: fullAdress.state,
+              postal_code: fullAdress.postal_code,
+              country: fullAdress.country,
+            },
+          },
+        });
+      }
     } else {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 400,

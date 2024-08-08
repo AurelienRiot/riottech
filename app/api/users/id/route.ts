@@ -64,10 +64,21 @@ export async function PATCH(req: NextRequest) {
     const fullAdress = JSON.parse(adresse);
 
     if (user.stripeCustomerId) {
-      const customer = await stripe.customers.update(user.stripeCustomerId, {
+      await stripe.customers.update(user.stripeCustomerId, {
         name: raisonSocial ? raisonSocial : name + " " + surname,
         // tax_exempt: isPro ? "exempt" : "none",
         tax_exempt: "none",
+        shipping: {
+          name: raisonSocial ? raisonSocial : name + " " + surname,
+          address: {
+            line1: fullAdress.line1,
+            line2: fullAdress.line2,
+            city: fullAdress.city,
+            state: fullAdress.state,
+            postal_code: fullAdress.postal_code,
+            country: fullAdress.country,
+          },
+        },
         address: {
           line1: fullAdress.line1,
           line2: fullAdress.line2,
@@ -81,6 +92,25 @@ export async function PATCH(req: NextRequest) {
           tva: tva,
         },
       });
+
+      const paymentMethods = await stripe.paymentMethods.list({
+        customer: user.stripeCustomerId,
+      });
+      for (const paymentMethod of paymentMethods.data) {
+        await stripe.paymentMethods.update(paymentMethod.id, {
+          billing_details: {
+            name: raisonSocial ? raisonSocial : name + " " + surname,
+            address: {
+              line1: fullAdress.line1,
+              line2: fullAdress.line2,
+              city: fullAdress.city,
+              state: fullAdress.state,
+              postal_code: fullAdress.postal_code,
+              country: fullAdress.country,
+            },
+          },
+        });
+      }
     } else {
       const customer = await stripe.customers.create({
         name: raisonSocial ? raisonSocial : name + " " + surname,
