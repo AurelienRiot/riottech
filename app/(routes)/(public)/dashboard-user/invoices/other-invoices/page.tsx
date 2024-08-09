@@ -1,6 +1,10 @@
 import ButtonBackward from "@/components/ui/button-backward";
 import { OtherInvoicesTable } from "./components/table";
-import type { InvoicesColumn } from "./components/column";
+import { columns, type InvoicesColumn } from "./components/column";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +12,21 @@ const INVOICE_URL = process.env.INVOICE_URL;
 const PDF_URL = process.env.PDF_URL;
 
 async function OtherInvoicesPage() {
+  return (
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
+        <Suspense fallback={<LoadingFacture />}>
+          <Facture />
+        </Suspense>
+      </div>
+      <ButtonBackward />
+    </div>
+  );
+}
+
+export default OtherInvoicesPage;
+
+const Facture = async () => {
   const result = await fetch(`${INVOICE_URL}/get_other_invoices?customer_id=cus_Qd5TVtKBZm97Tr`, {
     method: "GET",
     cache: "no-store",
@@ -19,14 +38,15 @@ async function OtherInvoicesPage() {
     total_ttc: Number(item.total_ttc),
   }));
 
-  return (
-    <div className="flex-col">
-      <div className="flex-1 space-y-4 p-8 pt-6">
-        <OtherInvoicesTable data={otherInvoices.sort((a, b) => b.date.getTime() - a.date.getTime())} />
-      </div>
-      <ButtonBackward />
-    </div>
-  );
-}
+  return <OtherInvoicesTable data={otherInvoices.sort((a, b) => b.date.getTime() - a.date.getTime())} />;
+};
 
-export default OtherInvoicesPage;
+const LoadingFacture = () => {
+  return (
+    <>
+      <Heading title={`Factures `} description="Historique des factures" />
+      <Separator />
+      <DataTableSkeleton columns={columns} />
+    </>
+  );
+};
