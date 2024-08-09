@@ -8,6 +8,8 @@ import { Suspense } from "react";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const InvoicesPage = async () => {
   return (
@@ -19,7 +21,12 @@ const InvoicesPage = async () => {
           </Suspense>
         </div>
       </div>
-      <ButtonBackward />
+      <div className="pl-6 space-y-4">
+        <Button asChild className="block w-fit">
+          <Link href="/dashboard-user/invoices/other-invoices">Autres factures</Link>
+        </Button>
+        <ButtonBackward />
+      </div>
     </>
   );
 };
