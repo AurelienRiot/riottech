@@ -1,10 +1,13 @@
+import { Logout } from "@/components/auth/auth";
 import ButtonBackward from "@/components/ui/button-backward";
-import { OtherInvoicesTable } from "./components/table";
-import { columns, type InvoicesColumn } from "./components/column";
+import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { DataTableSkeleton } from "@/components/ui/data-table-skeleton";
+import { getDbUser } from "@/server-actions/get-user";
 import { Suspense } from "react";
+import * as z from "zod";
+import { columns, type InvoicesColumn } from "./components/column";
+import { OtherInvoicesTable } from "./components/table";
 
 export const dynamic = "force-dynamic";
 
@@ -26,19 +29,33 @@ async function OtherInvoicesPage() {
 
 export default OtherInvoicesPage;
 
+const otherInvoicesSchema = z
+  .object({
+    date: z.number(),
+    ref: z.string(),
+    total_ttc: z.string(),
+  })
+  .array();
+
 const Facture = async () => {
-  const result = await fetch(`${INVOICE_URL}/get_other_invoices?customer_id=cus_Qd5TVtKBZm97Tr`, {
+  const user = await getDbUser();
+  if (!user) return <Logout callbackUrl="/dashboard-user/invoices/other-invoices" />;
+  const result = await fetch(`${INVOICE_URL}/get_other_invoices?customer_id=${user.stripeCustomerId}`, {
     method: "GET",
     cache: "no-store",
-  }).then((res) => res.json());
+  }).then((res) => res.json().catch(() => []));
 
-  const otherInvoices: InvoicesColumn[] = result.map((item: { date: string; ref: string; total_ttc: string }) => ({
-    date: new Date(item.date),
+  const { success, data } = otherInvoicesSchema.safeParse(result);
+
+  if (!success) return <OtherInvoicesTable data={[]} />;
+
+  const otherInvoices: InvoicesColumn[] = data.map((item) => ({
+    createdAt: new Date(item.date),
     pdfUrl: `${PDF_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
     total_ttc: Number(item.total_ttc),
   }));
 
-  return <OtherInvoicesTable data={otherInvoices.sort((a, b) => b.date.getTime() - a.date.getTime())} />;
+  return <OtherInvoicesTable data={otherInvoices.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())} />;
 };
 
 const LoadingFacture = () => {

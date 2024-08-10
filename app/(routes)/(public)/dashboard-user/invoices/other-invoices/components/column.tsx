@@ -1,12 +1,13 @@
 "use client";
 
-import { dateFormatter } from "@/lib/utils";
+import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import type { DataTableViewOptionsColumn } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DisplayPdf } from "../../../(profile)/components/display-pdf";
 
 export type InvoicesColumn = {
-  date: Date;
+  createdAt: Date;
   pdfUrl: string;
   total_ttc: number;
 };
@@ -21,9 +22,9 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
     header: "Prix total TTC",
   },
   {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => dateFormatter(row.original.date),
+    accessorKey: "createdAt",
+    header: CreatedAtHeader,
+    cell: CreatedAtCell,
   },
 ];
 
@@ -38,7 +39,7 @@ export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = 
     title: "Prix total TTC",
   },
   {
-    id: "date",
-    title: "Date",
+    id: "createdAt",
+    title: "Date de création",
   },
 ];
