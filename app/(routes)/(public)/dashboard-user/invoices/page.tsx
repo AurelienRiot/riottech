@@ -25,7 +25,7 @@ const InvoicesPage = async () => {
         <Button asChild className="block w-fit">
           <Link href="/dashboard-user/invoices/other-invoices">Autres factures</Link>
         </Button>
-        <ButtonBackward />
+        <ButtonBackward url="/dashboard-user" />
       </div>
     </>
   );

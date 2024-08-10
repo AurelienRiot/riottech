@@ -21,7 +21,7 @@ async function OtherInvoicesPage() {
           <Facture />
         </Suspense>
       </div>
-      <ButtonBackward />
+      <ButtonBackward url="/dashboard-user/invoices" />
     </div>
   );
 }
@@ -42,14 +42,16 @@ const Facture = async () => {
   const result = await fetch(`${INVOICE_URL}/get_other_invoices?customer_id=${user.stripeCustomerId}`, {
     method: "GET",
     cache: "no-store",
-  }).then((res) => res.json().catch(() => []));
+  })
+    .then((res) => res.json().catch(() => []))
+    .catch(() => []);
 
   const { success, data } = otherInvoicesSchema.safeParse(result);
 
   if (!success) return <OtherInvoicesTable data={[]} />;
 
   const otherInvoices: InvoicesColumn[] = data.map((item) => ({
-    createdAt: new Date(item.date),
+    createdAt: new Date(item.date * 1000),
     pdfUrl: `${INVOICE_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
     total_ttc: Number(item.total_ttc),
   }));
