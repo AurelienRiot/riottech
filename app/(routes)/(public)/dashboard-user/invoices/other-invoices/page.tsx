@@ -53,6 +53,7 @@ const Facture = async () => {
   const otherInvoices: InvoicesColumn[] = data.map((item) => ({
     createdAt: new Date(item.date * 1000),
     pdfUrl: `${INVOICE_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
+    id: item.ref,
     total_ttc: Number(item.total_ttc),
   }));
 

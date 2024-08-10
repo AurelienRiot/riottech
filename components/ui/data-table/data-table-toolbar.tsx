@@ -2,11 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import type {
-  DataTableFilterableColumn,
-  DataTableSearchableColumn,
-  DataTableViewOptionsColumn,
-} from "@/types";
+import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 import { Cross2Icon, PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
 
@@ -15,13 +11,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableFacetedFilter } from "@/components/ui/data-table/data-table-faceted-filter";
 import { DataTableViewOptions } from "@/components/ui/data-table/data-table-view-options";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../select";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -42,9 +32,7 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const [isDeletePending, startDeleteTransition] = React.useTransition();
-  const [searchValue, setSearchValue] = React.useState(
-    searchableColumns.length > 0 && searchableColumns[0].id,
-  );
+  const [searchValue, setSearchValue] = React.useState(searchableColumns.length > 0 && searchableColumns[0].id);
 
   return (
     <div className="flex w-full items-center justify-between space-x-2 overflow-auto p-1">
@@ -55,24 +43,12 @@ export function DataTableToolbar<TData>({
               placeholder={`Filter ${searchableColumns.find((column) => column.id === searchValue)?.title}...`}
               value={
                 (table
-                  .getColumn(
-                    String(
-                      searchableColumns.find(
-                        (column) => column.id === searchValue,
-                      )?.id,
-                    ),
-                  )
+                  .getColumn(String(searchableColumns.find((column) => column.id === searchValue)?.id))
                   ?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
                 table
-                  .getColumn(
-                    String(
-                      searchableColumns.find(
-                        (column) => column.id === searchValue,
-                      )?.id,
-                    ),
-                  )
+                  .getColumn(String(searchableColumns.find((column) => column.id === searchValue)?.id))
                   ?.setFilterValue(event.target.value)
               }
               className="h-8 w-[150px] lg:w-[250px]"
@@ -91,10 +67,7 @@ export function DataTableToolbar<TData>({
                   </SelectTrigger>
                   <SelectContent>
                     {searchableColumns.map((column) => (
-                      <SelectItem
-                        key={String(column.id)}
-                        value={String(column.id)}
-                      >
+                      <SelectItem key={String(column.id)} value={String(column.id)}>
                         {column.title}
                       </SelectItem>
                     ))}
@@ -123,7 +96,7 @@ export function DataTableToolbar<TData>({
             className="h-8 px-2 lg:px-3"
             onClick={() => table.resetColumnFilters()}
           >
-            Reset
+            Réinitialiser
             <Cross2Icon className="ml-2 size-4" aria-hidden="true" />
           </Button>
         )}
@@ -162,10 +135,7 @@ export function DataTableToolbar<TData>({
             New
           </Link>
         ) : null}
-        <DataTableViewOptions
-          viewOptionsColumns={viewOptionsColumns}
-          table={table}
-        />
+        <DataTableViewOptions viewOptionsColumns={viewOptionsColumns} table={table} />
       </div>
     </div>
   );

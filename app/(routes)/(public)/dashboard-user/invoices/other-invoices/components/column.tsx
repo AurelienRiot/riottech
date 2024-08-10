@@ -1,8 +1,8 @@
 "use client";
 
-import { CreatedAtCell, DateCell } from "@/components/table-custom-fuction/common-cell";
-import { CreatedAtHeader, DateHeader } from "@/components/table-custom-fuction/common-header";
-import type { DataTableViewOptionsColumn } from "@/types";
+import { DateCell } from "@/components/table-custom-fuction/common-cell";
+import { DateHeader } from "@/components/table-custom-fuction/common-header";
+import type { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DisplayPdf } from "../../../(profile)/components/display-pdf";
 
@@ -10,8 +10,10 @@ export type InvoicesColumn = {
   createdAt: Date;
   pdfUrl: string;
   total_ttc: number;
+  id: string;
 };
 export const columns: ColumnDef<InvoicesColumn>[] = [
+  { accessorKey: "id", header: "N° de facture" },
   {
     accessorKey: "pdfUrl",
     header: "Facture",
@@ -28,10 +30,18 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   },
 ];
 
+export const searchableColumns: DataTableSearchableColumn<InvoicesColumn>[] = [
+  {
+    id: "id",
+    title: "N° de facture",
+  },
+];
+
 export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = [
+  { id: "id", title: "N° de facture" },
   {
     id: "pdfUrl",
-    title: "Type",
+    title: "Facture",
   },
 
   {
@@ -40,6 +50,6 @@ export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = 
   },
   {
     id: "createdAt",
-    title: "Date de création",
+    title: "Date",
   },
 ];
