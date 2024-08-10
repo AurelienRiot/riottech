@@ -12,7 +12,6 @@ import { OtherInvoicesTable } from "./components/table";
 export const dynamic = "force-dynamic";
 
 const INVOICE_URL = process.env.INVOICE_URL;
-const PDF_URL = process.env.PDF_URL;
 
 async function OtherInvoicesPage() {
   return (
@@ -51,7 +50,7 @@ const Facture = async () => {
 
   const otherInvoices: InvoicesColumn[] = data.map((item) => ({
     createdAt: new Date(item.date),
-    pdfUrl: `${PDF_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
+    pdfUrl: `${INVOICE_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
     total_ttc: Number(item.total_ttc),
   }));
 
