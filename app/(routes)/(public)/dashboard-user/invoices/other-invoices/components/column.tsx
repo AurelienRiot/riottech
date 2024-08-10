@@ -1,7 +1,7 @@
 "use client";
 
-import { CreatedAtCell } from "@/components/table-custom-fuction/common-cell";
-import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
+import { CreatedAtCell, DateCell } from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtHeader, DateHeader } from "@/components/table-custom-fuction/common-header";
 import type { DataTableViewOptionsColumn } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DisplayPdf } from "../../../(profile)/components/display-pdf";
@@ -23,8 +23,8 @@ export const columns: ColumnDef<InvoicesColumn>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: CreatedAtHeader,
-    cell: CreatedAtCell,
+    header: ({ column }) => <DateHeader column={column} text={"Date"} />,
+    cell: ({ row }) => <DateCell date={row.original.createdAt} className="md:pl-0" />,
   },
 ];
 

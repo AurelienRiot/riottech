@@ -1,5 +1,5 @@
 "use client";
-import { dateFormatter } from "@/lib/utils";
+import { cn, dateFormatter } from "@/lib/utils";
 import type { Row } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,6 +33,15 @@ type CreatedAtCellProps = {
 
 function CreatedAtCell<T>({ row }: { row: Row<T & CreatedAtCellProps> }) {
   return <div className="flex md:pl-10">{dateFormatter(row.getValue("createdAt"))}</div>;
+}
+
+type DateCellProps = {
+  date: Date;
+  className?: string;
+};
+
+function DateCell({ date, className }: DateCellProps) {
+  return <div className={cn("flex md:pl-10", className)}>{dateFormatter(date)}</div>;
 }
 
 type NameCellProp = {
@@ -144,4 +153,4 @@ function NameWithImageCell({ imageUrl, id, name, type }: NameWithImageCellProps)
   );
 }
 
-export { CheckboxCell, CreatedAtCell, NameCell, NameWithImageCell, PhoneCell, TextCell, StatusCell };
+export { CheckboxCell, CreatedAtCell, NameCell, NameWithImageCell, PhoneCell, TextCell, StatusCell, DateCell };
