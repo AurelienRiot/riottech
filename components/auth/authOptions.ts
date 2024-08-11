@@ -27,8 +27,8 @@ export const authOptions: NextAuthOptions = {
           image: profile.picture,
         };
       },
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: "Sign in",

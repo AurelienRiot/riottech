@@ -40,7 +40,7 @@ export function DataTableToolbar<TData>({
         {searchableColumns.length > 0 && (
           <>
             <Input
-              placeholder={`Filter ${searchableColumns.find((column) => column.id === searchValue)?.title}...`}
+              placeholder={`Filter par ${searchableColumns.find((column) => column.id === searchValue)?.title}...`}
               value={
                 (table
                   .getColumn(String(searchableColumns.find((column) => column.id === searchValue)?.id))

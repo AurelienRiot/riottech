@@ -6,8 +6,7 @@ export async function POST(req: Request) {
   try {
     const { countryCode, vatNumber } = await req.json();
 
-    const url =
-      "http://ec.europa.eu/taxation_customs/vies/services/checkVatService";
+    const url = "http://ec.europa.eu/taxation_customs/vies/services/checkVatService";
     const headers = { "Content-Type": "text/xml" };
     const body = `
             <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:ec.europa.eu:taxud:vies:services:checkVat:types">
@@ -24,8 +23,7 @@ export async function POST(req: Request) {
     const response = await axios.post(url, body, { headers: headers });
     const result = await parseStringPromise(response.data);
 
-    const checkVatResponse =
-      result["env:Envelope"]["env:Body"][0]["ns2:checkVatResponse"][0];
+    const checkVatResponse = result["env:Envelope"]["env:Body"][0]["ns2:checkVatResponse"][0];
 
     const requestDate = checkVatResponse["ns2:requestDate"][0];
     const isValid = checkVatResponse["ns2:valid"][0];

@@ -1,15 +1,15 @@
 "use client";
 import type { FullAdress } from "@/components/adress-form";
 import { Button } from "@/components/ui/button";
-import {
-  AddressElement,
-  EmbeddedCheckout,
-  EmbeddedCheckoutProvider,
-  PaymentElement,
-  useElements,
-  useStripe,
-} from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+// import {
+//   AddressElement,
+//   EmbeddedCheckout,
+//   EmbeddedCheckoutProvider,
+//   PaymentElement,
+//   useElements,
+//   useStripe,
+// } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
 import type { FormEvent } from "react";
 import { toast } from "sonner";
 
@@ -29,17 +29,18 @@ export const TestStripe = ({
     phone: string;
   };
 }) => {
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_API_KEY as string,
-  );
+  // const stripePromise = loadStripe(
+  //   process.env.NEXT_PUBLIC_STRIPE_API_KEY as string,
+  // );
 
   return (
     // <Elements stripe={stripePromise} options={options}>
     //   <CheckoutForm user={user} />
     // </Elements>
-    <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-      <EmbeddedCheckout className="p-8" />
-    </EmbeddedCheckoutProvider>
+    // <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+    //   <EmbeddedCheckout className="p-8" />
+    // </EmbeddedCheckoutProvider>
+    <></>
   );
 };
 
@@ -54,26 +55,26 @@ const CheckoutForm = ({
     phone: string;
   };
 }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+  // const stripe = useStripe();
+  // const elements = useElements();
   const fullAdress: FullAdress = JSON.parse(user.address);
 
-  const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!stripe || !elements) {
-      return;
-    }
-    console.log(elements.getElement("payment"));
-    toast.success("Paiement réussi");
-  };
+  // const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!stripe || !elements) {
+  //     return;
+  //   }
+  //   console.log(elements.getElement("payment"));
+  //   toast.success("Paiement réussi");
+  // };
 
   return (
     <form
       className="flex  items-center justify-center gap-4 p-8"
-      onSubmit={handlePayment}
+      //  onSubmit={handlePayment}
     >
       <div className="flex flex-col items-center justify-center gap-4">
-        <AddressElement
+        {/* <AddressElement
           options={{
             display: {
               name: "split",
@@ -93,16 +94,16 @@ const CheckoutForm = ({
               phone: user.phone,
             },
           }}
-        />
+        /> */}
         <Button>Payer</Button>
       </div>
 
-      <PaymentElement
+      {/* <PaymentElement
         options={{
           paymentMethodOrder: ["sepa_debit", "card"],
           defaultValues: { billingDetails: { email: user.email } },
         }}
-      />
+      /> */}
     </form>
   );
 };

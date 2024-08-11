@@ -2,7 +2,6 @@ import getFullUser from "@/server-actions/get-user";
 import { TestStripe } from "./test-stripe";
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
-import { StripeElementsOptions } from "@stripe/stripe-js";
 import type Stripe from "stripe";
 
 const StripePage = async () => {
