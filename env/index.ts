@@ -15,7 +15,6 @@ const envVariableSchema = z.object({
   NEXT_PUBLIC_SCALEWAY_BUCKET_NAME: z.string(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
-  INVOICE_URL: z.string(),
 });
 
 envVariableSchema.parse(process.env);

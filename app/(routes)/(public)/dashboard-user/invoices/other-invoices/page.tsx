@@ -11,7 +11,7 @@ import { OtherInvoicesTable } from "./components/table";
 
 export const dynamic = "force-dynamic";
 
-const INVOICE_URL = process.env.INVOICE_URL;
+const PDF_URL = process.env.PDF_URL;
 
 async function OtherInvoicesPage() {
   return (
@@ -39,7 +39,7 @@ const otherInvoicesSchema = z
 const Facture = async () => {
   const user = await getDbUser();
   if (!user) return <Logout callbackUrl="/dashboard-user/invoices/other-invoices" />;
-  const result = await fetch(`${INVOICE_URL}/get_other_invoices?customer_id=${user.stripeCustomerId}`, {
+  const result = await fetch(`${PDF_URL}/get_other_invoices?customer_id=${user.stripeCustomerId}`, {
     method: "GET",
     cache: "no-store",
   })
@@ -52,7 +52,7 @@ const Facture = async () => {
 
   const otherInvoices: InvoicesColumn[] = data.map((item) => ({
     createdAt: new Date(item.date * 1000),
-    pdfUrl: `${INVOICE_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
+    pdfUrl: `${PDF_URL}/get_pdf?mode=inline&invoice_ref=${item.ref}`,
     id: item.ref,
     total_ttc: Number(item.total_ttc),
   }));
