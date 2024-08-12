@@ -36,20 +36,3 @@ export const searchableColumns: DataTableSearchableColumn<InvoicesColumn>[] = [
     title: "N° de facture",
   },
 ];
-
-export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = [
-  { id: "id", title: "N° de facture" },
-  {
-    id: "pdfUrl",
-    title: "Facture",
-  },
-
-  {
-    id: "total_ttc",
-    title: "Prix total TTC",
-  },
-  {
-    id: "createdAt",
-    title: "Date",
-  },
-];

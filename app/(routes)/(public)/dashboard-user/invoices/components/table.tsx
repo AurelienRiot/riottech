@@ -2,7 +2,7 @@
 
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { type InvoicesColumn, columns, filterableColumns, searchableColumns, viewOptionsColumns } from "./column";
+import { type InvoicesColumn, columns, filterableColumns, searchableColumns } from "./column";
 import { DataTable } from "@/components/ui/data-table/data-table";
 
 interface InvoicesTableProps {
@@ -18,7 +18,6 @@ export const InvoicesTable: React.FC<InvoicesTableProps> = ({ data }) => {
         columns={columns}
         data={data}
         searchableColumns={searchableColumns}
-        viewOptionsColumns={viewOptionsColumns}
         filterableColumns={filterableColumns}
       />
     </>

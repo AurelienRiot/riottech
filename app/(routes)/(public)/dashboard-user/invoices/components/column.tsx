@@ -78,32 +78,3 @@ export const filterableColumns: DataTableFilterableColumn<InvoicesColumn>[] = [
     ],
   },
 ];
-
-export const viewOptionsColumns: DataTableViewOptionsColumn<InvoicesColumn>[] = [
-  {
-    id: "type",
-    title: "Type",
-  },
-
-  {
-    id: "products",
-    title: "Produits",
-  },
-  {
-    id: "price",
-    title: "Prix",
-  },
-  {
-    id: "status",
-    title: "État du paiement",
-  },
-  {
-    id: "pdfUrl",
-    title: "Facture",
-  },
-
-  {
-    id: "createdAt",
-    title: "Date de création",
-  },
-];
