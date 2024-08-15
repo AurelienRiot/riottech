@@ -261,13 +261,14 @@ function DatePicker({ date, onChange }: { date: Date; onChange: (value: Date) =>
           <Calendar
             mode="single"
             className="p-3"
-            captionLayout="buttons"
+            captionLayout="label"
             selected={date}
             locale={fr}
             onSelect={onSelectedDate}
             modifiers={{
               disabled: (date) => date < addDays(new Date(), 2),
             }}
+            defaultMonth={date}
             // modifiers={{
             //   full: fullDays,
             //   partiallyFull: partiallyFullDays,
