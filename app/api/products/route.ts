@@ -5,18 +5,18 @@ import { getServerSession } from "next-auth";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as {
+      name: string | undefined;
+      priceHT: number | undefined;
+      categoryId: string | undefined;
+      description: string | undefined;
+      productSpecs: string | undefined;
+      images: { url: string }[] | undefined;
+      isFeatured: boolean | undefined;
+      isArchived: boolean | undefined;
+    };
 
-    const {
-      name,
-      priceHT,
-      categoryId,
-      description,
-      productSpecs,
-      images,
-      isFeatured,
-      isArchived,
-    } = body;
+    const { name, priceHT, categoryId, description, productSpecs, images, isFeatured, isArchived } = body;
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {

@@ -9,7 +9,9 @@ import { randomBytes } from "node:crypto";
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  const body = (await req.json()) as {
+    email: string | undefined;
+  };
   const { email } = body;
 
   if (!email) {
@@ -55,7 +57,10 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as {
+      password: string | undefined;
+      resetToken: string | undefined;
+    };
     const { password, resetToken } = body;
 
     if (!password) {

@@ -7,16 +7,7 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
-
-export type FullAdress = {
-  label: string;
-  city: string;
-  country: string;
-  line1: string;
-  line2: string;
-  postalCode: string;
-  state: string;
-};
+import type { FullAdress } from "./adress-form";
 
 type TVAFormProps = {
   loading: boolean;

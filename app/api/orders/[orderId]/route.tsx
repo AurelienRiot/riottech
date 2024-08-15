@@ -3,10 +3,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { orderId: string } }
-) {
+export async function DELETE(req: Request, { params }: { params: { orderId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {

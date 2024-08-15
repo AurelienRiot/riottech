@@ -30,7 +30,7 @@ const formSchema = z.object({
     })
     .min(0.1, { message: "Le prix doit être superieur à 0" }),
   productSpecs: z.string().default(""),
-  description: z.string().min(1),
+  description: z.string().min(0),
   fraisActivation: z.coerce
     .number({
       invalid_type_error: "Entrez les frais d'activation",
@@ -66,7 +66,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
           ...initialData,
         }
       : {
-          description: "1",
+          description: "",
           productSpecs: "",
           recurrence: "year",
           isFeatured: false,

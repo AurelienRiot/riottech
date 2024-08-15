@@ -5,10 +5,15 @@ import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/auth/authOptions";
+import type { FullAdress } from "@/components/adress-form";
 
 export async function POST(req: NextRequest) {
   try {
-    const { subscriptionId, sim, trialEnd } = await req.json();
+    const { subscriptionId, sim, trialEnd } = (await req.json()) as {
+      subscriptionId: string | undefined;
+      sim: string | undefined;
+      trialEnd: number | undefined;
+    };
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || !session.user.id) {
@@ -47,7 +52,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const fullAdress = user.adresse
+    const fullAdress: FullAdress = user.adresse
       ? JSON.parse(user.adresse)
       : {
           line1: "",

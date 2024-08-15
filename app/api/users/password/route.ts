@@ -6,7 +6,7 @@ import { authOptions } from "@/components/auth/authOptions";
 
 export async function PATCH(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as { oldPassword: string | undefined; newPassword: string | undefined };
     const { oldPassword, newPassword } = body;
 
     const session = await getServerSession(authOptions);

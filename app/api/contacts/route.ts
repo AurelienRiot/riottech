@@ -2,7 +2,13 @@ import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { name, email, phone, subject, message } = await req.json();
+  const { name, email, phone, subject, message } = (await req.json()) as {
+    name: string | undefined;
+    email: string | undefined;
+    phone: string | undefined;
+    subject: string | undefined;
+    message: string | undefined;
+  };
 
   if (!name) {
     return new NextResponse("Le nom est nécessaire", { status: 400 });

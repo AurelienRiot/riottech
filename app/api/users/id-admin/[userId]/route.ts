@@ -3,8 +3,9 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { stripe } from "@/lib/stripe";
+import { useDayRender } from "react-day-picker";
 
-export async function GET(req: Request, { params }: { params: { userId: string } }) {
+export async function GET(req: Request, { params }: { params: { userId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -49,7 +50,7 @@ export async function GET(req: Request, { params }: { params: { userId: string }
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { userId: string } }) {
+export async function DELETE(req: Request, { params }: { params: { userId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -76,7 +77,7 @@ export async function DELETE(req: Request, { params }: { params: { userId: strin
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
+export async function PATCH(req: Request, { params }: { params: { userId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -84,11 +85,25 @@ export async function PATCH(req: Request, { params }: { params: { userId: string
       return new NextResponse("Non autorisé", { status: 401 });
     }
 
-    const body = await req.json();
+    const body = (await req.json()) as {
+      name: string | undefined;
+      surname: string | undefined;
+      phone: string | undefined;
+      adresse: string | undefined;
+      tva: string | undefined;
+      raisonSocial: string | undefined;
+      isPro: boolean | undefined;
+    };
     const { name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
     if (!name) {
       return new NextResponse("Le nom de l'utilisateur est nécessaire", {
+        status: 400,
+      });
+    }
+
+    if (!adresse) {
+      return new NextResponse("Erreur dans l'adresse", {
         status: 400,
       });
     }
@@ -141,9 +156,11 @@ export async function PATCH(req: Request, { params }: { params: { userId: string
           country: fullAdress.country,
         },
         preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
-        metadata: {
-          tva: tva,
-        },
+        metadata: tva
+          ? {
+              tva,
+            }
+          : null,
       });
 
       const paymentMethods = await stripe.paymentMethods.list({

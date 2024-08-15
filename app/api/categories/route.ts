@@ -5,7 +5,7 @@ import { authOptions } from "@/components/auth/authOptions";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as { name: string | undefined; imageUrl: string | undefined };
 
     const { name, imageUrl } = body;
 

@@ -3,10 +3,7 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { getServerSession } from "next-auth";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { categoryId: string } },
-) {
+export async function GET(req: Request, { params }: { params: { categoryId: string | undefined } }) {
   try {
     if (!params.categoryId) {
       return new NextResponse("L'id de la categorie est nécessaire", {
@@ -31,12 +28,9 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { categoryId: string } },
-) {
+export async function PATCH(req: Request, { params }: { params: { categoryId: string | undefined } }) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as { name: string | undefined; imageUrl: string | undefined };
     const { name, imageUrl } = body;
 
     const session = await getServerSession(authOptions);
@@ -79,10 +73,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { categoryId: string } },
-) {
+export async function DELETE(req: Request, { params }: { params: { categoryId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {

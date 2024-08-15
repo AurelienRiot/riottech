@@ -10,7 +10,10 @@ const PDF_URL = process.env.PDF_URL;
 
 export async function POST(req: NextRequest) {
   try {
-    const { charge_id: chargeId, customer_id: customerId } = await req.json();
+    const { charge_id: chargeId, customer_id: customerId } = (await req.json()) as {
+      charge_id: string | undefined;
+      customer_id: string | undefined;
+    };
 
     console.log("chargeId :", chargeId);
     console.log("customerId :", customerId);

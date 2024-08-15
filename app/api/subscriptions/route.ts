@@ -2,22 +2,24 @@ import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { getServerSession } from "next-auth";
+import { Recurrence } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as {
+      name: string | undefined;
+      priceHT: number | undefined;
+      fraisActivation: number | undefined;
+      recurrence: string | undefined;
+      dataCap: number | undefined;
+      description: string | undefined;
+      productSpecs: string | undefined;
+      isFeatured: boolean | undefined;
+      isArchived: boolean | undefined;
+    };
 
-    const {
-      name,
-      priceHT,
-      fraisActivation,
-      recurrence,
-      dataCap,
-      description,
-      productSpecs,
-      isFeatured,
-      isArchived,
-    } = body;
+    const { name, priceHT, fraisActivation, recurrence, dataCap, description, productSpecs, isFeatured, isArchived } =
+      body;
 
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {
@@ -30,17 +32,15 @@ export async function POST(req: Request) {
       });
     }
 
+    if (!recurrence || !Object.values(Recurrence).includes(recurrence as Recurrence)) {
+      return new NextResponse("La récurrence est invalide", { status: 400 });
+    }
+
     if (!priceHT) {
       return new NextResponse("Le prix de l'abonnement est nécessaire", {
         status: 400,
       });
     }
-
-    // if (!description) {
-    //   return new NextResponse("La description de l'abonnement est necessaire", {
-    //     status: 400,
-    //   });
-    // }
 
     if (!recurrence) {
       return new NextResponse("La récurrence est nécessaire", { status: 400 });
@@ -58,10 +58,10 @@ export async function POST(req: Request) {
         priceHT,
         priceTTC: priceHT * 1.2,
         dataCap,
-        description,
-        productSpecs,
+        description: description ? description : "",
+        productSpecs: productSpecs ? productSpecs : "",
         fraisActivation: fraisActivation ? fraisActivation : 0,
-        recurrence,
+        recurrence: recurrence as Recurrence,
         isFeatured,
         isArchived,
       },

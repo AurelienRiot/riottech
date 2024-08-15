@@ -3,10 +3,7 @@ import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { productId: string } }
-) {
+export async function GET(req: Request, { params }: { params: { productId: string | undefined } }) {
   try {
     if (!params.productId) {
       return new NextResponse("L'id du produit est nécessaire", {
@@ -31,23 +28,20 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { productId: string } }
-) {
+export async function PATCH(req: Request, { params }: { params: { productId: string | undefined } }) {
   try {
     const session = await getServerSession(authOptions);
-    const body = await req.json();
-    const {
-      name,
-      priceHT,
-      categoryId,
-      description,
-      productSpecs,
-      images,
-      isFeatured,
-      isArchived,
-    } = body;
+    const body = (await req.json()) as {
+      name: string | undefined;
+      priceHT: number | undefined;
+      categoryId: string | undefined;
+      description: string | undefined;
+      productSpecs: string | undefined;
+      images: { url: string }[] | undefined;
+      isFeatured: boolean | undefined;
+      isArchived: boolean | undefined;
+    };
+    const { name, priceHT, categoryId, description, productSpecs, images, isFeatured, isArchived } = body;
 
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });
@@ -122,10 +116,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { productId: string } }
-) {
+export async function DELETE(req: Request, { params }: { params: { productId: string } }) {
   try {
     const session = await getServerSession(authOptions);
 

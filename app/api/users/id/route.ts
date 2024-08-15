@@ -31,7 +31,15 @@ export async function DELETE(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as {
+      name: string | undefined;
+      surname: string | undefined;
+      phone: string | undefined;
+      adresse: string | undefined;
+      tva: string | undefined;
+      raisonSocial: string | undefined;
+      isPro: boolean | undefined;
+    };
     const { name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
     const session = await getServerSession(authOptions);
@@ -41,8 +49,14 @@ export async function PATCH(req: NextRequest) {
       });
     }
 
-    if (!name) {
-      return new NextResponse("Le nom de l'utilisateur est nécessaire", {
+    if (!name || !surname) {
+      return new NextResponse("Le nom ou le prenom est vide", {
+        status: 400,
+      });
+    }
+
+    if (!adresse) {
+      return new NextResponse("Erreur dans l'adresse", {
         status: 400,
       });
     }
@@ -88,9 +102,11 @@ export async function PATCH(req: NextRequest) {
           country: fullAdress.country,
         },
         preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
-        metadata: {
-          tva: tva,
-        },
+        metadata: tva
+          ? {
+              tva,
+            }
+          : null,
       });
 
       const paymentMethods = await stripe.paymentMethods.list({
@@ -128,9 +144,11 @@ export async function PATCH(req: NextRequest) {
         },
 
         preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
-        metadata: {
-          tva: tva,
-        },
+        metadata: tva
+          ? {
+              tva,
+            }
+          : null,
       });
 
       await prismadb.user.update({

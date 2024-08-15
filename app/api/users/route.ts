@@ -5,38 +5,60 @@ import { stripe } from "@/lib/stripe";
 import { WelcomeEmail } from "@/components/email/welcome";
 import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
+import type { FullAdress } from "@/components/adress-form";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = (await req.json()) as {
+      email: string | undefined;
+      password: string | undefined;
+      name: string | undefined;
+      surname: string | undefined;
+      phone: string | undefined;
+      adresse: string | undefined;
+      tva: string | undefined;
+      raisonSocial: string | undefined;
+      isPro: boolean | undefined;
+    };
 
-    const {
-      email,
-      password,
-      name,
-      surname,
-      phone,
-      adresse,
-      tva,
-      raisonSocial,
-      isPro,
-    } = body;
+    const { email, password, name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
-    const fullAdress = JSON.parse(adresse);
+    if (!adresse) {
+      return new NextResponse("Erreur dans l'adresse", {
+        status: 400,
+      });
+    }
+
+    if (!password) {
+      return new NextResponse("Le mot de passe est vide", {
+        status: 400,
+      });
+    }
+
+    if (!email) {
+      return new NextResponse("L'email est vide", {
+        status: 400,
+      });
+    }
+
+    if (!name || !surname) {
+      return new NextResponse("Le nom ou le prenom est vide", {
+        status: 400,
+      });
+    }
+
+    const fullAdress: FullAdress = JSON.parse(adresse);
     const isEmailPresent = await prismadb.user.findUnique({
       where: {
         email: email,
       },
     });
     if (isEmailPresent) {
-      return new NextResponse(
-        "Un compte existe déjà avec cette adresse e-mail, veuillez vous connecter.",
-        {
-          status: 400,
-        },
-      );
+      return new NextResponse("Un compte existe déjà avec cette adresse e-mail, veuillez vous connecter.", {
+        status: 400,
+      });
     }
 
     const hashpassword = await hash(password, 12);
@@ -56,9 +78,7 @@ export async function POST(req: Request) {
       },
 
       preferred_locales: [fullAdress.country ? fullAdress.country : "FR"],
-      metadata: {
-        tva: tva,
-      },
+      metadata: tva ? { tva } : null,
     });
 
     const user = await prismadb.user.create({
@@ -72,7 +92,7 @@ export async function POST(req: Request) {
         stripeCustomerId: customer.id,
         tva: tva,
         raisonSocial: raisonSocial,
-        role: isPro === "true" ? "pro" : "user",
+        role: isPro ? "pro" : "user",
       },
     });
 

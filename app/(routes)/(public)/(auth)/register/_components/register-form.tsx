@@ -110,7 +110,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
-      await ky.post("/api/users", { json: data }).json();
+      await ky.post("/api/users", { json: data });
       await addDelay(500);
       toast.success("Compte crée");
       signIn("credentials", {

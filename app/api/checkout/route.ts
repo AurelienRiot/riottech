@@ -4,11 +4,12 @@ import { getServerSession } from "next-auth";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { authOptions } from "@/components/auth/authOptions";
+import type { FullAdress } from "@/components/adress-form";
 
 export async function POST(req: NextRequest) {
   interface RequestBody {
-    itemsWithQuantities: { id: string; quantity: number }[];
-    totalPrice: string;
+    itemsWithQuantities: { id: string; quantity: number }[] | undefined;
+    totalPrice: string | undefined;
   }
 
   let orderId = "";
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
         status: 401,
       });
     }
-    const fullAdress = user.adresse
+    const fullAdress: FullAdress = user.adresse
       ? JSON.parse(user.adresse)
       : {
           line1: "",

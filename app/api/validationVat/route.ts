@@ -3,7 +3,10 @@ import { parseStringPromise } from "xml2js";
 
 export async function POST(req: Request) {
   try {
-    const { countryCode, vatNumber } = await req.json();
+    const { countryCode, vatNumber } = (await req.json()) as {
+      countryCode: string | undefined;
+      vatNumber: string | undefined;
+    };
 
     const url = "http://ec.europa.eu/taxation_customs/vies/services/checkVatService";
     const headers = { "Content-Type": "text/xml" };
