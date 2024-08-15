@@ -48,10 +48,7 @@ export async function PATCH(req: NextRequest) {
 
       const compareNewPassword = await compare(newPassword, user.password);
       if (compareNewPassword) {
-        return new NextResponse(
-          "Le nouveau mot de passe est identique à l'ancien",
-          { status: 400 },
-        );
+        return new NextResponse("Le nouveau mot de passe est identique à l'ancien", { status: 400 });
       }
     }
 

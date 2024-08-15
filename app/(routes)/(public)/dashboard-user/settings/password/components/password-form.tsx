@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -53,16 +53,14 @@ export const PasswordForm = () => {
   const onSubmit = async (data: PasswordFormValues) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/users/password`, {
-        oldPassword: data.password,
-        newPassword: data.newPassword,
-      });
+      await ky.patch("/api/users/password", { json: { oldPassword: data.password, newPassword: data.newPassword } });
       router.push(`/dashboard-user/settings`);
       toast.success(toastMessage);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
         toast.error("Erreur.");
       }

@@ -1,10 +1,9 @@
 "use client";
-import ResetPass from "@/actions/reset-pass";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -44,13 +43,14 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ params: { resetToken } })
   const onSubmit = async (data: ResetPasswordFormValues) => {
     setLoading(true);
     try {
-      await ResetPass(data.password, resetToken);
+      await ky.patch("/api/users/reset-password", { json: { password: data.password, resetToken } });
       router.replace("/login");
       toast.success("Mot de passe changé, vous pouvez vous connecter");
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
         toast.error("Erreur.");
       }

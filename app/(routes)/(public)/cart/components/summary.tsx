@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Currency from "@/components/ui/currency";
 import useCart from "@/hooks/use-cart";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -47,14 +47,27 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
       };
     });
     try {
-      const response = await axios.post(`/api/checkout`, {
-        itemsWithQuantities,
-        totalPrice: totalPrice.toFixed(2),
-      });
-      window.location = response.data.url;
+      const response = (await ky
+        .post(`/api/checkout`, {
+          json: {
+            itemsWithQuantities,
+            totalPrice: totalPrice.toFixed(2),
+          },
+        })
+        .json()) as { url: string };
+      // const response = await axios.post(`/api/checkout`, {
+      //   itemsWithQuantities,
+      //   totalPrice: totalPrice.toFixed(2),
+      // });
+      window.location.href = response.url;
     } catch (error) {
-      const axiosError = error as AxiosError;
-      toast.error(axiosError?.response?.data as string, { duration: 8000 });
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData, { duration: 8000 });
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
     }

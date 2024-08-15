@@ -1,15 +1,14 @@
 "use client";
-import ReqResetPass from "@/actions/req-reset-pass";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { AxiosError } from "axios";
+import { motion } from "framer-motion";
+import ky, { type HTTPError } from "ky";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import { motion } from "framer-motion";
 
 const formSchema = z.object({
   email: z
@@ -37,12 +36,13 @@ const ResetPasswordForm = () => {
     setLoading(true);
 
     try {
-      await ReqResetPass(data.email);
+      await ky.post("/api/users/reset-password", { json: { email: data.email } });
       setSuccess(true);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
         toast.error("Erreur.");
       }

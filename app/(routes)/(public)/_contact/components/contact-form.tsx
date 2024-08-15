@@ -2,20 +2,13 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
+import ky from "ky";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -75,7 +68,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
   const onSubmit = async (data: ContactFormValues) => {
     setLoading(true);
     try {
-      await axios.post(`/api/contacts`, data);
+      await ky.post(`/api/contacts`, { json: data });
       router.refresh();
       router.push(`/`);
       toast.success("Message envoyé");
@@ -93,17 +86,9 @@ export const ContactForm: React.FC = (): React.ReactNode => {
 
   return (
     <>
-      <AlertModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        onConfirm={handleModalConfirm}
-        loading={loading}
-      />
+      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={handleModalConfirm} loading={loading} />
 
-      <h2 className="mr-auto text-3xl font-bold tracking-tight">
-        {" "}
-        Formulaire de Contact
-      </h2>
+      <h2 className="mr-auto text-3xl font-bold tracking-tight"> Formulaire de Contact</h2>
       <Separator />
       <Form {...form}>
         <form
@@ -136,12 +121,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                 <FormItem>
                   <FormLabel>{"Nom/Prénom ou nom d'entreprise :"}</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Nom"
-                      {...field}
-                      autoComplete="name"
-                    />
+                    <Input disabled={loading} placeholder="Nom" {...field} autoComplete="name" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,12 +135,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading}
-                        placeholder="exemple@mail.com"
-                        {...field}
-                        autoComplete="email"
-                      />
+                      <Input disabled={loading} placeholder="exemple@mail.com" {...field} autoComplete="email" />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -194,11 +169,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                   <FormLabel>Sujet</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <Input
-                        disabled={loading}
-                        placeholder="Renseignement"
-                        {...field}
-                      />
+                      <Input disabled={loading} placeholder="Renseignement" {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -213,11 +184,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
                   <FormLabel>Message</FormLabel>
                   <FormControl>
                     <div className="flex items-start gap-x-4">
-                      <TextArea
-                        disabled={loading}
-                        placeholder="..."
-                        {...field}
-                      />
+                      <TextArea disabled={loading} placeholder="..." {...field} />
                     </div>
                   </FormControl>
                   <FormMessage />

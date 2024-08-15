@@ -1,8 +1,6 @@
-import axios from "axios";
+import ky from "ky";
 
-const GetValideVat = async (
-  vat: string,
-): Promise<false | { name: string; address: string }> => {
+const GetValideVat = async (vat: string): Promise<false | { name: string; address: string }> => {
   if (vat.length < 10) {
     return false;
   }
@@ -10,14 +8,16 @@ const GetValideVat = async (
   const countryCode = vat.slice(0, 2);
   const vatNumber = vat.slice(2);
   try {
-    const vatValidationResult = await axios.post("/api/validationVat", {
-      countryCode,
-      vatNumber,
-    });
-    if (vatValidationResult.data.isValid === "true") {
+    const vatValidationResult = (await ky.post("/api/validationVat", { json: { countryCode, vatNumber } }).json()) as {
+      requestDate: string;
+      isValid: string;
+      name: string;
+      address: string;
+    };
+    if (vatValidationResult.isValid === "true") {
       return {
-        name: vatValidationResult.data.name,
-        address: vatValidationResult.data.address,
+        name: vatValidationResult.name,
+        address: vatValidationResult.address,
       };
     }
     return false;

@@ -12,7 +12,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@prisma/client";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -110,17 +110,17 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
-      await axios.patch("/api/users/id", data);
+      await ky.patch("/api/users/id", { json: data });
       router.replace(callbackUrl);
       router.refresh();
 
       toast.success(toastMessage);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
-        console.error(error);
         toast.error("Erreur.");
       }
     } finally {
@@ -136,7 +136,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
 
-      await axios.delete("/api/users/id");
+      await ky.delete(`/api/users/id`);
       signOut({ callbackUrl: "/" });
       toast.success("Utilisateur supprimé.");
     } catch (error) {

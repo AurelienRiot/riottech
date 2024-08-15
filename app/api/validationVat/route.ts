@@ -1,4 +1,3 @@
-import axios from "axios";
 import { NextResponse } from "next/server";
 import { parseStringPromise } from "xml2js";
 
@@ -20,9 +19,13 @@ export async function POST(req: Request) {
             </soapenv:Envelope>
         `;
 
-    const response = await axios.post(url, body, { headers: headers });
-    const result = await parseStringPromise(response.data);
-
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: body,
+    });
+    const data = await response.text();
+    const result = await parseStringPromise(data);
     const checkVatResponse = result["env:Envelope"]["env:Body"][0]["ns2:checkVatResponse"][0];
 
     const requestDate = checkVatResponse["ns2:requestDate"][0];

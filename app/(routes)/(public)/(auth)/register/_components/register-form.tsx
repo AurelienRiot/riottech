@@ -1,6 +1,5 @@
 "use client";
 
-import CreatUser from "@/actions/create-user";
 import GetValideVat from "@/actions/get-valide-vat";
 import { AdressForm } from "@/components/adress-form";
 import { AnimateHeight } from "@/components/animations/animate-size";
@@ -9,16 +8,17 @@ import { Button, LoadingButton } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { addDelay } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { toast } from "sonner";
 import * as z from "zod";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
@@ -110,7 +110,8 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
       data.surname = data.surname.trim();
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
-      const res = await CreatUser(data);
+      await ky.post("/api/users", { json: data }).json();
+      await addDelay(500);
       toast.success("Compte crée");
       signIn("credentials", {
         email: data.email,
@@ -118,9 +119,10 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
         callbackUrl,
       });
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response?.data && axiosError.response.status === 400) {
-        toast.error(axiosError.response.data as string, {
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData, {
           duration: 8000,
         });
         router.replace(`/login?callbackUrl=${encodeURIComponent(callbackUrl)}`);

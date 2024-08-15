@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
     totalPrice: string;
   }
 
+  let orderId = "";
   try {
     const body = await req.json();
     const { itemsWithQuantities, totalPrice } = body as RequestBody;
@@ -144,6 +145,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    orderId = order.id;
+
     const isAdresse = Boolean(JSON.parse(user.adresse as string)?.label);
 
     const sessionStripe = await stripe.checkout.sessions.create({
@@ -164,6 +167,7 @@ export async function POST(req: NextRequest) {
       },
       success_url: `${process.env.NEXT_PUBLIC_URL}/dashboard-user?success-order=1`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL}/cart?canceled=1`,
+
       metadata: {
         orderId: order.id,
       },
@@ -171,7 +175,18 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: sessionStripe.url });
   } catch (error) {
+    if (orderId) {
+      await deleteOrder(orderId);
+    }
     console.log("[CHECKOUT_ERROR]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
+}
+
+async function deleteOrder(orderId: string) {
+  await prismadb.order.delete({
+    where: {
+      id: orderId,
+    },
+  });
 }
