@@ -9,13 +9,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import axios from "axios";
+import ky, { type HTTPError } from "ky";
 import { ArrowLeftRightIcon, Copy, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
 import { BiBookOpen } from "react-icons/bi";
+import { toast } from "sonner";
 import type { SubscriptionOrderColumn } from "./subscription-order-column";
 
 interface SubscriptionOrderCellActionProps {
@@ -36,11 +36,17 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/subscription-orders/${data.id}`);
+      await ky.delete(`/api/subscription-orders/${data.id}`);
       router.refresh();
       toast.success("Order deleted.");
     } catch (error) {
-      toast.error("Something Went wrong");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);
@@ -50,13 +56,20 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   const onActive = async () => {
     try {
       setLoading(true);
-      await axios.patch(`/api/subscription-orders/${data.id}`, {
-        isActive: data.isActive,
+      await ky.patch(`/api/subscription-orders/${data.id}`, {
+        json: { isActive: data.isActive },
       });
+
       router.refresh();
       toast.success("Abonnement mis à jour.");
     } catch (error) {
-      toast.error("Something Went wrong");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);

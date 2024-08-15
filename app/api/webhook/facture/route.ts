@@ -3,7 +3,6 @@ import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
 import { currencyFormatter, dateFormatter } from "@/lib/utils";
 import { render } from "@react-email/render";
-import axios from "axios";
 import { NextResponse, type NextRequest } from "next/server";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;
@@ -16,11 +15,22 @@ export async function POST(req: NextRequest) {
     console.log("chargeId :", chargeId);
     console.log("customerId :", customerId);
 
-    const response = await axios.get(`${PDF_URL}/get_pdf?charge_id=${chargeId}`, {
-      responseType: "arraybuffer",
+    // const response = await axios.get(`${PDF_URL}/get_pdf?charge_id=${chargeId}`, {
+    //   responseType: "arraybuffer",
+    // });
+    const response = await fetch(`${PDF_URL}/get_pdf?charge_id=${chargeId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    const contentDisposition: string = response.headers["content-disposition"];
+    if (!response.ok) {
+      return new NextResponse("Erreur, la facture n'a pas pu être récupérée", { status: 400 });
+    }
+
+    // const contentDisposition: string = response.headers["content-disposition"];
+    const contentDisposition = response.headers.get("content-disposition");
     let filename = "unknown";
     if (contentDisposition) {
       const matches = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
@@ -29,7 +39,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const pdfBuffer = response.data;
+    // const pdfBuffer = response.data;
+    const pdfBuffer = await response.arrayBuffer();
 
     const order = await prismadb.order.findMany({
       where: {
@@ -78,7 +89,7 @@ export async function POST(req: NextRequest) {
         attachments: [
           {
             filename: filename,
-            content: pdfBuffer,
+            content: pdfBuffer as Buffer,
             contentType: "application/pdf",
           },
         ],
@@ -123,7 +134,7 @@ export async function POST(req: NextRequest) {
         attachments: [
           {
             filename: filename,
-            content: pdfBuffer,
+            content: pdfBuffer as Buffer,
             contentType: "application/pdf",
           },
         ],

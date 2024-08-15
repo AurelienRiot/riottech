@@ -2,7 +2,7 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,11 +21,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/orders/${data.id}`);
+      await ky.delete(`/api/orders/${data.id}`);
       router.refresh();
       toast.success("Commande supprimée");
     } catch (error) {
-      toast.error("Erreur");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);

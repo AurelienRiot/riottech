@@ -47,18 +47,15 @@ const Summary: React.FC<SummaryProps> = ({ userId }) => {
       };
     });
     try {
-      const response = (await ky
+      const response = await ky
         .post(`/api/checkout`, {
           json: {
             itemsWithQuantities,
             totalPrice: totalPrice.toFixed(2),
           },
         })
-        .json()) as { url: string };
-      // const response = await axios.post(`/api/checkout`, {
-      //   itemsWithQuantities,
-      //   totalPrice: totalPrice.toFixed(2),
-      // });
+        .json<{ url: string }>();
+
       window.location.href = response.url;
     } catch (error) {
       const kyError = error as HTTPError;

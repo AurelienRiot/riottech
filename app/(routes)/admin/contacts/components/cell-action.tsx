@@ -1,13 +1,13 @@
 "use client";
 
-import type { ContactColumn } from "./columns";
+import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
-import { AlertModal } from "@/components/modals/alert-modal-form";
+import { toast } from "sonner";
+import type { ContactColumn } from "./columns";
 
 interface CellActionProps {
   data: ContactColumn;
@@ -21,11 +21,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/contacts/${data.id}`);
+      await ky.delete(`/api/contacts/${data.id}`);
       router.refresh();
       toast.success("Message supprimé.");
     } catch (error) {
-      toast.error("Erreur");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);

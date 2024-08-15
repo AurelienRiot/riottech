@@ -13,7 +13,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { User } from "@prisma/client";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -112,16 +112,17 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
       data.raisonSocial = data.raisonSocial.trim();
       data.adresse = JSON.stringify(selectedAddress);
 
-      await axios.patch(`/api/users/id-admin/${params.userId}`, data);
+      await ky.patch(`/api/users/id-admin/${params.userId}`, { json: data });
       router.push(`/admin/users`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
-        toast.error("Something went wrongs.");
+        toast.error("Erreur.");
       }
     } finally {
       setLoading(false);
@@ -131,12 +132,18 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
 
-      const user = await axios.delete(`/api/users/id-admin/${params.userId}`);
+      await ky.delete(`/api/users/id-admin/${params.userId}`);
       router.push(`/admin/users`);
       router.refresh();
       toast.success("Utilisateur supprimé");
     } catch (error) {
-      toast.error("Something went wrong.");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);

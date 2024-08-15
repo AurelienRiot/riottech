@@ -1,5 +1,7 @@
 "use client";
 
+import { AlertModal } from "@/components/modals/alert-modal-form";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,14 +9,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { SubscriptionColumn } from "./columns";
-import { Button } from "@/components/ui/button";
+import ky from "ky";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
-import { AlertModal } from "@/components/modals/alert-modal-form";
+import { toast } from "sonner";
+import type { SubscriptionColumn } from "./columns";
 
 interface CellActionProps {
   data: SubscriptionColumn;
@@ -33,7 +33,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/subscriptions/${data.id}`);
+      await ky.delete(`/api/subscriptions/${data.id}`);
       router.refresh();
       toast.success("Abonnement supprimé");
     } catch (error) {

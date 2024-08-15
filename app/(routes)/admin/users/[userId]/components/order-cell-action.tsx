@@ -1,5 +1,7 @@
 "use client";
 
+import { AlertModal } from "@/components/modals/alert-modal-form";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,14 +9,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { OrderColumn } from "./order-column";
-import { Button } from "@/components/ui/button";
+import ky, { type HTTPError } from "ky";
 import { Copy, MoreHorizontal, Trash } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import axios from "axios";
-import { AlertModal } from "@/components/modals/alert-modal-form";
+import { toast } from "sonner";
+import type { OrderColumn } from "./order-column";
 
 interface OrderCellActionProps {
   data: OrderColumn;
@@ -33,11 +33,17 @@ export const OrderCellAction: React.FC<OrderCellActionProps> = ({ data }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/orders/${data.id}`);
+      await ky.delete(`/api/orders/${data.id}`);
       router.refresh();
       toast.success("Order deleted.");
     } catch (error) {
-      toast.error("Something Went wrong.");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
       setOpen(false);

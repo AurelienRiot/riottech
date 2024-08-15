@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Category, Image } from "@prisma/client";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -100,19 +100,20 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
         url: `https://${bucketName}.s3.fr-par.scw.cloud/${file}`,
       }));
       if (initialData) {
-        await axios.patch(`/api/products/${params.productId}`, data);
+        await ky.patch(`/api/products/${params.productId}`, { json: data });
       } else {
-        await axios.post(`/api/products`, data);
+        await ky.post(`/api/products`, { json: data });
       }
       router.push(`/admin/products`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
-        toast.error("Erreur");
+        toast.error("Erreur.");
       }
     } finally {
       setLoading(false);
@@ -122,7 +123,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/products/${params.productId}`);
+      await ky.delete(`/api/products/${params.productId}`);
       router.push(`/admin/products`);
       router.refresh();
       toast.success("Produit supprimé");

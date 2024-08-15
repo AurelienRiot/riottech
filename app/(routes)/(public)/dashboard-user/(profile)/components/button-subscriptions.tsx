@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -10,13 +10,23 @@ const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({ stripeCus
   const onClick = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`/api/manage-subscription`, {
-        stripeCustomerId,
-      });
-      window.location = response.data.url;
+      const response = await ky
+        .post("/api/manage-subscription", {
+          json: {
+            stripeCustomerId,
+          },
+        })
+        .json<{ url: string }>();
+
+      window.location.href = response.url;
     } catch (error) {
-      const axiosError = error as AxiosError;
-      toast.error(axiosError?.response?.data as string, { duration: 8000 });
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
     }

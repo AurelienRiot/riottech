@@ -9,14 +9,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { TextArea } from "@/components/ui/text-area";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { type AxiosError } from "axios";
+import type { Subscription } from "@prisma/client";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import type { Subscription } from "@prisma/client";
 
 interface SubscriptionFormProps {
   initialData: Subscription | null;
@@ -78,19 +78,20 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/subscriptions/${params.subscriptionId}`, data);
+        await ky.patch(`/api/subscriptions/${params.subscriptionId}`, { json: data });
       } else {
-        await axios.post(`/api/subscriptions`, data);
+        await ky.post(`/api/subscriptions`, { json: data });
       }
       router.push(`/admin/subscriptions`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
-        toast.error("Erreur");
+        toast.error("Erreur.");
       }
     } finally {
       setLoading(false);
@@ -100,7 +101,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/subscriptions/${params.subscriptionId}`);
+      await ky.delete(`/api/subscriptions/${params.subscriptionId}`);
       router.push(`/admin/subscriptions`);
       router.refresh();
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { User } from "@prisma/client";
-import axios, { type AxiosError } from "axios";
+import ky, { type HTTPError } from "ky";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,15 +25,16 @@ const CardUser: React.FC<CardUserProps> = ({ user, orderLength, subscriptionOrde
   async function handleDelete() {
     try {
       setLoading(true);
-      await axios.delete(`/api/users/id-admin/${user.id}`);
+      await ky.delete(`/api/users/id-admin/${user.id}`);
       router.refresh();
       toast.success("Utilisateur supprimé");
     } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError?.response?.data) {
-        toast.error(axiosError.response.data as string);
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
       } else {
-        toast.error("Erreur");
+        toast.error("Erreur.");
       }
     } finally {
       setLoading(false);

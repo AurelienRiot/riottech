@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Category } from "@prisma/client";
-import axios from "axios";
+import ky, { type HTTPError } from "ky";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -62,16 +62,22 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
       }
       data.imageUrl = `https://${bucketName}.s3.fr-par.scw.cloud/${selectedFiles[0]}`;
       if (initialData) {
-        await axios.patch(`/api/categories/${params.categoryId}`, data);
+        await ky.patch(`/api/categories/${params.categoryId}`, { json: data });
       } else {
-        await axios.post(`/api/categories`, data);
+        await ky.post(`/api/categories`, { json: data });
       }
       router.push(`/admin/categories`);
       router.refresh();
 
       toast.success(toastMessage);
     } catch (error) {
-      toast.error("Erreur");
+      const kyError = error as HTTPError;
+      if (kyError.response) {
+        const errorData = await kyError.response.text();
+        toast.error(errorData);
+      } else {
+        toast.error("Erreur.");
+      }
     } finally {
       setLoading(false);
     }
@@ -80,7 +86,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/categories/${params.categoryId}`);
+      await ky.delete(`/api/categories/${params.categoryId}`);
       router.push(`/admin/categories`);
       router.refresh();
       toast.success("Categrorie supprimée");

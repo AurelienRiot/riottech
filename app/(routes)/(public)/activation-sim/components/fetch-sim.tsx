@@ -31,9 +31,9 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   //   sim_serial: "",
   // };
   try {
-    const data = (await ky
+    const data = await ky
       .get(`https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`)
-      .json()) as FetchSimType;
+      .json<FetchSimType>();
 
     if (data.available) {
       return data;
