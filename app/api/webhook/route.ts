@@ -147,7 +147,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       from: "facturation@riottech.fr",
       to: session?.customer_details?.email || "",
       subject: "Votre abonnement RIOT TECH",
-      html: render(
+      html: await render(
         SubscriptionEmail({
           sim: subscriptionOrder.sim,
           subscription: sub?.subscriptionItem?.name || "",

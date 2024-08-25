@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       from: "contact@riottech.fr",
       to: email,
       subject: "Réinitialisation de votre mot de passe",
-      html: render(ResetPasswordEmail({ fullName, resetToken, baseUrl })),
+      html: await render(ResetPasswordEmail({ fullName, resetToken, baseUrl })),
     });
 
     return NextResponse.json(null);
