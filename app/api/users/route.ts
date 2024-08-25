@@ -102,7 +102,7 @@ export async function POST(req: Request) {
       from: "contact@riottech.fr",
       to: email,
       subject: "Création de votre compte RIOT TECH",
-      html: render(WelcomeEmail({ fullName, baseUrl })),
+      html: await render(WelcomeEmail({ fullName, baseUrl })),
     });
 
     return NextResponse.json(user);

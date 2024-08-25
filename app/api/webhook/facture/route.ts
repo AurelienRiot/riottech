@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
         from: "facturation@riottech.fr",
         to: email,
         subject: "Votre facture RIOT TECH",
-        html: render(
+        html: await render(
           BillingEmail({
             email,
             price,
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
         from: "facturation@riottech.fr",
         to: user?.email || undefined,
         subject: "Votre facture RIOT TECH",
-        html: render(
+        html: await render(
           BillingEmail({
             email,
             price,
