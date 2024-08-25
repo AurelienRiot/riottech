@@ -1,6 +1,8 @@
 import { GoogleButton } from "@/components/auth/auth-button";
 import { LoginForm } from "./components/login-form";
 import type { Metadata } from "next";
+import { getSessionUser } from "@/server-actions/get-user";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -11,9 +13,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function LoginPage(context: {
+export default async function LoginPage({
+  searchParams,
+}: {
   searchParams: { callbackUrl: string | undefined; error: string | undefined };
 }) {
+  const callbackUrl = searchParams.callbackUrl || "/dashboard-user";
+  const user = await getSessionUser();
+  if (user) {
+    redirect(callbackUrl);
+  }
   return (
     <div className="h-sccreen flex w-screen items-center justify-center bg-slate-100 dark:bg-slate-900">
       <div className="space-y-12 rounded-xl px-8 pb-8 pt-12 sm:bg-white sm:shadow-xl sm:dark:bg-black">
@@ -24,7 +33,7 @@ export default async function LoginPage(context: {
           {" "}
           Page de Connection
         </h1>
-        <ErrorDisplay error={context.searchParams.error} />
+        <ErrorDisplay error={searchParams.error} />
         <GoogleButton />
         <div
           className={`my-4 flex h-4 flex-row items-center gap-4 self-stretch whitespace-nowrap before:h-0.5 before:w-full before:flex-grow before:bg-primary/30 after:h-0.5 after:w-full after:flex-grow after:bg-primary/30`}

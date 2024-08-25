@@ -155,11 +155,11 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         toggleDataSeries: true,
       },
       markers: {
-        width: 12,
-        height: 12,
+        // width: 12,
+        // height: 12,
         strokeWidth: 0,
         strokeColor: "#000",
-        radius: 12,
+        // radius: 12,
       },
       labels: {
         colors: "#888888",
