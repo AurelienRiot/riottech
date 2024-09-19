@@ -30,15 +30,17 @@ export const TVAForm = <T extends { tva: string; raisonSocial: string }>({
     const valideVat = await GetValideVat(field.value);
     if (valideVat) {
       const temp = await AddressAutocomplete(valideVat.address);
-      setSelectedAddress({
-        ...selectedAddress,
-        label: temp[0].label,
-        city: temp[0].city,
-        country: temp[0].country,
-        line1: temp[0].line1,
-        postalCode: temp[0].postal_code,
-        state: temp[0].state,
-      });
+      if (temp.length > 0) {
+        setSelectedAddress({
+          ...selectedAddress,
+          label: temp[0].label,
+          city: temp[0].city,
+          country: temp[0].country,
+          line1: temp[0].line1,
+          postalCode: temp[0].postal_code,
+          state: temp[0].state,
+        });
+      }
 
       form.setValue("raisonSocial" as Path<T>, valideVat.name as PathValue<T, Path<T>>);
       toast.success("TVA valide");
