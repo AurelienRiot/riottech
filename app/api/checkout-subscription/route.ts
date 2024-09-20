@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
             tax_code: "txcd_99999999",
             name: subscription.name,
             metadata: {
-              sim: sim,
+              sim
             },
           },
           unit_amount: Math.round(subscription.priceHT * 100),
@@ -183,6 +183,9 @@ export async function POST(req: NextRequest) {
       subscription_data: {
         description: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
         trial_end,
+        metadata: {
+          sim
+        }
       },
       // billing_address_collection: isAdresse ? "auto" : "required",
       billing_address_collection: "auto",
