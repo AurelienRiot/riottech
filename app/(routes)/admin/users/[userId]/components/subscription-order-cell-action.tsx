@@ -57,11 +57,11 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
     try {
       setLoading(true);
       await ky.patch(`/api/subscription-orders/${data.id}`, {
-        json: { isActive: data.isActive },
+        json: { isActive: !data.isActive },
       });
 
       router.refresh();
-      toast.success("Abonnement mis à jour.");
+      toast.success("Abonnement mise à jour.");
     } catch (error) {
       const kyError = error as HTTPError;
       if (kyError.response) {
@@ -94,7 +94,7 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onActive()}>
             <ArrowLeftRightIcon className="mr-2 h-4 w-4" />
-            Activité
+           {data.isActive ? "Desactiver" : "Activer"}
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link className="flex items-center justify-center" href={`${pathname}/${data.id}`}>

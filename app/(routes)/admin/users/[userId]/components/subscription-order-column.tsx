@@ -61,7 +61,7 @@ export const columns: ColumnDef<SubscriptionOrderColumn>[] = [
   {
     accessorKey: "isActive",
     header: "Actif",
-    cell: ({ row }) => <Checkbox className="cursor-default self-center" checked={row.original.isPaid} />,
+    cell: ({ row }) => <Checkbox className="cursor-default self-center" checked={row.original.isActive} />,
     filterFn: FilterFn,
   },
   {
