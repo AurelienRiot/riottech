@@ -77,7 +77,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
   }));
 
   const formattedSubscriptionOrders: SubscriptionOrderColumn[] = (
-    user?.subscriptionOrder || []
+    user.subscriptionOrder || []
   ).map((order) => ({
     userId: user.id,
     id: order.id,

@@ -17,6 +17,13 @@ import { useState } from "react";
 import { BiBookOpen } from "react-icons/bi";
 import { toast } from "sonner";
 import type { SubscriptionOrderColumn } from "./subscription-order-column";
+import { BsFillSimFill } from "react-icons/bs";
+import useServerAction from "@/hooks/use-server-action";
+import changeSim from "../_actions/change-sim";
+import { Modal } from "@/components/ui/modal";
+import { DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface SubscriptionOrderCellActionProps {
   data: SubscriptionOrderColumn;
@@ -27,6 +34,7 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -78,6 +86,7 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
 
   return (
     <>
+    <SimModal openModal={openModal}  onClose={() => setOpenModal(false)} subscriptionId={data.id}/>
       <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -96,6 +105,10 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
             <ArrowLeftRightIcon className="mr-2 h-4 w-4" />
            {data.isActive ? "Desactiver" : "Activer"}
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenModal(true)}>
+            <BsFillSimFill className="mr-2 h-4 w-4" />
+           Changer SIM
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link className="flex items-center justify-center" href={`${pathname}/${data.id}`}>
               <BiBookOpen className="mr-2 h-4 w-4" />
@@ -111,3 +124,51 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
     </>
   );
 };
+
+
+function SimModal({subscriptionId,onClose,openModal}:{subscriptionId:string,onClose:()=>void,openModal:boolean}) {
+  const {serverAction,loading} = useServerAction(changeSim)
+  const [sim, setSim] = useState("")
+  const router = useRouter()
+
+  const handleSubmit =async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    function onSuccess() {
+      onClose()
+    setSim("")
+router.refresh()
+    }
+  
+    await serverAction({data :{subscriptionId,sim},onSuccess})
+    
+  }
+  return (
+    <Modal
+      title="Changer le numéro de SIM"
+      description="Entrez le nouveau numéro de SIM ci-dessous. Cliquez sur sauvegarder une fois terminé."
+      isOpen={openModal}
+      onClose={onClose}
+    >
+       <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-4">
+              <Label htmlFor="sim-number" className="text-right">
+                Numéro de SIM
+              </Label>
+              <Input
+                id="sim-number"
+                value={sim}
+                onChange={(e) => setSim(e.target.value)}
+                placeholder="Entrez le nouveau numéro de SIM"
+                className="col-span-3"
+              />
+            </div>
+          <DialogFooter>
+            <Button disabled={loading} type="submit">Sauvegarder les changements</Button>
+          </DialogFooter>
+        </form>
+
+    </Modal>
+     
+          
+          )}
