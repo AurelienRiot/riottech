@@ -48,15 +48,29 @@ type NameCellProp = {
   name: string;
   type: "products" | "subscriptions" | "users" | "categories";
   id: string | null;
+  raisonSocial?: string | null;
 };
 
-function NameCell({ name, id, type }: NameCellProp) {
+function NameCell({ name, id, type,raisonSocial }: NameCellProp) {
   return (
-    <Button asChild variant={"link"} className="px-0">
-      {id ? <Link href={`/admin/${type}/${id}`}>{name}</Link> : <span>{name}</span>}
+    <Button asChild variant={"link"} className="px-0 flex flex-col gap-2">
+      <Link href={id ?`/admin/${type}/${id}`:"#"}>
+      {raisonSocial ? (
+  <>
+    <span className="capitalize">{raisonSocial}</span>
+    <span className="capitalize">({name})</span> 
+  </>
+) : (
+  <>
+    <span className="capitalize">{name}</span> 
+  </>
+)}
+</Link> 
+      
     </Button>
   );
 }
+
 
 type PhoneCellProps = {
   phone: string;

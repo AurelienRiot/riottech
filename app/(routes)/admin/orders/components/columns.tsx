@@ -16,6 +16,7 @@ export type OrderColumn = {
   isPaid: boolean;
   totalPrice: string;
   products: string;
+  raisonSocial?: string | null;
   productsList: { name: string; quantity?: string }[];
   createdAt: Date;
 };
@@ -29,7 +30,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
   {
     accessorKey: "name",
     header: "Nom",
-    cell: ({ row }) => <NameCell type="users" name={row.getValue("name")} id={row.original.userId} />,
+    cell: ({ row }) => <NameCell type="users" name={row.getValue("name")} id={row.original.userId} raisonSocial={row.original.raisonSocial} />,
   },
 
   {

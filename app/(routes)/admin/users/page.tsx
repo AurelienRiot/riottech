@@ -96,7 +96,7 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
   const histories: SubscriptionHistoryColumn[] = usersHistories.map((history) => ({
     userId: history.subscriptionOrder.userId,
     type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
-
+raisonSocial: history.subscriptionOrder.user.raisonSocial,
     status: history.mailSend ? "Paiement validé" : "En cours de validation",
     price: currencyFormatter.format(Number(history.price)),
     userName: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
@@ -110,7 +110,7 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
 const SeverUserClient = async () => {
   const allUsers = await prismadb.user.findMany({
     where: {
-      role: "user",
+      role: {notIn: ["admin"]},
     },
     orderBy: {
       updatedAt: "desc",

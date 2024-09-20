@@ -11,15 +11,16 @@ export type SubscriptionHistoryColumn = {
   type: "Création" | "Renouvellement";
   status: "Paiement validé" | "En cours de validation" | "Non payé";
   price: string;
-  userName: string;
+ userName: string;
   name: string;
+  raisonSocial?: string | null;
   createdAt: Date;
 };
 export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "userName",
     header: "Client",
-    cell: ({ row }) => <NameCell name={row.original.userName} id={row.original.userId} type="users" />,
+    cell: ({ row }) => <NameCell name={row.original.userName} id={row.original.userId} type="users" raisonSocial={row.original.raisonSocial} />,
   },
   {
     accessorKey: "name",
