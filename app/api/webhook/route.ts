@@ -118,20 +118,22 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
         phone: session?.customer_details?.phone || "",
         pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
       },
+      select: {
+        id: true,
+        sim: true,
+        stripeSubscriptionId: true,
+        totalPrice: true,
+        subscriptionItem: true,
+      },
     });
 
-    const sub = await prismadb.subscriptionOrder.findUnique({
-      where: {
-        id: subscriptionOrder.id,
-      },
-      select: {
-        subscriptionItem: {
-          select: {
-            name: true,
-          },
+    if (subscriptionOrder.sim && subscriptionOrder.stripeSubscriptionId) {
+      await stripe.subscriptions.update(subscriptionOrder.stripeSubscriptionId, {
+        metadata: {
+          sim: subscriptionOrder.sim,
         },
-      },
-    });
+      });
+    }
 
     await prismadb.subscriptionHistory.create({
       data: {
@@ -150,7 +152,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       html: await render(
         SubscriptionEmail({
           sim: subscriptionOrder.sim,
-          subscription: sub?.subscriptionItem?.name || "",
+          subscription: subscriptionOrder.subscriptionItem?.name || "",
           baseUrl,
         }),
       ),
