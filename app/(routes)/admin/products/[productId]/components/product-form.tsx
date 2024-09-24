@@ -236,9 +236,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
               name="isFeatured"
               render={({ field }) => (
                 <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
+                  <label htmlFor="featured" className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox id="featured" checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Mise en avant</FormLabel>
@@ -253,9 +253,9 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
               name="isArchived"
               render={({ field }) => (
                 <FormItem className="flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
+                  <label htmlFor="archived" className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Checkbox id="archived" checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>Archivé</FormLabel>

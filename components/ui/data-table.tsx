@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({ columns, initialData, searchKey }: Da
               table.setPageSize(Number(newPageSize));
             }}
           >
-            <SelectTrigger IconSelect={ChevronsUpDown} className="w-[130px]">
+            <SelectTrigger className="w-[130px]">
               <SelectValue placeholder="Select a page size" />
             </SelectTrigger>
             <SelectContent className="w-[130px]">
