@@ -1,7 +1,6 @@
 "use client";
 
-import { createContact } from "@/actions/create-contact";
-import { AlertModal } from "@/components/modals/alert-modal-form";
+import { createContact } from "@/components/contact/create-contact";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -14,55 +13,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdSend } from "react-icons/md";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import { toast } from "sonner";
-import * as z from "zod";
-import { AutosizeTextarea } from "./ui/autosize-textarea";
-import { Heading } from "./ui/heading";
-
-const formSchema = z.object({
-  name: z
-    .string({
-      required_error: "Veuillez entrer votre nom",
-    })
-    .min(1, { message: "Veuillez entrer votre nom" })
-    .max(50, { message: "Le nom ne peut pas dépasser 50 caractères" }),
-  email: z
-    .string({
-      required_error: "Veuillez entrer votre adresse email",
-    })
-    .email({ message: "L'email doit être un email valide" })
-    .min(1, { message: "Veuillez entrer votre adresse email" })
-    .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
-  subject: z.string().optional(),
-  phone: z
-    .string({
-      required_error: "Veuillez entrer votre numéro de téléphone",
-    })
-    .refine(
-      (value) => {
-        return isValidPhoneNumber(value);
-      },
-      {
-        message: "Le numéro de téléphone n'est pas valide",
-      },
-    ),
-  postalCode: z.coerce
-    .number({
-      invalid_type_error: "Veuillez entrer un code postal valide",
-      required_error: "Veuillez entrer votre code postal",
-    })
-    .min(6, { message: "Veuillez entrer un code postal valide" }),
-  message: z
-    .string({ required_error: "Veuillez entrer votre message" })
-    .min(1, { message: "Veuillez entrer votre message" })
-    .max(1000, { message: "Le message ne peut pas dépasser 1000 caractères" }),
-  inBretagne: z.boolean().refine((value) => value === true, {
-    message: "Veuillez cochez la case",
-  }),
-});
-
-export type ContactFormValues = z.infer<typeof formSchema>;
+import { AutosizeTextarea } from "../ui/autosize-textarea";
+import { Heading } from "../ui/heading";
+import { useToastPromise } from "../ui/sonner";
+import { contactSchema, type ContactFormValues } from "./contact-schema";
 
 export const ContactForm = ({
   title,
@@ -78,12 +32,16 @@ export const ContactForm = ({
   className?: string;
 }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const action = "Envoyer";
   const [showCheckbox, setShowCheckbox] = useState(false);
+  const { toastServerAction, loading } = useToastPromise({
+    serverAction: createContact,
+    message: "Envoi du message",
+    errorMessage: "Echec de l'envoi du message",
+  });
 
   const form = useForm<ContactFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(contactSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -95,18 +53,11 @@ export const ContactForm = ({
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    setLoading(true);
-    const response = await createContact(data);
-    if (!response.success) {
-      toast.error(response.message);
-      return;
+    function onSuccess() {
+      form.reset();
+      router.push(`/`);
     }
-    form.reset();
-
-    router.push(`/`);
-    toast.success("Message envoyé");
-
-    setLoading(false);
+    toastServerAction({ data, onSuccess });
   };
 
   return (

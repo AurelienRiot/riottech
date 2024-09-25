@@ -1,9 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import {
-  ListStyleCheck,
-  addGlobalUtilities,
-  addVariablesForColors,
-} from "./lib/tailwind";
+import { ListStyleCheck, addGlobalUtilities, addVariablesForColors } from "./lib/tailwind";
 
 module.exports = {
   darkMode: ["class"],
@@ -34,8 +30,7 @@ module.exports = {
         SourceCodePro: ["var(--font-source-code-pro)"],
       },
       boxShadow: {
-        "2xl":
-          "0 25px 50px -12px rgb(0 0 0 / 0.25), 0 20px 25px -10px rgb(0 0 0 / 0.25)",
+        "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25), 0 20px 25px -10px rgb(0 0 0 / 0.25)",
       },
       transitionDuration: {
         2000: "2000ms",
@@ -208,6 +203,10 @@ module.exports = {
 
         scale150: {
           to: { scale: "1.5 1.5" },
+        },
+        "hide-element": {
+          "95%": { display: "block", opacity: "1", visibility: "visible" },
+          "100%": { display: "none", visibility: "hidden", opacity: "0" },
         },
       },
       animation: {

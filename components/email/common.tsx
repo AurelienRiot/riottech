@@ -1,4 +1,4 @@
-import { Body, Container, Head, Hr, Html, Img, Preview, Tailwind, Text } from "@react-email/components";
+import { Body, Button, Container, Head, Hr, Html, Img, Preview, Tailwind, Text } from "@react-email/components";
 
 const main = {
   fontFamily:
@@ -50,6 +50,18 @@ const Footer = () => (
     <Hr className="my-5 border-[#cccccc] " />
     <Text className="text-xs text-[#8898aa]">© RIOT TECH - Kervihan 56930 Pluméliau-Bieuzy</Text>
   </>
+);
+
+export const ButtonRedirect = ({
+  href,
+  text,
+}: {
+  href: string;
+  text: string;
+}) => (
+  <Button className="rounded-lg bg-green-500 px-6 py-3 text-center text-base text-primary" href={href} target="_blank">
+    {text}
+  </Button>
 );
 
 export default MainBody;

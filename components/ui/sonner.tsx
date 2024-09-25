@@ -1,7 +1,12 @@
 "use client";
 
+import type { ReturnTypeServerAction } from "@/lib/server-action";
+import { addDelay } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Toaster as Sonner } from "sonner";
+import { useCallback, useState } from "react";
+import { Toaster as Sonner, toast } from "sonner";
+import { Button } from "./button";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -29,4 +34,95 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster };
+type UseToastPromiseProps<D, R, E> = {
+  serverAction: (data: D) => Promise<ReturnTypeServerAction<R, E>>;
+  errorMessage?: string;
+  message?: string;
+};
+
+const useToastPromise = <D, R, E = undefined>({
+  serverAction,
+  errorMessage = "Envoie du message annulé",
+  message = "Envoie du message",
+}: UseToastPromiseProps<D, R, E>) => {
+  const [loading, setLoading] = useState(false);
+
+  const toastServerAction = useCallback(
+    async ({
+      data,
+      onFinally,
+      onError,
+      onSuccess,
+      delay = true,
+    }: {
+      data: D;
+      onFinally?: () => void;
+      onError?: (error?: E) => void;
+      onSuccess?: (result?: R) => void;
+      delay?: boolean;
+    }) => {
+      setLoading(true);
+      const abortController = new AbortController();
+      const promise = async () => {
+        delay &&
+          (await addDelay(2100, abortController.signal).catch(async (e) => {
+            const error = e as Error;
+            if (error?.name === "AbortError") {
+              await onError?.();
+              throw new Error(errorMessage);
+            }
+            throw e;
+          }));
+
+        const result = await serverAction(data).catch((e) => {
+          throw new Error(errorMessage);
+        });
+
+        if (!result.success) {
+          await onError?.(result.errorData);
+          throw new Error(result.message);
+        }
+        return result;
+      };
+
+      toast.promise(promise, {
+        position: "top-center",
+        loading: (
+          <div className="flex w-full items-center justify-between">
+            <span className="align-middle">
+              <Loader2 className="my-auto mr-2 inline size-4 animate-spin" /> {message}{" "}
+            </span>
+            {delay && (
+              <Button
+                size={"xs"}
+                className="animate-[hide-element_2s_forwards] text-xs"
+                onClick={() => {
+                  abortController.abort();
+                }}
+              >
+                Annuler
+              </Button>
+            )}
+          </div>
+        ),
+        success: async (result) => {
+          await onSuccess?.(result.data);
+          return result.message;
+        },
+        error: (e) => {
+          const error = e as Error;
+          return error?.message || "Erreur";
+        },
+        finally: async () => {
+          await onFinally?.();
+          setLoading(false);
+        },
+      });
+    },
+    [serverAction, errorMessage, message],
+  );
+
+  return { loading, setLoading, toastServerAction };
+};
+
+export { Toaster, useToastPromise };

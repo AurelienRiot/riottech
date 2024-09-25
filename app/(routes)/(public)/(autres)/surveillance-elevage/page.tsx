@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "@/components/contact/contact-form";
 import ButtonSurveillance from "./_components/button-surveillance";
 import ImageV2 from "./_components/image-v2";
 import RiotTechFeatures from "./_components/riot-tech-features";

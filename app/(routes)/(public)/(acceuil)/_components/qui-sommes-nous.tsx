@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm } from "@/components/contact/contact-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -15,19 +15,16 @@ const QuiSommesNous = () => {
       <h2 className="text-3xl font-bold">Qui sommes nous ?</h2>
       <div className="max-w-xl space-y-6 ">
         <p className="text-center">
-          RIOT TECH opère depuis plusieurs années en milieux agricole et rural
-          dans l’installation de systèmes de surveillance vidéo et de connexion
-          internet.
+          RIOT TECH opère depuis plusieurs années en milieux agricole et rural dans l’installation de systèmes de
+          surveillance vidéo et de connexion internet.
         </p>
         <p className="text-center">
-          Basé en Bretagne, nous installons et maintenons tout systèmes de video
-          surveillance et connexion internet.
+          Basé en Bretagne, nous installons et maintenons tout systèmes de video surveillance et connexion internet.
         </p>
         <p className="text-center">
-          Nous sommes également fournisseur de service internet multi-opérateurs
-          sur toute la France, cet à dire qu’en passant par RIOT TECH pour votre
-          connexion internet (ou celle de vos clients dans le cas d’une revente
-          sous marque blanche), vous optez pour:
+          Nous sommes également fournisseur de service internet multi-opérateurs sur toute la France, cet à dire qu’en
+          passant par RIOT TECH pour votre connexion internet (ou celle de vos clients dans le cas d’une revente sous
+          marque blanche), vous optez pour:
         </p>
       </div>
 
@@ -49,11 +46,7 @@ const QuiSommesNous = () => {
             link: "/surveillance-elevage",
           },
         ].map((feature, index) => (
-          <Button
-            asChild
-            key={index}
-            className="h-fit text-center text-lg font-semibold"
-          >
+          <Button asChild key={index} className="h-fit text-center text-lg font-semibold">
             <Link href={feature.link}>{feature.text}</Link>
           </Button>
         ))}

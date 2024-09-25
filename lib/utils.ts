@@ -52,8 +52,16 @@ export const dateFormatter = (date: Date) => {
   return format(date, "d MMMM yyyy", { locale: fr });
 };
 
-export function addDelay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+export function addDelay(ms: number, signal?: AbortSignal) {
+  return new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(resolve, ms);
+    if (signal) {
+      signal.addEventListener("abort", () => {
+        clearTimeout(timeoutId);
+        reject(new DOMException("Aborted", "AbortError"));
+      });
+    }
+  });
 }
 
 export const randomFromInterval = (min: number, max: number) => {
