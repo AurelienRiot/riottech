@@ -78,7 +78,6 @@ export const ContactForm = ({
   className?: string;
 }) => {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const action = "Envoyer";
   const [showCheckbox, setShowCheckbox] = useState(false);
@@ -110,18 +109,12 @@ export const ContactForm = ({
     setLoading(false);
   };
 
-  const handleModalConfirm = async () => {
-    setOpen(false);
-    await onSubmit(form.getValues());
-  };
-
   return (
     <div className={cn("mx-auto w-full space-y-6 p-8", className)}>
-      <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={handleModalConfirm} loading={loading} />
       <Heading id="form" description={description} title={title} className="space-y-2" />
       <Separator />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(() => setOpen(true))} className="w-full space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <FormField
               control={form.control}
@@ -222,12 +215,15 @@ export const ContactForm = ({
                 name="inBretagne"
                 render={({ field }) => (
                   <FormItem className="relative flex cursor-pointer flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                    <label className="flex cursor-pointer flex-row items-start space-x-3 space-y-0">
+                    <label
+                      htmlFor="inBretagne"
+                      className="flex cursor-pointer flex-row items-start space-x-3 space-y-0"
+                    >
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox id="inBretagne" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none">
-                        <FormLabel className="text-foreground">
+                        <FormLabel htmlFor="inBretagne" className="text-foreground cursor-pointer">
                           {" "}
                           {
                             "Je suis conscient que RIOT TECH n’opère qu’en Bretagne, mais je souhaite tout de même leur soumettre mon projet."
