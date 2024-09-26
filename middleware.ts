@@ -1,18 +1,16 @@
-import { getToken } from "next-auth/jwt";
+import { type JWT, getToken } from "next-auth/jwt";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET;
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 export async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret });
-
-  if (!token) {
+  const token = (await getToken({ req, secret })) as (JWT & { exp: number }) | null;
+  const today = new Date().getTime();
+  if (!token || token.exp * 1000 < today) {
     console.log("No token provided middleware");
-    return NextResponse.redirect(
-      new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
-    );
+    return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
   }
 
   try {
@@ -30,9 +28,7 @@ export async function middleware(req: NextRequest) {
     if (!apiResponse.ok) {
       console.log("BaseUrl", baseUrl);
       console.log("API call error:", apiResponse.statusText);
-      return NextResponse.redirect(
-        new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
-      );
+      return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
     }
 
     // // Optional: Handle the data from the response
@@ -41,17 +37,13 @@ export async function middleware(req: NextRequest) {
 
     if (path.startsWith("/admin")) {
       if (role !== "admin") {
-        return NextResponse.redirect(
-          new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
-        );
+        return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
       }
     }
 
     if (path.startsWith("/dashboard-user")) {
       if (!["user", "pro", "admin"].includes(role)) {
-        return NextResponse.redirect(
-          new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
-        );
+        return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
       }
       if (role === "admin") {
         return NextResponse.redirect(new URL("/admin", req.url));
@@ -61,9 +53,7 @@ export async function middleware(req: NextRequest) {
   } catch (error) {
     console.log("path", req.nextUrl.pathname);
     console.log("API call failed:", error);
-    return NextResponse.redirect(
-      new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url),
-    );
+    return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
   }
 }
 

@@ -15,7 +15,7 @@ const sourceCodePro = Source_Code_Pro({
   variable: "--font-source-code-pro",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_URL as string;
+const baseUrl = "https://riottech.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

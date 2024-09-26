@@ -1,8 +1,8 @@
-const baseUrl = process.env.NEXT_PUBLIC_URL;
+const baseUrl = "https://riottech.fr";
 export default async function sitemap() {
   return [
     {
-      url: baseUrl,
+      url: { baseUrl },
       lastModified: new Date(),
     },
     {
