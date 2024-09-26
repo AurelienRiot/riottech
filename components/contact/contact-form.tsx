@@ -12,11 +12,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { MdSend } from "react-icons/md";
 import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Heading } from "../ui/heading";
 import { useToastPromise } from "../ui/sonner";
 import { contactSchema, type ContactFormValues } from "./contact-schema";
+import { SendHorizonal } from "lucide-react";
 
 export const ContactForm = ({
   title,
@@ -218,7 +218,7 @@ export const ContactForm = ({
               )}
             />
           </div>
-          <Button iconPlacement="right" Icon={MdSend} disabled={loading} variant={"expandIcon"}>
+          <Button iconPlacement="right" Icon={SendHorizonal} disabled={loading} variant={"expandIcon"}>
             {action}
           </Button>
         </form>

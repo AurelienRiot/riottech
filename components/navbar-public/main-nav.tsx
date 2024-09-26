@@ -7,17 +7,17 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { LucidePhoneCall } from "lucide-react";
+import { Cctv, LucidePhoneCall, Wifi } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BiCctv } from "react-icons/bi";
 import { BsSim } from "react-icons/bs";
 import { ImConnection } from "react-icons/im";
+import { Icons } from "../icons2";
 
 const MainNav = () => {
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   // const categories = useCategories((s) => s.categories);
 
@@ -36,10 +36,7 @@ const MainNav = () => {
       <NavigationMenu>
         <NavigationMenuList>
           {navRoutes.map((route) => (
-            <NavigationMenuItem
-              key={route.title}
-              className="rounded-lg border-2 border-border"
-            >
+            <NavigationMenuItem key={route.title} className="rounded-lg border-2 border-border">
               <Link href={route.href} legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   <route.Icone className="mr-2 hidden h-4 w-4 xl:flex" />
@@ -108,17 +105,17 @@ export const navRoutes = [
   {
     href: "/activation-sim",
     title: "J'Active ma SIM",
-    Icone: BsSim,
+    Icone: Icons.Sim,
   },
   {
     href: "/surveillance-elevage",
     title: "Surveillance Agricole",
-    Icone: BiCctv,
+    Icone: Icons.CCTV,
   },
   {
     href: "/solution-internet",
     title: "La connexion internet RIOT TECH",
-    Icone: ImConnection,
+    Icone: Wifi,
   },
   {
     href: `/solution-internet?btn=${encodeURIComponent("Revendeur-Intégration")}`,
