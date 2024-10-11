@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
       return new NextResponse("Erreur, la facture n'a pas pu être récupérée", { status: 400 });
     }
 
-    // const contentDisposition: string = response.headers["content-disposition"];
     const contentDisposition = response.headers.get("content-disposition");
     let filename = "unknown";
     if (contentDisposition) {
@@ -42,8 +41,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // const pdfBuffer = response.data;
-    const pdfBuffer = await response.arrayBuffer();
+    const pdfContent = await response.arrayBuffer();
+    const pdfBuffer = Buffer.from(pdfContent);
 
     const order = await prismadb.order.findMany({
       where: {
@@ -92,7 +91,7 @@ export async function POST(req: NextRequest) {
         attachments: [
           {
             filename: filename,
-            content: pdfBuffer as Buffer,
+            content: pdfBuffer,
             contentType: "application/pdf",
           },
         ],
@@ -137,7 +136,7 @@ export async function POST(req: NextRequest) {
         attachments: [
           {
             filename: filename,
-            content: pdfBuffer as Buffer,
+            content: pdfBuffer,
             contentType: "application/pdf",
           },
         ],
