@@ -11,8 +11,12 @@ import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 
+const status = ["En cours de validation", "Validée", "Non payé", "En attente de paiement", "Paiement validé"] as const;
+
+export type Status = (typeof status)[number];
+
 type StatusCellProps = {
-  status: "Paiement validé" | "En cours de validation" | "Non payé";
+  status: Status;
 };
 
 function StatusCell<T>({ row }: { row: Row<T & StatusCellProps> }) {
@@ -51,26 +55,24 @@ type NameCellProp = {
   raisonSocial?: string | null;
 };
 
-function NameCell({ name, id, type,raisonSocial }: NameCellProp) {
+function NameCell({ name, id, type, raisonSocial }: NameCellProp) {
   return (
     <Button asChild variant={"link"} className="px-0 flex flex-col gap-2">
-      <Link href={id ?`/admin/${type}/${id}`:"#"}>
-      {raisonSocial ? (
-  <>
-    <span className="capitalize">{raisonSocial}</span>
-    <span className="capitalize">({name})</span> 
-  </>
-) : (
-  <>
-    <span className="capitalize">{name}</span> 
-  </>
-)}
-</Link> 
-      
+      <Link href={id ? `/admin/${type}/${id}` : "#"}>
+        {raisonSocial ? (
+          <>
+            <span className="capitalize">{raisonSocial}</span>
+            <span className="capitalize">({name})</span>
+          </>
+        ) : (
+          <>
+            <span className="capitalize">{name}</span>
+          </>
+        )}
+      </Link>
     </Button>
   );
 }
-
 
 type PhoneCellProps = {
   phone: string;

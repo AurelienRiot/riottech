@@ -1,6 +1,6 @@
 "use client";
 
-import { CreatedAtCell, NameCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, NameCell, type Status, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
@@ -9,9 +9,9 @@ import type { ColumnDef } from "@tanstack/react-table";
 export type SubscriptionHistoryColumn = {
   userId: string;
   type: "Création" | "Renouvellement";
-  status: "Paiement validé" | "En cours de validation" | "Non payé";
+  status: Status;
   price: string;
- userName: string;
+  userName: string;
   name: string;
   raisonSocial?: string | null;
   createdAt: Date;
@@ -20,7 +20,14 @@ export const columns: ColumnDef<SubscriptionHistoryColumn>[] = [
   {
     accessorKey: "userName",
     header: "Client",
-    cell: ({ row }) => <NameCell name={row.original.userName} id={row.original.userId} type="users" raisonSocial={row.original.raisonSocial} />,
+    cell: ({ row }) => (
+      <NameCell
+        name={row.original.userName}
+        id={row.original.userId}
+        type="users"
+        raisonSocial={row.original.raisonSocial}
+      />
+    ),
   },
   {
     accessorKey: "name",

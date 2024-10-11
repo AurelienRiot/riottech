@@ -139,7 +139,7 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
       data: {
         subscriptionOrderId: subscriptionOrder.id,
         idStripe: session.id,
-        price: subscriptionOrder.totalPrice,
+        price: subscription.trial_start ? 0 : subscriptionOrder.totalPrice,
         status: "Paid",
         pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
       },
