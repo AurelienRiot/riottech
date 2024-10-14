@@ -36,7 +36,7 @@ export function DataTableAdvancedFilter<TData>({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         {children ?? (
-          <Button variant="outline" size="sm" role="combobox" className="capitalize">
+          <Button variant="outline" size="sm" className="capitalize">
             Filter
             <CaretSortIcon className="ml-2 size-4 shrink-0 opacity-50" aria-hidden="true" />
           </Button>

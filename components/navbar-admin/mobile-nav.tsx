@@ -33,7 +33,6 @@ export default function MobileNav({ className }: MobileNavProps) {
         <Button
           variant="outline"
           size="sm"
-          role="combobox"
           aria-expanded={open}
           aria-label="Selectionner"
           className={cn("w-[75px] justify-between ", className)}

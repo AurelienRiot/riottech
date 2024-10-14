@@ -1,7 +1,7 @@
 "use server";
 import prismadb from "@/lib/prismadb";
 import { stripe } from "@/lib/stripe";
-import { getDbUser, getSessionUser } from "@/server-actions/get-user";
+import { getDbUser } from "@/server-actions/get-user";
 import type { ReturnTypeServerAction } from "@/types";
 import type { User } from "@prisma/client";
 import type Stripe from "stripe";

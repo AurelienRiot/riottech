@@ -17,13 +17,7 @@ import { DataTableViewOptions } from "@/components/ui/data-table/data-table-view
 
 import { DataTableAdvancedFilterItem } from "./data-table-advanced-filter-item";
 import { DataTableMultiFilter } from "./data-table-multi-filter";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../select";
 
 interface DataTableAdvancedToolbarProps<TData> {
   table: Table<TData>;
@@ -38,9 +32,7 @@ export function DataTableAdvancedToolbar<TData>({
   searchableColumns = [],
   viewOptionsColumns = [],
 }: DataTableAdvancedToolbarProps<TData>) {
-  const [selectedOptions, setSelectedOptions] = React.useState<
-    DataTableFilterOption<TData>[]
-  >([]);
+  const [selectedOptions, setSelectedOptions] = React.useState<DataTableFilterOption<TData>[]>([]);
   const [open, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState(searchableColumns[0].id);
 
@@ -77,24 +69,12 @@ export function DataTableAdvancedToolbar<TData>({
                 placeholder={`Filter ${searchableColumns.find((column) => column.id === searchValue)?.title}...`}
                 value={
                   (table
-                    .getColumn(
-                      String(
-                        searchableColumns.find(
-                          (column) => column.id === searchValue,
-                        )?.id,
-                      ),
-                    )
+                    .getColumn(String(searchableColumns.find((column) => column.id === searchValue)?.id))
                     ?.getFilterValue() as string) ?? ""
                 }
                 onChange={(event) =>
                   table
-                    .getColumn(
-                      String(
-                        searchableColumns.find(
-                          (column) => column.id === searchValue,
-                        )?.id,
-                      ),
-                    )
+                    .getColumn(String(searchableColumns.find((column) => column.id === searchValue)?.id))
                     ?.setFilterValue(event.target.value)
                 }
                 className="h-8 w-[150px] lg:w-[250px]"
@@ -113,10 +93,7 @@ export function DataTableAdvancedToolbar<TData>({
                     </SelectTrigger>
                     <SelectContent>
                       {searchableColumns.map((column) => (
-                        <SelectItem
-                          key={String(column.id)}
-                          value={String(column.id)}
-                        >
+                        <SelectItem key={String(column.id)} value={String(column.id)}>
                           {column.title}
                         </SelectItem>
                       ))}
@@ -129,33 +106,20 @@ export function DataTableAdvancedToolbar<TData>({
         </div>
         <div className="flex items-center space-x-2">
           {selectedOptions.length > 0 ? (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setOpen((prev) => !prev)}
-            >
+            <Button variant="outline" size="sm" onClick={() => setOpen((prev) => !prev)}>
               Filter
-              <CaretSortIcon
-                className="ml-2 size-4 opacity-50"
-                aria-hidden="true"
-              />
+              <CaretSortIcon className="ml-2 size-4 opacity-50" aria-hidden="true" />
             </Button>
           ) : (
             <DataTableAdvancedFilter
               options={options.filter(
-                (option) =>
-                  !selectedOptions.some(
-                    (selectedOption) => selectedOption.value === option.value,
-                  ),
+                (option) => !selectedOptions.some((selectedOption) => selectedOption.value === option.value),
               )}
               selectedOptions={selectedOptions}
               setSelectedOptions={setSelectedOptions}
             />
           )}
-          <DataTableViewOptions
-            viewOptionsColumns={viewOptionsColumns}
-            table={table}
-          />
+          <DataTableViewOptions viewOptionsColumns={viewOptionsColumns} table={table} />
         </div>
       </div>
       {open ? (
@@ -183,12 +147,7 @@ export function DataTableAdvancedToolbar<TData>({
             selectedOptions={selectedOptions}
             setSelectedOptions={setSelectedOptions}
           >
-            <Button
-              variant="outline"
-              size="sm"
-              role="combobox"
-              className="rounded-full"
-            >
+            <Button variant="outline" size="sm" className="rounded-full">
               <PlusIcon className="mr-2 size-4 opacity-50" aria-hidden="true" />
               Add filter
             </Button>

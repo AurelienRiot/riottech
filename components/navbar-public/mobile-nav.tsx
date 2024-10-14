@@ -1,17 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Command, CommandGroup, CommandItem, CommandList, CommandSeparator } from "@/components/ui/command";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { ChevronDown, StoreIcon } from "lucide-react";
 import Link from "next/link";
@@ -50,7 +40,6 @@ export default function MobileNav({ className }: MobileNavProps) {
         <Button
           variant="outline"
           size="sm"
-          role="combobox"
           aria-expanded={open}
           aria-label="Select"
           className={cn(
@@ -113,8 +102,7 @@ export default function MobileNav({ className }: MobileNavProps) {
             >
               <p className="pt-2 text-lg font-bold ">
                 {" "}
-                <span className=" text-[#E42428]">RIOT</span>{" "}
-                <span className="text-[#12E64A]">TECH</span>
+                <span className=" text-[#E42428]">RIOT</span> <span className="text-[#12E64A]">TECH</span>
               </p>
             </Link>
             {/* <SearchNavMobile /> */}
@@ -162,12 +150,7 @@ type DisplayRoutesProps = {
   openProduct: boolean;
   setOpenProduct: (state: boolean) => void;
 };
-const DisplayRoutes = ({
-  routes,
-  setOpen,
-  openProduct,
-  setOpenProduct,
-}: DisplayRoutesProps) => {
+const DisplayRoutes = ({ routes, setOpen, openProduct, setOpenProduct }: DisplayRoutesProps) => {
   return (
     <CommandItem
       aria-expanded={openProduct}
@@ -176,10 +159,7 @@ const DisplayRoutes = ({
     >
       {"  "} <StoreIcon className="mr-2 h-4 w-4 " /> Produits
       <ChevronDown
-        className={cn(
-          "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
-          openProduct ? "" : "-rotate-90",
-        )}
+        className={cn("relative top-[1px] ml-1 h-3 w-3 transition duration-200", openProduct ? "" : "-rotate-90")}
         aria-hidden="true"
       />
       <ul
@@ -196,9 +176,7 @@ const DisplayRoutes = ({
                 setOpen(false);
               }}
               className={cn(
-                route.active
-                  ? "text-popover-foreground "
-                  : "text-muted-foreground ",
+                route.active ? "text-popover-foreground " : "text-muted-foreground ",
                 "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               )}
             >

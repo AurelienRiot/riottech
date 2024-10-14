@@ -82,7 +82,6 @@ export const AdressForm = <T extends { adresse: string }>({
                       <Button
                         type="button"
                         variant="outline"
-                        role="combobox"
                         onClick={() => setOpen((open) => !open)}
                         disabled={!filter}
                         className={cn(

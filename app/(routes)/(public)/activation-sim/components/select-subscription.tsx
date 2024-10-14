@@ -8,7 +8,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { cn, dateFormatter } from "@/lib/utils";
-import type { Subscription } from "@prisma/client";
 import { addDays, addMonths, addWeeks, addYears } from "date-fns";
 import { fr } from "date-fns/locale";
 import { Loader2 } from "lucide-react";
@@ -18,6 +17,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { RegisterForm } from "../../(auth)/register/_components/register-form";
 import checkoutSubscription from "../_action/checkout-subscription";
+import type { Subscription } from "@prisma/client";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 

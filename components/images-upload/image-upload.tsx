@@ -135,6 +135,7 @@ const UploadImage = ({ selectedFiles, setSelectedFiles, multipleImages = false }
         }}
       >
         <label
+          htmlFor="image-input"
           className="relative flex w-fit cursor-pointer flex-col items-center justify-center  rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-4 py-6 transition-colors hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700 
          "
         >
@@ -155,6 +156,7 @@ const UploadImage = ({ selectedFiles, setSelectedFiles, multipleImages = false }
             </p>
           </div>
           <Input
+            id="image-input"
             accept="image/png, image/jpeg, image/jpg, image/webp"
             type="file"
             className="hidden"
