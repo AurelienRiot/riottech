@@ -15,6 +15,7 @@ import type { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
 import { type SubscriptionHistoryColumn, columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
+import { createStatus } from "@/components/table-custom-fuction/common-cell";
 
 const UserPage = async (context: {
   searchParams: { from: string | undefined; to: string | undefined };
@@ -97,7 +98,7 @@ const ServerHistoryTable = async ({ dateRange }: { dateRange: DateRange }) => {
     userId: history.subscriptionOrder.userId,
     type: history.idStripe.startsWith("cs") ? "Création" : "Renouvellement",
     raisonSocial: history.subscriptionOrder.user.raisonSocial,
-    status: history.price === 0 ? "Validée" : history.mailSend ? "Paiement validé" : "En cours de validation",
+    status: createStatus(history),
     price: currencyFormatter.format(Number(history.price)),
     userName: `${history.subscriptionOrder.user.name} ${history.subscriptionOrder.user.surname}`,
     name: history.subscriptionOrder.subscriptionItem?.name || "",

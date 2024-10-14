@@ -3,6 +3,7 @@ import prismadb from "@/lib/prismadb";
 import type { SubscriptionHistoryColumn } from "./components/column";
 import { currencyFormatter } from "@/lib/utils";
 import { SubscriptionHistoryTable } from "./components/table";
+import { createStatus } from "@/components/table-custom-fuction/common-cell";
 
 const UserSubscriptionPage = async ({
   params,
@@ -24,7 +25,7 @@ const UserSubscriptionPage = async ({
     price: currencyFormatter.format(Number(history.price)),
     pdfUrl: history.pdfUrl,
     isPaid: true,
-    status: history.mailSend ? "Paiement validé" : "En cours de validation",
+    status: createStatus(history),
     mailSend: history.mailSend,
     createdAt: history.createdAt,
   }));

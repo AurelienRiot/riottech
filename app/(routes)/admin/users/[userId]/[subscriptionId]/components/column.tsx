@@ -1,7 +1,7 @@
 "use client";
 
 import { DisplayPdf } from "@/app/(routes)/(public)/dashboard-user/(profile)/components/display-pdf";
-import { CreatedAtCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
+import { CreatedAtCell, type Status, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import type { DataTableFilterableColumn, DataTableViewOptionsColumn } from "@/types";
@@ -10,7 +10,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 export type SubscriptionHistoryColumn = {
   id: string;
   type: "Création" | "Renouvellement";
-  status: "Paiement validé" | "En cours de validation" | "Non payé";
+  status: Status;
   pdfUrl: string;
   price: string;
   mailSend: boolean;
