@@ -1,6 +1,5 @@
 "use server";
 
-import { checkAdmin } from "@/components/auth/checkAuth";
 import prismadb from "@/lib/prismadb";
 import safeServerAction from "@/lib/server-action";
 import { stripe } from "@/lib/stripe";
@@ -23,7 +22,7 @@ async function changeSim(data: z.infer<typeof simSchema>) {
   return await safeServerAction({
     schema: simSchema,
     data,
-    getUser: checkAdmin,
+    roles: ["admin"],
     serverAction: async ({ subscriptionId, sim }) => {
       const subscription = await prismadb.subscriptionOrder.findUnique({
         where: {

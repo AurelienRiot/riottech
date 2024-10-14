@@ -1,19 +1,17 @@
 "use server";
 
+import { transporter } from "@/lib/nodemailer";
 import prismadb from "@/lib/prismadb";
 import safeServerAction from "@/lib/server-action";
-import { getSessionUser } from "@/server-actions/get-user";
-import { type ContactFormValues, contactSchema } from "./contact-schema";
-import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
 import ContactSend from "../email/contact-send";
+import { contactSchema, type ContactFormValues } from "./contact-schema";
 
 const NODEMAILER_EMAIL = process.env.NODEMAILER_EMAIL;
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 const createContact = async (data: ContactFormValues) =>
   await safeServerAction({
-    getUser: getSessionUser,
     data,
     ignoreCheckUser: true,
     schema: contactSchema,

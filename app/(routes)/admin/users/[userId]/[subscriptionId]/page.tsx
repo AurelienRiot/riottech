@@ -3,7 +3,7 @@ import prismadb from "@/lib/prismadb";
 import type { SubscriptionHistoryColumn } from "./components/column";
 import { currencyFormatter } from "@/lib/utils";
 import { SubscriptionHistoryTable } from "./components/table";
-import { createStatus } from "@/components/table-custom-fuction/common-cell";
+import { createStatus } from "@/components/table-custom-fuction";
 
 const UserSubscriptionPage = async ({
   params,

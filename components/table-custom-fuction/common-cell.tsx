@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import type { SubscriptionHistory } from "@prisma/client";
 
 const status = ["En cours de validation", "Validée", "Non payé", "En attente de paiement", "Paiement validé"] as const;
 
@@ -19,10 +18,6 @@ export type Status = (typeof status)[number];
 type StatusCellProps = {
   status: Status;
 };
-
-export function createStatus(history: SubscriptionHistory): Status {
-  return history.price === 0 ? "Validée" : history.mailSend ? "Paiement validé" : "En attente de paiement";
-}
 
 function StatusCell<T>({ row }: { row: Row<T & StatusCellProps> }) {
   const color =

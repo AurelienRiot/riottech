@@ -15,7 +15,7 @@ import type { DateRange } from "react-day-picker";
 import UserClient from "./components/client";
 import { type SubscriptionHistoryColumn, columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
-import { createStatus } from "@/components/table-custom-fuction/common-cell";
+import { createStatus } from "@/components/table-custom-fuction";
 
 const UserPage = async (context: {
   searchParams: { from: string | undefined; to: string | undefined };
