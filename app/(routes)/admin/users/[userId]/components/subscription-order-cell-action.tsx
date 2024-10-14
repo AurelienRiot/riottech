@@ -2,6 +2,7 @@
 
 import { AlertModal } from "@/components/modals/alert-modal-form";
 import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,21 +10,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Modal } from "@/components/ui/modal";
+import useServerAction from "@/hooks/use-server-action";
 import ky, { type HTTPError } from "ky";
 import { ArrowLeftRightIcon, Copy, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiBookOpen } from "react-icons/bi";
-import { toast } from "sonner";
-import type { SubscriptionOrderColumn } from "./subscription-order-column";
 import { BsFillSimFill } from "react-icons/bs";
-import useServerAction from "@/hooks/use-server-action";
+import { toast } from "sonner";
+import changeActivity from "../_actions/change-activity";
 import changeSim from "../_actions/change-sim";
-import { Modal } from "@/components/ui/modal";
-import { DialogFooter } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import type { SubscriptionOrderColumn } from "./subscription-order-column";
 
 interface SubscriptionOrderCellActionProps {
   data: SubscriptionOrderColumn;
@@ -35,6 +36,7 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const { serverAction } = useServerAction(changeActivity);
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -62,31 +64,22 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   };
 
   const onActive = async () => {
-    try {
-      setLoading(true);
-      await ky.patch(`/api/subscription-orders/${data.id}`, {
-        json: { isActive: !data.isActive },
-      });
-
-      router.refresh();
-      toast.success("Abonnement mise à jour.");
-    } catch (error) {
-      const kyError = error as HTTPError;
-      if (kyError.response) {
-        const errorData = await kyError.response.text();
-        toast.error(errorData);
-      } else {
-        toast.error("Erreur.");
-      }
-    } finally {
-      setLoading(false);
-      setOpen(false);
-    }
+    setLoading(true);
+    serverAction({
+      data: { subscriptionId: data.id, isActive: !data.isActive },
+      onSuccess: () => {
+        setOpen(false);
+        router.refresh();
+      },
+      onFinally: () => {
+        setOpen(false);
+      },
+    });
   };
 
   return (
     <>
-    <SimModal openModal={openModal}  onClose={() => setOpenModal(false)} subscriptionId={data.id}/>
+      <SimModal openModal={openModal} onClose={() => setOpenModal(false)} subscriptionId={data.id} />
       <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -103,11 +96,11 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onActive()}>
             <ArrowLeftRightIcon className="mr-2 h-4 w-4" />
-           {data.isActive ? "Desactiver" : "Activer"}
+            {data.isActive ? "Desactiver" : "Activer"}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpenModal(true)}>
             <BsFillSimFill className="mr-2 h-4 w-4" />
-           Changer SIM
+            Changer SIM
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link className="flex items-center justify-center" href={`${pathname}/${data.id}`}>
@@ -125,24 +118,26 @@ export const SubscriptionOrderCellAction: React.FC<SubscriptionOrderCellActionPr
   );
 };
 
+function SimModal({
+  subscriptionId,
+  onClose,
+  openModal,
+}: { subscriptionId: string; onClose: () => void; openModal: boolean }) {
+  const { serverAction, loading } = useServerAction(changeSim);
+  const [sim, setSim] = useState("");
+  const router = useRouter();
 
-function SimModal({subscriptionId,onClose,openModal}:{subscriptionId:string,onClose:()=>void,openModal:boolean}) {
-  const {serverAction,loading} = useServerAction(changeSim)
-  const [sim, setSim] = useState("")
-  const router = useRouter()
-
-  const handleSubmit =async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     function onSuccess() {
-      onClose()
-    setSim("")
-router.refresh()
+      onClose();
+      setSim("");
+      router.refresh();
     }
-  
-    await serverAction({data :{subscriptionId,sim},onSuccess})
-    
-  }
+
+    await serverAction({ data: { subscriptionId, sim }, onSuccess });
+  };
   return (
     <Modal
       title="Changer le numéro de SIM"
@@ -150,25 +145,25 @@ router.refresh()
       isOpen={openModal}
       onClose={onClose}
     >
-       <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-4">
-              <Label htmlFor="sim-number" className="text-right">
-                Numéro de SIM
-              </Label>
-              <Input
-                id="sim-number"
-                value={sim}
-                onChange={(e) => setSim(e.target.value)}
-                placeholder="Entrez le nouveau numéro de SIM"
-                className="col-span-3"
-              />
-            </div>
-          <DialogFooter>
-            <Button disabled={loading} type="submit">Sauvegarder les changements</Button>
-          </DialogFooter>
-        </form>
-
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-4">
+          <Label htmlFor="sim-number" className="text-right">
+            Numéro de SIM
+          </Label>
+          <Input
+            id="sim-number"
+            value={sim}
+            onChange={(e) => setSim(e.target.value)}
+            placeholder="Entrez le nouveau numéro de SIM"
+            className="col-span-3"
+          />
+        </div>
+        <DialogFooter>
+          <Button disabled={loading} type="submit">
+            Sauvegarder les changements
+          </Button>
+        </DialogFooter>
+      </form>
     </Modal>
-     
-          
-          )}
+  );
+}

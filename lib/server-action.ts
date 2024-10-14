@@ -1,4 +1,3 @@
-import { checkUser } from "@/components/auth/checkAuth";
 import { getSessionUser } from "@/server-actions/get-user";
 import type { Role } from "@prisma/client";
 import { nanoid } from "nanoid";
@@ -52,47 +51,55 @@ async function safeServerAction<D extends z.ZodTypeAny, R, E, U>({
 }: SafeServerActionType<D, R, E, U>): Promise<ReturnTypeServerAction<R, E>> {
   const timerLabel = `Total Execution Time - ${nanoid(5)}`;
   console.time(timerLabel);
+  try {
+    const user = await getSessionUser();
 
-  const user = await getSessionUser();
+    if (rateLimited) {
+      const isRateLimited = await rateLimit(user?.role);
+      if (isRateLimited) {
+        console.timeEnd(timerLabel);
 
-  if (rateLimited) {
-    const isRateLimited = await rateLimit(user?.role);
-    if (isRateLimited) {
+        return {
+          success: false,
+          message: "Trop de requêtes. Veuillez reessayer plus tard",
+        };
+      }
+    }
+
+    const validatedData = schema.safeParse(data);
+    if (!validatedData.success) {
       console.timeEnd(timerLabel);
-
       return {
         success: false,
-        message: "Trop de requêtes. Veuillez reessayer plus tard",
+        message: validatedData.error.issues[0].message,
+        zodError: validatedData.error.flatten().fieldErrors,
       };
     }
-  }
+    if (ignoreCheckUser) {
+      const result = await serverAction(validatedData.data, user);
+      console.timeEnd(timerLabel);
+      return result;
+    }
 
-  const validatedData = schema.safeParse(data);
-  if (!validatedData.success) {
-    console.timeEnd(timerLabel);
-    return {
-      success: false,
-      message: validatedData.error.issues[0].message,
-      zodError: validatedData.error.flatten().fieldErrors,
-    };
-  }
-  if (ignoreCheckUser) {
+    if (!user || !roles.includes(user.role)) {
+      console.timeEnd(timerLabel);
+      return {
+        success: false,
+        message: "Vous devez être authentifier pour effectuer cette action",
+      };
+    }
+
     const result = await serverAction(validatedData.data, user);
     console.timeEnd(timerLabel);
     return result;
-  }
-
-  if (!user || !roles.includes(user.role)) {
+  } catch (error) {
     console.timeEnd(timerLabel);
+    console.error(error);
     return {
       success: false,
-      message: "Vous devez être authentifier pour effectuer cette action",
+      message: "Une erreur est survenue",
     };
   }
-
-  const result = await serverAction(validatedData.data, user);
-  console.timeEnd(timerLabel);
-  return result;
 }
 
 export default safeServerAction;
