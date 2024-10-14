@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
-import { de } from "date-fns/locale";
 
 const status = ["En cours de validation", "Validée", "Non payé", "En attente de paiement", "Paiement validé"] as const;
 
@@ -29,7 +28,7 @@ function StatusCell<T>({ row }: { row: Row<T & StatusCellProps> }) {
         : row.original.status === "Non payé"
           ? "text-red-500"
           : "text-gray-500";
-  return <span className={color}>row.original.status</span>;
+  return <span className={color}>{row.original.status}</span>;
 }
 
 type CreatedAtCellProps = {
@@ -170,4 +169,4 @@ function NameWithImageCell({ imageUrl, id, name, type }: NameWithImageCellProps)
   );
 }
 
-export { CheckboxCell, CreatedAtCell, NameCell, NameWithImageCell, PhoneCell, TextCell, StatusCell, DateCell };
+export { CheckboxCell, CreatedAtCell, DateCell, NameCell, NameWithImageCell, PhoneCell, StatusCell, TextCell };
