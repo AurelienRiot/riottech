@@ -4,16 +4,37 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
+    const { stripeCustomerId, returnUrl } = (await req.json()) as {
+      stripeCustomerId: string | undefined;
+      returnUrl: string | undefined;
+    };
+    if (!stripeCustomerId) {
+      return new NextResponse("Identifiant Stripe manquant, essayer de vous reconnecter", {
+        status: 401,
+      });
+    }
+    if (!returnUrl) {
+      return new NextResponse("Erreur, essayer de vous reconnecter", {
+        status: 401,
+      });
+    }
     const user = await checkUser();
-    if (!user) {
+    // Check if the user is not an admin or if the userId does not match
+    if (!user || (user.role !== "admin" && user.stripeCustomerId !== stripeCustomerId)) {
+      return new NextResponse("Erreur, essayer de vous reconnecter", {
+        status: 401,
+      });
+    }
+
+    if (!user.stripeCustomerId) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
       });
     }
 
     const stripeSession = await stripe.billingPortal.sessions.create({
-      customer: user.stripeCustomerId as string,
-      return_url: `${process.env.NEXT_PUBLIC_URL}/dashboard-user`,
+      customer: stripeCustomerId,
+      return_url: returnUrl,
     });
 
     return new NextResponse(JSON.stringify({ url: stripeSession.url }));

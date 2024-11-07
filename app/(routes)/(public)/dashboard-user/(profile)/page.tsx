@@ -1,12 +1,13 @@
+import { ToastSearchParams } from "@/lib/toast-search-params";
 import { currencyFormatter } from "@/lib/utils";
 import getFullUser from "@/server-actions/get-user";
 import { redirect } from "next/navigation";
+import ButtonSubscriptions from "./components/button-subscriptions";
 import type { OrderColumnType } from "./components/order-column";
 import { OrderTable } from "./components/order-table";
 import type { SubscriptionOrderColumnType } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import { UserButtons } from "./components/user-buttons";
-import { ToastSearchParams } from "@/lib/toast-search-params";
 import UserPhone from "./components/user-phone";
 
 type FullAdress = {
@@ -123,11 +124,13 @@ const DashboardUser = async () => {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 space-y-2">
+        <ButtonSubscriptions
+          stripeCustomerId={user.stripeCustomerId}
+          returnUrl={`${process.env.NEXT_PUBLIC_URL}/dashboard-user`}
+        />
         {formattedSubscriptionOrders.length > 0 ? <SubscriptionOrderTable data={formattedSubscriptionOrders} /> : null}
         {formattedOrders.length > 0 ? <OrderTable data={formattedOrders} /> : null}
-
-        {/* <ButtonSubscriptions stripeCustomerId={user.stripeCustomerId} /> */}
       </div>
     </div>
   );

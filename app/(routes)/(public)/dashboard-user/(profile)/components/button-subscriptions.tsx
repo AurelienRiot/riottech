@@ -4,7 +4,10 @@ import ky, { type HTTPError } from "ky";
 import { useState } from "react";
 import { toast } from "sonner";
 
-const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({ stripeCustomerId }) => {
+const ButtonSubscriptions: React.FC<{ stripeCustomerId: string | null; returnUrl: string }> = ({
+  stripeCustomerId,
+  returnUrl,
+}) => {
   const [loading, setLoading] = useState(false);
 
   const onClick = async () => {
@@ -14,6 +17,7 @@ const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({ stripeCus
         .post("/api/manage-subscription", {
           json: {
             stripeCustomerId,
+            returnUrl,
           },
         })
         .json<{ url: string }>();
@@ -34,7 +38,7 @@ const ButtonSubscriptions: React.FC<{ stripeCustomerId: string }> = ({ stripeCus
 
   return (
     <Button onClick={onClick} className="mb-4" disabled={loading}>
-      Gerer les abonnements
+      Gérer les moyens de paiement
     </Button>
   );
 };

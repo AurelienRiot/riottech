@@ -6,6 +6,7 @@ import { OrderTable } from "./components/order-table";
 import type { SubscriptionOrderColumn } from "./components/subscription-order-column";
 import { SubscriptionOrderTable } from "./components/subscription-order-table";
 import ButtonBackward from "@/components/ui/button-backward";
+import ButtonSubscriptions from "@/app/(routes)/(public)/dashboard-user/(profile)/components/button-subscriptions";
 
 export const dynamic = "force-dynamic";
 
@@ -76,9 +77,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
     createdAt: order.createdAt,
   }));
 
-  const formattedSubscriptionOrders: SubscriptionOrderColumn[] = (
-    user.subscriptionOrder || []
-  ).map((order) => ({
+  const formattedSubscriptionOrders: SubscriptionOrderColumn[] = (user.subscriptionOrder || []).map((order) => ({
     userId: user.id,
     id: order.id,
     subscription: order.subscriptionItem?.name,
@@ -95,6 +94,10 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
       <div className="mb-8 flex-1 space-y-4 ">
         <UserForm initialData={formatedUser} />
       </div>
+      <ButtonSubscriptions
+        stripeCustomerId={user.stripeCustomerId}
+        returnUrl={`${process.env.NEXT_PUBLIC_URL}/admin/users/${user.id}`}
+      />
       <div>
         <SubscriptionOrderTable data={formattedSubscriptionOrders} />
       </div>

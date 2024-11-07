@@ -25,7 +25,7 @@ const checkAdmin = async () => {
 const checkUser = async () => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
-    return false;
+    return undefined;
   }
 
   const user = await prismadb.user.findUnique({
@@ -35,7 +35,7 @@ const checkUser = async () => {
   });
 
   if (!user) {
-    return false;
+    return undefined;
   }
 
   return user;
