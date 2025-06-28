@@ -62,8 +62,10 @@ const DashboardUser = async () => {
     isActive: order.isActive,
     sim: order.sim,
     histories: order.subscriptionHistory.length,
+    changedDate:order.subscriptionItem?.description ? new Date(order.subscriptionItem.description)  : undefined,
     createdAt: order.createdAt,
   }));
+
 
   const fullAdress: FullAdress = JSON.parse(user.adresse ? user.adresse : "{}");
 

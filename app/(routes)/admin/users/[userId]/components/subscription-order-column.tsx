@@ -11,6 +11,7 @@ import type { Subscription } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { SubscriptionOrderCellAction } from "./subscription-order-cell-action";
+import { dateFormatter } from "@/lib/utils";
 
 export type SubscriptionOrderColumn = {
   id: string;
@@ -22,6 +23,8 @@ export type SubscriptionOrderColumn = {
   createdAt: Date;
   isActive: boolean;
   sim: string;
+  changedDate?: Date;
+
 };
 
 export const columns: ColumnDef<SubscriptionOrderColumn>[] = [
@@ -30,11 +33,16 @@ export const columns: ColumnDef<SubscriptionOrderColumn>[] = [
     header: "Abonnement",
     cell: ({ row }) => (
       <Button asChild variant={"link"} className="px-0">
+        <>
         {row.getValue("subscription") ? (
           <Link href={`/admin/users/${row.original.userId}/${row.original.id}`}>{row.getValue("subscription")}</Link>
         ) : (
           <span>{row.getValue("subscription")}</span>
         )}
+      {  row.original.changedDate&& row.original.changedDate > new Date()&&
+      <>
+      <br />changement en cours, effectif le 
+{" "}{dateFormatter(row.original.changedDate )}  </>}      </>
       </Button>
     ),
   },

@@ -6,6 +6,7 @@ import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { dateFormatter } from "@/lib/utils";
 import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
 import type { Subscription } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -23,11 +24,23 @@ export type SubscriptionOrderColumnType = {
   createdAt: Date;
   isActive: boolean;
   sim: string;
+  changedDate?: Date;
 };
 export const SubscriptionOrderColumn: ColumnDef<SubscriptionOrderColumnType>[] = [
   {
     accessorKey: "subscription",
     header: "Abonnement",
+    cell: ({ row }) => (
+      <div  className="px-0">
+        <>
+      
+          <span>{row.getValue("subscription")}</span>
+      {  row.original.changedDate && row.original.changedDate> new Date() &&
+      <>
+      <br />changement en cours, effectif le 
+{" "}{dateFormatter(row.original.changedDate )}  </>}      </>
+      </div>
+    ),
   },
   {
     accessorKey: "sim",

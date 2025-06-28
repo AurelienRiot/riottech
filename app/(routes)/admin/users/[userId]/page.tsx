@@ -86,8 +86,10 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
     isPaid: order.isPaid,
     isActive: order.isActive,
     sim: order.sim,
+    changedDate:order.subscriptionItem?.description ? new Date(order.subscriptionItem.description)  : undefined,
     createdAt: order.createdAt,
   }));
+
 
   return (
     <div className="flex-col p-8 pt-6">

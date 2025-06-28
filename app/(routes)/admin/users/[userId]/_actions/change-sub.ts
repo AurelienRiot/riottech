@@ -108,7 +108,7 @@ async function changeSub(data: z.infer<typeof subSchema>) {
               priceHT: newSubscription.priceHT,
               recurrence: newSubscription.recurrence,
               dataCap: newSubscription.dataCap,
-              description: nextRecurrence ? nextRecurrence.toLocaleDateString("fr-FR") : undefined,
+              description: nextRecurrence ? nextRecurrence.toISOString() : undefined,
             },
           },
         },
