@@ -85,7 +85,7 @@
     "@udecode/plate-trailing-block": "^36.0.0",
     "@xenova/transformers": "^2.17.2",
     "autoprefixer": "10.4.20",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
@@ -132,7 +132,6 @@
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.686.0",
     "@biomejs/biome": "^1.9.4",
-    "@types/bcrypt": "^5.0.2",
     "@types/lodash": "^4.17.13",
     "@types/node": "^22.9.0",
     "@types/nodemailer": "^6.4.16",

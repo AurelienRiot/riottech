@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { transporter } from "@/lib/nodemailer";
 import { render } from "@react-email/render";
 import ResetPasswordEmail from "@/components/email/reset-password";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { randomBytes } from "node:crypto";
 
 const baseUrl = process.env.NEXT_PUBLIC_URL as string;

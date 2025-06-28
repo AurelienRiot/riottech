@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
