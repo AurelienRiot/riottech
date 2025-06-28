@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/stripe";
+import { stripe, taxe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
@@ -92,9 +92,6 @@ export async function POST(req: NextRequest) {
     if (!totalPrice) {
       return new NextResponse("Le prix total est nécessaire", { status: 400 });
     }
-
-    // const taxe = user.isPro ? 1 : 1.2;0
-    const taxe = 1.2;
 
     const productIds = itemsWithQuantities.map((item) => item.id);
     const products = await prismadb.product.findMany({

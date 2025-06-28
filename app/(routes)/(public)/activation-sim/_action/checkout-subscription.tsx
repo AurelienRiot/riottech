@@ -1,6 +1,6 @@
 "use server";
 import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/stripe";
+import { stripe, taxe } from "@/lib/stripe";
 import { getDbUser } from "@/server-actions/get-user";
 import type { ReturnTypeServerAction } from "@/types";
 import type { User } from "@prisma/client";
@@ -32,9 +32,6 @@ async function checkoutSubscription(data: z.infer<typeof subscriptionSchema>): P
   }
 
   const stripeCustomerId = await getStripeCustomer(user);
-
-  // const taxe = user.isPro ? 1 : 1.2;0
-  const taxe = 1.2;
 
   const subscription = await prismadb.subscription.findUnique({
     where: {

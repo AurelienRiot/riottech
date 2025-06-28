@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { stripe } from "@/lib/stripe";
+import { stripe, taxe } from "@/lib/stripe";
 
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
@@ -96,9 +96,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // const taxe = user.isPro ? 1 : 1.2;0
-    const taxe = 1.2;
-
     const subscription = await prismadb.subscription.findUnique({
       where: {
         id: subscriptionId,
@@ -119,7 +116,7 @@ export async function POST(req: NextRequest) {
             tax_code: "txcd_99999999",
             name: subscription.name,
             metadata: {
-              sim
+              sim,
             },
           },
           unit_amount: Math.round(subscription.priceHT * 100),
@@ -161,6 +158,7 @@ export async function POST(req: NextRequest) {
             priceHT: subscription.priceHT,
             fraisActivation: subscription.fraisActivation,
             recurrence: subscription.recurrence,
+            dataCap: subscription.dataCap,
           },
         },
         userId: user.id,
@@ -184,8 +182,8 @@ export async function POST(req: NextRequest) {
         description: `RIOTTECH SIM ${getLastSixNumbers(String(sim))}`,
         trial_end,
         metadata: {
-          sim
-        }
+          sim,
+        },
       },
       // billing_address_collection: isAdresse ? "auto" : "required",
       billing_address_collection: "auto",

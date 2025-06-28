@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { WelcomeEmail } from "@/components/email/welcome";

@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import { compare, hash } from "bcrypt";
+import { compare, hash } from "bcryptjs";
 import { getServerSession } from "next-auth";
 import { type NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
