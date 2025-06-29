@@ -158,7 +158,6 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         // width: 12,
         // height: 12,
         strokeWidth: 0,
-        strokeColor: "#000",
         // radius: 12,
       },
       labels: {

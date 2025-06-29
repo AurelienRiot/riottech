@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { parseStringPromise } from "xml2js";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { countryCode, vatNumber } = (await req.json()) as {

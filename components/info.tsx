@@ -7,7 +7,7 @@ import type { ProductWithCategoryAndImages } from "@/types";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import type { MouseEventHandler } from "react";
-import { PlateVis } from "./plate-vis";
+import DisplayMinimalTiptapEditor from "./minimal-tiptap/display-minimal-tiptap";
 
 interface InfoProps {
   data: ProductWithCategoryAndImages;
@@ -47,8 +47,10 @@ const Info: React.FC<InfoProps> = ({ data, scroll }) => {
         </Button>
       </div>
 
-      {/* <Markdown className="mt-8 ">{data.productSpecs}</Markdown> */}
-      <PlateVis value={data.productSpecs} className={scroll ? "overflow-scroll h-[500px] hide-scrollbar" : ""} />
+      <DisplayMinimalTiptapEditor
+        value={data.productSpecs}
+        className={scroll ? "h-[500px] overflow-scroll hide-scrollbar" : "p-0"}
+      />
     </div>
   );
 };

@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import type { FormattedProduct } from "../page";
-import { PlateEditor } from "./plate-editor";
+import { ProductSpecs } from "./product-specs";
 
 const bucketName = process.env.NEXT_PUBLIC_SCALEWAY_BUCKET_NAME as string;
 
@@ -267,19 +267,8 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
             />
           </div>
 
-          {/* <RenderMarkdown loading={loading} form={form} /> */}
-          <PlateEditor
-            loading={loading}
-            initialValue={
-              initialData?.productSpecs
-                ? JSON.parse(initialData?.productSpecs)
-                : [
-                    {
-                      type: "p",
-                      children: [{ text: "Hello World" }],
-                    },
-                  ]
-            }
+          <ProductSpecs
+           
           />
 
           <LoadingButton disabled={loading} className="ml-auto" type="submit">
