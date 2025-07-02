@@ -4,7 +4,7 @@ import { ProductCell } from "@/components/table-custom-fuction/cell-orders";
 import { CreatedAtCell, StatusCell } from "@/components/table-custom-fuction/common-cell";
 import { FilterFn } from "@/components/table-custom-fuction/common-filter";
 import { CreatedAtHeader } from "@/components/table-custom-fuction/common-header";
-import type { DataTableFilterableColumn, DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { DataTableFilterableColumn, DataTableSearchableColumn } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DisplayPdf } from "../../(profile)/components/display-pdf";
 

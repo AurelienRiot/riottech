@@ -1,19 +1,15 @@
-import GetCategories from "@/server-actions/get-categories";
 import Footer from "@/components/footer";
 import NavBar from "@/components/navbar-public/navbar";
-import ModalProvider from "@/providers/modal-provider";
 import { IsProProvider } from "@/hooks/use-is-pro";
 import { CategoriesProvider } from "@/providers/categories-provider";
+import ModalProvider from "@/providers/modal-provider";
+import GetCategories from "@/server-actions/get-categories";
 import dynamic from "next/dynamic";
 const CookiesBanner = dynamic(() => import("@/components/cookies-banner"), {
   ssr: false,
 });
 
-export default async function PublicLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <IsProProvider>

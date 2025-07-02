@@ -2,21 +2,17 @@ import { pipeline, env, type PipelineType } from "@xenova/transformers";
 
 env.allowLocalModels = false;
 
-// biome-ignore lint/complexity/noStaticOnlyClass:
+// biome-ignore lint/complexity/noStaticOnlyClass: static-only class is intentional for singleton pattern
 class Pipeline {
   static task: PipelineType = "object-detection";
   static model = "Xenova/detr-resnet-50";
   static instance: any = null;
 
-  // biome-ignore lint/complexity/noBannedTypes:
-  static async getInstance(progress_callback: Function | undefined) {
-    // biome-ignore lint/complexity/noThisInStatic:
-    if (this.instance === null) {
-      // biome-ignore lint/complexity/noThisInStatic:
-      this.instance = pipeline(this.task, this.model, { progress_callback });
+  static async getInstance(progress_callback: any | undefined) {
+    if (Pipeline.instance === null) {
+      Pipeline.instance = pipeline(Pipeline.task, Pipeline.model, { progress_callback });
     }
-    // biome-ignore lint/complexity/noThisInStatic:
-    return this.instance;
+    return Pipeline.instance;
   }
 }
 

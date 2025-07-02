@@ -10,8 +10,6 @@ import { Button } from "@/components/ui/button";
 //   useStripe,
 // } from "@stripe/react-stripe-js";
 // import { loadStripe } from "@stripe/stripe-js";
-import type { FormEvent } from "react";
-import { toast } from "sonner";
 
 export const TestStripe = ({
   options,

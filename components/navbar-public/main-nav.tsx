@@ -7,13 +7,10 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Cctv, LucidePhoneCall, Wifi } from "lucide-react";
+import { LucidePhoneCall, Wifi } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BiCctv } from "react-icons/bi";
-import { BsSim } from "react-icons/bs";
-import { ImConnection } from "react-icons/im";
 import { Icons } from "../icons2";
 
 const MainNav = () => {

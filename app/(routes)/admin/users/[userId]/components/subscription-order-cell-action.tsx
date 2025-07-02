@@ -226,7 +226,7 @@ function SubcriptionModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-4">
-          <Label htmlFor="sim-number" className="text-right">
+          <Label htmlFor="subscription" >
             Abonnement
           </Label>
 
@@ -234,7 +234,7 @@ function SubcriptionModal({
             {subscriptions ? (
               <>
                 <SelectTrigger>
-                  <SelectValue placeholder="..." />
+                  <SelectValue  placeholder="..." />
                 </SelectTrigger>
 
                 <SelectContent>

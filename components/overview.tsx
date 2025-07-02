@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import { isWindowSmallerThan } from "@/lib/utils";
 import type { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { isWindowSmallerThan } from "@/lib/utils";
 
 interface GraphDataProps {
   month: string;

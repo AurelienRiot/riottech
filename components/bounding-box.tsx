@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function BoundingBox({ object }: { object: any }) {
   const { box, label, score } = object;
   const { xmax, xmin, ymax, ymin } = box;

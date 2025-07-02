@@ -2,7 +2,7 @@
 
 import { DateCell } from "@/components/table-custom-fuction/common-cell";
 import { DateHeader } from "@/components/table-custom-fuction/common-header";
-import type { DataTableSearchableColumn, DataTableViewOptionsColumn } from "@/types";
+import type { DataTableSearchableColumn } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DisplayPdf } from "../../../(profile)/components/display-pdf";
 

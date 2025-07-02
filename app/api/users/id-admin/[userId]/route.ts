@@ -1,9 +1,8 @@
+import { authOptions } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
+import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
-import { stripe } from "@/lib/stripe";
-import { useDayRender } from "react-day-picker";
 
 export async function GET(req: Request, { params }: { params: { userId: string | undefined } }) {
   try {

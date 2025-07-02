@@ -33,30 +33,21 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
     {
       Icon: BiSolidThermometer,
       title: "Température",
-      features: [
-        "Alerte SMS en cas de temperature anormale",
-        "Historique des relevés",
-      ],
+      features: ["Alerte SMS en cas de temperature anormale", "Historique des relevés"],
       description:
         "Surveillez la température de vos bâtiments, anticipez le stress thermique et profitez de données concrètes pour agir sur l'ambiance de votre bâtiment.",
     },
     {
       Icon: BsMoisture,
       title: "Humidité",
-      features: [
-        "Alerte SMS en cas d'humidité annormale",
-        "Historique des relevés",
-      ],
+      features: ["Alerte SMS en cas d'humidité annormale", "Historique des relevés"],
       description:
         "Soyez alerté d'une humidité trop faible ou trop élevée dans votre bâtiment, l'humidité est une composante très importante et responsable de nombreux problèmes en élevage.",
     },
     {
       Icon: MdCo2,
       title: "Dioxyde de carbone",
-      features: [
-        "Alerte SMS en cas de niveaux dangereux",
-        "Historique des relevés",
-      ],
+      features: ["Alerte SMS en cas de niveaux dangereux", "Historique des relevés"],
       description:
         "Soyez alerté et agissez avant que les niveaux de dioxyde de carbone (CO₂) atteignent des seuils dangereux ou préjudiciables pour vos animaux.",
     },
@@ -113,13 +104,11 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
         </div>
         <div className="mb-8 mt-8 text-center text-3xl">
           <h2>Revolutionnez votre ferme avec AnomalyDetect :</h2>
-          <h2 className="font-bold">
-            {"La technologie au servide de l'élevage !"}
-          </h2>
+          <h2 className="font-bold">{"La technologie au servide de l'élevage !"}</h2>
         </div>
         {keyPoints.map((key) => (
           <div className="flex items-center pb-2" key={key}>
-            <FaCheck className="mr-3 h-6 w-6 flex-shrink-0 text-green-500" />
+            <FaCheck className="mr-3 h-6 w-6 shrink-0 text-green-500" />
             <p>{key}</p>
           </div>
         ))}
@@ -130,18 +119,11 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
 
         <div className="flex flex-wrap gap-4 pb-10 ">
           {features.map((feature, index) => (
-            <div
-              className="flex w-80 flex-auto flex-col items-start xl:w-1/5"
-              key={index}
-            >
+            <div className="flex w-80 flex-auto flex-col items-start xl:w-1/5" key={index}>
               <VisibleElement variant="fade" className="self-center">
                 {<feature.Icon className="mb-4 h-28 w-28 pb-2" />}
               </VisibleElement>
-              <VisibleElement
-                variant="fade"
-                as="h3"
-                className="w-full pb-2 text-center font-bold"
-              >
+              <VisibleElement variant="fade" as="h3" className="w-full pb-2 text-center font-bold">
                 {feature.title}
               </VisibleElement>
 
@@ -153,16 +135,12 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
                     className="mb-2 flex items-center space-x-2 font-semibold"
                     key={index}
                   >
-                    <FaCheck className="mb-2 mr-2 h-6 w-6 flex-shrink-0 text-green-500" />
+                    <FaCheck className="mb-2 mr-2 h-6 w-6 shrink-0 text-green-500" />
                     <p>{feature}</p>
                   </VisibleElement>
                 ))}
               </ul>
-              <VisibleElement
-                variant="fade"
-                as="p"
-                className="w-full text-center"
-              >
+              <VisibleElement variant="fade" as="p" className="w-full text-center">
                 {feature.description}
               </VisibleElement>
             </div>

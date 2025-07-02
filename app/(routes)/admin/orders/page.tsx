@@ -4,16 +4,14 @@ import type { OrderColumn } from "./components/columns";
 import { currencyFormatter } from "@/lib/utils";
 import type { DateRange } from "react-day-picker";
 
-const OrdersPage = async (context: {
-  searchParams: { from: string | undefined; to: string | undefined };
-}) => {
+const OrdersPage = async (context: { searchParams: { from: string | undefined; to: string | undefined } }) => {
   let from: Date;
   let to: Date;
   if (context.searchParams.from && context.searchParams.to) {
     from = new Date(context.searchParams.from);
     to = new Date(context.searchParams.to);
   } else {
-    from = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000);
+    from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     to = new Date();
   }
 
