@@ -71,17 +71,20 @@ async function checkoutSessionCompleted(session: Stripe.Checkout.Session) {
   if (!orderId) {
     return new NextResponse("No order id", { status: 200 });
   }
-  const paymentInvoiceId = session.invoice as string;
+  // const paymentInvoiceId = session.invoice as string;
   const paymentIntentId = session.payment_intent as string;
 
-  let chargeId: string | null | Stripe.Charge;
-  if (paymentInvoiceId) {
-    const paymentInvoice = await stripe.invoices.retrieve(paymentInvoiceId);
-    chargeId = paymentInvoice.charge;
-  } else {
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-    chargeId = paymentIntent.latest_charge;
-  }
+  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+  const chargeId = paymentIntent.latest_charge;
+
+  // let chargeId: string | null | Stripe.Charge;
+  // if (paymentInvoiceId) {
+  //   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+  //  chargeId = paymentIntent.charges.data[0]?.id;
+  // } else {
+  //   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+  //   chargeId = paymentIntent.latest_charge;
+  // }
 
   const order = await prismadb.order.findUnique({
     where: {
@@ -187,13 +190,17 @@ async function customerSubscriptionUpdated(session: Stripe.Checkout.Session) {
 }
 
 async function invoicePaymentSucceeded(session: Stripe.Invoice) {
-  const subscription = session.subscription;
+  const invoice = await stripe.invoices.retrieve(session.id as string, {
+    expand: ["payments"],
+  });
 
-  const chargeId = session.charge;
+  const subscriptionId = invoice.parent?.subscription_details?.subscription as string;
+
+  const chargeId = session.payments?.data[0].id as string;
 
   const subscriptionOrder = await prismadb.subscriptionOrder.findUnique({
     where: {
-      stripeSubscriptionId: subscription as string,
+      stripeSubscriptionId: subscriptionId,
     },
   });
 
@@ -201,7 +208,7 @@ async function invoicePaymentSucceeded(session: Stripe.Invoice) {
     // if (subscriptionOrder && session_invoice.billing_reason === "subscription_update" ) {
     await prismadb.subscriptionOrder.update({
       where: {
-        stripeSubscriptionId: subscription as string,
+        stripeSubscriptionId: subscriptionId,
       },
       data: {
         countPayment: {
@@ -213,7 +220,7 @@ async function invoicePaymentSucceeded(session: Stripe.Invoice) {
     await prismadb.subscriptionHistory.create({
       data: {
         subscriptionOrderId: subscriptionOrder.id,
-        idStripe: session.id,
+        idStripe: session.id as string,
         price: subscriptionOrder.subscriptionPrice,
         status: "Paid",
         pdfUrl: `${PDF_URL}/get_pdf?mode=inline&charge_id=${chargeId}`,
