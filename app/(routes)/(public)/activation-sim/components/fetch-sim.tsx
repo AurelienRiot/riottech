@@ -29,7 +29,7 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   //   sim_serial: "",
   // };
   try {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV !== "development") {
       return {
         RTsubIDs: [
           "8a534334-0932-400b-b241-265d779bb997",
@@ -42,13 +42,13 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
         is_third: true,
         org_image_url: "https://www.securiforce.fr/wp-content/uploads/2024/06/logo-securiforce-noir.png",
         org_name: "Entreprise TEST1",
-        sim_serial: "8988247000014274683",
+        sim_serial: "8988247000013916409",
       };
     }
     const data = await ky
       .get(`https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`)
       .json<FetchSimType>();
-      
+
     if (data.available) {
       return data;
     }
