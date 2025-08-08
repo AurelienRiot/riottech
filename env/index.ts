@@ -9,6 +9,7 @@ const envVariableSchema = z.object({
   NODEMAILER_EMAIL: z.string(),
   NODEMAILER_PASSWORD: z.string(),
   NEXT_PUBLIC_URL: z.string(),
+  HUB_RT_BASE_URL: z.string(),
   PDF_URL: z.string(),
   SCALEWAY_ACCESS_KEY_ID: z.string(),
   SCALEWAY_SECRET_ACCESS_KEY: z.string(),

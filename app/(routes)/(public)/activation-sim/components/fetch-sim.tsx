@@ -45,8 +45,9 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
         sim_serial: "8988247000014274683",
       };
     }
+    const baseUrl = process.env.HUB_RT_BASE_URL as string;
     const data = await ky
-      .get(`https://webtool.riottech.fr/public_routes/netsim/getSimAvailability/${sim}`)
+      .get(`${baseUrl}/public_routes/netsim/getSimAvailability/${sim}`)
       .json<FetchSimType>();
       
     if (data.available) {
