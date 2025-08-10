@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Mention légales",
-    description: "Mention légales de RIOT TECH",
+    title: "Mentions légales",
+    description: "Mentions légales de RIOT TECH",
   };
 }
 
 const MentionLegalPage = () => {
   return (
     <section className="mx-auto mb-10 flex max-w-5xl flex-col gap-4 pt-12 text-lg">
-      <h1 className="text-center text-3xl">Mention légales</h1>
+      <h1 className="text-center text-3xl">Mentions légales</h1>
       <p className="flex flex-col">
         <span>
           {" "}

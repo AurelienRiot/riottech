@@ -15,7 +15,7 @@ const ContactPage = () => {
       <div className="mb-6 flex flex-col gap-4 text-center">
         <h1 className="text-3xl font-bold">{"Secteur d'intervention"}</h1>
         <p>
-          RIOT TECH est basé dans le Morbihan (56) et intervient pour les installations et SAV sur toute la Bretagne.
+          RIOT TECH est basé dans le Morbihan (56) et intervient pour les installations et le SAV sur toute la Bretagne.
         </p>
         <p>Et sur toute la France métropolitaine pour les Box 4G.</p>
       </div>

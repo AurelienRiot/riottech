@@ -8,7 +8,7 @@ export const dynamic = "force-static";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Surveillance Elevage",
+    title: "Surveillance Élevage",
     description:
       "Vous avez toujours rêvé de pouvoir surveiller vos animaux à tout moment et de n'importe où ? Vous souhaitez détecter rapidement toute activité suspecte autour de votre ferme ?",
   };
@@ -21,7 +21,7 @@ const SurveillanceElevage = async () => {
       <ButtonSurveillance />
       <RiotTechFeatures />
       <ContactForm
-        title="Parlez nous de votre projet :"
+        title="Parlez-nous de votre projet :"
         className="max-w-5xl"
         description=""
         subject={"Surveillance Elevage"}

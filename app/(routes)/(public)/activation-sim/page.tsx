@@ -14,13 +14,11 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Activation SIM",
-    description: "J'Active ma SIM RIOT TECH",
+    description: "J'active ma SIM RIOT TECH",
   };
 }
 
-const activationSIMPage = async (context: {
-  searchParams: { sim: string; callbackUrl: string; subId: string };
-}) => {
+const activationSIMPage = async (context: { searchParams: { sim: string; callbackUrl: string; subId: string } }) => {
   return (
     <>
       <ToastSearchParams
@@ -42,11 +40,7 @@ const activationSIMPage = async (context: {
 
 export default activationSIMPage;
 
-const ServerSim = async ({
-  searchParams,
-}: {
-  searchParams: { sim: string; subId: string };
-}) => {
+const ServerSim = async ({ searchParams }: { searchParams: { sim: string; subId: string } }) => {
   const res = await FetchSim(searchParams.sim);
   const subscriptions = await GetSubscriptions();
   const sessionUser = await getSessionUser();
@@ -71,7 +65,7 @@ const ServerSim = async ({
       {org ? (
         <>
           <h1 className="mb-4 text-center text-3xl font-bold text-secondary-foreground">
-            Abonnement Carte SIM {org.orgName}, Via RIOT TECH
+            Abonnement Carte SIM {org.orgName}, via RIOT TECH
           </h1>
           <div className="mb-6 text-center text-secondary-foreground/80">
             {org.orgImageUrl ? (
@@ -80,7 +74,7 @@ const ServerSim = async ({
             ) : null}
             <p>
               Utilisez cette page pour activer votre abonnement Carte SIM multi-opérateurs {org.orgName}, Via RIOT TECH.
-              Avec l’abonnement RIOT TECH, profitez d’une connexion internet en toutes circonstances !
+              Avec l’abonnement RIOT TECH, profitez d’une connexion Internet en toutes circonstances !
             </p>
           </div>
         </>

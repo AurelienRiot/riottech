@@ -1,9 +1,9 @@
 const RiotTechFeatures = () => {
   const features = [
-    "Visionnez vos cameras en direct et en différé sur votre smartphone ou tablette de n’importe où, sans limite de distance !",
-    "Soyez alerté en temps réel d’eventuelles intrusions sur votre smartphone, sans nécessiter d’abonnement !",
-    "En fessant confiance à RIOT TECH pour vos cameras, vous faites aussi confiance à un expert réseaux pour raccorder vos bâtiments à internet (Cf.)",
-    "Faites confiance à un acteur local qui répondra à tout vos problèmes.",
+    "Visionnez vos caméras en direct et en différé sur votre smartphone ou tablette de n’importe où, sans limite de distance !",
+    "Soyez alerté en temps réel d’éventuelles intrusions sur votre smartphone, sans nécessiter d’abonnement !",
+    "En faisant confiance à RIOT TECH pour vos cameras, vous faites aussi confiance à un expert réseaux pour raccorder vos bâtiments à internet (Cf.)",
+    "Faites confiance à un acteur local qui répondra à tous vos problèmes",
     "La garantie 2 ans équipement, SAV et déplacement compris 100% gratuit et au-delà, support et assistance à distance GRATUIT à vie !",
   ];
 

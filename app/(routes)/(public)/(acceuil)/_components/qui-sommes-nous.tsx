@@ -6,23 +6,23 @@ const QuiSommesNous = () => {
   const features = [
     "Un service garanti, couvrant le réseau des 4 opérateurs combinés",
     "Des prix compétitifs et négociables selon le volume",
-    "Un SAV direct, sans plateforme, qui connais vraiment votre situation",
-    "Un suivit et diagnostic à distance direct et simplifié de vos connexions",
+    "Un SAV direct, sans plateforme, qui connaîs vraiment votre situation",
+    "Un suivi et diagnostic à distance, direct et simplifié, de vos connexions",
     "Des moyens de paiements et une facturation adaptée",
   ];
   return (
     <div className="flex flex-col items-center justify-center space-y-6 bg-background p-6 text-foreground">
-      <h2 className="text-3xl font-bold">Qui sommes nous ?</h2>
+      <h2 className="text-3xl font-bold">Qui sommes-nous ?</h2>
       <div className="max-w-xl space-y-6 ">
         <p className="text-center">
-          RIOT TECH opère depuis plusieurs années en milieux agricole et rural dans l’installation de systèmes de
+          RIOT TECH opère depuis plusieurs années en milieu agricole et rural dans l’installation de systèmes de
           surveillance vidéo et de connexion internet.
         </p>
         <p className="text-center">
-          Basé en Bretagne, nous installons et maintenons tout systèmes de video surveillance et connexion internet.
+          Basé en Bretagne, nous installons et maintenons tous systèmes de videosurveillance et connexion internet.
         </p>
         <p className="text-center">
-          Nous sommes également fournisseur de service internet multi-opérateurs sur toute la France, cet à dire qu’en
+          Nous sommes également fournisseur de service internet multi-opérateurs sur toute la France, c’est-à-dire qu’en
           passant par RIOT TECH pour votre connexion internet (ou celle de vos clients dans le cas d’une revente sous
           marque blanche), vous optez pour:
         </p>
@@ -42,7 +42,7 @@ const QuiSommesNous = () => {
             link: "/solution-internet",
           },
           {
-            text: "En savoir sur la video surveillance RIOT TECH",
+            text: "En savoir plus sur la video surveillance RIOT TECH",
             link: "/surveillance-elevage",
           },
         ].map((feature, index) => (

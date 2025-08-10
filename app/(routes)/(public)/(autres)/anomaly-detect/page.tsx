@@ -5,9 +5,9 @@ export const dynamic = "force-static";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Anomaly detect",
+    title: "AnomalyDetect",
     description:
-      "Surveillance de votre consommation d'eau et soyez alerter en temps réel d'une consommation anormale. Profitez d'un retour visuel grâce à la camera intégrée pour surveiller le niveau de fourrages restant ou encore le comportement de vos animaux.",
+      "Surveillance de votre consommation d'eau et soyez alerté en temps réel d'une consommation anormale. Profitez d'un retour visuel grâce à la caméra intégrée pour surveiller le niveau de fourrage restant ou encore le comportement de vos animaux.",
   };
 }
 

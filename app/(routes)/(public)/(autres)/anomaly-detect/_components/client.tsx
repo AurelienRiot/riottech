@@ -28,19 +28,19 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
         "Historique de la consommation",
       ],
       description:
-        "Surveillance de votre consommation d'eau et soyez alerter en temps réel d'une consommation anormale.",
+        "Surveillance de votre consommation d'eau et soyez alerté en temps réel d'une consommation anormale.",
     },
     {
       Icon: BiSolidThermometer,
       title: "Température",
-      features: ["Alerte SMS en cas de temperature anormale", "Historique des relevés"],
+      features: ["Alerte SMS en cas de température anormale", "Historique des relevés"],
       description:
         "Surveillez la température de vos bâtiments, anticipez le stress thermique et profitez de données concrètes pour agir sur l'ambiance de votre bâtiment.",
     },
     {
       Icon: BsMoisture,
       title: "Humidité",
-      features: ["Alerte SMS en cas d'humidité annormale", "Historique des relevés"],
+      features: ["Alerte SMS en cas d'humidité anormale", "Historique des relevés"],
       description:
         "Soyez alerté d'une humidité trop faible ou trop élevée dans votre bâtiment, l'humidité est une composante très importante et responsable de nombreux problèmes en élevage.",
     },
@@ -66,17 +66,17 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
       Icon: AiOutlinePicture,
       title: "Retour visuel",
       features: [
-        "Apercu de la stabulation directement sur votre smartphone",
-        "Historique des prises de vues jusquà plusieurs mois en arrière",
+        "Aperçu de la stabulation directement sur votre smartphone",
+        "Historique des prises de vues jusqu’à plusieurs mois en arrière",
       ],
       description:
-        "Profitez d'un retour visuel grâce à la camera intégrée pour surveiller le niveau de fourrages restant ou encore le comportement de vos animaux.",
+        "Profitez d'un retour visuel grâce à la caméra intégrée pour surveiller le niveau de fourrage restant ou encore le comportement de vos animaux.",
     },
     {
       Icon: LucideWrench,
-      title: "SAV & suivit",
+      title: "SAV & suivi",
       features: [
-        "Paramétrage facilité et adapté aux exigences et compétences de chaque éleveurs",
+        "Paramétrage facilité et adapté aux exigences et compétences de chaque éleveur",
         "Un SAV de pointe à l'écoute",
         "Ouvert à toutes demandes spécifiques",
       ],
@@ -103,8 +103,8 @@ const Client = ({ imageUrl }: { imageUrl: string }) => {
           </p>
         </div>
         <div className="mb-8 mt-8 text-center text-3xl">
-          <h2>Revolutionnez votre ferme avec AnomalyDetect :</h2>
-          <h2 className="font-bold">{"La technologie au servide de l'élevage !"}</h2>
+          <h2>Révolutionnez votre ferme avec AnomalyDetect :</h2>
+          <h2 className="font-bold">{"La technologie au service de l'élevage !"}</h2>
         </div>
         {keyPoints.map((key) => (
           <div className="flex items-center pb-2" key={key}>

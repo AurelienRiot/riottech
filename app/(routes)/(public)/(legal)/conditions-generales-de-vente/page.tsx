@@ -14,7 +14,7 @@ const ConditionsVentePage = () => {
       <p>
         Les présentes conditions de vente sont conclues d&apos;une part par la société RIOT TECH dont le siège social
         est situé à Kervihan 56930 Pluméliau-Bieuzy, immatriculée au registre du commerce et des sociétés de Lorient
-        sous le numéro RCS 844 513 275 ci-après dénommée “RIOT TECH ” et d&apos;autre part, par toute personne physique
+        sous le numéro RCS 844 513 275 ci-après dénommée “ RIOT TECH ” et d&apos;autre part, par toute personne physique
         ou morale souhaitant procéder à un achat via le site Internet “ RIOTTECH.fr ” dénommée ci-après “
         l&apos;acheteur ”.
       </p>
@@ -31,8 +31,8 @@ const ConditionsVentePage = () => {
       </p>
       <h2 className="text-center text-2xl">Caractéristiques des biens et services proposés</h2>
       <p>
-        Les produits et services offerts sont ceux qui figurent dans le catalogue publié sur le site de RIOT TECH. Ces
-        produits et services sont offerts dans la limite des stocks disponibles.
+        Les produits et services offerts sont ceux qui figurent dans le catalogue publié sur le site Internet de RIOT
+        TECH. Ces produits et services sont offerts dans la limite des stocks disponibles.
         <br />
         Chaque produit est accompagné d&apos;un descriptif établi par le fournisseur; pour certains d&apos;entre eux
         l&apos;acheteur peut avoir accès à la documentation du fournisseur.
@@ -42,8 +42,8 @@ const ConditionsVentePage = () => {
       </p>
       <h2 className="text-center text-2xl">Tarifs</h2>
       <p>
-        Les prix figurant dans le catalogue sont des prix HT (Hors Taxes) en euro, le montant en euro correspondant au
-        taux TVA applicable est ajouté et indiqué au règlement de la commande; tout changement du taux pourra être
+        Les prix figurant dans le catalogue sont des prix HT (hors taxes) en euros, le montant en euro correspondant au
+        taux de TVA applicable est ajouté et indiqué au règlement de la commande; tout changement du taux pourra être
         répercuté sur le prix des produits ou des services. <br />
         RIOT TECH se réserve le droit de modifier ses prix à tout moment, étant toutefois entendu que le prix figurant
         au catalogue le jour de la commande sera le seul applicable à l&apos;acheteur. <br />
@@ -60,13 +60,13 @@ const ConditionsVentePage = () => {
         <ul>
           <li>
             - remplir la fiche d&apos;identification sur laquelle il indiquera toutes les coordonnées demandées ou
-            donner son numéro de client s&apos;il en a un;
+            donner son numéro de client, s&apos;il en a un ;
           </li>
           <li>
-            - remplir le bon de commande en ligne en donnant toutes les références des produits ou services choisis;
+            - remplir le bon de commande en ligne en donnant toutes les références des produits ou services choisis ;
           </li>
-          <li>- valider sa commande après l&apos;avoir vérifiée;</li>
-          <li>- effectuer le paiement dans les conditions prévues;</li>
+          <li>- valider sa commande après l&apos;avoir vérifiée ;</li>
+          <li>- effectuer le paiement dans les conditions prévues ;</li>
           <li>- confirmer sa commande et son règlement.</li>
         </ul>
         La confirmation de la commande entraîne acceptation des présentes conditions de vente, la reconnaissance
@@ -82,14 +82,14 @@ const ConditionsVentePage = () => {
       <p>
         Les acheteurs, personnes physiques non professionnelles, bénéficient d&apos;un délai de rétractation de sept
         jours à compter de la livraison de leur commande pour faire retour du produit au vendeur pour échange ou
-        remboursement sans pénalité, à l&apos;exception des frais de retour. Pour les professionnels, un avoir pourra
-        être demandé.
+        remboursement sans pénalité à l&apos;exception des frais de retour. Pour les professionnels, un avoir pourra
+        être accordé.
       </p>
       <h2 className="text-center text-2xl">Modalités de paiement</h2>
       <p>
         Le prix est exigible à la commande.
         <br />
-        Les paiements seront effectués par carte bancaire ou prélèvement SEPA DD; ils seront réalisés par le biais de
+        Les paiements seront effectués par carte bancaire ou prélèvement SEPA DD ; ils seront réalisés par le biais de
         notre prestataire de paiement Stripe qui utilise le protocole SSL &apos;&apos;Secure Socket Layer&apos;&apos; de
         telle sorte que les informations transmises sont cryptées par un logiciel et qu&apos;aucun tiers ne peut en
         prendre connaissance au cours du transport sur le réseau.
@@ -163,7 +163,7 @@ const ConditionsVentePage = () => {
       </p>
       <h2 className="text-center text-2xl">Règlement des litiges</h2>
       <p>
-        Les présentes conditions de vente en ligne sont soumises à la loi Française. <br />
+        Les présentes conditions de vente en ligne sont soumises à la loi française. <br />
         En cas de litige, compétence est attribuée aux tribunaux compétents de Lorient, nonobstant pluralité de
         défendeurs ou appel en garantie.
       </p>

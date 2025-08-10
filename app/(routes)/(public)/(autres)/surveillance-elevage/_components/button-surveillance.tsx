@@ -16,7 +16,7 @@ const ButtonSurveillance = () => {
               {" "}
               <p>
                 {
-                  "Avec notre caméra 360°, zoom X25 et vision nocturne 100m ! Pilotez à distance la camera 360° aux 4 coins de votre bâtiment, avec cette camera, vous ne raterez aucuns détails !"
+                  "Avec notre caméra 360°, zoom X25 et vision nocturne 100m ! Pilotez à distance la caméra 360° aux 4 coins de votre bâtiment, avec cette camera, vous ne raterez aucun détail !"
                 }
               </p>
               <Button asChild variant={"link"} className="text-lg font-bold">
@@ -33,7 +33,7 @@ const ButtonSurveillance = () => {
               {" "}
               <p>
                 {
-                  " En optant pour nos caméras fix grand angle, couplé avec un enregistreur, vous ne raterez aucunes intrusions ou mouvement suspect, vous pouvez même choisir d’être alerté en direct sur votre smartphone          en cas d’intrusion ou d’anomalie."
+                  " En optant pour nos caméras fixes grand angle, couplées avec un enregistreur, vous ne raterez aucune intrusion ou mouvement suspect, vous pouvez même choisir d’être alerté en direct sur votre smartphone          en cas d’intrusion ou d’anomalie."
                 }
               </p>
             </>
@@ -75,7 +75,7 @@ const CardSurveillance = ({
       <CardFooter className="relative flex items-center justify-center">
         {" "}
         <Button className={"cursor-pointer text-base hover:underline"} asChild>
-          <Link href="#form"> Parlez nous de votre projet</Link>
+          <Link href="#form"> Parlez-nous de votre projet</Link>
         </Button>
       </CardFooter>
     </Card>

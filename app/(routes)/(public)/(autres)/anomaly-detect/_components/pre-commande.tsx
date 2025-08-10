@@ -26,7 +26,7 @@ const PreOrderBox = () => {
           <p>
             {" "}
             {
-              "Pré-commandez Anomaly Detect, recevez-le avant sa sortie publique, profitez d'une remise de 30% et changez d'avis à tout moment."
+              "Pré-commandez AnomalyDetect, recevez-le avant sa sortie publique, profitez d'une remise de 30% et changez d'avis à tout moment."
             }{" "}
           </p>
         </Button>

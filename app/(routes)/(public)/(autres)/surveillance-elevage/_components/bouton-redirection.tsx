@@ -19,7 +19,7 @@ const BoutonRedirection = () => {
         Votre Meilleur Allié Pour Détecter Automatiquement Les Problèmes Dans Votre Élevage
       </h1>
       <p className="mb-8 text-xl text-secondary-foreground">
-        {"Une Fuite D'eau, Un Abreuvoir En Panne, Trop D'humidité, Pas Assez De Luminosité…"}
+        {"Une fuite d'eau, un abreuvoir en panne, trop d'humidité, pas assez de luminosité…"}
       </p>
       <div className="flex flex-wrap gap-4">
         {boutonFeatures.map((bouton, index) => (

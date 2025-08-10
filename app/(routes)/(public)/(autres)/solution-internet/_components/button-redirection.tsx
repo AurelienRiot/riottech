@@ -63,13 +63,13 @@ const button = [
         </h3>
         <p>
           {
-            "Nous sommes spécialisés dans le raccordement à internet tout terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises."
+            "Nous sommes spécialisés dans le raccordement à internet tous terrains depuis plusieurs années, nous mettons en place tout système de connexion à internet pour le compte d'autres entreprises."
           }
         </p>
         <p>
           {" "}
           {
-            "Nous fournissons au besoin, l'équipement, le service (Carte SIM + abonnement multi-opérateurs) et la plateforme de suivi et diagnostic à distance de vos connexions."
+            "Nous fournissons au besoin, l'équipement, le service (carte SIM + abonnement multi-opérateurs) et la plateforme de suivi et diagnostic à distance de vos connexions."
           }
         </p>
         <p>{"Nous pouvons également gérer les abonnements de vos clients, facturation mensuelle et SAV.  "}</p>
@@ -89,7 +89,7 @@ const button = [
           <li>Vous avez la liberté de refacturer ou non l’abonnement au client final.</li>
           <li>Toute SIM non utilisée dans le mois ne vous est pas facturée.</li>
           <li>
-            Vous avez la liberté d’utiliser une SIM 1 mois arrêter le mois suivant, l’activer à nouveau, etc, sans
+            Vous avez la liberté d’utiliser une SIM 1 mois, arrêter le mois suivant, l’activer à nouveau, etc, sans
             limite et sans frais.
           </li>
         </ul>
@@ -105,7 +105,7 @@ const button = [
             par RIOT TECH.
           </li>
           <li>
-            Vous n’avez aucune facturation à gérer, tout en gardant le suivit et diagnostic à distance des connexions de
+            Vous n’avez aucune facturation à gérer, tout en gardant le suivi et diagnostic à distance des connexions de
             vos clients.
           </li>
         </ul>
@@ -124,18 +124,18 @@ const button = [
         </ul>
         <p className="text-center font-semibold">Rappel des Avantages :</p>
         <ul className="list-disc space-y-4 py-2 pl-6">
-          <li className="text-base">Une connexion prête en 5 minutes en toutes les circonstances.</li>
+          <li className="text-base">Une connexion prête en 5 minutes en toutes circonstances.</li>
           <li className="text-base">
-            Une qualité d’accès garanti grâce à la connectivité multi opérateurs (5G, 4G, 3G).
+            Une qualité d’accès garantie grâce à la connectivité multi opérateurs (5G, 4G, 3G).
           </li>
-          <li className="text-base">{" Garantie à vie de l'équipement (Si fournit par RIOT TECH)."}</li>
+          <li className="text-base">{" Garantie à vie de l'équipement (si fourni par RIOT TECH)."}</li>
           <li className="text-base">
             SAV et diagnostic à distance de toutes vos connexions via notre interface en ligne.
           </li>
           <li className="text-base"> Un contact SAV privilégié</li>
         </ul>{" "}
         <Button className={"mx-auto cursor-pointer text-base hover:underline"} asChild>
-          <Link href={"#form"}>Connaitre les prix</Link>
+          <Link href={"#form"}>Connaître les prix</Link>
         </Button>
       </>
     ),

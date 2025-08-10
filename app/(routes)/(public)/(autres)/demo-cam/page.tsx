@@ -22,7 +22,7 @@ const DemoCamPage = () => {
       id: "fBI4HWMMBeQ",
     },
     {
-      nom: "Enregistrement et post-visionage via tout les appareils",
+      nom: "Enregistrement et post-visionnage via tous les appareils",
       id: "ZWJbWpPkwRY",
     },
     {
@@ -34,7 +34,7 @@ const DemoCamPage = () => {
   return (
     <>
       <header className="container mx-auto p-4">
-        <h1 className="mb-8 text-center text-4xl font-bold">Utilisation de caméra RIOT TECH en élevage</h1>
+        <h1 className="mb-8 text-center text-4xl font-bold">Utilisation des caméras RIOT TECH en élevage</h1>
       </header>
 
       <section className="container mx-auto p-4">
