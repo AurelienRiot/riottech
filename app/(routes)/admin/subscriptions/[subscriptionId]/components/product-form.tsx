@@ -26,19 +26,19 @@ const formSchema = z.object({
   name: z.string().min(1),
   priceHT: z.coerce
     .number({
-      invalid_type_error: "Entrez le prix",
+      error: "Entrez le prix",
     })
     .min(0.1, { message: "Le prix doit être superieur à 0" }),
   productSpecs: z.string().default(""),
   description: z.string().min(0),
   fraisActivation: z.coerce
     .number({
-      invalid_type_error: "Entrez les frais d'activation",
+      error: "Entrez les frais d'activation",
     })
     .min(0),
   dataCap: z.coerce
     .number({
-      invalid_type_error: "Entrez la limite de donnée",
+      error: "Entrez la limite de donnée",
     })
     .min(0.1, { message: "La limite de donnée doit étre superieur à 0" }),
   recurrence: z.string().min(1),
@@ -149,7 +149,13 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
                 <FormItem>
                   <FormLabel>Prix HT</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="9,99"
+                      {...field}
+                      value={(field.value as number) ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -162,7 +168,13 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
                 <FormItem>
                   <FormLabel>Limite de donnée (GB)</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="10" {...field} value={field.value ?? ""} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="10"
+                      {...field}
+                      value={(field.value as number) ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -175,7 +187,13 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
                 <FormItem>
                   <FormLabel>{"Frais d'activation"}</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="9,99"
+                      {...field}
+                      value={(field.value as number) ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -12,8 +12,7 @@ import z from "zod";
 const simSchema = z.object({
   sim: z
     .string({
-      invalid_type_error: "La Sim doit être un numéro de 19 chiffres",
-      required_error: "La Sim doit être un numéro de 19 chiffres",
+      error: "La Sim doit être un numéro de 19 chiffres",
     })
     .refine((value) => /^\d{19}$/.test(value), {
       message: "La Sim doit être un numéro de 19 chiffres",

@@ -183,7 +183,13 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
                 <FormItem className="w-48">
                   <FormLabel>Prix HT</FormLabel>
                   <FormControl>
-                    <Input type="number" disabled={loading} placeholder="9,99" {...field} value={field.value ?? ""} />
+                    <Input
+                      type="number"
+                      disabled={loading}
+                      placeholder="9,99"
+                      {...field}
+                      value={(field.value as number) ?? ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

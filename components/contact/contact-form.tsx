@@ -125,7 +125,7 @@ export const ContactForm = ({
                         disabled={loading}
                         placeholder="35600"
                         {...field}
-                        value={field.value ?? ""}
+                        value={(field.value as number) ?? ""}
                         onChange={(e) => {
                           const value = Number(e.target.value.replace(/[^\d]/g, ""));
                           if (!Number.isNaN(value) && value > 0) {
