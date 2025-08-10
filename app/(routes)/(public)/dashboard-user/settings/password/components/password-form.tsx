@@ -41,7 +41,7 @@ export const PasswordForm = () => {
   const toastMessage = "Mot de passe mise à jour";
   const action = "Appliquer les modifications";
 
-  const form = useForm<PasswordFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",

@@ -1,14 +1,7 @@
 "use client";
 
 import { LoadingButton } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff } from "lucide-react";
@@ -28,12 +21,9 @@ const formSchema = z.object({
     .email({ message: "L'email doit être un email valide" })
     .min(1, { message: "L'email ne peut pas être vide" })
     .max(100, { message: "L'email ne peut pas dépasser 100 caractères" }),
-  password: z
-    .string()
-    .min(1, { message: "Le mot de passe ne peut pas être vide" })
-    .max(100, {
-      message: "Le mot de passe ne peut pas dépasser 100 caractères",
-    }),
+  password: z.string().min(1, { message: "Le mot de passe ne peut pas être vide" }).max(100, {
+    message: "Le mot de passe ne peut pas dépasser 100 caractères",
+  }),
 });
 
 type LoginFormValues = z.infer<typeof formSchema>;
@@ -42,11 +32,9 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const callbackUrl = decodeURI(
-    searchParams.get("callbackUrl") || "/dashboard-user",
-  );
+  const callbackUrl = decodeURI(searchParams.get("callbackUrl") || "/dashboard-user");
 
-  const form = useForm<LoginFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -71,10 +59,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
   return (
     <>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))}
-          className="w-full space-y-12 sm:w-[400px]"
-        >
+        <form onSubmit={form.handleSubmit(() => onSubmit(form.getValues()))} className="w-full space-y-12 sm:w-[400px]">
           <div className="grid w-full items-center gap-1.5">
             <FormField
               control={form.control}
@@ -116,19 +101,12 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                           type={showPassword ? "text" : "password"}
                           autoComplete="current-password"
                         />
-                        <button
-                          type="button"
-                          onClick={() => setShowPassword(!showPassword)}
-                          tabIndex={-1}
-                        >
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
                           {showPassword ? <EyeOff /> : <Eye />}
                         </button>
                       </div>
                       <div className="flex">
-                        <Link
-                          className="mt-2 text-sm text-indigo-500 hover:underline"
-                          href={`/reset-password`}
-                        >
+                        <Link className="mt-2 text-sm text-indigo-500 hover:underline" href={`/reset-password`}>
                           {" "}
                           Mot de passe oublié ?{" "}
                         </Link>
@@ -141,11 +119,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
             />
           </div>
 
-          <LoadingButton
-            disabled={form.formState.isSubmitting}
-            type="submit"
-            className="w-full"
-          >
+          <LoadingButton disabled={form.formState.isSubmitting} type="submit" className="w-full">
             Se connecter
           </LoadingButton>
         </form>

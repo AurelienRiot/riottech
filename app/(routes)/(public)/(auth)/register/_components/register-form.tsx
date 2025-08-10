@@ -134,7 +134,7 @@ export const RegisterForm = ({ callback }: { callback?: string }) => {
     }
   };
 
-  const form = useForm<RegisterFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",

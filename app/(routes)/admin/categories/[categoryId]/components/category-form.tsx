@@ -45,7 +45,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({ initialData }) => {
   const toastMessage = initialData ? "Categorie mise à jour" : "Categorie créée";
   const action = initialData ? "Sauvegarder les changements" : "Créer la categorie";
 
-  const form = useForm<CategoryFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialData?.name || "",

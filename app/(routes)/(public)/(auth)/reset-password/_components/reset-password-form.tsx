@@ -25,7 +25,7 @@ const ResetPasswordForm = () => {
   const [success, setSuccess] = useState(false);
   const messageRef = useRef(null);
 
-  const form = useForm<ResetPasswordFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",

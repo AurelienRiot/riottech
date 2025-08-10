@@ -59,7 +59,7 @@ export const SubscriptionForm: React.FC<SubscriptionFormProps> = ({ initialData 
   const toastMessage = initialData ? "Abonnement mise à jour" : "Abonnement créé";
   const action = initialData ? "Sauvegarder les changements" : "Créer l'abonnement";
 
-  const form = useForm<SubscriptionFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
       ? {

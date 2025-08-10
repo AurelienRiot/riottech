@@ -1,7 +1,7 @@
-import type { Editor } from "@tiptap/react";
-import { BubbleMenu } from "@tiptap/react";
 import { ImagePopoverBlock } from "../image/image-popover-block";
+import { BubbleMenu } from "@tiptap/react/menus";
 import type { ShouldShowProps } from "../../types";
+import type { Editor } from "@tiptap/core";
 
 const ImageBubbleMenu = ({ editor }: { editor: Editor }) => {
   const shouldShow = ({ editor, from, to }: ShouldShowProps) => {
@@ -26,10 +26,11 @@ const ImageBubbleMenu = ({ editor }: { editor: Editor }) => {
     <BubbleMenu
       editor={editor}
       shouldShow={shouldShow}
-      tippyOptions={{
-        placement: "bottom",
-        offset: [0, 8],
-      }}
+      // options={{ offset ,placement: "bottom" }}
+      // tippyOptions={{
+      //   placement: "bottom",
+      //   offset: [0, 8],
+      // }}
     >
       <ImagePopoverBlock onRemove={unSetImage} />
     </BubbleMenu>

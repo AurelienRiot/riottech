@@ -54,7 +54,7 @@ export const ContactForm: React.FC = (): React.ReactNode => {
   const { data: session } = useSession();
   const action = "Envoyer";
 
-  const form = useForm<ContactFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: session?.user?.name || "",

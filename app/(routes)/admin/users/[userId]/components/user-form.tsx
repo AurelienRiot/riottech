@@ -72,7 +72,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData }) => {
   const toastMessage = "Utilisateur mise à jour.";
   const action = "Enregistrer les modifications";
 
-  const form = useForm<UserFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: initialData.name || "",

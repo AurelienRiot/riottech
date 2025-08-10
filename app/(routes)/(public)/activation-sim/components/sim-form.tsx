@@ -31,7 +31,7 @@ export const SimForm: React.FC<ActivationSimFormProps> = ({ sim, availableSim })
   const router = useRouter();
   const [isSimInvalid, setIsSimInvalid] = useState(!availableSim);
 
-  const form = useForm<SimSchema>({
+  const form = useForm({
     resolver: zodResolver(simSchema),
     defaultValues: {
       sim: sim || "",

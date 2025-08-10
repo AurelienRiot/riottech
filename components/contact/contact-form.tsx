@@ -40,7 +40,7 @@ export const ContactForm = ({
     errorMessage: "Echec de l'envoi du message",
   });
 
-  const form = useForm<ContactFormValues>({
+  const form = useForm({
     resolver: zodResolver(contactSchema),
     defaultValues: {
       name: "",

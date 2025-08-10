@@ -59,7 +59,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ params: { resetToken } })
     }
   };
 
-  const form = useForm<ResetPasswordFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",

@@ -76,7 +76,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
   const toastMessage = initialData ? "Produit mise à jour" : "Produit crée";
   const action = initialData ? "Sauvegarder les changements" : "Crée le produit";
 
-  const form = useForm<ProductFormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
       ? {
@@ -267,9 +267,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ initialData, categorie
             />
           </div>
 
-          <ProductSpecs
-           
-          />
+          <ProductSpecs />
 
           <LoadingButton disabled={loading} className="ml-auto" type="submit">
             {action}

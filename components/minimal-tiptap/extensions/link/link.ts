@@ -20,13 +20,13 @@ export const Link = TiptapLink.extend({
     return [{ tag: 'a[href]:not([data-type="button"]):not([href *= "javascript:" i])' }];
   },
 
-  renderHTML({ HTMLAttributes }) {
+  renderHTML({ HTMLAttributes }: { HTMLAttributes: Record<string, any> }) {
     return ["a", mergeAttributes(this.options.HTMLAttributes, HTMLAttributes), 0];
   },
 
   addOptions() {
     return {
-      ...this.parent?.(),
+      ...(this as any).parent?.(),
       openOnClick: false,
       HTMLAttributes: {
         class: "link",
@@ -38,7 +38,7 @@ export const Link = TiptapLink.extend({
     const { editor } = this;
 
     return [
-      ...(this.parent?.() || []),
+      ...((this as any).parent?.() || []),
       new Plugin({
         props: {
           handleKeyDown: (_: EditorView, event: KeyboardEvent) => {
