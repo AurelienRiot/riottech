@@ -28,7 +28,7 @@ const MainBody = ({
       }}
     >
       <Body style={main} className="mx-auto my-auto bg-white px-2 font-sans">
-        <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-[#eaeaea] p-[20px]">
+        <Container className="mx-auto my-[40px] max-w-[465px] rounded-sm border border-solid border-[#eaeaea] p-[20px]">
           <a href={baseUrl} target="_blank" rel="noreferrer">
             <Img src={`${baseUrl}/icone.png`} width="75" height="75" alt="RIOT TECH Logo" className="m-auto" />
           </a>
@@ -52,13 +52,7 @@ const Footer = () => (
   </>
 );
 
-export const ButtonRedirect = ({
-  href,
-  text,
-}: {
-  href: string;
-  text: string;
-}) => (
+export const ButtonRedirect = ({ href, text }: { href: string; text: string }) => (
   <Button className="rounded-lg bg-green-500 px-6 py-3 text-center text-base text-primary" href={href} target="_blank">
     {text}
   </Button>

@@ -37,7 +37,7 @@ export function SearchNav() {
             placeholder="   .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . "
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
-            className="focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent"
+            className="focus:outline-hidden focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent"
           />
           <CommandList>
             {filteredSearchItems.length > 0 ? (

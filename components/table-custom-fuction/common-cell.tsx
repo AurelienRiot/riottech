@@ -97,7 +97,7 @@ type TextCellProps = {
 function TextCell<T>({ row }: { row: Row<T & TextCellProps> }) {
   return (
     <AutosizeTextarea
-      className="flex resize-none items-center justify-center border-none bg-transparent pt-4 text-sm outline-none focus-visible:ring-0 disabled:cursor-default disabled:opacity-100"
+      className="flex resize-none items-center justify-center border-none bg-transparent pt-4 text-sm outline-hidden focus-visible:ring-0 disabled:cursor-default disabled:opacity-100"
       placeholder="..."
       value={row.original.text}
       disabled

@@ -1,0 +1,203 @@
+
+@theme {
+
+  @keyframes glitch {
+    2%, 64% {
+      transform: translate(2px, 0) skew(0deg);
+    }
+    4%, 60% {
+      transform: translate(-2px, 0) skew(0deg);
+    }
+    62% {
+      transform: translate(0, 0) skew(5deg);
+    }
+  }
+  
+  @keyframes glitch-top {
+    2%, 64% {
+      transform: translate(2px, -2px);
+    }
+    4%, 60% {
+      transform: translate(-2px, 2px);
+    }
+    62% {
+      transform: translate(13px, -1px) skew(-13deg);
+    }
+  }
+  
+  @keyframes glitch-bottom {
+    2%, 64% {
+      transform: translate(-2px, 0);
+    }
+    4%, 60% {
+      transform: translate(-2px, 0);
+    }
+    62% {
+      transform: translate(-22px, 5px) skew(21deg);
+    }
+  }
+
+  @keyframes load-bar {
+    0% { 
+      width: 25%; 
+      left: -25%; 
+    }
+    100% { 
+      width: 25%; 
+      left: 100%; 
+    }
+  }
+
+  @keyframes accordion-down {
+    from { 
+      height: 0; 
+    }
+    to { 
+      height: var(--radix-accordion-content-height); 
+    }
+  }
+
+  @keyframes accordion-up {
+    from { 
+      height: var(--radix-accordion-content-height); 
+    }
+    to { 
+      height: 0; 
+    }
+  }
+
+  @keyframes collapsible-down {
+    from { 
+      max-height: 0; 
+      opacity: 0; 
+    }
+    to {
+      max-height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes collapsible-up {
+    from {
+      max-height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+    to { 
+      max-height: 0; 
+      opacity: 0; 
+    }
+  }
+
+  @keyframes reveal-in {
+    0% {
+      width: 0%;
+      color: hsl(var(--primary-foreground));
+    }
+    100% {
+      width: 100%;
+      color: hsl(var(--primary-foreground));
+    }
+  }
+
+  @keyframes reveal-out {
+    0% {
+      width: 100%;
+      color: hsl(var(--primary-foreground));
+    }
+    100% {
+      width: 0%;
+      color: hsl(var(--primary-foreground));
+    }
+  }
+
+  @keyframes bg-to-primary {
+    0% { 
+      background-color: transparent; 
+    }
+    100% { 
+      background-color: hsl(var(--primary)); 
+    }
+  }
+
+  @keyframes bg-to-transparent {
+    0% { 
+      background-color: hsl(var(--primary)); 
+    }
+    100% { 
+      background-color: transparent; 
+    }
+  }
+
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    25% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    50% {
+      transform: translate(-60px, 30px) scale(0.9);
+    }
+    75% {
+      transform: translate(20px, -20px) scale(1.1);
+    }
+  }
+
+  @keyframes move-up-down {
+    0% {
+      bottom: -10%;
+    }
+    35%, 50% {
+      bottom: 100%;
+    }
+    85%, 100% {
+      bottom: -10%;
+    }
+  }
+
+  @keyframes shine {
+    from { 
+      background-position: 200% 0; 
+    }
+    to { 
+      background-position: -200% 0; 
+    }
+  }
+
+  @keyframes scale150 {
+    to { 
+      scale: 1.5 1.5; 
+    }
+  }
+
+  @keyframes hide-element {
+    95% { 
+      display: block; 
+      opacity: 1; 
+      visibility: visible; 
+    }
+    100% { 
+      display: none; 
+      visibility: hidden; 
+      opacity: 0; 
+    }
+  }
+
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  --animate-collapsible-down: collapsible-down 0.2s ease-out;
+  --animate-collapsible-up: collapsible-up 0.2s ease-out;
+
+  --animate-checkbox-in: reveal-in .2s ease-out .2s forwards;
+  --animate-checkbox-out: reveal-out .2s ease-out forwards;
+  --animate-checkbox-bg-in: bg-to-primary .2s ease-out forwards;
+  --animate-checkbox-bg-out: bg-to-transparent .2s ease-out .2s forwards;
+
+  --animate-load-bar: load-bar 1s linear infinite;
+
+  --animate-blob: blob 15s linear infinite;
+  --animate-scale150: scale150 linear;
+  --animate-shine: shine 10s ease-out infinite;
+}

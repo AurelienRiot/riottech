@@ -5,9 +5,9 @@ import { ToolbarButton } from "../toolbar-button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { useTheme } from "../../hooks/use-theme";
 import type { toggleVariants } from "@/components/ui/toggle";
 import type { VariantProps } from "class-variance-authority";
+import { useTheme } from "next-themes";
 
 interface ColorItem {
   cssVar: string;
@@ -24,9 +24,9 @@ interface ColorPalette {
 const COLORS: ColorPalette[] = [
   {
     label: "Palette 1",
-    inverse: "hsl(var(--background))",
+    inverse: "var(--background)",
     colors: [
-      { cssVar: "hsl(var(--foreground))", label: "Noir", darkLabel: "Blanc" },
+      { cssVar: "var(--foreground)", label: "Noir", darkLabel: "Blanc" },
       { cssVar: "var(--mt-accent-bold-blue)", label: "Bleue foncé" },
       { cssVar: "var(--mt-accent-bold-teal)", label: "Turquoise foncé" },
       { cssVar: "var(--mt-accent-bold-green)", label: "Vert foncé" },
@@ -37,7 +37,7 @@ const COLORS: ColorPalette[] = [
   },
   {
     label: "Palette 2",
-    inverse: "hsl(var(--background))",
+    inverse: "var(--background)",
     colors: [
       { cssVar: "var(--mt-accent-gray)", label: "Gris" },
       { cssVar: "var(--mt-accent-blue)", label: "Bleue" },
@@ -50,9 +50,9 @@ const COLORS: ColorPalette[] = [
   },
   {
     label: "Palette 3",
-    inverse: "hsl(var(--foreground))",
+    inverse: "var(--foreground)",
     colors: [
-      { cssVar: "hsl(var(--background))", label: "Blanc", darkLabel: "Noir" },
+      { cssVar: "var(--background)", label: "Blanc", darkLabel: "Noir" },
       { cssVar: "var(--mt-accent-blue-subtler)", label: "Bleue clair" },
       { cssVar: "var(--mt-accent-teal-subtler)", label: "Turquoise clair" },
       { cssVar: "var(--mt-accent-green-subtler)", label: "Verre clair" },
@@ -69,7 +69,8 @@ const MemoizedColorButton = React.memo<{
   inverse: string;
   onClick: (value: string) => void;
 }>(({ color, isSelected, inverse, onClick }) => {
-  const isDarkMode = useTheme();
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   const label = isDarkMode && color.darkLabel ? color.darkLabel : color.label;
 
   return (

@@ -1,5 +1,5 @@
-import * as React from "react";
 import "./styles/index.css";
+import * as React from "react";
 
 import { EditorContent } from "@tiptap/react";
 import type { Content, Editor } from "@tiptap/react";
@@ -67,7 +67,7 @@ export const MinimalTiptapEditor = React.forwardRef<HTMLDivElement, MinimalTipta
       <div
         ref={ref}
         className={cn(
-          "flex h-auto min-h-72 w-full flex-col rounded-md border border-input shadow-sm focus-within:border-primary",
+          "flex h-auto min-h-72 w-full flex-col rounded-md border border-input shadow-xs focus-within:border-primary",
           className,
         )}
       >

@@ -52,7 +52,7 @@ type ProductCellProps = {
 
 function ProductCell<T>({ row }: { row: Row<T & ProductCellProps> }) {
   return (
-    <div className="flex flex-col gap-[1px]">
+    <div className="flex flex-col gap-px">
       {row.original.productsList.map((product) => (
         <span key={product.name}>
           <strong>{product.name}</strong>

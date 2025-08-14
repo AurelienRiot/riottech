@@ -27,19 +27,15 @@ export const metadata: Metadata = {
   description:
     "RIOT TECH commercialise et installe des solutions de surveillance vidéo et de connectivité en milieu rurale et agricole. Profitez d'une connexion Internet continue, économique et disponible partout avec la connexion internet RIOT TECH. Vous assurant une connexion stable grâce à la couverture multi-opérateurs. Incluent un équipement garanti à vie ainsi qu'un service après-vente prioritaire et compétent en cas de besoin.",
   openGraph: {
-    images: [`${baseUrl}/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdairy_cows.eb374d29.webp&w=3840&q=75`],
+    images: [`${baseUrl}/dairy_cows.webp`],
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" suppressHydrationWarning className=" scroll-p-16 scroll-smooth">
       <body
-        className={`${inter.variable} ${sourceCodePro.variable} relative min-h-dvh bg-background font-Inter   antialiased `}
+        className={`${inter.variable} ${sourceCodePro.variable} relative min-h-dvh bg-background font-inter   antialiased `}
       >
         <AuthProviders>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
@@ -56,7 +52,7 @@ export default function RootLayout({
 const DebugScreens = () => {
   if (process.env.NODE_ENV === "development") {
     return (
-      <div className="fixed bottom-0 left-0 z-50 bg-foreground p-2 text-background">
+      <div className="fixed bottom-0 left-0 z-50 bg-background p-2 text-foreground">
         <ul className="text-xs font-semibold">
           <li className="block xs:hidden">{" < 400px"}</li>
           <li className="hidden xs:block sm:hidden">{"xs > 400px "}</li>

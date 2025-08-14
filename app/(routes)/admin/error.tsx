@@ -4,13 +4,7 @@ import ButtonBackward from "@/components/ui/button-backward";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function ErroPage({
-  error,
-  reset,
-}: {
-  error: Error;
-  reset: () => void;
-}) {
+export default function ErroPage({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -23,7 +17,7 @@ export default function ErroPage({
           <p className="text-2xl font-bold tracking-tight text-primary">Erreur</p>
 
           <h1
-            className={`font-black text-left  text-primary tracking-[-15px] text-9xl font-SourceCodePro animate-[glitch_1s_linear_infinite] 
+            className={`font-black text-left  text-primary tracking-[-15px] text-9xl font-source-code-pro animate-[glitch_1s_linear_infinite] 
           before:clip-path-polygon-[0_0,_100%_0,_100%_33%,_0_33%]
           before:animate-[glitch-top_1s_linear_infinite] before:content-['500'] before:absolute before:left-0
           after:animate-[glitch-bottom_1s_linear_infinite] after:content-['500'] after:absolute after:left-0

@@ -36,7 +36,7 @@ export default async function LoginPage({
         <ErrorDisplay error={searchParams.error} />
         <GoogleButton />
         <div
-          className={`my-4 flex h-4 flex-row items-center gap-4 self-stretch whitespace-nowrap before:h-0.5 before:w-full before:flex-grow before:bg-primary/30 after:h-0.5 after:w-full after:flex-grow after:bg-primary/30`}
+          className={`my-4 flex h-4 flex-row items-center gap-4 self-stretch whitespace-nowrap before:h-0.5 before:w-full before:grow before:bg-primary/30 after:h-0.5 after:w-full after:grow after:bg-primary/30`}
         >
           ou
         </div>

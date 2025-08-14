@@ -47,7 +47,7 @@ export function DataTableSkeleton<TData, TValue>({ columns }: DataTableSkeletonP
             {table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
-                className="animate-pulse even:bg-gray-200 odd:dark:bg-blue-950 even:dark:bg-gray-900"
+                className="animate-pulse even:bg-gray-200 dark:odd:bg-blue-950 dark:even:bg-gray-900"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className="h-12  items-center justify-center ">

@@ -1,11 +1,9 @@
 "use client";
 
-
 import { MinimalTiptapEditor } from "@/components/minimal-tiptap";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useFormContext } from "react-hook-form";
 import type { ProductFormValues } from "./product-form";
-
 
 export function ProductSpecs() {
   const form = useFormContext<ProductFormValues>();
@@ -20,8 +18,8 @@ export function ProductSpecs() {
             <FormLabel>Spécification du produit</FormLabel>
 
             <div className="flex">
-              <FormControl className="min-h-[20rem] lg:w-1/2">
-              <MinimalTiptapEditor
+              <FormControl className="min-h-80 lg:w-1/2">
+                <MinimalTiptapEditor
                   value={field.value}
                   onChange={field.onChange}
                   throttleDelay={2000}
@@ -33,7 +31,7 @@ export function ProductSpecs() {
                   editable={true}
                   injectCSS={true}
                   disabled={form.formState.isSubmitting}
-                  editorClassName="focus:outline-none"
+                  editorClassName="focus:outline-hidden"
                 />
               </FormControl>
             </div>

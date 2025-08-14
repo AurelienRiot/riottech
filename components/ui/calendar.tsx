@@ -81,7 +81,7 @@ function Calendar({
         nav: "flex items-start",
         month_grid: "mt-4",
         week: "flex w-full mt-2",
-        day: "p-0 size-8 text-sm flex-1 flex items-center justify-center has-[button]:hover:!bg-accent rounded-md has-[button]:hover:aria-selected:!bg-primary has-[button]:hover:text-accent-foreground has-[button]:hover:aria-selected:text-primary-foreground",
+        day: "p-0 size-8 text-sm flex-1 flex items-center justify-center has-[button]:hover:bg-accent! rounded-md has-[button]:hover:aria-selected:bg-primary! has-[button]:hover:text-accent-foreground has-[button]:hover:aria-selected:text-primary-foreground",
         day_button: cn(
           buttonVariants({ variant: "ghost" }),
           "size-8 p-0 font-normal transition-none hover:bg-transparent hover:text-inherit aria-selected:opacity-100",
@@ -89,13 +89,13 @@ function Calendar({
         range_start: "day-range-start rounded-s-md",
         range_end: "day-range-end rounded-e-md",
         selected:
-          "bg-primary text-primary-foreground hover:!bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          "bg-primary text-primary-foreground hover:bg-primary! hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         today: "bg-accent text-accent-foreground",
         outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         disabled: "text-muted-foreground opacity-50",
         range_middle:
-          "aria-selected:bg-accent hover:aria-selected:!bg-accent rounded-none aria-selected:text-accent-foreground hover:aria-selected:text-accent-foreground",
+          "aria-selected:bg-accent hover:aria-selected:bg-accent! rounded-none aria-selected:text-accent-foreground hover:aria-selected:text-accent-foreground",
         hidden: "invisible",
         dropdowns: "flex justify-between items-center w-full",
         ...classNames,
@@ -116,7 +116,7 @@ function Calendar({
               <SelectTrigger className="pr-1.5 ring-0 focus:ring-0 w-fit focus:ring-offset-0 ">
                 <SelectValue>{selected?.label}</SelectValue>
               </SelectTrigger>
-              <SelectContent position="popper" className="z-[1200]">
+              <SelectContent position="popper" className="z-1200">
                 <ScrollArea className="h-80">
                   {options.map((option, id) => (
                     <SelectItem

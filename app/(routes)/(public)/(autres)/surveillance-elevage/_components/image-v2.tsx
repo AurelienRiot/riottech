@@ -6,7 +6,7 @@ const ImageV2 = () => {
     <div className="relative flex h-[50vh] w-full items-start justify-center text-white sm:h-[65vh]">
       <Image src={ImageCalf} alt="image" placeholder="blur" fill priority className="h-full w-full object-cover" />
 
-      <div className="absolute inset-0 z-10 h-full w-full bg-gradient-to-b from-neutral-800/90 from-50% to-neutral-800/0" />
+      <div className="absolute inset-0 z-10 h-full w-full bg-linear-to-b from-neutral-800/90 from-50% to-neutral-800/0" />
       <div className="z-10 mt-10 flex max-w-[90vw] flex-col items-center justify-center space-y-10 text-center">
         <h1 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl">
           Installation de systèmes de surveillance Vidéo{" "}

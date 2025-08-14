@@ -10,7 +10,7 @@ const ImageLoaderBillboard: React.FC<ImageLoaderBillboardProps> = ({
 
   
   return (
-    <div className="rounded-xl relative aspect-square md:aspect-[3/1] overflow-hidden bg-cover" style={{ backgroundImage: `url(${src})`} }>
+    <div className="rounded-xl relative aspect-square md:aspect-3/1 overflow-hidden bg-cover" style={{ backgroundImage: `url(${src})`} }>
       {children}
       </div>
   );

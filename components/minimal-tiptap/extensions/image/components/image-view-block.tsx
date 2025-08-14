@@ -21,7 +21,7 @@ const ImageViewBlock = ({ editor, node, getPos }: NodeViewProps) => {
           <div className="relative w-full" style={{ paddingBottom: `${isNumber(paddingBottom) ? paddingBottom : 0}%` }}>
             <div className="absolute h-full w-full">
               <div
-                className={cn("relative h-full max-h-full w-full max-w-full rounded transition-all")}
+                className={cn("relative h-full max-h-full w-full max-w-full rounded-sm transition-all")}
                 style={{
                   boxShadow: editor.state.selection.from === getPos() ? "0 0 0 1px hsl(var(--primary))" : "none",
                 }}

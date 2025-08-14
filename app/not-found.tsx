@@ -8,12 +8,10 @@ const NotFound = () => {
       <NavBar />
       <div className="grid h-[80vh] place-content-center bg-primary-foreground px-4">
         <div className="flex flex-col justify-center gap-4 text-center">
-          <p className="text-2xl font-bold tracking-tight text-primary">
-            Erreur
-          </p>
+          <p className="text-2xl font-bold tracking-tight text-primary">Erreur</p>
 
           <h1
-            className={`animate-[glitch_1s_linear_infinite]  font-SourceCodePro text-9xl font-bold tracking-[-5px] text-primary 
+            className={`animate-[glitch_1s_linear_infinite]  font-source-code-pro text-9xl font-bold tracking-[-5px] text-primary 
           before:absolute
           before:left-0 before:animate-[glitch-top_1s_linear_.5s_infinite] before:content-['404'] before:clip-path-polygon-[0_0,_100%_0,_100%_33%,_0_33%]
           after:absolute after:left-0 after:animate-[glitch-bottom_1s_linear_infinite] after:content-['404']

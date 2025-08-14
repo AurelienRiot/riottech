@@ -1,9 +1,10 @@
+@reference '../../../app/globals.css';
 @import './partials/code.css';
 @import './partials/placeholder.css';
 @import './partials/lists.css';
 @import './partials/typography.css';
 
-:root {
+  :root {
   --mt-font-size-regular: 0.9375rem;
 
   --mt-code-background: #082b781f;
@@ -92,7 +93,6 @@
   --hljs-selector-tag: #e8c785;
   --hljs-number: #b6e7b6;
 }
-
 .minimal-tiptap-editor .ProseMirror {
   @apply flex max-w-full flex-1 cursor-text flex-col;
   @apply z-0 outline-0;
@@ -151,7 +151,7 @@
 }
 
 .minimal-tiptap-editor .ProseMirror-focused hr.ProseMirror-selectednode {
-  @apply rounded-full outline outline-2 outline-offset-1 outline-muted-foreground;
+  @apply rounded-full outline-2 outline-offset-1 outline-muted-foreground;
 }
 
 .minimal-tiptap-editor .ProseMirror .ProseMirror-gapcursor {

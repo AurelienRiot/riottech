@@ -211,7 +211,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
           <FormLabel>Spécification du produit</FormLabel>
 
           <div className="grid grid-cols-1 lg:flex">
-            <FormControl className="min-h-[20rem] lg:w-1/2">
+            <FormControl className="min-h-80 lg:w-1/2">
               <div className="flex flex-col ">
                 <div className="flex flex-row flex-wrap gap-2 ">
                   <Tooltip>
@@ -457,7 +457,7 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ form, loading }) => {
                     setOpenTableau(false);
                   }}
                   id="productSpecsTextArea"
-                  className="mt-2 h-auto min-h-[20rem] sm:h-full sm:w-full "
+                  className="mt-2 h-auto min-h-80 sm:h-full sm:w-full "
                   disabled={loading}
                   placeholder="Spécification"
                   {...field}

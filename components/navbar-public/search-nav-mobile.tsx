@@ -24,14 +24,14 @@ export function SearchNavMobile() {
         placeholder="  Recherche... "
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        className="focus:outline-none focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent "
+        className="focus:outline-hidden focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent "
       />
 
       {searchValue.trim() !== "" && filteredSearchItems.length > 0 ? (
         filteredSearchItems.map((searchItem) => (
           <div
             key={searchItem.value}
-            className="text-blue-900 ml-1 mr-1 mt-2 hover:bg-gray-100 font-bold relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 "
+            className="text-blue-900 ml-1 mr-1 mt-2 hover:bg-gray-100 font-bold relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden aria-selected:bg-accent aria-selected:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 "
           >
             <button
               type="button"

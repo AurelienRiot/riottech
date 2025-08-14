@@ -2,33 +2,7 @@ import { svgToDataUri } from "./utils";
 
 const { default: flattenColorPalette } = require("tailwindcss/lib/util/flattenColorPalette");
 
-function addGlobalUtilities({ addUtilities }: any) {
-  const newUtilities = {
-    ".hide-scrollbar": {
-      "-ms-overflow-style": "none",
-      "scrollbar-width": "none",
-      "-webkit-overflow-scrolling": "touch",
-      "&::-webkit-scrollbar": {
-        display: "none",
-      },
-    },
-    ".timeline-scroll": {
-      "animation-timeline": "scroll()",
-    },
-  };
-  addUtilities(newUtilities, ["responsive"]);
-}
-
-function addVariablesForColors({ addBase, theme }: any) {
-  const allColors = flattenColorPalette(theme("colors"));
-  const newVars = Object.fromEntries(Object.entries(allColors).map(([key, val]) => [`--${key}`, val]));
-
-  addBase({
-    ":root": newVars,
-  });
-}
-
-function ListStyleCheck({ matchUtilities, theme }: any) {
+function listStyleCheck({ matchUtilities, theme }: any) {
   matchUtilities(
     {
       "list-image": ([color, svg]: any) => ({
@@ -71,4 +45,4 @@ const SVGs = [
   },
 ];
 
-export { addGlobalUtilities, addVariablesForColors, ListStyleCheck };
+export default listStyleCheck;

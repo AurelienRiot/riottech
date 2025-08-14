@@ -31,7 +31,7 @@ export const LinkPopoverBlock: React.FC<LinkPopoverBlockProps> = ({ url, onClear
   }, [url]);
 
   return (
-    <div className="flex h-10 overflow-hidden rounded bg-background p-2 shadow-lg">
+    <div className="flex h-10 overflow-hidden rounded-sm bg-background p-2 shadow-lg">
       <div className="inline-flex items-center gap-1">
         <ToolbarButton tooltip="Modifier le lien" onClick={onEdit} className="w-auto px-2">
           Modifier le lien

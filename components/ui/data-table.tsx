@@ -191,7 +191,7 @@ export function DataTable<TData, TValue>({ columns, initialData, searchKey }: Da
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className={"even:bg-gray-200 odd:dark:bg-blue-950 even:dark:bg-gray-900"}
+                  className={"even:bg-gray-200 dark:odd:bg-blue-950 dark:even:bg-gray-900"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>

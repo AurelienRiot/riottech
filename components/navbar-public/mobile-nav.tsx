@@ -159,7 +159,7 @@ const DisplayRoutes = ({ routes, setOpen, openProduct, setOpenProduct }: Display
     >
       {"  "} <StoreIcon className="mr-2 h-4 w-4 " /> Produits
       <ChevronDown
-        className={cn("relative top-[1px] ml-1 h-3 w-3 transition duration-200", openProduct ? "" : "-rotate-90")}
+        className={cn("relative top-px ml-1 h-3 w-3 transition duration-200", openProduct ? "" : "-rotate-90")}
         aria-hidden="true"
       />
       <ul
@@ -177,7 +177,7 @@ const DisplayRoutes = ({ routes, setOpen, openProduct, setOpenProduct }: Display
               }}
               className={cn(
                 route.active ? "text-popover-foreground " : "text-muted-foreground ",
-                "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                "block w-full rounded-lg px-4 py-1  text-sm font-medium leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               )}
             >
               {route.label}

@@ -48,14 +48,14 @@ const MainNav = () => {
                             type="button"
                             aria-expanded={open}
                             onClick={() => setOpen(!open)}
-                            className="inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 "
+                            className="inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-hidden disabled:pointer-events-none disabled:opacity-50 "
                         >
                             {"  "}{" "}
                             <StoreIcon className="mr-2 hidden h-4 w-4 xl:flex" />{" "}
                             Produits
                             <ChevronDown
                                 className={cn(
-                                    "relative top-[1px] ml-1 h-3 w-3 transition duration-200",
+                                    "relative top-px ml-1 h-3 w-3 transition duration-200",
                                     open ? "rotate-180" : "",
                                 )}
                                 aria-hidden="true"
@@ -77,7 +77,7 @@ const MainNav = () => {
                                                         route.active
                                                             ? "text-popover-foreground "
                                                             : "text-muted-foreground ",
-                                                        "block w-full rounded-lg py-1 pl-4 text-sm font-medium leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                                        "block w-full rounded-lg py-1 pl-4 text-sm font-medium leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                                                     )}
                                                 >
                                                     {route.label}

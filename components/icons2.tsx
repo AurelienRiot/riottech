@@ -155,7 +155,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",
@@ -248,7 +248,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",
@@ -311,7 +311,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",
@@ -376,7 +376,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",
@@ -461,7 +461,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",
@@ -532,7 +532,7 @@ export const Icons = {
       )}
     >
       <g
-        data-layer="silhouette outline"
+        data-layer="silhouette outline-solid"
         style={{
           fill: "none",
           strokeLinejoin: "round",

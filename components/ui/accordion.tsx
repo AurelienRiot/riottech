@@ -41,7 +41,7 @@ const AccordionTrigger = React.forwardRef<
       {children}
       <ChevronDown
         className={cn(
-          "chevron h-4 w-4 shrink-0 transition-transform duration-500 [transition-timing-function:_cubic-bezier(0.34,_1.56,_0.64,_1)]",
+          "chevron h-4 w-4 shrink-0 transition-transform duration-500 [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
           classNameIcon,
         )}
       />
