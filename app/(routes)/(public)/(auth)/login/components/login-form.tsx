@@ -92,7 +92,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                 <FormItem>
                   <FormLabel>Mot de passe</FormLabel>
                   <FormControl>
-                    <>
+                    <div>
                       <div className="flex items-center gap-x-4">
                         <Input
                           disabled={form.formState.isSubmitting}
@@ -111,7 +111,7 @@ export const LoginForm: React.FC = (): React.ReactNode => {
                           Mot de passe oublié ?{" "}
                         </Link>
                       </div>
-                    </>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

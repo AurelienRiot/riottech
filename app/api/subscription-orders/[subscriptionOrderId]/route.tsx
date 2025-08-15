@@ -3,7 +3,11 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 
-export async function DELETE(req: Request, { params }: { params: { subscriptionOrderId: string | undefined } }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ subscriptionOrderId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {
@@ -29,7 +33,11 @@ export async function DELETE(req: Request, { params }: { params: { subscriptionO
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { subscriptionOrderId: string | undefined } }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ subscriptionOrderId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const { isActive } = (await req.json()) as { isActive: boolean };
 

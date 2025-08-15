@@ -1,4 +1,16 @@
 {
+  "files": {
+    "includes": [
+      "./app/**/*.{tsx,ts}",
+      "./components/**/*.{tsx,ts}",
+      "./lib/**/*.{tsx,ts}",
+      "./actions/**/*.{tsx,ts}",
+      "./server-actions/**/*.{tsx,ts}",
+      "./hooks/**/*.{tsx,ts}",
+      "./providers/**/*.{tsx,ts}",
+      "./types/**/*.{tsx,ts}"
+    ]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
@@ -21,7 +33,9 @@
       "correctness": {
         "useExhaustiveDependencies": "off",
         "noUnusedVariables": "off",
-        "noUnusedFunctionParameters": "off"
+        "noUnusedFunctionParameters": "off",
+        "useUniqueElementIds": "off",
+        "noNestedComponentDefinitions": "off"
       },
       "complexity": {
         "noUselessFragments": "off"

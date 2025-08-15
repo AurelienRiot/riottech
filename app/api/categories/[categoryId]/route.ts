@@ -3,7 +3,11 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { getServerSession } from "next-auth";
 
-export async function GET(req: Request, { params }: { params: { categoryId: string | undefined } }) {
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ categoryId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     if (!params.categoryId) {
       return new NextResponse("L'id de la categorie est nécessaire", {
@@ -28,7 +32,11 @@ export async function GET(req: Request, { params }: { params: { categoryId: stri
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { categoryId: string | undefined } }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ categoryId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const body = (await req.json()) as { name: string | undefined; imageUrl: string | undefined };
     const { name, imageUrl } = body;
@@ -73,7 +81,11 @@ export async function PATCH(req: Request, { params }: { params: { categoryId: st
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { categoryId: string | undefined } }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ categoryId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     if (!session || !session.user || session.user.role !== "admin") {

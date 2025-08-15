@@ -7,7 +7,7 @@ const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 export async function middleware(req: NextRequest) {
   const token = (await getToken({ req, secret })) as (JWT & { exp: number }) | null;
-  const today = new Date().getTime();
+  const today = Date.now();
   if (!token || token.exp * 1000 < today) {
     console.log("No token provided middleware");
     return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
     const apiResponse = await fetch(`${baseUrl}/api/auth`, {
       method: "GET",
       headers: {
-        Cookie: cookies()
+        Cookie: (await cookies())
           .getAll()
           .map((cookie) => `${cookie.name}=${cookie.value}`)
           .join("; "),

@@ -2,11 +2,12 @@ import prismadb from "@/lib/prismadb";
 import { SubscriptionForm } from "./components/product-form";
 import type { Subscription } from "@prisma/client";
 
-const SubscriptionPage = async ({
-  params,
-}: {
-  params: { subscriptionId: string };
-}) => {
+const SubscriptionPage = async (
+  props: {
+    params: Promise<{ subscriptionId: string }>;
+  }
+) => {
+  const params = await props.params;
   const subscription = await prismadb.subscription.findUnique({
     where: {
       id: params.subscriptionId,

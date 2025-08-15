@@ -9,8 +9,6 @@ import { FetchSim } from "./components/fetch-sim";
 import { SelectSubscription } from "./components/select-subscription";
 import { SimForm } from "./components/sim-form";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Activation SIM",
@@ -18,20 +16,23 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const activationSIMPage = async (context: { searchParams: { sim: string; callbackUrl: string; subId: string } }) => {
+const activationSIMPage = async (context: {
+  searchParams: Promise<{ sim: string; callbackUrl: string; subId: string }>;
+}) => {
+  const searchParams = await context.searchParams;
   return (
     <>
       <ToastSearchParams
         searchParam="canceled"
         message="Erreur de paiement."
         url={`/activation-sim?sim=${encodeURIComponent(
-          context.searchParams.sim,
-        )}&subId=${encodeURIComponent(context.searchParams.subId)}`}
+          searchParams.sim,
+        )}&subId=${encodeURIComponent(searchParams.subId)}`}
         toastType="error"
       />
       <Container className="bg-background pt-10">
         <div className="flex flex-col items-center justify-center p-2 text-primary sm:p-10">
-          <ServerSim searchParams={context.searchParams} />
+          <ServerSim searchParams={searchParams} />
         </div>
       </Container>
     </>
@@ -93,11 +94,8 @@ const ServerSim = async ({ searchParams }: { searchParams: { sim: string; subId:
           </div>{" "}
         </>
       )}
-
       <Separator />
-
       <SimForm sim={searchParams.sim} availableSim={availableSim} />
-
       {selectedSubscriptions.length > 0 ? (
         <SelectSubscription subscriptions={selectedSubscriptions} sim={searchParams.sim} subId={searchParams.subId} />
       ) : null}

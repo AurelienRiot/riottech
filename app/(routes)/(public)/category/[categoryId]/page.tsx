@@ -7,12 +7,13 @@ import GetProducts from "@/server-actions/get-products";
 import type { Metadata } from "next";
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     categoryId: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata(props: CategoryPageProps): Promise<Metadata> {
+  const params = await props.params;
   const category = await GetCategory(params.categoryId);
 
   return {
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   };
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
+const CategoryPage: React.FC<CategoryPageProps> = async props => {
+  const params = await props.params;
   const products = await GetProducts({
     categoryId: params.categoryId,
   });

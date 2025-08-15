@@ -6,17 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ky, { type HTTPError } from "ky";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, use } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
-export const dynamic = "force-static";
-
 interface ResetPasswordProps {
-  params: {
+  params: Promise<{
     resetToken: string;
-  };
+  }>;
 }
 
 const formSchema = z
@@ -35,7 +33,11 @@ const formSchema = z
 
 type ResetPasswordFormValues = z.infer<typeof formSchema>;
 
-const ResetPassword: React.FC<ResetPasswordProps> = ({ params: { resetToken } }) => {
+const ResetPassword: React.FC<ResetPasswordProps> = (props) => {
+  const params = use(props.params);
+
+  const resetToken = params.resetToken;
+
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();

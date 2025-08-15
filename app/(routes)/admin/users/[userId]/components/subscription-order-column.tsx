@@ -31,21 +31,21 @@ export const columns: ColumnDef<SubscriptionOrderColumn>[] = [
     accessorKey: "subscription",
     header: "Abonnement",
     cell: ({ row }) => (
-      <Button asChild variant={"link"} className="px-0">
-        <>
-          {row.getValue("subscription") ? (
+      <div>
+        {row.getValue("subscription") ? (
+          <Button asChild variant={"link"} className="px-0">
             <Link href={`/admin/users/${row.original.userId}/${row.original.id}`}>{row.getValue("subscription")}</Link>
-          ) : (
-            <span>{row.getValue("subscription")}</span>
-          )}
-          {row.original.changedDate && row.original.changedDate > new Date() && (
-            <>
-              <br />
-              changement en cours, effectif le {dateFormatter(row.original.changedDate)}{" "}
-            </>
-          )}{" "}
-        </>
-      </Button>
+          </Button>
+        ) : (
+          <span>{row.getValue("subscription")}</span>
+        )}
+        {row.original.changedDate && row.original.changedDate > new Date() && (
+          <>
+            <br />
+            changement en cours, effectif le {dateFormatter(row.original.changedDate)}{" "}
+          </>
+        )}{" "}
+      </div>
     ),
   },
   {

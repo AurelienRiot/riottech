@@ -1,3 +1,4 @@
+import Overview from "@/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
@@ -9,11 +10,11 @@ import { GetStockOrderCount } from "@/server-actions/get-stock-order-count";
 import { GetStockSubscriptionCount } from "@/server-actions/get-stock-subscription-count";
 import { GetTotalRevenue } from "@/server-actions/get-total-revenue";
 import { CalendarSearch, CreditCardIcon, EuroIcon, Package } from "lucide-react";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import { Suspense } from "react";
-const DynamicOverview = dynamic(() => import("@/components/overview"), {
-  ssr: false,
-});
+// const DynamicOverview = dynamic(() => import("@/components/overview"), {
+//   ssr: false,
+// });
 
 const DashboardPage: React.FC = () => {
   return (
@@ -114,5 +115,5 @@ const StockSubscriptionCount = async () => {
 
 const GraphRevenue = async () => {
   const graphRevenue = await GetGraphRevenue();
-  return <DynamicOverview data={graphRevenue} />;
+  return <Overview data={graphRevenue} />;
 };

@@ -4,7 +4,8 @@ import { stripe } from "@/lib/stripe";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, { params }: { params: { userId: string | undefined } }) {
+export async function GET(req: Request, props: { params: Promise<{ userId: string | undefined }> }) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 
@@ -49,7 +50,8 @@ export async function GET(req: Request, { params }: { params: { userId: string |
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { userId: string | undefined } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ userId: string | undefined }> }) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 
@@ -76,7 +78,8 @@ export async function DELETE(req: Request, { params }: { params: { userId: strin
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { userId: string | undefined } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ userId: string | undefined }> }) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 

@@ -5,11 +5,12 @@ import { currencyFormatter } from "@/lib/utils";
 import { SubscriptionHistoryTable } from "./components/table";
 import { createStatus } from "@/components/table-custom-fuction";
 
-const UserSubscriptionPage = async ({
-  params,
-}: {
-  params: { subscriptionId: string };
-}) => {
+const UserSubscriptionPage = async (
+  props: {
+    params: Promise<{ subscriptionId: string }>;
+  }
+) => {
+  const params = await props.params;
   const subscriptionHistory = await prismadb.subscriptionHistory.findMany({
     where: {
       subscriptionOrderId: params.subscriptionId,

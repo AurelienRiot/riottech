@@ -3,7 +3,11 @@ import prismadb from "@/lib/prismadb";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request, { params }: { params: { productId: string | undefined } }) {
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ productId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     if (!params.productId) {
       return new NextResponse("L'id du produit est nécessaire", {
@@ -28,7 +32,11 @@ export async function GET(req: Request, { params }: { params: { productId: strin
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { productId: string | undefined } }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ productId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     const body = (await req.json()) as {
@@ -116,7 +124,8 @@ export async function PATCH(req: Request, { params }: { params: { productId: str
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { productId: string } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ productId: string }> }) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 

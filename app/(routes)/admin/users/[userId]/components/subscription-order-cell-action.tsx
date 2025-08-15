@@ -18,7 +18,7 @@ import ky, { type HTTPError } from "ky";
 import { ArrowLeftRightIcon, CalendarSearchIcon, Copy, MoreHorizontal, Trash } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { BiBookOpen } from "react-icons/bi";
 import { BsFillSimFill } from "react-icons/bs";
 import { toast } from "sonner";
@@ -144,10 +144,15 @@ function SimModal({
   subscriptionId,
   onClose,
   openModal,
-}: { subscriptionId: string; onClose: () => void; openModal: boolean }) {
+}: {
+  subscriptionId: string;
+  onClose: () => void;
+  openModal: boolean;
+}) {
   const { serverAction, loading } = useServerAction(changeSim);
   const [sim, setSim] = useState("");
   const router = useRouter();
+  const simInputId = useId();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -169,11 +174,11 @@ function SimModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-4">
-          <Label htmlFor="sim-number" className="text-right">
+          <Label htmlFor={simInputId} className="text-right">
             Numéro de SIM
           </Label>
           <Input
-            id="sim-number"
+            id={simInputId}
             value={sim}
             onChange={(e) => setSim(e.target.value)}
             placeholder="Entrez le nouveau numéro de SIM"
@@ -226,15 +231,13 @@ function SubcriptionModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-4">
-          <Label htmlFor="subscription" >
-            Abonnement
-          </Label>
+          <Label htmlFor="subscription">Abonnement</Label>
 
           <Select disabled={loading} onValueChange={setSubId} value={subId}>
             {subscriptions ? (
               <>
                 <SelectTrigger>
-                  <SelectValue  placeholder="..." />
+                  <SelectValue placeholder="..." />
                 </SelectTrigger>
 
                 <SelectContent>

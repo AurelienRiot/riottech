@@ -9,6 +9,7 @@ import { PhoneInput } from "@/components/ui/phone-input";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SendHorizonal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,7 +17,6 @@ import { AutosizeTextarea } from "../ui/autosize-textarea";
 import { Heading } from "../ui/heading";
 import { useToastPromise } from "../ui/sonner";
 import { contactSchema, type ContactFormValues } from "./contact-schema";
-import { SendHorizonal } from "lucide-react";
 
 export const ContactForm = ({
   title,

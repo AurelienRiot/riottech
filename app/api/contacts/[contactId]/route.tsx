@@ -3,7 +3,11 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 
-export async function DELETE(req: Request, { params }: { params: { contactId: string | undefined } }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ contactId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 

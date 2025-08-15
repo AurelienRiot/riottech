@@ -13,11 +13,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: { callbackUrl: string | undefined; error: string | undefined };
-}) {
+export default async function LoginPage(
+  props: {
+    searchParams: Promise<{ callbackUrl: string | undefined; error: string | undefined }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const callbackUrl = searchParams.callbackUrl || "/dashboard-user";
   const user = await getSessionUser();
   if (user) {

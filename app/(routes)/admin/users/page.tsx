@@ -17,12 +17,13 @@ import UserClient from "./components/client";
 import { type SubscriptionHistoryColumn, columns } from "./components/histories-column";
 import { HistoryTable } from "./components/histories-table";
 
-const UserPage = async (context: { searchParams: { from: string | undefined; to: string | undefined } }) => {
+const UserPage = async (context: { searchParams: Promise<{ from: string | undefined; to: string | undefined }> }) => {
+  const searchParams = await context.searchParams;
   let from: Date;
   let to: Date;
-  if (context.searchParams.from && context.searchParams.to) {
-    from = new Date(context.searchParams.from);
-    to = new Date(context.searchParams.to);
+  if (searchParams.from && searchParams.to) {
+    from = new Date(searchParams.from);
+    to = new Date(searchParams.to);
   } else {
     from = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     to = new Date();

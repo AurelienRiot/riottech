@@ -4,7 +4,17 @@ import { isWindowSmallerThan } from "@/lib/utils";
 import type { ApexOptions } from "apexcharts";
 import { useTheme } from "next-themes";
 import React from "react";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+
+// Dynamically import ReactApexChart with no SSR
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center h-[350px]">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+    </div>
+  ),
+});
 
 interface GraphDataProps {
   month: string;
@@ -24,6 +34,9 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
     reduceMonth: false,
   });
 
+  // Add state to track if component is mounted
+  const [isMounted, setIsMounted] = React.useState(false);
+
   const series = [
     {
       name: "Commandes",
@@ -36,6 +49,9 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
   ];
 
   React.useEffect(() => {
+    // Set mounted state to true when component mounts
+    setIsMounted(true);
+
     const checkMobile = () => {
       if (isWindowSmallerThan(640)) {
         setGraphState({
@@ -165,6 +181,15 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
       },
     },
   };
+
+  // Don't render the chart until component is mounted
+  if (!isMounted) {
+    return (
+      <div className="flex items-center justify-center h-[350px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
   return (
     <div>

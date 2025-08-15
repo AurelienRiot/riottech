@@ -7,7 +7,8 @@ export interface FormattedProduct extends Omit<Product, "priceHT" | "priceTTC"> 
   priceTTC: number;
 }
 
-const ProductPage = async ({ params }: { params: { productId: string } }) => {
+const ProductPage = async (props: { params: Promise<{ productId: string }> }) => {
+  const params = await props.params;
   const product = await prismadb.product.findUnique({
     where: {
       id: params.productId,

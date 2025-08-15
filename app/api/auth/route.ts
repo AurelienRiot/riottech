@@ -3,7 +3,6 @@ import { getToken } from "next-auth/jwt";
 import { type NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET;
-export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {

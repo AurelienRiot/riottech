@@ -8,7 +8,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { LucidePhoneCall, Wifi } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icons } from "../icons2";
@@ -34,12 +33,10 @@ const MainNav = () => {
         <NavigationMenuList>
           {navRoutes.map((route) => (
             <NavigationMenuItem key={route.title} className="rounded-lg border-2 border-border">
-              <Link href={route.href} legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  <route.Icone className="mr-2 hidden h-4 w-4 xl:flex" />
-                  {route.title}
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink href={route.href} className={navigationMenuTriggerStyle()}>
+                <route.Icone className="mr-2 hidden h-4 w-4 xl:flex" />
+                {route.title}
+              </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
 

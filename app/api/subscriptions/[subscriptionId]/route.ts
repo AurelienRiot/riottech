@@ -4,7 +4,11 @@ import { NextResponse } from "next/server";
 import { authOptions } from "@/components/auth/authOptions";
 import { Recurrence } from "@prisma/client";
 
-export async function GET(req: Request, { params }: { params: { subscriptionId: string | undefined } }) {
+export async function GET(
+  req: Request,
+  props: { params: Promise<{ subscriptionId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     if (!params.subscriptionId) {
       return new NextResponse("L'id de l'abonnement est nécessaire", {
@@ -25,7 +29,11 @@ export async function GET(req: Request, { params }: { params: { subscriptionId: 
   }
 }
 
-export async function PATCH(req: Request, { params }: { params: { subscriptionId: string | undefined } }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ subscriptionId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     const body = (await req.json()) as {
@@ -93,7 +101,11 @@ export async function PATCH(req: Request, { params }: { params: { subscriptionId
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: { subscriptionId: string | undefined } }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ subscriptionId: string | undefined }> }
+) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
 

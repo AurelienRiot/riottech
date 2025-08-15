@@ -8,7 +8,7 @@ const rateLimiter = {
 };
 
 export const rateLimit = async (role?: string | null) => {
-  const ip = headers().get("x-forwarded-for") ?? headers().get("remote-addr") ?? "unknown";
+  const ip = (await headers()).get("x-forwarded-for") ?? (await headers()).get("remote-addr") ?? "unknown";
   if (role === "admin") {
     return false;
   }

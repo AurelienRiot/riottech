@@ -10,7 +10,8 @@ import ButtonSubscriptions from "@/app/(routes)/(public)/dashboard-user/(profile
 
 export const dynamic = "force-dynamic";
 
-const UserPage = async ({ params }: { params: { userId: string } }) => {
+const UserPage = async (props: { params: Promise<{ userId: string }> }) => {
+  const params = await props.params;
   const user = await prismadb.user.findUnique({
     where: {
       id: params.userId,

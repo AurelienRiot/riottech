@@ -8,12 +8,13 @@ import Container from "@/components/ui/container";
 import type { Metadata } from "next";
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     productId: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+export async function generateMetadata(props: ProductPageProps): Promise<Metadata> {
+  const params = await props.params;
   const product = await GetProduct(params.productId);
 
   return {
@@ -21,7 +22,8 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   };
 }
 
-const ProductPage: React.FC<ProductPageProps> = async ({ params }) => {
+const ProductPage: React.FC<ProductPageProps> = async props => {
+  const params = await props.params;
   const product = await GetProduct(params.productId);
 
   if (!product) {

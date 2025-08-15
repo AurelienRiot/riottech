@@ -1,6 +1,8 @@
 import ky, { type HTTPError } from "ky";
 import { unstable_cache } from "next/cache";
 
+const baseUrl = process.env.HUB_RT_BASE_URL;
+
 export type FetchSimType = {
   RTsubIDs: string[];
   available: boolean;
@@ -45,11 +47,8 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
         sim_serial: "8988247000014274683",
       };
     }
-    const baseUrl = process.env.HUB_RT_BASE_URL as string;
-    const data = await ky
-      .get(`${baseUrl}/public_routes/netsim/getSimAvailability/${sim}`)
-      .json<FetchSimType>();
-      
+    const data = await ky.get(`${baseUrl}/public_routes/netsim/getSimAvailability/${sim}`).json<FetchSimType>();
+
     if (data.available) {
       return data;
     }
