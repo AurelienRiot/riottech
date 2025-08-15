@@ -37,7 +37,7 @@ export async function middleware(req: NextRequest) {
 
     if (path.startsWith("/admin")) {
       if (role !== "admin") {
-        return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}`, req.url));
+        return NextResponse.redirect(new URL(`/login?callbackUrl=${encodeURIComponent(req.url)}&error=admin`, req.url));
       }
     }
 

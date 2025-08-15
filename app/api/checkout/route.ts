@@ -1,10 +1,9 @@
+import type { FullAdress } from "@/components/adress-form";
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { stripe, taxe } from "@/lib/stripe";
-import { getServerSession } from "next-auth";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { authOptions } from "@/components/auth/authOptions";
-import type { FullAdress } from "@/components/adress-form";
 
 export async function POST(req: NextRequest) {
   interface RequestBody {
@@ -17,7 +16,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { itemsWithQuantities, totalPrice } = body as RequestBody;
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,

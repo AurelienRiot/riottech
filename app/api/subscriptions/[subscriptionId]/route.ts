@@ -1,13 +1,9 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
 import { Recurrence } from "@prisma/client";
+import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  props: { params: Promise<{ subscriptionId: string | undefined }> }
-) {
+export async function GET(req: Request, props: { params: Promise<{ subscriptionId: string | undefined }> }) {
   const params = await props.params;
   try {
     if (!params.subscriptionId) {
@@ -29,13 +25,10 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  props: { params: Promise<{ subscriptionId: string | undefined }> }
-) {
+export async function PATCH(req: Request, props: { params: Promise<{ subscriptionId: string | undefined }> }) {
   const params = await props.params;
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     const body = (await req.json()) as {
       name: string | undefined;
       priceHT: number | undefined;
@@ -101,13 +94,10 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  props: { params: Promise<{ subscriptionId: string | undefined }> }
-) {
+export async function DELETE(req: Request, props: { params: Promise<{ subscriptionId: string | undefined }> }) {
   const params = await props.params;
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });

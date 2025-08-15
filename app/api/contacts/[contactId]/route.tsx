@@ -1,15 +1,11 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
 
-export async function DELETE(
-  req: Request,
-  props: { params: Promise<{ contactId: string | undefined }> }
-) {
+export async function DELETE(req: Request, props: { params: Promise<{ contactId: string | undefined }> }) {
   const params = await props.params;
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });

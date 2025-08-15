@@ -1,15 +1,14 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { compare, hash } from "bcryptjs";
-import { getServerSession } from "next-auth";
 import { type NextRequest, NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
 
 export async function PATCH(req: NextRequest) {
   try {
     const body = (await req.json()) as { oldPassword: string | undefined; newPassword: string | undefined };
     const { oldPassword, newPassword } = body;
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,

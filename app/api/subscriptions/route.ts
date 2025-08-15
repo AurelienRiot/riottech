@@ -1,8 +1,7 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
-import { getServerSession } from "next-auth";
 import { Recurrence } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -21,7 +20,7 @@ export async function POST(req: Request) {
     const { name, priceHT, fraisActivation, recurrence, dataCap, description, productSpecs, isFeatured, isArchived } =
       body;
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });
     }

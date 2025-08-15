@@ -1,9 +1,8 @@
 import prismadb from "@/lib/prismadb";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./authOptions";
+import { auth } from "./authOptions";
 
 const checkAdmin = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user || session.user.role !== "admin") {
     return false;
@@ -23,7 +22,7 @@ const checkAdmin = async () => {
 };
 
 const checkUser = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session || !session.user) {
     return undefined;
   }

@@ -1,10 +1,9 @@
-import { authOptions } from "@/components/auth/authOptions";
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { getServerSession } from "next-auth";
 import { unstable_cache } from "next/cache";
 
 export const getDbUser = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session || !session.user || !session.user.id) {
     return null;
   }
@@ -34,7 +33,7 @@ export const getDbUserCache = unstable_cache(
 );
 
 export const getSessionUser = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session || !session.user || !session.user.id) {
     return null;
   }
@@ -43,7 +42,7 @@ export const getSessionUser = async () => {
 };
 
 const getFullUser = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session || !session.user || !session.user.id) {
     return null;

@@ -1,11 +1,11 @@
 import prismadb from "@/lib/prismadb";
 import { compare } from "bcryptjs";
-import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const { auth, handlers, signIn, signOut } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prismadb),
   pages: {
@@ -51,14 +51,14 @@ export const authOptions: NextAuthOptions = {
 
         const user = await prismadb.user.findUnique({
           where: {
-            email: credentials.email,
+            email: credentials.email as string,
           },
         });
         if (!user || !user.password) {
           return null;
         }
 
-        const verifyPassword = await compare(credentials.password, user.password);
+        const verifyPassword = await compare(credentials.password as string, user.password);
         if (!verifyPassword) {
           return null;
         }
@@ -95,4 +95,4 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
   },
-};
+});

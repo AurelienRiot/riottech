@@ -1,7 +1,6 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import { authOptions } from "@/components/auth/authOptions";
-import { getServerSession } from "next-auth";
 
 export async function POST(req: Request) {
   try {
@@ -18,7 +17,7 @@ export async function POST(req: Request) {
 
     const { name, priceHT, categoryId, description, productSpecs, images, isFeatured, isArchived } = body;
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || session.user.role !== "admin") {
       return new NextResponse("Non autorisé", { status: 401 });
     }

@@ -1,5 +1,4 @@
 "use client";
-import { signIn, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { LogIn, LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -7,6 +6,7 @@ import { useState } from "react";
 import Spinner from "../animations/spinner";
 import { Icons } from "../icons";
 import { useSearchParams } from "next/navigation";
+import { signIn, signOut } from "next-auth/react";
 
 export const LoginButton = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (

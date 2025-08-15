@@ -1,13 +1,12 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { type NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/components/auth/authOptions";
 import { revalidateTag } from "next/cache";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,
@@ -42,7 +41,7 @@ export async function PATCH(req: NextRequest) {
     };
     const { name, surname, phone, adresse, tva, raisonSocial, isPro } = body;
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur, essayer de vous reconnecter", {
         status: 401,

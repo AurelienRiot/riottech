@@ -1,11 +1,10 @@
 import prismadb from "@/lib/prismadb";
 import { stripe, taxe } from "@/lib/stripe";
 
+import type { FullAdress } from "@/components/adress-form";
+import { auth } from "@/components/auth/authOptions";
 import { type NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/components/auth/authOptions";
-import type { FullAdress } from "@/components/adress-form";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +14,7 @@ export async function POST(req: NextRequest) {
       trialEnd: number | undefined;
     };
 
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     if (!session || !session.user || !session.user.id) {
       return new NextResponse("Erreur essayer de vous reconnecter", {
         status: 401,

@@ -3,8 +3,8 @@
 import { Button, LoadingButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { type FormEvent, useState } from "react";
-import changeEmail from "../_actions/change-email";
 import { toast } from "sonner";
+import changeEmail from "../_actions/change-email";
 import { signOut } from "next-auth/react";
 
 function MailForm({ email }: { email: string | null }) {
