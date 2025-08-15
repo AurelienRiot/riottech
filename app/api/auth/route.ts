@@ -1,20 +1,21 @@
+import { auth } from "@/components/auth/authOptions";
 import prismadb from "@/lib/prismadb";
-import { getToken } from "next-auth/jwt";
 import { type NextRequest, NextResponse } from "next/server";
 
 const secret = process.env.NEXTAUTH_SECRET;
 
 export async function GET(req: NextRequest) {
   try {
-    const token = await getToken({ req, secret });
+    // const token = await getToken({ req, secret });
+    const session = await auth();
 
-    if (!token || !token.id) {
+    if (!session || !session.user) {
       console.log("No token provided");
       return new NextResponse("No token provided", { status: 401 });
     }
     const user = await prismadb.user.findUnique({
       where: {
-        id: token.id,
+        id: session.user.id,
       },
       select: {
         role: true,
