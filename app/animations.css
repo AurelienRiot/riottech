@@ -172,14 +172,15 @@
 
   @keyframes hide-element {
     95% { 
-      display: block; 
-      opacity: 1; 
+      /* display: block;  */
+      /* opacity: 1;  */
       visibility: visible; 
     }
     100% { 
-      display: none; 
+      /* display: none;  */
       visibility: hidden; 
-      opacity: 0; 
+      cursor: default;
+      /* opacity: 0;  */
     }
   }
 

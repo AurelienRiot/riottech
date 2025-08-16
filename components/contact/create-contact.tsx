@@ -27,7 +27,7 @@ const createContact = async (data: ContactFormValues) =>
         },
       });
 
-      if (process.env.NODE_ENV === "production") {
+      if (process.env.NODE_ENV === "production" && data.email !== "test@test.fr") {
         await transporter
           .sendMail({
             from: NODEMAILER_EMAIL,

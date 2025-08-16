@@ -1,13 +1,10 @@
-import { type JWT, getToken } from "next-auth/jwt";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "./components/auth/authOptions";
 
-const secret = process.env.NEXTAUTH_SECRET;
 const baseUrl = process.env.NEXT_PUBLIC_URL;
 
 export async function middleware(req: NextRequest) {
-  // const token = (await getToken({ req, secret })) as (JWT & { exp: number }) | null;
   const today = Date.now();
   const session = await auth()
   if (!session || new Date(session.expires).getTime() * 1000 < today) {

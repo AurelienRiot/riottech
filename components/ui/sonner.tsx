@@ -87,31 +87,37 @@ const useToastPromise = <D, R, E = undefined>({
 
       toast.promise(promise, {
         position: "top-center",
+        icon: (
+          <span>
+            <Loader2 className="my-auto mr-2 inline size-4 animate-spin" />
+          </span>
+        ),
         loading: (
-          <div className="flex w-full items-center justify-between">
-            <span className="align-middle">
-              <Loader2 className="my-auto mr-2 inline size-4 animate-spin" /> {message}{" "}
-            </span>
-            {delay && (
-              <Button
-                size={"xs"}
-                className="animate-[hide-element_2s_forwards] text-xs"
-                onClick={() => {
-                  abortController.abort();
-                }}
-              >
-                Annuler
-              </Button>
-            )}
+          <div className="flex w-full items-center justify-between h-8">
+            <span className="">{message}</span>
           </div>
+        ),
+        action: delay && (
+          <Button
+            onClick={() => {
+              abortController.abort();
+            }}
+            size={"xs"}
+            className="ml-auto text-xs animate-[hide-element_2s_forwards]"
+          >
+            Annuler
+          </Button>
         ),
         success: async (result) => {
           await onSuccess?.(result.data);
-          return result.message;
+          return { message: result.message, icon: "" };
         },
         error: (e) => {
           const error = e as Error;
-          return error?.message || "Erreur";
+          return {
+            message: error?.message || "Erreur",
+            icon: "",
+          };
         },
         finally: async () => {
           await onFinally?.();

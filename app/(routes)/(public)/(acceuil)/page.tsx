@@ -13,7 +13,6 @@ const HomePage = async () => {
           <p className="text-2xl font-bold tracking-tight text-neutral-50 sm:text-3xl md:text-5xl">sur RIOT TECH</p>
 
           <ServicePage />
-
           <QuiSommesNous />
         </div>
       </Container>
