@@ -31,7 +31,8 @@ const NavbarAction = () => {
     <div className="flex items-center  gap-x-2 sm:gap-x-4 ">
       <Link
         href={!session?.user ? "/login" : session.user.role === "admin" ? "/admin" : "/dashboard-user"}
-        className="group flex items-center justify-center rounded-full border  p-2 text-sm shadow-md transition hover:rounded-full hover:bg-accent hover:text-accent-foreground sm:text-base"
+        aria-label="Mon compte"
+        className="group flex items-center justify-center rounded-full border border-input bg-background px-4 py-2 text-sm shadow-sm transition hover:border-primary/30 hover:bg-accent hover:text-accent-foreground sm:text-base"
       >
         Mon Compte
         {/* <User2 className="h-6 w-6 duration-300 ease-linear group-hover:scale-150 " /> */}
@@ -41,9 +42,18 @@ const NavbarAction = () => {
       {isMounted ? (
         <Sheet onOpenChange={setIsOpen} open={isOpen}>
           <SheetTrigger asChild>
-            <Button variant={"rounded"} className="bg-primary-foreground tabular-nums text-primary	">
+            <Button
+              variant={"rounded"}
+              aria-label="Ouvrir le panier"
+              className="relative bg-primary-foreground text-primary"
+            >
               <ShoppingBag size={20} />
-              <span className="ml-1 w-3 text-sm font-medium ">{totalQuantity}</span>
+              <span
+                aria-hidden
+                className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow"
+              >
+                {totalQuantity}
+              </span>
             </Button>
           </SheetTrigger>
           <SheetContent className="overflow-y-auto">
@@ -86,9 +96,14 @@ const NavbarAction = () => {
           </SheetContent>
         </Sheet>
       ) : (
-        <Button variant={"rounded"} className="bg-primary-foreground text-primary">
+        <Button variant={"rounded"} aria-label="Ouvrir le panier" className="relative bg-primary-foreground text-primary">
           <ShoppingBag size={20} />
-          <span className="ml-1 w-3 text-sm font-medium ">0</span>
+          <span
+            aria-hidden
+            className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground shadow"
+          >
+            0
+          </span>
         </Button>
       )}
     </div>

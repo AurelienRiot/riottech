@@ -9,16 +9,24 @@ import {
 } from "@/components/ui/navigation-menu";
 import { LucidePhoneCall, Wifi } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { cn } from "@/lib/utils";
 import { Icons } from "../icons2";
 
 const MainNav = () => {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  // const categories = useCategories((s) => s.categories);
-
-  useEffect(() => {
-    setOpen(false);
+  // Compute active route once per path change
+  const activeByHref = useMemo(() => {
+    const map = new Map<string, boolean>();
+    for (const r of navRoutes) {
+      const href = r.href;
+      const isActive =
+        pathname === href ||
+        pathname?.startsWith(`${href}?`) ||
+        pathname?.startsWith(`${href}/`);
+      map.set(href, !!isActive);
+    }
+    return map;
   }, [pathname]);
 
   // const routes = categories.map((route) => ({
@@ -28,17 +36,30 @@ const MainNav = () => {
   // }));
 
   return (
-    <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 ">
+    <nav className="mx-6 flex items-center space-x-3 lg:space-x-4">
       <NavigationMenu>
         <NavigationMenuList>
-          {navRoutes.map((route) => (
-            <NavigationMenuItem key={route.title} className="rounded-lg border-2 border-border">
-              <NavigationMenuLink href={route.href} className={navigationMenuTriggerStyle()}>
-                <route.Icone className="mr-2 hidden h-4 w-4 xl:flex" />
-                {route.title}
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          ))}
+          {navRoutes.map((route) => {
+            const isActive = activeByHref.get(route.href);
+            return (
+              <NavigationMenuItem key={route.title} className="group rounded-xl">
+                <NavigationMenuLink
+                  href={route.href}
+                  aria-current={isActive ? "page" : undefined}
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    "relative overflow-hidden rounded-xl border border-transparent pl-3 pr-4 transition-all duration-200",
+                    "hover:border-primary/30 hover:bg-accent/60 hover:shadow-sm",
+                    isActive &&
+                      "bg-accent/70 text-accent-foreground ring-1 ring-primary/30 shadow-sm",
+                  )}
+                >
+                  <route.Icone className="mr-2 h-4 w-4 shrink-0 opacity-80 transition-transform duration-200 group-hover:scale-110" />
+                  {route.title}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            );
+          })}
 
           {/* <NavigationMenuItem className="relative rounded-lg border-2 border-border">
                         <button

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -25,12 +25,19 @@ export function SearchNav() {
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" aria-expanded={open} className="w-[150px] justify-between">
-          {value ? searchItems.find((searchItem) => searchItem.value === value)?.label : "Recherche..."}
+        <Button
+          variant="outline"
+          aria-expanded={open}
+          className="w-[180px] justify-between rounded-full"
+        >
+          <span className="inline-flex items-center gap-2">
+            <Search className="h-4 w-4 opacity-70" />
+            {value ? searchItems.find((searchItem) => searchItem.value === value)?.label : "Recherche..."}
+          </span>
           <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[150px] p-0">
+      <PopoverContent className="w-[220px] rounded-xl p-0 shadow-lg">
         <Command>
           <Input
             type="text"

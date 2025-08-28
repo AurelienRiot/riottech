@@ -27,7 +27,7 @@ const NavBar = () => {
   return (
     <header
       data-nav-state={navState}
-      className={`fixed top-0 z-30 flex h-16 w-full items-center justify-center overflow-hidden border-b-2 border-border bg-background transition-all duration-300 data-[nav-state=close]:h-0 data-[nav-state=close]:border-0`}
+      className={`fixed top-0 z-30 flex h-16 w-full items-center justify-center overflow-hidden border-b-2 border-border/70 bg-background/60 backdrop-blur-md supports-[backdrop-filter]:bg-background/95 transition-all duration-300 data-[nav-state=open]:shadow-sm data-[nav-state=close]:h-0 data-[nav-state=close]:border-0`}
     >
       <Container className="relative flex h-16 items-center justify-between px-4 ">
         <div className="flex items-center">
@@ -35,12 +35,7 @@ const NavBar = () => {
             href="/"
             className="relative ml-4 hidden h-12 w-12 items-center transition-all hover:scale-105 sm:flex lg:ml-0"
           >
-            <Image
-              src="/icone.png"
-              alt="logo"
-              fill
-              sizes="(max-width: 768px) 50px, (max-width: 1200px) 50px, 50px"
-            />
+            <Image src="/icone.png" alt="logo" fill sizes="(max-width: 768px) 50px, (max-width: 1200px) 50px, 50px" />
             {/* <p className="text-lg font-bold text-primary sm:text-xl">
                       {" "}
                       RIOT TECH

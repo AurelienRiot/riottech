@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { ChevronDown, StoreIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { navRoutes } from "./main-nav";
@@ -14,6 +14,7 @@ type MobileNavProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
 export default function MobileNav({ className }: MobileNavProps) {
   const router = useRouter();
+  const pathname = usePathname();
   // const categories = useCategories((s) => s.categories);
 
   const [open, setOpen] = useState(false);
@@ -41,9 +42,9 @@ export default function MobileNav({ className }: MobileNavProps) {
           variant="outline"
           size="sm"
           aria-expanded={open}
-          aria-label="Select"
+          aria-label="Ouvrir le menu"
           className={cn(
-            "  group relative h-10 w-10 rounded-full transition-colors duration-300   data-[state=open]:bg-destructive  data-[state=open]:text-destructive-foreground ",
+            "group relative h-10 w-10 rounded-full transition-colors duration-300 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
             className,
           )}
         >
@@ -89,7 +90,7 @@ export default function MobileNav({ className }: MobileNavProps) {
           </svg>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="h-auto w-[200px] p-0">
+      <PopoverContent className="h-auto w-[220px] rounded-xl p-0 shadow-lg">
         <Command>
           <CommandList>
             <Link
@@ -117,9 +118,13 @@ export default function MobileNav({ className }: MobileNavProps) {
                     setOpen(false);
                     setOpenProduct(false);
                   }}
-                  className="test-sm cursor-pointer gap-2 "
+                  aria-selected={pathname === route.href}
+                  className={cn(
+                    "test-sm cursor-pointer gap-2 rounded-md",
+                    pathname === route.href ? "bg-accent text-accent-foreground" : "",
+                  )}
                 >
-                  <route.Icone className="size-4" />
+                  <route.Icone className="size-4 opacity-80" />
                   {route.title}
                   {/* <Check
                     className={cn(
@@ -165,7 +170,7 @@ const DisplayRoutes = ({ routes, setOpen, openProduct, setOpenProduct }: Display
       <ul
         // className="absolute left-20 top-6 z-40 grid w-auto gap-2 rounded-lg border-2 border-border bg-popover p-4"
         data-state={openProduct}
-        className="absolute left-20  top-6 z-40 grid w-auto gap-1 rounded-lg border-2 border-border  bg-popover py-4  opacity-100 transition-all duration-300  data-[state=false]:z-0 data-[state=false]:opacity-0 "
+        className="absolute left-20 top-6 z-40 grid w-auto gap-1 rounded-lg border-2 border-border bg-popover py-4 opacity-100 shadow-sm transition-all duration-300 data-[state=false]:z-0 data-[state=false]:opacity-0 "
       >
         {routes.map((route) => (
           <li key={route.href}>

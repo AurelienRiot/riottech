@@ -24,14 +24,14 @@ export function SearchNavMobile() {
         placeholder="  Recherche... "
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        className="focus:outline-hidden focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent "
+        className="rounded-full focus:outline-hidden focus:ring-0 focus:shadow-none focus:bg-white focus:border-transparent"
       />
 
       {searchValue.trim() !== "" && filteredSearchItems.length > 0 ? (
         filteredSearchItems.map((searchItem) => (
           <div
             key={searchItem.value}
-            className="text-blue-900 ml-1 mr-1 mt-2 hover:bg-gray-100 font-bold relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden aria-selected:bg-accent aria-selected:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 "
+            className="ml-1 mr-1 mt-2 cursor-pointer select-none rounded-lg border border-transparent px-3 py-2 text-sm font-medium text-foreground transition-colors hover:border-primary/20 hover:bg-accent hover:text-accent-foreground"
           >
             <button
               type="button"
@@ -40,7 +40,7 @@ export function SearchNavMobile() {
                 router.push(`/${searchItem.value}`);
               }}
             >
-              <FileSearch2Icon className="inline mr-1 h-4 w-4" />
+              <FileSearch2Icon className="mr-2 inline h-4 w-4 opacity-80" />
               {searchItem.label}
             </button>
           </div>
