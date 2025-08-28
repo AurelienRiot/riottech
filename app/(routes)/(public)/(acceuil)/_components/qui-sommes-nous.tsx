@@ -4,27 +4,24 @@ import Link from "next/link";
 
 const QuiSommesNous = () => {
   const features = [
-    "Un service garanti, couvrant le réseau des 4 opérateurs combinés",
-    "Des prix compétitifs et négociables selon le volume",
-    "Un SAV direct, sans plateforme, qui connaîs vraiment votre situation",
-    "Un suivi et diagnostic à distance, direct et simplifié, de vos connexions",
-    "Des moyens de paiements et une facturation adaptée",
+    "Réseau multi‑opérateurs (4 opérateurs combinés) pour une disponibilité maximale",
+    "Des prix compétitifs, ajustés selon vos volumes",
+    "Un SAV direct — pas de plateforme — qui connaît votre contexte",
+    "Suivi et diagnostic à distance simplifiés de vos connexions",
+    "Moyens de paiement souples et facturation adaptée",
   ];
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 bg-background p-6 text-foreground">
+    <div id="contact" className="flex flex-col items-center justify-center space-y-6 bg-background p-6 text-foreground">
       <h2 className="text-3xl font-bold">Qui sommes-nous ?</h2>
-      <div className="max-w-xl space-y-6 ">
-        <p className="text-center">
-          RIOT TECH opère depuis plusieurs années en milieu agricole et rural dans l’installation de systèmes de
-          surveillance vidéo et de connexion internet.
+      <div className="max-w-xl space-y-6 text-left  ">
+        <p>
+          RIOT TECH accompagne depuis plusieurs années le monde agricole et rural dans l’installation de systèmes de
+          vidéosurveillance et de connexion Internet.
         </p>
-        <p className="text-center">
-          Basé en Bretagne, nous installons et maintenons tous systèmes de videosurveillance et connexion internet.
-        </p>
-        <p className="text-center">
-          Nous sommes également fournisseur de service internet multi-opérateurs sur toute la France, c’est-à-dire qu’en
-          passant par RIOT TECH pour votre connexion internet (ou celle de vos clients dans le cas d’une revente sous
-          marque blanche), vous optez pour:
+        <p>Basés en Bretagne, nous intervenons pour l’installation et la maintenance de vos systèmes.</p>
+        <p>
+          Nous sommes également fournisseur d’accès multi‑opérateurs sur toute la France. En choisissant RIOT TECH pour
+          votre connexion Internet (ou pour la revente sous marque blanche), vous optez pour :
         </p>
       </div>
 
@@ -42,7 +39,7 @@ const QuiSommesNous = () => {
             link: "/solution-internet",
           },
           {
-            text: "En savoir plus sur la video surveillance RIOT TECH",
+            text: "En savoir plus sur la vidéosurveillance RIOT TECH",
             link: "/surveillance-elevage",
           },
         ].map((feature, index) => (
@@ -51,7 +48,7 @@ const QuiSommesNous = () => {
           </Button>
         ))}
       </div>
-      <ContactForm title="Formulaire de contact" description="" />
+      <ContactForm title="Formulaire de contact" description="" className="text-left" />
     </div>
   );
 };

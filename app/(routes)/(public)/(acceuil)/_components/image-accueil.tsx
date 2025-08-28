@@ -35,7 +35,7 @@ const ImageAccueil = () => {
         sizes="100vw"
         className="absolute left-0 top-0 h-full w-full object-cover object-center"
       />
-      <div className="absolute left-0 top-0 h-full w-full bg-black/50" />
+      <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
     </div>
   );
 };

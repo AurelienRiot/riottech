@@ -15,21 +15,21 @@ const CardHover = ({ image, text, title, link, className, ...props }: CardHoverP
   return (
     <div className={cn("m-0 flex items-center justify-center p-0", className)} {...props}>
       <div className="relative flex justify-between">
-        <div className="group relative transition-all duration-500 ease-out max-[880px]:hover:mb-[300px]">
-          <div className="absolute inset-0 z-10 min-h-[300px] max-w-[400px] rounded-2xl bg-gray-600 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:rounded-b-none group-hover:bg-green-600 group-hover:shadow-none">
-            <div className="flex h-full flex-col items-center justify-between p-4 opacity-100 transition-all duration-500 group-hover:opacity-100">
-              <Image alt="" width={100} height={100} src={image} className="max-w-[100px]" />
-              <h3 className="mx-0 mb-0 mt-2.5 p-0 text-center font-source-code-pro text-[1.5em] text-green-600 transition-all duration-500 group-hover:text-white">
+        <div className="group relative transition-all duration-500 ease-out max-[880px]:hover:mb-[300px] max-[880px]:focus-within:mb-[300px] max-[880px]:active:mb-[300px]">
+          <div className="absolute inset-0 z-10 min-h-[300px] max-w-[400px] rounded-2xl bg-gray-600 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:rounded-b-none group-hover:bg-green-600 group-hover:shadow-none group-focus-within:rounded-b-none group-focus-within:bg-green-600 group-focus-within:shadow-none">
+            <div className="flex h-full flex-col items-center justify-between p-4 opacity-100 transition-all duration-500 group-hover:opacity-100 group-focus-within:opacity-100">
+              <Image alt={title} width={100} height={100} src={image} className="max-w-[100px]" />
+              <h3 className="mx-0 mb-0 mt-2.5 p-0 text-center font-source-code-pro text-[1.5em] text-green-600 transition-all duration-500 group-hover:text-white group-focus-within:text-white">
                 {title}
               </h3>
-              <p className="transition-opacity group-hover:opacity-0">En savoir plus</p>
+              <p className="transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">En savoir plus</p>
             </div>
           </div>
           <Link
             href={link}
-            className="relative box-border flex min-h-[300px] max-w-[400px] flex-col justify-between rounded-2xl bg-primary-foreground p-5 opacity-50 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:translate-y-[300px] group-hover:rounded-t-none group-hover:opacity-100"
+            className="relative box-border flex min-h-[250px] max-w-[400px] flex-col justify-between rounded-2xl bg-primary-foreground p-5 opacity-50 shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-500 group-hover:translate-y-[300px] group-hover:rounded-t-none group-hover:opacity-100 group-focus-within:translate-y-[300px] group-focus-within:rounded-t-none group-focus-within:opacity-100"
           >
-            <p className="relative m-0 text-pretty p-0 px-2 text-primary-foreground transition-all duration-500 group-hover:text-primary">
+            <p className="relative m-0 text-pretty p-0 px-2 text-primary-foreground transition-all duration-500 group-hover:text-primary group-focus-within:text-primary">
               {text}
             </p>
 

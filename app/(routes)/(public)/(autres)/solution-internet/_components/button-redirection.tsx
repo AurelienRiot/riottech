@@ -135,7 +135,7 @@ const button = [
           <li className="text-base"> Un contact SAV privilégié</li>
         </ul>{" "}
         <Button className={"mx-auto cursor-pointer text-base hover:underline"} asChild>
-          <Link href={"#form"}>Connaître les prix</Link>
+          <Link href={"#contact-form"}>Connaître les prix</Link>
         </Button>
       </>
     ),
@@ -166,7 +166,7 @@ const button = [
           abordable.
         </p>
         <Button className={"mx-auto cursor-pointer text-base hover:underline"} asChild>
-          <Link href={"#form"}>Connaitre les prix</Link>
+          <Link href={"#contact-form"}>Connaitre les prix</Link>
         </Button>
       </>
     ),

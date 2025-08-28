@@ -62,7 +62,7 @@ export const ContactForm = ({
 
   return (
     <div className={cn("mx-auto w-full space-y-6 p-8", className)}>
-      <Heading id="form" description={description} title={title} className="space-y-2" />
+      <Heading id="contact-form" description={description} title={title} className="space-y-2" />
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
