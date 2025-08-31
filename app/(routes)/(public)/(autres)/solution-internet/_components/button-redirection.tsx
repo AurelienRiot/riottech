@@ -19,28 +19,38 @@ const ButtonRedirectionV2 = () => {
 
   return (
     <>
-      <h1 className="mb-8 text-5xl font-bold">Vous avez besoin d’internet pour :</h1>
-      <Accordion type="single" className="my-6 w-full space-y-4 px-6" collapsible value={btn} onValueChange={setBtn}>
-        {button.map(({ name, content, Icone, subject }) => (
+      <h2 className="mb-6 text-3xl font-semibold tracking-tight sm:text-4xl">
+        Vous avez besoin d’internet pour :
+      </h2>
+      <Accordion
+        type="single"
+        collapsible
+        value={btn}
+        onValueChange={setBtn}
+        className="my-6 mx-auto w-full max-w-4xl space-y-4 px-4 sm:px-6"
+      >
+        {sections.map(({ name, content, Icone, subject }) => (
           <AccordionItem key={subject} value={subject} className="border-0">
             <AccordionTrigger
               className="mx-auto max-w-4xl justify-center gap-4 rounded-lg bg-primary px-2 text-3xl text-primary-foreground data-[state=open]:rounded-b-none data-[state=open]:bg-secondary data-[state=open]:text-secondary-foreground"
               classNameIcon=" size-6"
             >
               <Icone className="mr-2 size-6 shrink-0" />
-              {name}
+              <span className="text-balance text-center text-2xl sm:text-3xl">{name}</span>
             </AccordionTrigger>
             <AccordionContent className="mx-auto space-y-4 text-left text-base data-[state=closed]:animate-[accordion-up_0.5s_ease] data-[state=open]:animate-[accordion-down_1s_ease]">
-              <div className="grid-col-1 mx-auto grid max-w-5xl space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
+              <div className="mx-auto grid max-w-5xl grid-cols-1 space-y-6 rounded-lg bg-secondary p-4 text-lg text-secondary-foreground">
                 {content}
               </div>
               <Reseau4GPage />
-              <ContactForm
-                title="Parlez nous de vos besoins :"
-                description="Obtenez un devis adapté, aucune obligation ni engagement."
-                className="max-w-5xl"
-                subject={subject}
-              />
+              <div className="mx-auto w-full max-w-5xl">
+                <ContactForm
+                  title="Parlez-nous de vos besoins :"
+                  description="Obtenez un devis adapté, aucune obligation ni engagement."
+                  className="max-w-5xl"
+                  subject={subject}
+                />
+              </div>
             </AccordionContent>
           </AccordionItem>
         ))}
@@ -51,12 +61,12 @@ const ButtonRedirectionV2 = () => {
 
 export default ButtonRedirectionV2;
 
-const button = [
+const sections = [
   {
-    name: <h2>Internet pour vos clients afin qu’ils puissent utiliser vos produits ?</h2>,
+    name: "Internet pour vos clients afin qu’ils puissent utiliser vos produits ?",
     content: (
       <>
-        <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-bold">
+        <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-semibold">
           <span>Besoin d’une connexion internet fiable pour vos produits ?</span>
           <br />
           <span>Envie de proposer une solution de connexion à internet simple pour vos clients ?</span>
@@ -143,17 +153,17 @@ const button = [
     Icone: TbBusinessplan,
   },
   {
-    name: <h2>Internet pour vous/votre entreprise ?</h2>,
+    name: "Internet pour vous/votre entreprise ?",
     subject: "Connexion Internet personnel",
     content: (
       <>
-        <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-bold">
+        <h3 className="mx-auto max-w-3xl space-y-2 text-center text-2xl font-semibold">
           <span>Besoin d’une connexion internet fiable et sans coupures ?</span>
           <br />
           <span>Envie d’un interlocuteur direct avec un vrai SAV en cas de problème ou question ?</span>
         </h3>
         <p>
-          <strong>Nous sommes spécialisés dans le raccordement à internet</strong> tout terrains depuis plusieurs
+          <strong>Nous sommes spécialisés dans le raccordement à internet</strong> tous terrains depuis plusieurs
           années, offrant une mise en place complète des systèmes de connexion.
         </p>
         <p>
@@ -166,7 +176,7 @@ const button = [
           abordable.
         </p>
         <Button className={"mx-auto cursor-pointer text-base hover:underline"} asChild>
-          <Link href={"#contact-form"}>Connaitre les prix</Link>
+          <Link href={"#contact-form"}>Connaître les prix</Link>
         </Button>
       </>
     ),

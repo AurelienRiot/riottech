@@ -8,12 +8,11 @@ import ImageSurveillance2 from "@/public/surveillance-elevage/camera_surveillanc
 const ButtonSurveillance = () => {
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="grid max-w-4xl grid-cols-1  items-center justify-center gap-10 p-6 md:grid-cols-2">
+      <div className="grid w-full max-w-5xl grid-cols-1 items-stretch justify-center gap-8 p-0 md:grid-cols-2">
         <CardSurveillance
           title="Surveillance de stabulation, robots de traite, vêlages, poulinages, poulaillers…"
           content={
             <>
-              {" "}
               <p>
                 {
                   "Avec notre caméra 360°, zoom X25 et vision nocturne 100m ! Pilotez à distance la caméra 360° aux 4 coins de votre bâtiment, avec cette camera, vous ne raterez aucun détail !"
@@ -30,10 +29,9 @@ const ButtonSurveillance = () => {
           title="Surveillance sécurité aux abords et à l’intérieur des bâtiments"
           content={
             <>
-              {" "}
               <p>
                 {
-                  " En optant pour nos caméras fixes grand angle, couplées avec un enregistreur, vous ne raterez aucune intrusion ou mouvement suspect, vous pouvez même choisir d’être alerté en direct sur votre smartphone          en cas d’intrusion ou d’anomalie."
+                  "En optant pour nos caméras fixes grand angle, couplées avec un enregistreur, vous ne raterez aucune intrusion ou mouvement suspect. Vous pouvez même choisir d’être alerté en direct sur votre smartphone en cas d’intrusion ou d’anomalie."
                 }
               </p>
             </>
@@ -57,23 +55,22 @@ const CardSurveillance = ({
   image: StaticImageData;
 }) => {
   return (
-    <Card className="relative flex h-full max-w-md flex-col justify-between">
+    <Card className="relative flex h-full w-full flex-col justify-between">
       <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-center text-xl font-medium">{title}</CardTitle>
+        <CardTitle className="text-center text-xl font-semibold leading-snug">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="relative  text-center">{content}</CardContent>
-      <div className="group relative z-10 mx-auto size-20">
+      <CardContent className="relative text-center leading-relaxed">{content}</CardContent>
+      <div className="group relative z-10 mx-auto size-24">
         <Image
           src={image}
-          alt="image"
+          alt={title}
           width={160}
           height={160}
           placeholder="blur"
-          className=" pointer-events-none  object-contain opacity-100 transition-transform group-hover:scale-[2]"
+          className="pointer-events-none object-contain opacity-100 transition-transform group-hover:scale-[1.8]"
         />
       </div>
       <CardFooter className="relative flex items-center justify-center">
-        {" "}
         <Button className={"cursor-pointer text-base hover:underline"} asChild>
           <Link href="#contact-form"> Parlez-nous de votre projet</Link>
         </Button>
