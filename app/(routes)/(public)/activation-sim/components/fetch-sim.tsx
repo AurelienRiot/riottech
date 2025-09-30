@@ -19,6 +19,18 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
   if (!/^\d{19}$/.test(sim)) {
     return emptySIM;
   }
+
+  if (sim.startsWith("89352")) {
+    return {
+      RTsubIDs: ["4d78ed3c-5f8f-47f8-af61-018e1bbcdc07"],
+      available: true,
+      group: "",
+      is_third: false,
+      org_image_url: "",
+      org_name: "",
+      sim_serial: sim,
+    } satisfies FetchSimType;
+  }
   // return {
   //   RTsubIDs: ["3fdbe87f-0d24-4a4b-8412-2390131a2dc8", "70ba8046-d4b4-4a95-9a4e-2155a3d181bd"],
   //   available: true,
