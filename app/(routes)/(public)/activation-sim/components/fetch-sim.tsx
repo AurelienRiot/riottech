@@ -24,10 +24,10 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
     return {
       RTsubIDs: ["4d78ed3c-5f8f-47f8-af61-018e1bbcdc07"],
       available: true,
-      group: "",
+      group: "riottech_RT",
       is_third: false,
-      org_image_url: "",
-      org_name: "",
+      org_image_url: "https://riottech.fr/_next/image?url=%2Ficone.png&w=3840&q=75",
+      org_name: "RIOT TECH",
       sim_serial: sim,
     } satisfies FetchSimType;
   }
