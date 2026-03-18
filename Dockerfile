@@ -52,7 +52,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 # Docker mounts /etc/hosts and /etc/resolv.conf as root:root 640 on this host.
 # Keep the app non-root, but allow group read on those files through gid 0.
-RUN addgroup nextjs root
+#RUN addgroup nextjs root
 
 COPY --from=builder /app/public ./public
 
