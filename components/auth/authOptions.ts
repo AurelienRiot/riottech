@@ -83,15 +83,43 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user }) => {
       if (user) {
         const u = user as unknown as any;
+        const dbUser =
+          u.id && !u.role
+            ? await prismadb.user.findUnique({
+                where: {
+                  id: u.id,
+                },
+                select: {
+                  role: true,
+                },
+              })
+            : null;
         return {
           ...token,
           id: u.id,
-          role: u.role,
+          role: u.role ?? dbUser?.role,
         };
       }
+
+      if (token.id && !token.role) {
+        const dbUser = await prismadb.user.findUnique({
+          where: {
+            id: token.id as string,
+          },
+          select: {
+            role: true,
+          },
+        });
+
+        return {
+          ...token,
+          role: dbUser?.role,
+        };
+      }
+
       return token;
     },
   },
