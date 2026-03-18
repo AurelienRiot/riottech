@@ -1,4 +1,4 @@
-import ky, { type HTTPError } from "ky";
+import ky, { HTTPError } from "ky";
 import { unstable_cache } from "next/cache";
 
 export type FetchSimType = {
@@ -58,19 +58,24 @@ export const FetchSim = async (sim: string): Promise<FetchSimType> => {
       };
     }
     const baseUrl = process.env.HUB_RT_BASE_URL as string;
-    const data = await ky
-      .get(`${baseUrl}/public_routes/netsim/getSimAvailability/${sim}`)
-      .json<FetchSimType>();
-      
+    const data = await ky.get(`${baseUrl}/public_routes/netsim/getSimAvailability/${sim}`).json<FetchSimType>();
+
     if (data.available) {
       return data;
     }
 
     return emptySIM;
   } catch (error) {
-    const kyError = error as HTTPError;
-    const res = await kyError.response.json();
-    console.log(res);
+    if (error instanceof HTTPError) {
+      try {
+        const res = await error.response.json();
+        console.log(res);
+      } catch (responseError) {
+        console.log("FetchSim HTTP error:", responseError);
+      }
+    } else {
+      console.log("FetchSim network error:", error);
+    }
     return emptySIM;
   }
 };
